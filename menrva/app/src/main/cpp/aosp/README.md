@@ -8,5 +8,7 @@ The contents of these folders have been currated from the AOSP Repositories list
 | system   | https://android.googlesource.com/platform/system/media/        | audio\include\system     |
 
 # Examples of Android Audio Effects
-https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/
-https://chromium.googlesource.com/android_tools/+/master/sdk/sources/android-25/android/media/audiofx/AudioEffect.java (Contains UUIDs from OpenSLES_IID.h, which I haven't been able to locate)
+ - https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/
+
+# UUIDs from OpenSLES_IID.h for Library Type
+ - https://chromium.googlesource.com/android_tools/+/master/sdk/sources/android-25/android/media/audiofx/AudioEffect.java
