@@ -49,7 +49,7 @@ static const char * const EFFECT_UUID_NULL_STR = "ec7178ec-e5e1-4432-a3f4-4657e6
 
 // The effect descriptor contains necessary information to facilitate the enumeration of the effect
 // engines present in a library.
-typedef struct effect_descriptor_s {
+typedef struct effect_descriptor_t {
     effect_uuid_t type;     // UUID of to the OpenSL ES interface implemented by this effect
     effect_uuid_t uuid;     // UUID for this particular implementation
     uint32_t apiVersion;    // Version of the effect control API implemented

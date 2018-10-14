@@ -17,9 +17,10 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
+        src/main/cpp/menrva_module_interface.cpp
+        src/main/cpp/menrva_engine_interface.cpp
         src/main/cpp/menrva_effects_engine.cpp
         src/main/cpp/menrva_command_map.cpp
-        src/main/cpp/menrva_interface.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a
