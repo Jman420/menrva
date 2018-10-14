@@ -24,3 +24,7 @@ void MenrvaEffectsEngine::SetEffectEnabled(int effectIndex, bool enabled) {
     MenrvaEffect *effect = menrvaEffects[effectIndex];
     effect->enabled = enabled;
 }
+
+void MenrvaEffectsEngine::ConfigureEffectSetting(int effectIndex, char *settingName, void *value) {
+    // TODO : Implement logic to configure effects
+}

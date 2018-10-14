@@ -1,6 +1,4 @@
-//
-// Created by jgiannone on 10/13/2018.
-//
+// Author : Jman420
 
 #include "menrva_engine_interface.h"
 #include "menrva_module_interface.h"

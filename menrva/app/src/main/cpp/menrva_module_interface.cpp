@@ -5,7 +5,7 @@
 #include "menrva_module_interface.h"
 #include "menrva_engine_interface.h"
 
-const effect_interface_s MenrvaModuleInterface::control_interface =
+const effect_interface_s MenrvaModuleInterface::engine_interface =
 {
     MenrvaEngineInterface::Process,
     MenrvaEngineInterface::Command,
@@ -31,10 +31,11 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessi
 
 int MenrvaModuleInterface::InitModule(menrva_module_context *context) {
     context->effectsEngine = new MenrvaEffectsEngine;
-    context->control_interface = &control_interface;
+    context->control_interface = &engine_interface;
+
+    // TODO : Configure any necessary parameters
 
     return 0;
-    // TODO : Configure any necessary parameters
 }
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
@@ -65,6 +66,7 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t *uuid,
 
 MenrvaModuleInterface::MenrvaModuleInterface() {}
 
+// Required Exported Member for Android Audio Framework Entry Point
 extern "C" {
     __attribute__ ((visibility ("default")))
     audio_effect_library_t AUDIO_EFFECT_LIBRARY_INFO_SYM = {
