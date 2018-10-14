@@ -39,14 +39,9 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
 {
     struct menrva_module_context *context = (menrva_module_context*)self;
 
-    int result = 0;
-    if (cmdCode == EFFECT_CMD_INIT) {
-        result = 1;
-    }
-    else {
-        result = MenrvaCommandMap::Command(context, cmdCode, cmdSize, pCmdData, replySize,
+    int result = MenrvaCommandMap::Command(context, cmdCode, cmdSize, pCmdData, replySize,
                                            pReplyData);
-    }
+
     return result;
 }
 
