@@ -35,10 +35,10 @@ private:
                          uint32_t *replySize, void *pReplyData);
     static int ResetEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
                            uint32_t *replySize, void *pReplyData);
-    static int Enable(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                      uint32_t *replySize, void *pReplyData);
-    static int Disable(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                       uint32_t *replySize, void *pReplyData);
+    static int EnableEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
+                            uint32_t *replySize, void *pReplyData);
+    static int DisableEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
+                             uint32_t *replySize, void *pReplyData);
     static int SetParam(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
                         uint32_t *replySize, void *pReplyData);
     static int GetParam(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,

@@ -7,20 +7,27 @@
 
 #include "menrva_effects_engine.h"
 
+enum MenrvaModuleStatus {
+    MENRVA_MODULE_UNINITIALIZED,
+    MENRVA_MODULE_INITIALIZING,
+    MENRVA_MODULE_READY,
+    MENRVA_MODULE_RELEASING,
+};
+
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
 struct menrva_module_context {
+    MenrvaModuleStatus moduleStatus;
     MenrvaEffectsEngine *effectsEngine;
-    const struct effect_interface_s *control_interface;
     effect_config_t *config;
 
-    int moduleState;
+    const effect_interface_s *effectInterface;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
 class MenrvaModuleInterface {
 public:
     // Represents the public interface for interacting with the Menrva Audio Effects Engine
-    static const effect_interface_s engine_interface;
+    static const effect_interface_s engineInterface;
 
     static int CreateModule(const effect_uuid_t *uuid, int32_t sessionId, int32_t ioId,
                             effect_handle_t *pHandle);

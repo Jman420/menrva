@@ -1,5 +1,3 @@
-//
-// Created by jgiannone on 10/12/2018.
-//
+// Author : Jman420
 
 #include "menrva_effect.h"

@@ -1,6 +1,4 @@
-//
-// Created by jgiannone on 10/13/2018.
-//
+// Author : Jman420
 
 #include "menrva_command_map.h"
 
@@ -27,6 +25,10 @@ static uint32_t getExpectedCmdSize(uint32_t paramSize, void *pParam) {
 
 int MenrvaCommandMap::Command(menrva_module_context *context, uint32_t cmdCode, uint32_t cmdSize,
                               void *pCmdData, uint32_t *replySize, void *pReplyData) {
+    if (context->moduleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
+        return -EINVAL;
+    }
+
     std::map<uint32_t, CommandFunc> commandMap = MenrvaCommandMap::CommandMap;
 
     int result = 0;
@@ -51,8 +53,9 @@ int MenrvaCommandMap::InitModule(menrva_module_context *context, uint32_t cmdSiz
 
 int MenrvaCommandMap::SetConfig(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
                                 uint32_t *replySize, void *pReplyData) {
-    if (pCmdData == NULL || cmdSize != sizeof(effect_config_t)
-        || pReplyData == NULL || replySize == NULL || *replySize != sizeof(int)) {
+    if (pCmdData == NULL || cmdSize != sizeof(effect_config_t) || pReplyData == NULL ||
+        replySize == NULL || *replySize != sizeof(int)) {
+
         return -EINVAL;
     }
 
@@ -86,32 +89,32 @@ int MenrvaCommandMap::ResetEngine(menrva_module_context *context, uint32_t cmdSi
                                   void *pCmdData __unused, uint32_t *replySize __unused,
                                   void *pReplyData __unused) {
     if (context->effectsEngine != NULL) {
-        context->effectsEngine->Reset();
+        context->effectsEngine->ResetEffects();
     }
     return 0;
 }
 
-int MenrvaCommandMap::Enable(menrva_module_context *context, uint32_t cmdSize __unused,
-                             void *pCmdData __unused, uint32_t *replySize __unused,
-                             void *pReplyData __unused) {
+int MenrvaCommandMap::EnableEngine(menrva_module_context *context, uint32_t cmdSize __unused,
+                                   void *pCmdData __unused, uint32_t *replySize __unused,
+                                   void *pReplyData __unused) {
     if (pReplyData == NULL || replySize == NULL || *replySize != sizeof(int)) {
         return -EINVAL;
     }
 
-    context->moduleState = 1;
+    context->effectsEngine->engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_ENABLED;
 
     *(int*)pReplyData = 0;
     return 0;
 }
 
-int MenrvaCommandMap::Disable(menrva_module_context *context, uint32_t cmdSize __unused,
-                              void *pCmdData __unused, uint32_t *replySize __unused,
-                              void *pReplyData __unused) {
+int MenrvaCommandMap::DisableEngine(menrva_module_context *context, uint32_t cmdSize __unused,
+                                    void *pCmdData __unused, uint32_t *replySize __unused,
+                                    void *pReplyData __unused) {
     if (pReplyData == NULL || replySize == NULL || *replySize != sizeof(int)) {
         return -EINVAL;
     }
 
-    context->moduleState = 0;
+    context->effectsEngine->engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
 
     *(int*)pReplyData = 0;
     return 0;
@@ -119,9 +122,9 @@ int MenrvaCommandMap::Disable(menrva_module_context *context, uint32_t cmdSize _
 
 int MenrvaCommandMap::SetParam(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
                                uint32_t *replySize, void *pReplyData) {
-    if (pCmdData == NULL ||
-            cmdSize < (sizeof(effect_param_t) + sizeof(int32_t) + sizeof(int32_t)) ||
-            pReplyData == NULL || replySize == NULL || *replySize != sizeof(int32_t)) {
+    if (pCmdData == NULL || cmdSize < (sizeof(effect_param_t) + sizeof(int32_t) + sizeof(int32_t))
+        || pReplyData == NULL || replySize == NULL || *replySize != sizeof(int32_t)) {
+
         return -EINVAL;
     }
 
@@ -153,7 +156,8 @@ int MenrvaCommandMap::GetParam(menrva_module_context *context, uint32_t cmdSize 
     }
 
     const effect_param_t *pEffectParam = (effect_param_t*)pCmdData;
-    const uint32_t expectedCmdSize = getExpectedCmdSize(pEffectParam->psize, (void*)pEffectParam->data);
+    const uint32_t expectedCmdSize = getExpectedCmdSize(pEffectParam->psize,
+                                                        (void*)pEffectParam->data);
     memcpy(pReplyData, pCmdData, expectedCmdSize);
     const effect_param_t *replyData = (effect_param_t*)pReplyData;
     const uint32_t valueOffset = computeParamVOffset(replyData);
@@ -186,8 +190,8 @@ function_map MenrvaCommandMap::CommandMap = {
         { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
         { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
         { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
-        { EFFECT_CMD_ENABLE, &MenrvaCommandMap::Enable },
-        { EFFECT_CMD_DISABLE, &MenrvaCommandMap::Disable },
+        { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
+        { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
         { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
         { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
         { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },

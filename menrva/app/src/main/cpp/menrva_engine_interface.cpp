@@ -5,9 +5,9 @@
 #include "menrva_command_map.h"
 
 const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
-    // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_DYNAMICS_PROCESSING)
-    .type = { 0x7261676f, 0x6d75, 0x7369, 0x6364, { 0x28, 0xe2, 0xfd, 0x3a, 0xc3, 0x9e } },
-    // UUID for this particular implementation (http://www.itu.int/ITU-T/asn1/uuid.html for UUID)
+    // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_NULL)
+    .type = { 0xec7178ec, 0xe5e1, 0x4432, 0xa3f4, { 0x46, 0x57, 0xe6, 0x79, 0x52, 0x10 } },
+    // UUID for this particular implementation (http://www.itu.int/ITU-T/asn1/uuid.html)
     .uuid = { 0xde1b7837, 0x24fb, 0x4091, 0x852b, { 0x27, 0x88, 0x1a, 0xfb, 0x9e, 0x5e } },
     // Version of the effect control API implemented
     .apiVersion = EFFECT_CONTROL_API_VERSION,
@@ -23,23 +23,34 @@ const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
     .implementor = "Jman420"
 };
 
-int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t *in,
-                                          audio_buffer_t *out)
+int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t *in, audio_buffer_t *out)
 {
-    struct menrva_module_context *menrvaEngineModule = (menrva_module_context*)self;
-    int result = menrvaEngineModule->effectsEngine->Process(in, out);
+    struct menrva_module_context *context = (menrva_module_context*)self;
+
+    if (context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
+        return -ENODATA;
+    }
+    if (context->moduleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
+        return 0;
+    }
+
+    int result = context->effectsEngine->Process(in, out);
     return result;
 }
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
-                                          void *pCmdData,
-            uint32_t *replySize, void *pReplyData)
+                                   void *pCmdData, uint32_t *replySize, void *pReplyData)
 {
     struct menrva_module_context *context = (menrva_module_context*)self;
 
+    if (context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
+        context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
+
+        return -EINVAL;
+    }
+
     int result = MenrvaCommandMap::Command(context, cmdCode, cmdSize, pCmdData, replySize,
                                            pReplyData);
-
     return result;
 }
 

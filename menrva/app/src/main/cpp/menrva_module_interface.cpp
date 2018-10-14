@@ -1,11 +1,9 @@
-//
-// Created by jgiannone on 10/13/2018.
-//
+// Author : Jman420
 
 #include "menrva_module_interface.h"
 #include "menrva_engine_interface.h"
 
-const effect_interface_s MenrvaModuleInterface::engine_interface =
+const effect_interface_s MenrvaModuleInterface::engineInterface =
 {
     MenrvaEngineInterface::Process,
     MenrvaEngineInterface::Command,
@@ -22,29 +20,33 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessi
         return -EINVAL;
     }
 
-    menrva_module_context *module = new menrva_module_context;
-    InitModule(module);
+    menrva_module_context *context = new menrva_module_context;
+    context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
+    InitModule(context);
 
-    *pHandle = (effect_handle_t)module;
+    *pHandle = (effect_handle_t)context;
     return 0;
 }
 
 int MenrvaModuleInterface::InitModule(menrva_module_context *context) {
+    context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
     context->effectsEngine = new MenrvaEffectsEngine;
-    context->control_interface = &engine_interface;
+    context->effectInterface = &engineInterface;
 
     // TODO : Configure any necessary parameters
 
+    context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
     return 0;
 }
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     menrva_module_context* module = (menrva_module_context*)moduleHandle;
 
-    if (module == NULL){
+    if (module == NULL) {
         return -EINVAL;
     }
 
+    module->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_RELEASING;
     delete module->effectsEngine;
     delete module;
 
@@ -52,7 +54,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
 }
 
 int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t *uuid,
-                                                        effect_descriptor_t *pDescriptor) {
+                                                 effect_descriptor_t *pDescriptor) {
     if (pDescriptor == NULL || uuid == NULL) {
         return -EINVAL;
     }
