@@ -86,7 +86,7 @@ int MenrvaCommandMap::ResetEngine(menrva_module_context *context, uint32_t cmdSi
                                   void *pCmdData __unused, uint32_t *replySize __unused,
                                   void *pReplyData __unused) {
     if (context->effectsEngine != NULL) {
-        context->effectsEngine->reset();
+        context->effectsEngine->Reset();
     }
     return 0;
 }

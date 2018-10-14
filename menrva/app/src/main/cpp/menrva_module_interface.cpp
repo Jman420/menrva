@@ -13,9 +13,8 @@ const effect_interface_s MenrvaModuleInterface::control_interface =
     NULL
 };
 
-int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid,
-                                               int32_t sessionId __unused, int32_t ioId __unused,
-                                               effect_handle_t *pHandle) {
+int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessionId __unused,
+                                        int32_t ioId __unused, effect_handle_t *pHandle) {
     if (pHandle == NULL || uuid == NULL) {
         return -EINVAL;
     }

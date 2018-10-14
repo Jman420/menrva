@@ -29,7 +29,7 @@ int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t *in,
                                           audio_buffer_t *out)
 {
     struct menrva_module_context *menrvaEngineModule = (menrva_module_context*)self;
-    int result = menrvaEngineModule->effectsEngine->process(in, out);
+    int result = menrvaEngineModule->effectsEngine->Process(in, out);
     return result;
 }
 

@@ -1,6 +1,8 @@
-//
-// Created by jgiannone on 10/13/2018.
-//
+/*
+ * Author : Jman420
+ * Description : Represents the public interface for interacting with the Menrva Audio Effects
+ *   Module
+ */
 
 #ifndef MENRVA_MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MENRVA_MODULE_INTERFACE_H

@@ -21,6 +21,10 @@ add_library( # Sets the name of the library.
         src/main/cpp/menrva_engine_interface.cpp
         src/main/cpp/menrva_effects_engine.cpp
         src/main/cpp/menrva_command_map.cpp
+        src/main/cpp/effects/menrva_effect.cpp
+        src/main/cpp/effects/bass_boost.cpp
+        src/main/cpp/effects/equalizer.cpp
+        src/main/cpp/effects/stereo_widener.cpp
         )
 
 # Searches for a specified prebuilt library and stores the path as a
