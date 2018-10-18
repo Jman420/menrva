@@ -1,25 +1,75 @@
-## Contributing to Menrva
+### Contributing to Menrva
 
 # Requirements
-  - Android Studio v3+
-  - Android SDK 21
+  - Android Studio
+  - Android SDK
   - Android NDK
   - Java SDK (JDK)
   
-## Tools & Tips
+### Tools & Tips
 
-# javah
+## javah
 A tool provided with the JDK for generating header files.  We will be using it to generate C++ JNI Header files.
 
 # Integrate javah into Android Studio
   - Open File -> Settings -> Tools -> External Tools
   - Add a new External Tools
   - Use the following settings to configure the External Tool Parameters
+    * Name : Generate JNI Headers
     * Program : $JDKPath$\bin\javah.exe
     * Parameters : -classpath "$Classpath$" -v -jni "$FileClass$"
     * Working Directory : $ProjectFileDir$\app\src\main\cpp\jni
 
 # Using javah to Generate a JNI Header File
   - Create a Java Class which declares a method using the 'native' keyword
-  - Right-click on the Java Class -> External Tools -> javah
+  - Right-click on the Java Class -> External Tools -> Generate JNI Headers
   - Use the newly created C++ Header File in app\main\cpp\jni to expose the necessary native methods
+  
+## Android Platform Tools Command Line
+This will simply open a command line to your Android Platform Tools folder which contains useful tools for debugging such as adb.
+
+# Add Android Platform Tools Command Line as External Tool
+  - Open File -> Settings -> Tools -> External Tools
+  - Add a new External Tools
+  - Use the following settings to configure the External Tool Parameters
+    * Name : Platform Tools Command Line
+    * Program : cmd.exe -OR- powershell.exe
+    * Working Directory : $ModuleSdkPath$\platform-tools
+
+## Android Emulator with Writable System
+Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system folder writable and persist changes between reboots we need to add the '-writable-system' command line argument.
+
+# Add Android Emulator as External Tool
+  - Open File -> Settings -> Tools -> External Tools
+  - Add a new External Tools
+  - Use the following settings to configure the External Tool Parameters
+    * Name : Run Project Emulator
+    * Program : $ModuleSdkPath$\tools\emulator.exe
+    * Parameters : -avd $ProjectName$ -writable-system
+
+# Add AVD for Project
+  - Open Tools -> AVD Manager
+  - Create a New Virtual Device
+  - Select a Profile which does NOT support Google Play Store
+  - Name AVD exactly the same as your Project's Name
+  - Finish creating the AVD
+
+# Running the Project Emulator
+  - Open Tools -> External Tools -> Run Project Emulator
+  OR
+  - Right Click -> External Tools -> Run Project Emulator
+
+# Running a Project on the Project Emulator
+  - Run the Project Emulator (see above)
+  - Run the Project via Android Studio
+  - Select the Android Device under 'Connected Devices' named after your Project when prompted for a Deployment Target
+
+# Making changes to the Project Emulator System Folder
+  - Run the Project Emulator (see above)
+  - Open a command line to your Android Platform Tools
+  - Execute the following commands :
+    * ./adb.exe root
+    * ./adb.exe remount
+    * ./adb.exe shell chmod 777 /system
+    * ./adb.exe shell chmod 777 /system/*
+  - You can now push files to the system folder and subfolders, as well as modify any files in the those folders

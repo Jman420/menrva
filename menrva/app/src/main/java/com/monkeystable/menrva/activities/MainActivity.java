@@ -17,13 +17,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-
         UUID menrvaEffectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
         UUID menrvaEngineUUID = UUID.fromString(JniInterface.getMenrvaEffectEngineUUID());
-        AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(menrvaEffectTypeUUID, menrvaEngineUUID, 1, 0);
+        tv.setText("Effect Type UUID : " + menrvaEffectTypeUUID + System.lineSeparator() +
+                   "Engine UUID : " + menrvaEngineUUID);
 
+        /*AudioEffect menrvaEffect = AudioEffectInterface.
+                CreateAudioEffect(menrvaEffectTypeUUID, menrvaEngineUUID, 1, 0);
 
+        AudioEffect.Descriptor menrvaDesc = menrvaEffect.getDescriptor();
+        tv.setText("Effect Name : " + menrvaDesc.name + System.lineSeparator() +
+                   "Implementor : " + menrvaDesc.implementor);*/
     }
 }
