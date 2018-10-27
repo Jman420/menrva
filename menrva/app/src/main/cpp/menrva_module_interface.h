@@ -3,8 +3,10 @@
 #ifndef MENRVA_MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MENRVA_MODULE_INTERFACE_H
 
+#include "aosp/liblog/include/log/log.h"
 #include "aosp/hardware/audio_effect.h"
 
+#include "menrva_engine_interface.h"
 #include "menrva_effects_engine.h"
 
 enum MenrvaModuleStatus {
@@ -16,11 +18,11 @@ enum MenrvaModuleStatus {
 
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
 struct menrva_module_context {
+    const effect_interface_s *itfe;
+
     MenrvaModuleStatus moduleStatus;
     MenrvaEffectsEngine *effectsEngine;
     effect_config_t *config;
-
-    const effect_interface_s *effectInterface;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module

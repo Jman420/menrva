@@ -1,7 +1,6 @@
 // Author : Jman420
 
 #include "menrva_module_interface.h"
-#include "menrva_engine_interface.h"
 
 const effect_interface_s MenrvaModuleInterface::engineInterface =
 {
@@ -13,6 +12,7 @@ const effect_interface_s MenrvaModuleInterface::engineInterface =
 
 int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessionId __unused,
                                         int32_t ioId __unused, effect_handle_t *pHandle) {
+    ALOGI("MenrvaModuleInterface - CreateModule() Entry");
     if (pHandle == NULL || uuid == NULL) {
         return -EINVAL;
     }
@@ -24,14 +24,14 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessi
     context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
     InitModule(context);
 
-    *pHandle = (effect_handle_t)context;
+    *pHandle = (effect_handle_t)context->itfe;
     return 0;
 }
 
 int MenrvaModuleInterface::InitModule(menrva_module_context *context) {
     context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
     context->effectsEngine = new MenrvaEffectsEngine;
-    context->effectInterface = &engineInterface;
+    context->itfe = &engineInterface;
 
     // TODO : Configure any necessary parameters
 

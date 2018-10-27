@@ -2,6 +2,7 @@ package com.monkeystable.menrva.activities;
 
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.AudioEffectInterface;
+import android.media.audiofx.BassBoost;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -17,17 +18,23 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        TextView tv = (TextView) findViewById(R.id.sample_text);
+        TextView effectInfoText = findViewById(R.id.effectInfo);
         UUID menrvaEffectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
         UUID menrvaEngineUUID = UUID.fromString(JniInterface.getMenrvaEffectEngineUUID());
-        tv.setText("Effect Type UUID : " + menrvaEffectTypeUUID + System.lineSeparator() +
-                   "Engine UUID : " + menrvaEngineUUID);
+        effectInfoText.setText("Effect Type UUID : " + menrvaEffectTypeUUID +
+                                System.lineSeparator() +
+                                "Engine UUID : " + menrvaEngineUUID);
 
-        /*AudioEffect menrvaEffect = AudioEffectInterface.
-                CreateAudioEffect(menrvaEffectTypeUUID, menrvaEngineUUID, 1, 0);
+        AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
 
+        menrvaEffectTypeUUID = effects[effects.length - 1].type;
+        menrvaEngineUUID = effects[effects.length - 1].uuid;
+
+        TextView engineInfoText = findViewById(R.id.engineInfo);
+        AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(menrvaEffectTypeUUID, menrvaEngineUUID, 1, 0);
         AudioEffect.Descriptor menrvaDesc = menrvaEffect.getDescriptor();
-        tv.setText("Effect Name : " + menrvaDesc.name + System.lineSeparator() +
-                   "Implementor : " + menrvaDesc.implementor);*/
+        engineInfoText.setText("Effect Name : " + menrvaDesc.name +
+                                System.lineSeparator() +
+                                "Implementor : " + menrvaDesc.implementor);
     }
 }
