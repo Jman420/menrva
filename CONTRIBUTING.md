@@ -82,6 +82,8 @@ A tool provided with the JDK for generating header files.  We will be using it t
   - Android Virtual Device (see 'Android Emulator with Writable System' section above)
   - AOSP Source Code & Build
 
+## Debugging Tips & Tricks
+
 ### Building AOSP from Source
   - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
   - Follow instructions starting from https://source.android.com/setup/build/requirements
