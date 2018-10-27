@@ -80,7 +80,7 @@ A tool provided with the JDK for generating header files.  We will be using it t
 ## Debugging Requirements
   - Android Studio
   - Android Virtual Device (see 'Android Emulator with Writable System' section above)
-  - AOSP Source Code & Build
+  - AOSP Source Code & Build Environment
 
 ## Debugging Tips & Tricks
 
