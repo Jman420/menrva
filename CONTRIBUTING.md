@@ -83,11 +83,10 @@ A tool provided with the JDK for generating header files.  We will be using it t
   - AOSP Source Code & Build Environment
 
 ## Debugging Tips & Tricks
-
-### Building AOSP from Source
-  - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
-  - Follow instructions starting from https://source.android.com/setup/build/requirements
   
 ### Enabling Verbose Logging for AudioEffects in AOSP
   - Download AOSP Source Code
   
+### Building AOSP from Source
+  - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
+  - Follow instructions starting from https://source.android.com/setup/build/requirements
