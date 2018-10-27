@@ -86,7 +86,7 @@ A tool provided with the JDK for generating header files.  We will be using it t
   
 ### Enabling Verbose Logging for AudioEffects in AOSP
   - Download AOSP Source Code
-  ... More details coming soon ...
+  - ... More details coming soon ...
   
 ### Building AOSP from Source
   - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
