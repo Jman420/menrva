@@ -84,10 +84,31 @@ A tool provided with the JDK for generating header files.  We will be using it t
 
 ## Debugging Tips & Tricks
   
-### Enabling Verbose Logging for AudioEffects in AOSP
+### Enabling Verbose Logging for AudioEffects JNI Bridge in AOSP
   - Download AOSP Source Code
-  - ... More details coming soon ...
+  - Open file 'frameworks/base/media/jni/audioeffect/android_media_AudioEffect.cpp' for editing
+  - Uncomment or add the line '#define LOG_NDEBUG 0'
+  - Build the 'libaudioeffect_jni' module
+  - Replace the module on your device at '/system/lib/libaudioeffect_jni.so'
   
 ### Building AOSP from Source
   - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
   - Follow instructions starting from https://source.android.com/setup/build/requirements
+
+### Building Individual AOSP Modules from Source
+  - Setup your Dev Environment & Working Directory (see 'Building AOSP from Source' above)
+  - Using Module Name
+    * Identify the Module Name from the associated Android.mk or Android.bp file
+    * Run the command : make [ModuleName]
+  - Using Module Path
+    * Identify the Module Path
+    * Run the command : mmm [ModulePath]
+  
+## Troubleshooting AOSP Build
+
+### Google Repo Tool misses necessary files
+  - Use the compiler error message to identify which files are missing
+  - Find the remote repository with the missing files in Google's listings : https://android-review.googlesource.com/admin/repos
+  - Investigate to find the root repository folder in your Working Directory
+  - Delete the root repository folder
+  - Clone the necessary repository using : git clone [repo-url] --branch [branch-name] --single-branch
