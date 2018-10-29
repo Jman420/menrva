@@ -88,8 +88,8 @@ A tool provided with the JDK for generating header files.  We will be using it t
   - Download AOSP Source Code
   - Open file 'frameworks/base/media/jni/audioeffect/android_media_AudioEffect.cpp' for editing
   - Uncomment or add the line '#define LOG_NDEBUG 0'
-  - Build the 'libaudioeffect_jni' module
-  - Replace the module on your device at '/system/lib/libaudioeffect_jni.so'
+  - Build the 'libaudioeffect_jni' module (see 'Building Individual AOSP Modules from Source' below)
+  - Replace the module on your device at '/system/lib/libaudioeffect_jni.so' (see 'Making changes to the Project Emulator System Folder' above)
   
 ### Building AOSP from Source
   - See https://source.android.com/setup for General Info about AOSP Source Code, Releases & Build Process
