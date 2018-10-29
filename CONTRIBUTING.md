@@ -37,7 +37,7 @@ Android Emulator is already deeply integrated into Android Studio through the AV
   - Select the Android Device under 'Connected Devices' named after your Project when prompted for a Deployment Target
 
 #### Making changes to the Project Emulator System Folder
-  - Run the Project Emulator (see above)
+  - Run the Project Emulator (see [Running the Project Emulator](#running-the-project-emulator) above)
   - Open a command line to your Android Platform Tools
   - Execute the following commands :
     * ./adb.exe root
