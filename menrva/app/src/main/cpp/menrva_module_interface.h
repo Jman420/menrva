@@ -3,7 +3,7 @@
 #ifndef MENRVA_MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MENRVA_MODULE_INTERFACE_H
 
-#include "aosp/liblog/include/log/log.h"
+#include "aosp/liblog/log/log.h"
 #include "aosp/hardware/audio_effect.h"
 
 #include "menrva_engine_interface.h"

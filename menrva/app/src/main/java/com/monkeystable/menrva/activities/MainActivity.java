@@ -1,8 +1,6 @@
 package com.monkeystable.menrva.activities;
 
 import android.media.audiofx.AudioEffect;
-import android.media.audiofx.AudioEffectInterface;
-import android.media.audiofx.BassBoost;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
@@ -26,15 +24,20 @@ public class MainActivity extends AppCompatActivity {
                                 "Engine UUID : " + menrvaEngineUUID);
 
         AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
-
-        menrvaEffectTypeUUID = effects[effects.length - 1].type;
+        /*menrvaEffectTypeUUID = effects[effects.length - 1].type;
         menrvaEngineUUID = effects[effects.length - 1].uuid;
+        TextView engineInfoText = findViewById(R.id.engineInfo);
+        engineInfoText.setText("Effect Type UUID : " + menrvaEffectTypeUUID +
+                System.lineSeparator() +
+                "Engine UUID : " + menrvaEngineUUID);
 
+        /*
         TextView engineInfoText = findViewById(R.id.engineInfo);
         AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(menrvaEffectTypeUUID, menrvaEngineUUID, 1, 0);
         AudioEffect.Descriptor menrvaDesc = menrvaEffect.getDescriptor();
         engineInfoText.setText("Effect Name : " + menrvaDesc.name +
                                 System.lineSeparator() +
                                 "Implementor : " + menrvaDesc.implementor);
+        */
     }
 }
