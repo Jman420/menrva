@@ -3,29 +3,21 @@
 ## Requirements
   - VirtualBox
   - OS Installer ISO
-  - DiskGenius
+  - DiskGenius or GParted
   - USB Drive or External Drive (82GB minimum for OS; 132GB recommended for daily driver equivalent)
 
-## Creating EFI/ESP Partition
+## Setting up Partitions
   - IMPORTANT : EFI Partition must be within the first 2.2TB of the disk
   - IMPORTANT : EFI Partition must be FAT32 File System
   - RECOMMENDED : EFI Partition should be the first partition 
   - RECOMMENDED : EFI Partition should be between 100-500MB
-  - Run DiskGenius
-  - Click on the USB Drive from the list on the left
-  - Right click in the 'Partitions' list
-  - Select 'Create ESP/MSR Partition'
-  - Adjust the size of the ESP Partition if needed
-  - Uncheck the 'Create MSR partition' checkbox
-  - Click OK Button
-  - Click 'Save All' Button at top right of Window
-  - Click Yes to apply changes
-  - Right click the 'ESP(0)' entry in the Partitions List
-  - Click 'Format Current Partition'
-  - Set File System to 'FAT32'
-  - Set Volume Label to 'ESP'
-  - Uncheck all checkboxes
-  - Click 'Format' Button
+  - RECOMMENDED : Order of partitions; EFI, Swap, OS-es, Shared
+  - Create EFI Partition (100-500MB; FAT32; set flags 'boot' & 'esp')
+  - Create Swap Partition (32GB; Swap/EXT4)
+  - Create OS Partition(s) (100GB; EXT4/NTFS)
+  - Create Shared Partition (1.5TB; NTFS; aligned to end of drive)
+  - Format all partitions appropriately
+  - NOTE : Leaving free space on the drive will allow for additional OSes to be installed onto the same drive on new partitions
 
 ## Setting up the Installer VM
   - Run VirtualBox
@@ -35,7 +27,7 @@
   - Open Settings for the Installer VM
   - IMPORTANT : Under 'System Settings' check 'Enable EFI'
   - Update any System Settings necessary
-  - Under Storage set the OS Installer Disk ISO as the CD Drive
+  - Under Storage set the OS Installer Disk ISO as the CD Drive and check 'Live CD/DVD'
   - Under Network setup a Bridged Adapter
   - Under USB select the appropriate USB Controller & Add the USB Device to the Filters
   - Click OK Button
@@ -47,10 +39,9 @@
   - Follow the Installer Wizard
   - On 'Updates and other software' check 'Install third-party software for ...'
   - IMPORTANT : On 'Installation type' select 'Something else'
-  - RECOMMENDED : Partition order on disk should be EFI, Swap, Root at beginning of disk; Home at end of disk
-  - RECOMMENDED : Swap partition equal to expected Max RAM (32GB)
-  - RECOMMENDED : Root partition must support OS and Installed Apps (100GB)
-  - Setup Swap, Root & Home partitions as necessary
+  - Map Swap & Root mounts appropriately to pre-created partitions
+  - Add a mount point for the Shared Partition (/shared)
+  - Format partitions if necessary
   - IMPORTANT : Ensure that your USB Device is selected for 'Device for boot loader installation'
   - Complete the Installer Wizard
 
