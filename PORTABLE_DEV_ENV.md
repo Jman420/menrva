@@ -4,7 +4,7 @@
   - VirtualBox
   - OS Installer ISO
   - DiskGenius
-  - Large Blank USB Drive (65GB minimum for OS)
+  - Large Blank USB Drive (82GB minimum for OS; 132GB recommended for daily driver equivalent)
 
 ## Creating EFI/ESP Partition
   - Run DiskGenius
@@ -44,6 +44,9 @@
   - On 'Updates and other software' check 'Install third-party software for ...'
   - IMPORTANT : On 'Installation type' select 'Something else'
   - Setup Swap, Root & Home partitions as necessary
+  - RECOMMENDED : Partition order on disk should be EFI, Swap, Root at beginning of disk; Home at end of disk
+  - RECOMMENDED : Swap partition equal to expected Max RAM (32GB)
+  - RECOMMENDED : Root partition must support OS and Installed Apps (100GB)
   - IMPORTANT : Ensure that your USB Device is selected for 'Device for boot loader installation'
   - Complete the Installer Wizard
 
