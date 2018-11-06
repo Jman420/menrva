@@ -29,6 +29,7 @@
   - Setup the System Settings as usual
   - IMPORTANT : On 'Hard disk' select 'Do not add a virtual hard disk'
   - Open Settings for the Installer VM
+  - IMPORTANT : Under 'System Settings' check 'Enable EFI'
   - Update any System Settings necessary
   - Under Storage set the OS Installer Disk ISO as the CD Drive
   - Under Network setup a Bridged Adapter
@@ -36,6 +37,7 @@
   - Click OK Button
   
 ## Installing the OS
+  - Run VirtualBox
   - Start the Installer VM
   - Launch the OS Installer
   - Follow the Installer Wizard
@@ -46,28 +48,22 @@
   - Complete the Installer Wizard
 
 ## Launching the OS from VirtualBox
-  - Identify the Disk Number of the USB Drive using Disk Management
-  - Open Command Prompt as Admin
-  - Run : cd %programfiles%\Oracle\VirtualBox
-  - Run : VBoxManage internalcommands createrawvmdk -filename C:\usb.vmdk -rawdisk \\.\PhysicalDrive<DiskNumber>
-  - Move and rename the file C:\usb.vmdk as appropriate; this is a Virtual Drive to our USB Drive
-  - Run VirtualBox as Admin
-  - Create a New VM for the appropriate OS (this is our Installer VM)
+  - Run VirtualBox
+  - Create a New VM for the appropriate OS (this is our USB-OS VM)
   - Setup the System Settings as usual
-  - IMPORTANT : On 'Hard disk' select 'Use an existing virtual hard disk file'
-  - Select the vmdk file created above
-  - Open Settings for the Installer VM
+  - IMPORTANT : On 'Hard disk' select 'Do not add a virtual hard disk'
+  - Open Settings for the USB-OS VM
+  - IMPORTANT : Under 'System Settings' check 'Enable EFI'
   - Update any System Settings necessary
   - Under Network setup a Bridged Adapter
   - Under USB Select the appropriate USB Controller & Add the USB Device to the Filters
   - Click OK Button
-  - Start the Virtual Machine
-  - If dumped into UEFI Shell, exit the shell, select 'Boot Manager' and select 'EFI USB Device'
+  - Start the USB-OS VM
+  - At UEFI Shell; exit the shell using 'exit', select 'Boot Manager' and select 'EFI USB Device'
   - Wait for OS to boot and login as usual
 
 ## Booting Bare Metal
   - Connect the USB Device to a UEFI Compatable Machine
   - Turn on the Machine
   - Ensure that the Machine Boots from the USB Device (most Machines use F2 for BIOS Setup and F12 for Boot Options)
-  - If dumped into UEFI Shell, exit the shell, select 'Boot Manager' and select 'EFI USB Device'
   - Wait for OS to boot and login as usual
