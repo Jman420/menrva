@@ -4,14 +4,18 @@
   - VirtualBox
   - OS Installer ISO
   - DiskGenius
-  - Large Blank USB Drive (82GB minimum for OS; 132GB recommended for daily driver equivalent)
+  - USB Drive or External Drive (82GB minimum for OS; 132GB recommended for daily driver equivalent)
 
 ## Creating EFI/ESP Partition
+  - IMPORTANT : EFI Partition must be within the first 2.2TB of the disk
+  - IMPORTANT : EFI Partition must be FAT32 File System
+  - RECOMMENDED : EFI Partition should be the first partition 
+  - RECOMMENDED : EFI Partition should be between 100-500MB
   - Run DiskGenius
   - Click on the USB Drive from the list on the left
   - Right click in the 'Partitions' list
-  - Select 'ESP/MSR Partition'
-  - Adjust the size of the ESP Partition if needed (between 100-500MB)
+  - Select 'Create ESP/MSR Partition'
+  - Adjust the size of the ESP Partition if needed
   - Uncheck the 'Create MSR partition' checkbox
   - Click OK Button
   - Click 'Save All' Button at top right of Window
@@ -33,7 +37,7 @@
   - Update any System Settings necessary
   - Under Storage set the OS Installer Disk ISO as the CD Drive
   - Under Network setup a Bridged Adapter
-  - Under USB Select the appropriate USB Controller & Add the USB Device to the Filters
+  - Under USB select the appropriate USB Controller & Add the USB Device to the Filters
   - Click OK Button
   
 ## Installing the OS
@@ -43,14 +47,14 @@
   - Follow the Installer Wizard
   - On 'Updates and other software' check 'Install third-party software for ...'
   - IMPORTANT : On 'Installation type' select 'Something else'
-  - Setup Swap, Root & Home partitions as necessary
   - RECOMMENDED : Partition order on disk should be EFI, Swap, Root at beginning of disk; Home at end of disk
   - RECOMMENDED : Swap partition equal to expected Max RAM (32GB)
   - RECOMMENDED : Root partition must support OS and Installed Apps (100GB)
+  - Setup Swap, Root & Home partitions as necessary
   - IMPORTANT : Ensure that your USB Device is selected for 'Device for boot loader installation'
   - Complete the Installer Wizard
 
-## Launching the OS from VirtualBox
+## Setting up OS Virtual Machine
   - Run VirtualBox
   - Create a New VM for the appropriate OS (this is our USB-OS VM)
   - Setup the System Settings as usual
@@ -61,8 +65,13 @@
   - Under Network setup a Bridged Adapter
   - Under USB Select the appropriate USB Controller & Add the USB Device to the Filters
   - Click OK Button
-  - Start the USB-OS VM
-  - At UEFI Shell; exit the shell using 'exit', select 'Boot Manager' and select 'EFI USB Device'
+
+## Booting OS Virtual Machine
+  - Run VirtualBox
+  - Start the USB-OS VM created above
+  - Exit the shell using 'exit'
+  - Select 'Boot Manager'
+  - Select 'EFI USB Device'
   - Wait for OS to boot and login as usual
 
 ## Booting Bare Metal
