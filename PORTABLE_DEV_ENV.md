@@ -13,9 +13,9 @@
   - RECOMMENDED : EFI Partition should be between 100-500MB
   - RECOMMENDED : Order of partitions; EFI, Swap, OS-es, Shared
   - Create EFI Partition (100-500MB; FAT32; set flags 'boot' & 'esp')
-  - Create Swap Partition (32GB; Swap/EXT4)
+  - Create Swap Partition (32GB; SWAP/EXT4)
   - Create OS Partition(s) (100GB; EXT4/NTFS)
-  - Create Shared Partition (1.5TB; NTFS; aligned to end of drive)
+  - Create Shared Partition (1.5TB; EXT3; aligned to end of drive)
   - Format all partitions appropriately
   - NOTE : Leaving free space on the drive will allow for additional OSes to be installed onto the same drive on new partitions
 
