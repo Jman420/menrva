@@ -18,7 +18,7 @@ const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
     // Data Memory usage
     .memoryUsage = 1,
     // human readable effect name
-    .name = "Menrva",
+    .name = "MenrvaEngine",
     // human readable effect implementor name
     .implementor = "Jman420"
 };
