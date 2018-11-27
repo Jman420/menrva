@@ -11,8 +11,40 @@
   - Follow instructions starting from https://source.android.com/setup/build/requirements
   - If using Ubuntu 16 or higher then run the following command before the make command :  
   ```export LC_ALL=C```
-  - Quick summary of commands for setting up and building AOSP on Ubuntu 16 or higher :  
-  ```<COMING SOON>```
+
+### TL;DR - Building AOSP from Source
+  - Commands for setting up Build Environment on Ubuntu 16 or higher :  
+  ```
+  sudo apt install openjdk-8-jdk git-core gnupg flex bison gperf build-essential zip curl zlib1g-dev gcc-multilib g++-multilib libc6-dev-i386 lib32ncurses5-dev x11proto-core-dev libx11-dev lib32z-dev libgl1-mesa-dev libxml2-utils xsltproc unzip python-networkx
+
+  curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+  chmod a+x ~/bin/repo
+
+  git config --global user.name "<Your Username>"
+  git config --global user.email "<Your Email>"
+  ```
+  - Commands for Cloning AOSP Source Code :  
+  ```
+  repo init -u https://android.googlesource.com/platform/manifest
+  repo sync
+  ```
+  - Download & Extract appropriate Proprietary Binaries from https://developers.google.com/android/blobs-preview
+  - Execute the Proprietary Binaries Shell Scripts from the AOSP Source Code Root Directory :  
+  **_EXAMPLE ONLY_**  
+  ```
+  ../prop-bins/pixel2-xl/extract-google_devices-taimen.sh
+  ../prop-bins/pixel2-xl/extract-qcom-taimen.sh
+  ```
+  - Commands for Building AOSP from Source Code executed from AOSP Source Code Root Directory :  
+  ```
+  make clobber
+  
+  . build/envsetup.sh
+  lunch <Desired Target Architecture; recommend aosp_x86_64-eng>
+
+  export LC_ALL=C
+  make -j8
+  ```
 
 ### Building Individual AOSP Modules from Source
   - Setup your Dev Environment & Working Directory (see [Building AOSP from Source](#building-aosp-from-source) above)
