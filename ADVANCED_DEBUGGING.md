@@ -35,7 +35,7 @@
   - Run the Project with or without Debugging as needed
 
 ### Relevant AOSP Source Files
-Note : This is not a complete list of AOSP Source Files involved in executing the Audio Effect Pipeline, but these should provide a sufficient starting point to track down any other source files which may be involved.  Feel free to suggest adding additional items to this list.
+**_Note_** : This is not a complete list of AOSP Source Files involved in executing the Audio Effect Pipeline, but these should provide a sufficient starting point to track down any other source files which may be involved.  Feel free to suggest adding additional items to this list.
 
   | File Name                     | Full Source Path                                                     | Full Repo URL                                                                                                          |
   |-------------------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
