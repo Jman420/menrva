@@ -35,6 +35,15 @@
   - Run the Project with or without Debugging as needed
 
 ### Relevant AOSP Source Files
-  - AudioEffect.java # /frameworks/base/media/java/android/media/audiofx/AudioEffect.java : https://android.googlesource.com/platform/frameworks/base/+/master/media/java/android/media/audiofx/AudioEffect.java
-  - android_media_AudioEffect.cpp # /frameworks/base/media/jni/audioeffect/android_media_AudioEffect.cpp : https://android.googlesource.com/platform/frameworks/base/+/master/media/jni/audioeffect/android_media_AudioEffect.cpp
-  - MORE COMING SOON
+Note : This is not a complete list of AOSP Source Files involved in executing the Audio Effect Pipeline, but these should provide a sufficient starting point to track down any other source files which may be involved.  Feel free to suggest adding additional items to this list.
+
+  | File Name                     | Full Source Path                                                     | Full Repo URL                                                                                                          |
+  |-------------------------------|----------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+  | AudioEffect.java              | /frameworks/base/media/java/android/media/audiofx/AudioEffect.java   | https://android.googlesource.com/platform/frameworks/base/+/master/media/java/android/media/audiofx/AudioEffect.java   |
+  | android_media_AudioEffect.cpp | /frameworks/base/media/jni/audioeffect/android_media_AudioEffect.cpp | https://android.googlesource.com/platform/frameworks/base/+/master/media/jni/audioeffect/android_media_AudioEffect.cpp |
+  | AudioEffect.cpp               | /frameworks/av/media/libaudioclient/AudioEffect.cpp                  | https://android.googlesource.com/platform/frameworks/av/+/master/media/libaudioclient/AudioEffect.cpp                  |
+  | AudioFlinger.cpp              | /frameworks/av/services/audioflinger/AudioFlinger.cpp                | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/AudioFlinger.cpp                |
+  | EffectsFactoryHalHidl.cpp     | /frameworks/av/media/libaudiohal/4.0/EffectsFactoryHalHidl.cpp       | https://android.googlesource.com/platform/frameworks/av/+/master/media/libaudiohal/4.0/EffectsFactoryHalHidl.cpp       |
+  | Threads.cpp                   | /frameworks/av/services/audioflinger/Threads.cpp                     | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Threads.cpp                     |
+  | Threads.h                     | /frameworks/av/services/audioflinger/Threads.h                       | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Threads.h                       |
+  | Effects.cpp                   | /frameworks/av/services/audioflinger/Effects.cpp                     | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Effects.cpp                     |
