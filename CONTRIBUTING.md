@@ -51,17 +51,6 @@ Android Emulator is already deeply integrated into Android Studio through the AV
   - You can now push files to the system & vendor folders and subfolders, as well as modify any files in the those folders, such as :  
   ```./adb.exe push %MenrvaProjectDir%/menrva/app/build/intermediates/cmake/debug/obj/x86/libMenrvaEngine.so /vendor/lib/soundfx/```
 
-### Android Platform Tools Command Line
-This will simply open a command line to your Android Platform Tools folder which contains useful tools for debugging such as adb.
-
-#### Add Android Platform Tools Command Line as External Tool
-  - Open File -> Settings -> Tools -> External Tools
-  - Add a new External Tools
-  - Use the following settings to configure the External Tool Parameters
-    * Name : Platform Tools Command Line
-    * Program : cmd.exe -OR- powershell.exe
-    * Working Directory : $ModuleSdkPath$\platform-tools
-
 ### javah
 A tool provided with the JDK for generating header files.  We will be using it to generate C++ JNI Header files.
 
