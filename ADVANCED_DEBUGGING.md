@@ -55,6 +55,12 @@
     * Identify the Module Path
     * Run the command : ```mmm [ModulePath]```
 
+### Rebuilding System Image
+  - Successfully Build AOSP from Source at least once (see [Building AOSP from Source](#building-aosp-from-source) above)
+  - Make any necessary changes to Source Files
+  - Rebuild any necessary AOSP Modules (see [Building Individual AOSP Modules from Source](#building-individual-aosp-modules-from-source) above)
+  - Rebuild the System Image using the command : ```make systemimage```
+
 ### Using AOSP Build for Debugging
   - Modify AOSP Source Code as necessary for Debugging (see [Relevant AOSP Source Files](#relevant-aosp-source-files) below)
   - Successfully complete an AOSP Build (see [Building AOSP from Source](#building-aosp-from-source) above)

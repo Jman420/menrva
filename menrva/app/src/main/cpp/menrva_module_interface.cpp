@@ -2,6 +2,9 @@
 
 #include "menrva_module_interface.h"
 
+#define LOG_TAG "MenrvaModuleInterface"
+#define LOG_NDEBUG 0
+
 const effect_interface_s MenrvaModuleInterface::engineInterface =
 {
     MenrvaEngineInterface::Process,
@@ -12,7 +15,6 @@ const effect_interface_s MenrvaModuleInterface::engineInterface =
 
 int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessionId __unused,
                                         int32_t ioId __unused, effect_handle_t *pHandle) {
-    ALOGI("MenrvaModuleInterface - CreateModule() Entry");
     if (pHandle == NULL || uuid == NULL) {
         return -EINVAL;
     }
@@ -20,11 +22,14 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t *uuid, int32_t sessi
         return -EINVAL;
     }
 
+    ALOGV("Creating module context...");
     menrva_module_context *context = new menrva_module_context;
     context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
+    ALOGV("Initializing context...");
     InitModule(context);
 
-    *pHandle = (effect_handle_t)context->itfe;
+    *pHandle = (effect_handle_t)context;
+    ALOGV("Successfully Created Module!");
     return 0;
 }
 
@@ -55,13 +60,17 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
 
 int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t *uuid,
                                                  effect_descriptor_t *pDescriptor) {
+    ALOGV("Getting Descriptor by UUID...");
     if (pDescriptor == NULL || uuid == NULL) {
+        ALOGV("Invalid Descriptor Pointer or UUID!");
         return -EINVAL;
     }
     else if (memcmp(uuid, &MenrvaEngineInterface::effectDescriptor.uuid, sizeof(*uuid)) != 0) {
+        ALOGV("Incorrect UUID provided!");
         return -EINVAL;
     }
 
+    ALOGV("Returning Effect Descriptor pointer...");
     *pDescriptor = MenrvaEngineInterface::effectDescriptor;
     return 0;
 }

@@ -12,6 +12,9 @@ import java.util.UUID;
 
 public class MainActivity extends AppCompatActivity {
 
+    public final static UUID EFFECT_TYPE_CUSTOM = UUID.fromString("f98765f4-c321-5de6-9a45-123459495ab2");
+    public final static UUID EFFECT_JAMESDSP = UUID.fromString("f27317f4-c984-4de6-9a90-545759495bf2");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,21 +29,14 @@ public class MainActivity extends AppCompatActivity {
                                 "Effect Type UUID : " + effectTypeUUID + System.lineSeparator() +
                                 "Engine UUID : " + engineUUID);
 
-        AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
-        int effectIndex = effects.length - 1;
-        effectName = effects[effectIndex].name;
-        effectTypeUUID = effects[effectIndex].type;
-        engineUUID = effects[effectIndex].uuid;
-        TextView engineInfoSystemText = findViewById(R.id.effectInfoSystem);
-        engineInfoSystemText.setText("Details from Effects List" + System.lineSeparator() +
-                                "Effect Name : " + effectName + System.lineSeparator() +
-                                "Effect Type UUID : " + effectTypeUUID + System.lineSeparator() +
-                                "Engine UUID : " + engineUUID);
+        //AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
 
+        /**/
         TextView engineInfoText = findViewById(R.id.engineInfo);
         AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(effectTypeUUID, engineUUID, 1, 0);
         AudioEffect.Descriptor menrvaDesc = menrvaEffect.getDescriptor();
         engineInfoText.setText("Effect Name : " + menrvaDesc.name + System.lineSeparator() +
                                 "Implementor : " + menrvaDesc.implementor);
+        /**/
     }
 }
