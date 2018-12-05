@@ -18,11 +18,11 @@ enum MenrvaModuleStatus {
 
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
 struct menrva_module_context {
-    const effect_interface_s *itfe;
+    const effect_interface_s* itfe;
 
     MenrvaModuleStatus moduleStatus;
-    MenrvaEffectsEngine *effectsEngine;
-    effect_config_t *config;
+    MenrvaEffectsEngine* effectsEngine;
+    effect_config_t* config;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
@@ -31,11 +31,11 @@ public:
     // Represents the public interface for interacting with the Menrva Audio Effects Engine
     static const effect_interface_s engineInterface;
 
-    static int CreateModule(const effect_uuid_t *uuid, int32_t sessionId, int32_t ioId,
-                            effect_handle_t *pHandle);
-    static int InitModule(menrva_module_context *context);
+    static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId,
+                            effect_handle_t* pHandle);
+    static int InitModule(menrva_module_context* context);
     static int ReleaseModule(effect_handle_t moduleHandle);
-    static int GetDescriptorFromUUID(const effect_uuid_t *uuid, effect_descriptor_t *pDescriptor);
+    static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
 
 private:
     // Private Constructor to prevent instantiation of Static Class

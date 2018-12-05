@@ -13,7 +13,7 @@ extern "C" {
  * Signature: ()Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectTypeUUID
-  (JNIEnv *env, jclass caller);
+  (JNIEnv* env, jclass caller);
 
 /*
  * Class:     com_monkeystable_menrva_activities_JniInterface
@@ -21,7 +21,7 @@ JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_g
  * Signature: ()Ljava/lang/String;
  */
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngineUUID
-  (JNIEnv *env, jclass caller);
+  (JNIEnv* env, jclass caller);
 
 #ifdef __cplusplus
 }

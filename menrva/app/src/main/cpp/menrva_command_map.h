@@ -22,29 +22,29 @@ using value_t = union {
 // Represents the Commands supported by the Menrva Audio Effects Module & Engine
 class MenrvaCommandMap {
 public:
-    static int Command(menrva_module_context *context, uint32_t cmdCode, uint32_t cmdSize,
-                       void *pCmdData, uint32_t *replySize, void *pReplyData);
+    static int Command(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
+                       void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
     // Private Constructor to prevent instantiation of Static Class
     MenrvaCommandMap();
 
-    static int InitModule(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                          uint32_t *replySize, void *pReplyData);
-    static int SetConfig(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                         uint32_t *replySize, void *pReplyData);
-    static int ResetEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                           uint32_t *replySize, void *pReplyData);
-    static int EnableEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                            uint32_t *replySize, void *pReplyData);
-    static int DisableEngine(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                             uint32_t *replySize, void *pReplyData);
-    static int SetParam(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                        uint32_t *replySize, void *pReplyData);
-    static int GetParam(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                        uint32_t *replySize, void *pReplyData);
-    static int GetConfig(menrva_module_context *context, uint32_t cmdSize, void *pCmdData,
-                         uint32_t *replySize, void *pReplyData);
+    static int InitModule(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                          uint32_t* replySize, void* pReplyData);
+    static int SetConfig(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                         uint32_t* replySize, void* pReplyData);
+    static int ResetEngine(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                           uint32_t* replySize, void* pReplyData);
+    static int EnableEngine(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                            uint32_t* replySize, void* pReplyData);
+    static int DisableEngine(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                             uint32_t* replySize, void* pReplyData);
+    static int SetParam(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                        uint32_t* replySize, void* pReplyData);
+    static int GetParam(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                        uint32_t* replySize, void* pReplyData);
+    static int GetConfig(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
+                         uint32_t* replySize, void* pReplyData);
 
     // Represents the Command to Function Map
     static function_map CommandMap;

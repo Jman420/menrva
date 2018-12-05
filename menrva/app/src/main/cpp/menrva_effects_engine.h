@@ -22,16 +22,16 @@ enum MenrvaEngineStatus {
 class MenrvaEffectsEngine {
 public:
     MenrvaEngineStatus engineStatus;
-    audio_buffer_t *workingBuffer;
+    audio_buffer_t* workingBuffer;
 
     MenrvaEffectsEngine();
     void ResetEffects();
-    int Process(audio_buffer_t *in, audio_buffer_t *out);
+    int Process(audio_buffer_t* in, audio_buffer_t* out);
     void SetEffectEnabled(int effectIndex, bool enabled);
-    void ConfigureEffectSetting(int effectIndex, char settingName[], void *value);
+    void ConfigureEffectSetting(int effectIndex, char settingName[], void* value);
 
 private:
-    MenrvaEffect *menrvaEffects[3] = {
+    MenrvaEffect* menrvaEffects[3] = {
             new Equalizer(),
             new BassBoost(),
             new StereoWidener(),

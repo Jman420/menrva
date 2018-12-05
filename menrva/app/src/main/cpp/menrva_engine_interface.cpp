@@ -23,10 +23,10 @@ const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
     .implementor = "Jman420"
 };
 
-const char *MenrvaEngineInterface::effectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
-const char *MenrvaEngineInterface::engineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
+const char* MenrvaEngineInterface::effectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
+const char* MenrvaEngineInterface::engineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
 
-int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t *in, audio_buffer_t *out)
+int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t* in, audio_buffer_t* out)
 {
     struct menrva_module_context *context = (menrva_module_context*)self;
 
@@ -42,7 +42,7 @@ int MenrvaEngineInterface::Process(effect_handle_t self, audio_buffer_t *in, aud
 }
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
-                                   void *pCmdData, uint32_t *replySize, void *pReplyData)
+                                   void* pCmdData, uint32_t* replySize, void* pReplyData)
 {
     struct menrva_module_context *context = (menrva_module_context*)self;
 
@@ -58,7 +58,7 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
 }
 
 int MenrvaEngineInterface::GetDescriptorFromModule(effect_handle_t self,
-                                                   effect_descriptor_t *pDescriptor)
+                                                   effect_descriptor_t* pDescriptor)
 {
     menrva_module_context* module = (menrva_module_context*)self;
     if (module == NULL || pDescriptor == NULL) {
