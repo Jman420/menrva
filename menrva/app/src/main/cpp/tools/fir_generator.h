@@ -3,6 +3,10 @@
 #ifndef MENRVA_FIR_GENERATOR_H
 #define MENRVA_FIR_GENERATOR_H
 
+#include <cstdlib>
+#include <math.h>
+#include "log_manager.h"
+#include "../kissfft/kiss_fftr.h"
 
 class FIR_Generator {
 public:
@@ -15,7 +19,10 @@ public:
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
     double* Create(int interpolationSize, double* frequencySamples, double* amplitudeSamples, int sampleSize);
-};
 
+private:
+    static const std::string LOG_TAG;
+    static constexpr double PI2 = M_PI * 2;
+};
 
 #endif //MENRVA_FIR_GENERATOR_H

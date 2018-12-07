@@ -3,7 +3,7 @@
 #ifndef MENRVA_MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MENRVA_MODULE_INTERFACE_H
 
-#include "aosp/liblog/log/log.h"
+#include "tools/log_manager.h"
 #include "aosp/hardware/audio_effect.h"
 
 #include "menrva_engine_interface.h"
@@ -38,6 +38,7 @@ public:
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
 
 private:
+    static const std::string LOG_TAG;
     // Private Constructor to prevent instantiation of Static Class
     MenrvaModuleInterface();
 };

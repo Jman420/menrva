@@ -23,6 +23,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/menrva_command_map.cpp
 
         src/main/cpp/tools/fir_generator.cpp
+        src/main/cpp/tools/log_manager.cpp
 
         src/main/cpp/effects/menrva_effect.cpp
         src/main/cpp/effects/bass_boost.cpp
@@ -30,6 +31,9 @@ add_library( # Sets the name of the library.
         src/main/cpp/effects/stereo_widener.cpp
 
         src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
+
+        src/main/cpp/kissfft/kiss_fft.c
+        src/main/cpp/kissfft/kiss_fftr.c
         )
 
 # Searches for a specified prebuilt library and stores the path as a

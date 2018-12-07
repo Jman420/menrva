@@ -2,7 +2,7 @@
 
 #include "bass_boost.h"
 
-void BassBoost::BassBoost(){
+BassBoost::BassBoost(){
     // TODO : Implement Initialization Logic
 }
 
