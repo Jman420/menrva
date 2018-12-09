@@ -5,7 +5,7 @@
 
 #include <map>
 
-#include "aosp/hardware/audio_effect.h"
+#include "aosp/aosp_audio_effect_defs.h"
 
 #include "menrva_module_interface.h"
 

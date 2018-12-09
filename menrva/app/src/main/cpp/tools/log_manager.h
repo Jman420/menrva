@@ -4,6 +4,7 @@
 #define MENRVA_LOG_MANAGER_H
 
 #include <string>
+
 #include "../aosp/liblog/android/log.h"
 
 enum LogLevel {

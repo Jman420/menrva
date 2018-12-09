@@ -3,10 +3,10 @@
 #ifndef MENRVA_MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MENRVA_MODULE_INTERFACE_H
 
-#include "tools/log_manager.h"
-#include "aosp/hardware/audio_effect.h"
+#include <string>
 
-#include "menrva_engine_interface.h"
+#include "aosp/aosp_audio_effect_defs.h"
+
 #include "menrva_effects_engine.h"
 
 enum MenrvaModuleStatus {

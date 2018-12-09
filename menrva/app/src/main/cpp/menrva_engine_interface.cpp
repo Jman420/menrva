@@ -1,5 +1,6 @@
 // Author : Jman420
 
+#include <cerrno>
 #include "menrva_engine_interface.h"
 #include "menrva_module_interface.h"
 #include "menrva_command_map.h"

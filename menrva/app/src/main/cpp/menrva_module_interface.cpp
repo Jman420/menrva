@@ -1,6 +1,9 @@
 // Author : Jman420
 
+#include <cerrno>
 #include "menrva_module_interface.h"
+#include "menrva_engine_interface.h"
+#include "tools/log_manager.h"
 
 const std::string MenrvaModuleInterface::LOG_TAG = "Menrva-ModuleInterface - ";
 

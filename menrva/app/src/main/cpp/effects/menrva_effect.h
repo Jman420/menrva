@@ -3,7 +3,7 @@
 #ifndef MENRVA_MENRVA_EFFECT_H
 #define MENRVA_MENRVA_EFFECT_H
 
-#include "../aosp/system/audio_effect.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
 class MenrvaEffect {
 public:

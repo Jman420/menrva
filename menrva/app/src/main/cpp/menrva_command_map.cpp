@@ -1,5 +1,6 @@
 // Author : Jman420
 
+#include <cerrno>
 #include "menrva_command_map.h"
 
 // The value offset of an effect parameter is computed by rounding up

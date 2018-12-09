@@ -3,7 +3,7 @@
 #ifndef MENRVA_MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_MENRVA_EFFECTS_ENGINE_H
 
-#include "aosp/hardware/audio_effect.h"
+#include "aosp/aosp_audio_effect_defs.h"
 
 #include "effects/menrva_effect.h"
 #include "effects/equalizer.h"
