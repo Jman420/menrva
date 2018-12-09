@@ -5,8 +5,7 @@
 
 #include <cstdlib>
 #include <math.h>
-#include "log_manager.h"
-#include "../kissfft/kiss_fftr.h"
+#include <string>
 
 class FIR_Generator {
 public:

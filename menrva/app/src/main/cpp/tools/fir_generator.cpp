@@ -1,6 +1,9 @@
 // Author : Jman420
 
 #include "fir_generator.h"
+#include "log_manager.h"
+
+#include "../kissfft/kiss_fftr.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 
