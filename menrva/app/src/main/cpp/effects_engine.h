@@ -5,7 +5,7 @@
 
 #include "aosp/aosp_audio_effect_defs.h"
 
-#include "effects/menrva_effect.h"
+#include "effects/ieffect.h"
 #include "effects/equalizer.h"
 #include "effects/bass_boost.h"
 #include "effects/stereo_widener.h"
@@ -31,7 +31,7 @@ public:
     void ConfigureEffectSetting(int effectIndex, char settingName[], void* value);
 
 private:
-    MenrvaEffect* menrvaEffects[3] = {
+    IEffect* menrvaEffects[3] = {
             new Equalizer(),
             new BassBoost(),
             new StereoWidener(),

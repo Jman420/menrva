@@ -2,7 +2,7 @@
 
 #include <cstdlib>
 
-#include "menrva_effects_engine.h"
+#include "effects_engine.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine() {
     engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
@@ -13,14 +13,14 @@ void MenrvaEffectsEngine::ResetEffects() {
     engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     workingBuffer = (audio_buffer_t*)malloc(sizeof(audio_buffer_t));
-    for (MenrvaEffect* effect : menrvaEffects) {
+    for (IEffect* effect : menrvaEffects) {
         effect->ResetConfig();
     }
 }
 
 int MenrvaEffectsEngine::Process(audio_buffer_t* in, audio_buffer_t* out) {
 
-    for (MenrvaEffect* effect : menrvaEffects) {
+    for (IEffect* effect : menrvaEffects) {
         if (effect->Enabled) {
             effect->Process(in, out);
         }
@@ -36,7 +36,7 @@ void MenrvaEffectsEngine::SetEffectEnabled(int effectIndex, bool enabled) {
         return;
     }
 
-    MenrvaEffect* effect = menrvaEffects[effectIndex];
+    IEffect* effect = menrvaEffects[effectIndex];
     effect->Enabled = enabled;
 }
 
@@ -45,6 +45,6 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(int effectIndex, char* settingN
         return;
     }
 
-    MenrvaEffect* effect = menrvaEffects[effectIndex];
+    IEffect* effect = menrvaEffects[effectIndex];
     effect->ConfigureSetting(settingName, value);
 }

@@ -1,7 +1,7 @@
 // Author : Jman420
 
 #include "fir_generator.h"
-#include "log_manager.h"
+#include "logger.h"
 
 #include "../kissfft/kiss_fftr.h"
 
@@ -10,15 +10,15 @@ const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 double* FIR_Generator::Create(int interpolationSize, double* frequencySamples, double* amplitudeSamples, int sampleSize) {
     std::string logPrefix = LOG_TAG + "Create()";
 
-    LogMngr::WriteLog("Validating Frequency Samples...", logPrefix);
+    Logger::WriteLog("Validating Frequency Samples...", logPrefix);
     // Validate Frequency Samples
     if (frequencySamples[0] != 0 || frequencySamples[sampleSize - 1] != 1) {
-        LogMngr::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1", logPrefix, LogLevel::ERROR);
+        Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1", logPrefix, LogLevel::ERROR);
         return 0;
     }
     for (int freqCounter = 0; freqCounter < sampleSize - 1; freqCounter++) {
         if (frequencySamples[freqCounter] >= frequencySamples[freqCounter + 1]) {
-            LogMngr::WriteLog("Invalid Frequency Samples Provided : Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
+            Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
             return 0;
         }
     }
@@ -40,7 +40,7 @@ double* FIR_Generator::Create(int interpolationSize, double* frequencySamples, d
         endSegmentIndex = (int)(frequencySamples[amplitudeCounter + 1] * interpolationSize) - 1;
         if (beginSegmentIndex < 0 || endSegmentIndex > interpolationSize) {
             std::string msg = "Invalid Amplitudes Provided : Amplitude change too great between indexes" + std::to_string(amplitudeCounter) + " and " + std::to_string(amplitudeCounter + 1);
-            LogMngr::WriteLog(msg, logPrefix, LogLevel::ERROR);
+            Logger::WriteLog(msg, logPrefix, LogLevel::ERROR);
             return 0;
         }
 

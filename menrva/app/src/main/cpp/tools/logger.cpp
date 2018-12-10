@@ -1,18 +1,18 @@
 // Author : Jman420
 
-#include "log_manager.h"
+#include "logger.h"
 
-bool LogMngr::mInitialized = false;
-LogLevel LogMngr::AppLogLevel = LogLevel::ERROR;
+bool Logger::mInitialized = false;
+LogLevel Logger::AppLogLevel = LogLevel::ERROR;
 
-void LogMngr::Initialize() {
-    LogMngr::AppLogLevel = LogLevel::VERBOSE;
+void Logger::Initialize() {
+    Logger::AppLogLevel = LogLevel::VERBOSE;
     // TODO : Get AppLogLevel from Shared Settings
 
     mInitialized = true;
 }
 
-void LogMngr::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
+void Logger::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
     if (!mInitialized) {
         Initialize();
     }
@@ -45,4 +45,4 @@ void LogMngr::WriteLog(std::string message, std::string prefix, LogLevel logLeve
     }
 }
 
-LogMngr::LogMngr() {}
+Logger::Logger() {}

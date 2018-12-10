@@ -5,9 +5,11 @@
 
 #include <string>
 
+#include "boost/di.hpp"
+
 #include "aosp/aosp_audio_effect_defs.h"
 
-#include "menrva_effects_engine.h"
+#include "effects_engine.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -18,11 +20,11 @@ enum MenrvaModuleStatus {
 
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
 struct menrva_module_context {
-    const effect_interface_s* itfe;
-
-    MenrvaModuleStatus moduleStatus;
-    MenrvaEffectsEngine* effectsEngine;
+    __unused const effect_interface_s* itfe;
     effect_config_t* config;
+
+    MenrvaEffectsEngine* effectsEngine;
+    MenrvaModuleStatus moduleStatus;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
@@ -38,7 +40,12 @@ public:
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
 
 private:
+    // Boost.DI
+    static const auto INJECTOR;
+
     static const std::string LOG_TAG;
+    // TODO : Convert Logger to an Instantiated Class & Add a Private Static Member initialized from DI
+
     // Private Constructor to prevent instantiation of Static Class
     MenrvaModuleInterface();
 };

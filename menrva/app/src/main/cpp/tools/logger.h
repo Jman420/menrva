@@ -15,14 +15,14 @@ enum LogLevel {
     VERBOSE = 4,
 };
 
-class LogMngr {
+class Logger {  // TODO : Add an Abstract Class for DI
 public:
     static LogLevel AppLogLevel;
 
-    static void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...);
+    Logger();
+    void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...);
 
 private:
-    LogMngr();
 
     static bool mInitialized;
     static void Initialize();

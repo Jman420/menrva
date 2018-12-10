@@ -1,7 +1,7 @@
 // Author : Jman420
 
 #include <cerrno>
-#include "menrva_command_map.h"
+#include "command_map.h"
 
 // The value offset of an effect parameter is computed by rounding up
 // the parameter size to the next 32 bit alignment.
@@ -15,7 +15,7 @@ static uint32_t getExpectedCmdSize(uint32_t paramSize, void* pParam) {
         return 0;
     }
 
-    int param = *(int*)pParam;
+    int32_t param = *(int32_t*)pParam;
 
     switch (param) {
         // TODO : Add logic to return an expected parameter size

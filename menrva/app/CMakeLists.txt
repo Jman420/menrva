@@ -17,15 +17,15 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/menrva_module_interface.cpp
-        src/main/cpp/menrva_engine_interface.cpp
-        src/main/cpp/menrva_effects_engine.cpp
-        src/main/cpp/menrva_command_map.cpp
+        src/main/cpp/module_interface.cpp
+        src/main/cpp/engine_interface.cpp
+        src/main/cpp/effects_engine.cpp
+        src/main/cpp/command_map.cpp
 
         src/main/cpp/tools/fir_generator.cpp
-        src/main/cpp/tools/log_manager.cpp
+        src/main/cpp/tools/logger.cpp
 
-        src/main/cpp/effects/menrva_effect.cpp
+        src/main/cpp/effects/ieffect.cpp
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp
         src/main/cpp/effects/stereo_widener.cpp
