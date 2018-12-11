@@ -17,7 +17,7 @@ public:
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
-    double* Create(int interpolationSize, double* frequencySamples, double* amplitudeSamples, int sampleSize);
+    double* Create(unsigned int filterSize, double* frequencySamples, double* amplitudeSamples, int sampleSize);
 
 private:
     static const std::string LOG_TAG;
