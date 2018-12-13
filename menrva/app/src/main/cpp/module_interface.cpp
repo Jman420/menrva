@@ -5,11 +5,7 @@
 #include "engine_interface.h"
 #include "tools/logger.h"
 
-namespace di = boost::di;
-
 const std::string MenrvaModuleInterface::LOG_TAG = "Menrva-ModuleInterface - ";
-
-const auto MenrvaModuleInterface::INJECTOR = di::make_injector();
 
 const effect_interface_s MenrvaModuleInterface::engineInterface =
 {
@@ -22,10 +18,10 @@ const effect_interface_s MenrvaModuleInterface::engineInterface =
 int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused,
                                         int32_t ioId __unused, effect_handle_t* pHandle) {
     std::string logPrefix = LOG_TAG + "CreateModule()";
-    Logger::Logger::WriteLog("Creating Menrva Module...", logPrefix);
+    Logger::WriteLog("Creating Menrva Module...", logPrefix);
 
     if (pHandle == NULL) {
-        Logger::Logger::WriteLog("Invalid Effect Handle Pointer provided.", logPrefix, LogLevel::ERROR);
+        Logger::WriteLog("Invalid Effect Handle Pointer provided.", logPrefix, LogLevel::ERROR);
         return -EINVAL;
     }
     if (uuid == NULL) {

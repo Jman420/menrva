@@ -5,8 +5,6 @@
 
 #include <string>
 
-#include "boost/di.hpp"
-
 #include "aosp/aosp_audio_effect_defs.h"
 
 #include "effects_engine.h"
@@ -40,11 +38,7 @@ public:
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
 
 private:
-    // Boost.DI
-    static const auto INJECTOR;
-
     static const std::string LOG_TAG;
-    // TODO : Convert Logger to an Instantiated Class & Add a Private Static Member initialized from DI
 
     // Private Constructor to prevent instantiation of Static Class
     MenrvaModuleInterface();
