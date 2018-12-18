@@ -3,7 +3,7 @@
 #include "fir_generator.h"
 #include "logger.h"
 
-#include "../kissfft/kiss_fftr.h"
+#include "../libs/kissfft/kiss_fftr.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 
