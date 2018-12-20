@@ -47,6 +47,23 @@ find_library( # Sets the name of the path variable.
         log
 )
 
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
+
+add_library(
+        libfftw3
+        STATIC IMPORTED
+)
+set_target_properties(
+        libfftw3
+        PROPERTIES IMPORTED_LOCATION
+        ${REPO_ROOT_DIR}/fftw3/lib/${ANDROID_ABI}/libfftw3.a
+)
+target_include_directories(
+        MenrvaEngine
+        PRIVATE
+        ${REPO_ROOT_DIR}/fftw3/lib/include
+)
+
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
@@ -56,4 +73,5 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib}
+        libfftw3
 )
