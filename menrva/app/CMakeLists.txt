@@ -16,9 +16,9 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         src/main/cpp/module_interface.cpp
-        src/main/cpp/engine_interface.cpp
-        src/main/cpp/effects_engine.cpp
-        src/main/cpp/command_map.cpp
+        src/main/cpp/engine/engine_interface.cpp
+        src/main/cpp/engine/effects_engine.cpp
+        src/main/cpp/engine/command_map.cpp
 
         src/main/cpp/tools/fir_generator.cpp
         src/main/cpp/tools/logger.cpp

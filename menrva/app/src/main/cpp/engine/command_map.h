@@ -5,9 +5,9 @@
 
 #include <map>
 
-#include "aosp/aosp_audio_effect_defs.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
-#include "module_interface.h"
+#include "../module_interface.h"
 
 // Type definitions for the FunctionMap
 typedef int (*CommandFunc)(menrva_module_context*, uint32_t, void*, uint32_t*, void*);

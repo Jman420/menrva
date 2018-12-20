@@ -7,7 +7,7 @@
 
 #include "aosp/aosp_audio_effect_defs.h"
 
-#include "effects_engine.h"
+#include "engine/effects_engine.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,

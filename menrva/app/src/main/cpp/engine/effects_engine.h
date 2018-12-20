@@ -3,12 +3,12 @@
 #ifndef MENRVA_MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_MENRVA_EFFECTS_ENGINE_H
 
-#include "aosp/aosp_audio_effect_defs.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
-#include "effects/ieffect.h"
-#include "effects/equalizer.h"
-#include "effects/bass_boost.h"
-#include "effects/stereo_widener.h"
+#include "../effects/ieffect.h"
+#include "../effects/equalizer.h"
+#include "../effects/bass_boost.h"
+#include "../effects/stereo_widener.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNINITIALIZED,

@@ -3,7 +3,7 @@
 #ifndef MENRVA_MENRVA_ENGINE_INTERFACE_H
 #define MENRVA_MENRVA_ENGINE_INTERFACE_H
 
-#include "aosp/aosp_audio_effect_defs.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
 // Represents the public interface for interacting with the Menrva Audio Effects Engine
 class MenrvaEngineInterface {

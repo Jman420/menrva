@@ -2,7 +2,7 @@
 
 #include <cerrno>
 #include "module_interface.h"
-#include "engine_interface.h"
+#include "engine/engine_interface.h"
 #include "tools/logger.h"
 
 const std::string MenrvaModuleInterface::LOG_TAG = "Menrva-ModuleInterface - ";

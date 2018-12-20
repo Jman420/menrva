@@ -1,8 +1,8 @@
 // Author : Jman420
 
 #include <cerrno>
+#include "../module_interface.h"
 #include "engine_interface.h"
-#include "module_interface.h"
 #include "command_map.h"
 
 const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
