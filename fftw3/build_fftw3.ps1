@@ -1,23 +1,23 @@
-param (
-    [string]$LibraryType = "STATIC"
-)
-
+$LibraryType = "STATIC"
 $FFTW3_SourcePath = "./jni"
 $FFTW3_MakeFileName = "Android.mk"
 $FFTW3_Source_ConfigFileName = "fftw3_config.h"
 $FFTW3_Destination_ConfigFileName = "config.h"
-$ExcludedFolders = "test|simd|mpi|threads"
-$NdkBuild = "Android\Sdk\ndk-bundle\ndk-build.cmd"
+$ExcludedFolders = "test|simd|mpi|support|threads|tools"
+$NdkBuild = "Android/Sdk/ndk-bundle/ndk-build.cmd"
+$BuildRoot = "./obj/local/"
+$BuildOutput = "../../lib"
+$IncludeFile = "$FFTW3_SourcePath/api/fftw3.h"
+$IncludeFileDest = "./lib/include/fftw3.h"
 
+# Find Source Directories
 Push-Location $FFTW3_SourcePath
-
 $sourceDirectories = (Get-ChildItem -Path . -Directory -Recurse | Where { $_.FullName -NotMatch $ExcludedFolders }).FullName | Resolve-Path -Relative
 if (!$sourceDirectories) {
     Write-Output "Error : No Source Directories found!"
     Pop-Location
     exit 1
 }
-
 Write-Output "Source Directories Found : "
 Write-Output "$sourceDirectories`n"
 
@@ -83,4 +83,23 @@ Pop-Location
 # Execute ndk-build on FFTW
 Write-Output "Executing ndk-build..."
 . $env:LOCALAPPDATA\$NdkBuild
-Write-Output "NDK-Build completed.  See results above!"
+Write-Output "NDK-Build completed!"
+
+# Copy Build Output to more convenient location
+Write-Output "Copying Build Output to $BuildRoot ..."
+Push-Location $BuildRoot
+$libraryFiles = (Get-ChildItem -Path ./*.a -Recurse).FullName | Resolve-Path -Relative
+foreach ($libFile in $libraryFiles) {
+    $libFileDest = "$BuildOutput/" + $libFile.Replace(".\", "").Replace("\", "/")
+    Write-Output "Copying $libFile to $libFileDest ..."
+    New-Item -Force $libFileDest
+    Copy-Item -Force $libFile -Destination $libFileDest
+}
+Pop-Location
+Write-Output "Successfully copied Build Output to $BuildOutput !"
+
+# Copy Include Files
+Write-Output "Copying API Header to $IncludeFileDest ..."
+New-Item -Force $IncludeFileDest
+Copy-Item -Force $IncludeFile -Destination $IncludeFileDest
+Write-Output "Successfully copied API Header to $IncludeFileDest !"

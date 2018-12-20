@@ -5,8 +5,9 @@ The 'build_fftw3.ps1' script is a PowerShell script which will automatically gen
 ## Steps
   - Download the latest build of FFTW3 from www.fftw.org (do not download from the GitHub repo; those releases are missing necessary files)
   - Unzip the archive to the /fftw3/jni folder
+  - Update version numbers in 'fftw3_config.h' file
+    * #define PACKAGE_STRING "fftw 3.3.8"
+    * #define PACKAGE_VERSION "3.3.8"
+    * #define VERSION "3.3.8"
   - Execute the 'build_fftw3.ps1' script
-  - Resulting files are in /fftw3/obj/local/ directory
-
-## Changing Output Library Type
-  - The 'LibraryType' argument for the 'build_fftw3.ps1' script controls the type of Library that is built.  By default the script builds Static Libraries.  To build Shared Libraries simply specify the parameter '-LibraryType SHARED' when executing the build script.
+  - Resulting files are in /fftw3/lib/ directory

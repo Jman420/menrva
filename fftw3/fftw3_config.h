@@ -324,7 +324,7 @@
 #define PACKAGE_NAME "fftw"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "fftw 3.3.5"
+#define PACKAGE_STRING "fftw 3.3.8"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "fftw"
@@ -333,7 +333,7 @@
 #define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.3.5"
+#define PACKAGE_VERSION "3.3.8"
 
 /* Define to necessary symbol if this constant uses a non-standard name on
    your system. */
@@ -396,7 +396,7 @@
 /* #undef USING_POSIX_THREADS */
 
 /* Version number of package */
-#define VERSION "3.3.5"
+#define VERSION "3.3.8"
 
 /* Use common Windows Fortran mangling styles for the Fortran interfaces. */
 /* #undef WINDOWS_F77_MANGLING */
