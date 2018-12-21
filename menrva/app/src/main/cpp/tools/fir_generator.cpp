@@ -4,6 +4,7 @@
 #include "logger.h"
 
 #include "../libs/kissfft/kiss_fftr.h"
+#include "../libs/fftconvolver/AudioFFT.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 
@@ -26,7 +27,7 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
     Logger::WriteLog("Validating Frequency Samples...", logPrefix);
     // Validate Frequency Samples
     if (frequencySamples[0] != 0 || frequencySamples[sampleSize - 1] != 1) {
-        Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1", logPrefix, LogLevel::ERROR);
+        Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1 IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
         return 0;
     }
     for (int freqCounter = 0; freqCounter < sampleSize - 1; freqCounter++) {
@@ -39,14 +40,12 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
     // Interpolate Amplitudes & Setup Fast Fourier Transform Plan
     double amplitudeIncrement = 0,
            fftRadianScalar = (double)(filterSize - 1) * 0.5 * M_PI,
-           fftRadians = 0;
+           fftRadians = 0,
+           interpolatedAmplitude = 0;
     int interpolationSize = RoundToNextPowerOf2(filterSize) + 1,
         beginSegmentIndex = 0,
         endSegmentIndex = 0,
         fftFrequencySize = interpolationSize * 2;
-
-    double* interpolatedAmplitudes = (double*)malloc(sizeof(double) * fftFrequencySize);
-    interpolatedAmplitudes[0] = amplitudeSamples[0];
 
     kiss_fft_cpx* fftFrequencyData = (kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx) * fftFrequencySize);
 
@@ -62,12 +61,12 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
         for (int elementCounter = beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
             // Interpolate Amplitudes
             amplitudeIncrement = (double)(elementCounter - beginSegmentIndex) / (double)(endSegmentIndex - beginSegmentIndex);
-            interpolatedAmplitudes[elementCounter] = amplitudeIncrement * amplitudeSamples[amplitudeCounter + 1] + (1.0 - amplitudeIncrement) * amplitudeSamples[amplitudeCounter];
+            interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[amplitudeCounter + 1] + (1.0 - amplitudeIncrement) * amplitudeSamples[amplitudeCounter];
 
             // Setup FFT Frequencies
             fftRadians = fftRadianScalar * (double)elementCounter / ((double)interpolationSize - 1.0);
-            double realFreqData = interpolatedAmplitudes[elementCounter] * cos(fftRadians),
-                   imaginaryFreqData = (interpolatedAmplitudes[elementCounter] * sin(fftRadians));
+            double realFreqData = interpolatedAmplitude * cos(fftRadians),
+                   imaginaryFreqData = (interpolatedAmplitude * sin(fftRadians));
 
             fftFrequencyData[elementCounter].r = realFreqData;
             fftFrequencyData[elementCounter].i = imaginaryFreqData * -1.0;
@@ -82,21 +81,20 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
 
     // Perform FFT
     int fftCalcSize = fftFrequencySize - 2;
-    double* fftOutput = (double*)malloc(sizeof(double) * fftFrequencySize);
+    double* fftOutputSignal = (double*)malloc(sizeof(double) * fftFrequencySize);
     kiss_fftr_cfg fftPlan = kiss_fftr_alloc(fftCalcSize, 1, 0, 0);
-    kiss_fftri(fftPlan, fftFrequencyData, fftOutput);
+    kiss_fftri(fftPlan, fftFrequencyData, fftOutputSignal);
 
     // Perform Hamming Window Smoothing
     double hammingIncrement = (double)filterSize - 1;
     double fftReductionScalar = 1.0 / fftCalcSize;
     double* firArray = (double*)malloc(sizeof(double) * filterSize);
     for (int elementCounter = 0; elementCounter < filterSize; elementCounter++) {
-        firArray[elementCounter] = (0.54 - 0.46 * cos(PI2 * (double)elementCounter / hammingIncrement)) * fftOutput[elementCounter] * fftReductionScalar;
+        firArray[elementCounter] = (0.54 - 0.46 * cos(PI2 * (double)elementCounter / hammingIncrement)) * fftOutputSignal[elementCounter] * fftReductionScalar;
     }
 
-    free(interpolatedAmplitudes);
     free(fftFrequencyData);
-    free(fftOutput);
+    free(fftOutputSignal);
     free(fftPlan);
 
     return firArray;
