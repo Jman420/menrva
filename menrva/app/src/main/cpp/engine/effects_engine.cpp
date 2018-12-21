@@ -1,7 +1,6 @@
 // Author : Jman420
 
 #include <cstdlib>
-
 #include "effects_engine.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine() {

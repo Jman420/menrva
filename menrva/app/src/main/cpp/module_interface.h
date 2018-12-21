@@ -4,9 +4,7 @@
 #define MENRVA_MENRVA_MODULE_INTERFACE_H
 
 #include <string>
-
 #include "aosp/aosp_audio_effect_defs.h"
-
 #include "engine/effects_engine.h"
 
 enum MenrvaModuleStatus {

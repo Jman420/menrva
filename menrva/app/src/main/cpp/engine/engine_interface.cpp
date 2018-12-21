@@ -1,9 +1,9 @@
 // Author : Jman420
 
 #include <cerrno>
-#include "../module_interface.h"
 #include "engine_interface.h"
 #include "command_map.h"
+#include "../module_interface.h"
 
 const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
     // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_NULL)

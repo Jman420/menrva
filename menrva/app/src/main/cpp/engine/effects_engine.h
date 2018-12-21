@@ -4,7 +4,6 @@
 #define MENRVA_MENRVA_EFFECTS_ENGINE_H
 
 #include "../aosp/aosp_audio_effect_defs.h"
-
 #include "../effects/ieffect.h"
 #include "../effects/equalizer.h"
 #include "../effects/bass_boost.h"

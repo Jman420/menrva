@@ -4,9 +4,7 @@
 #define MENRVA_MENRVA_COMMAND_MAP_H
 
 #include <map>
-
 #include "../aosp/aosp_audio_effect_defs.h"
-
 #include "../module_interface.h"
 
 // Type definitions for the FunctionMap
