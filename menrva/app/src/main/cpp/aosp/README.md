@@ -1,5 +1,5 @@
 # About These Folders
-The contents of these folders have been currated from the AOSP Repositories listed below specifically for the purpose of building Android Audio Effects which can be applied globally to all Audio Playback.  The include compiler directives have been modified to refer to the files within these folders rather than their original references.  This usually involves replacing include paths using <> characters with "" and updating the file paths.
+The contents of this folder has been curated from the AOSP Repositories listed below specifically for the purpose of building Android Audio Effects which can be applied globally to all Audio Playback.  The necessary data structures and methods have been extracted from the files listed below and added to the 'aosp_audio_effect_defs.h' file.
 
 | Folder   | Repository URL                                                  | Original Repo Path         |
 |----------|-----------------------------------------------------------------|----------------------------|

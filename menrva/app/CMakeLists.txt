@@ -4,6 +4,18 @@
 # Sets the minimum version of CMake required to build the native library.
 cmake_minimum_required(VERSION 3.4.1)
 
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
+
+add_library(
+        libfftw3
+        STATIC IMPORTED
+)
+set_target_properties(
+        libfftw3
+        PROPERTIES IMPORTED_LOCATION
+        ${REPO_ROOT_DIR}/fftw3/lib/${ANDROID_ABI}/libfftw3.a
+)
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
@@ -32,6 +44,18 @@ add_library( # Sets the name of the library.
 
         src/main/cpp/libs/kissfft/kiss_fftr.c
         src/main/cpp/libs/kissfft/kiss_fft.c
+
+        src/main/cpp/libs/fftconvolver/Utilities.cpp
+        src/main/cpp/libs/fftconvolver/AudioFFT.cpp
+        src/main/cpp/libs/fftconvolver/FFTConvolver.cpp
+        src/main/cpp/libs/fftconvolver/BinauralFFTConvolver.cpp
+        src/main/cpp/libs/fftconvolver/TwoStageFFTConvolver.cpp
+)
+
+target_include_directories(
+        MenrvaEngine
+        PRIVATE
+        ${REPO_ROOT_DIR}/fftw3/lib/include
 )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -45,23 +69,6 @@ find_library( # Sets the name of the path variable.
         # Specifies the name of the NDK library that
         # you want CMake to locate.
         log
-)
-
-set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
-
-add_library(
-        libfftw3
-        STATIC IMPORTED
-)
-set_target_properties(
-        libfftw3
-        PROPERTIES IMPORTED_LOCATION
-        ${REPO_ROOT_DIR}/fftw3/lib/${ANDROID_ABI}/libfftw3.a
-)
-target_include_directories(
-        MenrvaEngine
-        PRIVATE
-        ${REPO_ROOT_DIR}/fftw3/lib/include
 )
 
 # Specifies libraries CMake should link to your target library. You

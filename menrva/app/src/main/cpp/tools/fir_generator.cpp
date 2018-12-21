@@ -45,7 +45,7 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
         endSegmentIndex = 0,
         fftFrequencySize = interpolationSize * 2;
 
-    double* interpolatedAmplitudes = (double*)malloc(sizeof(double) * (interpolationSize * 2));
+    double* interpolatedAmplitudes = (double*)malloc(sizeof(double) * fftFrequencySize);
     interpolatedAmplitudes[0] = amplitudeSamples[0];
 
     kiss_fft_cpx* fftFrequencyData = (kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx) * fftFrequencySize);
