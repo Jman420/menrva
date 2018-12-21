@@ -17,11 +17,11 @@ public:
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
-    double* Create(unsigned int filterSize, double* frequencySamples, double* amplitudeSamples, int sampleSize);
+    float* Create(unsigned int filterSize, float* frequencySamples, float* amplitudeSamples, int sampleSize);
 
 private:
     static const std::string LOG_TAG;
-    static constexpr double PI2 = M_PI * 2;
+    static constexpr float PI2 = (float)M_PI * 2.0f;
 };
 
 #endif //MENRVA_FIR_GENERATOR_H
