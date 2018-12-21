@@ -21,27 +21,37 @@ int RoundToNextPowerOf2(unsigned int value) {
     return value;
 }
 
+// TODO : Convert double to float; AudioFlinger provides & expects float32 as largest data type
 double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples, double* amplitudeSamples, int sampleSize) {
     std::string logPrefix = LOG_TAG + "Create()";
 
-    Logger::WriteLog("Validating Frequency Samples...", logPrefix);
+    Logger::WriteLog("Validating Frequency Samples...", logPrefix, LogLevel::DEBUG);
+    Logger::WriteLog("Sample Size : %d", logPrefix, LogLevel::VERBOSE, sampleSize);
     // Validate Frequency Samples
-    if (frequencySamples[0] != 0 || frequencySamples[sampleSize - 1] != 1) {
-        Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1 IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
+    if (sampleSize < 2) {
+        Logger::WriteLog("Invalid Samples Provided : Minimum Sample Size is 2.", logPrefix, LogLevel::ERROR);
         return 0;
     }
-    for (int freqCounter = 0; freqCounter < sampleSize - 1; freqCounter++) {
+    int lastSampleIndex = sampleSize - 1;
+    for (int freqCounter = 0; freqCounter < lastSampleIndex; freqCounter++) {
+        Logger::WriteLog("Frequency Sample %d : %d", logPrefix, LogLevel::VERBOSE, freqCounter, frequencySamples[freqCounter]);
         if (frequencySamples[freqCounter] >= frequencySamples[freqCounter + 1]) {
             Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
             return 0;
         }
     }
+    Logger::WriteLog("Frequency Sample %d : %d", logPrefix, LogLevel::VERBOSE, lastSampleIndex, frequencySamples[lastSampleIndex]);
+    if (frequencySamples[0] != 0 || frequencySamples[sampleSize - 1] != 1) {
+        Logger::WriteLog("Invalid Frequency Samples Provided : Frequency Samples must begin with 0 and end with 1 IE. { 0, 0.2, 0.5, 1 }", logPrefix, LogLevel::ERROR);
+        return 0;
+    }
 
-    // Interpolate Amplitudes & Setup Fast Fourier Transform Plan
+    // Interpolate Amplitudes & Setup Fast Fourier Transform Frequencies
+    Logger::WriteLog("Interpolating Amplitudes & Setting up FFT Frequencies...", logPrefix, LogLevel::DEBUG);
     double amplitudeIncrement = 0,
+           interpolatedAmplitude = 0,
            fftRadianScalar = (double)(filterSize - 1) * 0.5 * M_PI,
-           fftRadians = 0,
-           interpolatedAmplitude = 0;
+           fftRadians = 0;
     int interpolationSize = RoundToNextPowerOf2(filterSize) + 1,
         beginSegmentIndex = 0,
         endSegmentIndex = 0,
@@ -59,7 +69,7 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
         }
 
         for (int elementCounter = beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
-            // Interpolate Amplitudes
+            // Interpolate Amplitude
             amplitudeIncrement = (double)(elementCounter - beginSegmentIndex) / (double)(endSegmentIndex - beginSegmentIndex);
             interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[amplitudeCounter + 1] + (1.0 - amplitudeIncrement) * amplitudeSamples[amplitudeCounter];
 
@@ -79,7 +89,7 @@ double* FIR_Generator::Create(unsigned int filterSize, double* frequencySamples,
         beginSegmentIndex = endSegmentIndex + 1;
     }
 
-    // Perform FFT
+    // Perform Inverse FFT (turn frequencies into a signal)
     int fftCalcSize = fftFrequencySize - 2;
     double* fftOutputSignal = (double*)malloc(sizeof(double) * fftFrequencySize);
     kiss_fftr_cfg fftPlan = kiss_fftr_alloc(fftCalcSize, 1, 0, 0);
