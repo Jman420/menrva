@@ -1,9 +1,10 @@
+param([string]$LibraryType = "SHARED")
+
 $ModuleName = "fftw3"
-$LibraryType = "STATIC"
 $RootSourcePath = "./jni"
 $SourceFilePattern = "*.c"
 $MakeFileName = "Android.mk"
-$ExcludedFolders = "test|simd|mpi|support|threads|tools"
+$ExcludedFolders = "test|simd|libbench2|mpi|support|threads|tools"
 $NdkBuild = "Android/Sdk/ndk-bundle/ndk-build.cmd"
 $BuildRoot = "./obj/local/"
 $BuildOutput = "../../lib"
@@ -87,7 +88,11 @@ Write-Output "Successfully copied FFTW3 Config File to Source Root!`n"
 # Execute ndk-build on FFTW
 Write-Output "Executing ndk-build..."
 . $env:LOCALAPPDATA\$NdkBuild
-Write-Output "NDK-Build completed!"
+if ($LASTEXITCODE -ne 0) {
+    Write-Output "NDK-Build failed!  Exit Code : $LASTEXITCODE"
+    exit $LASTEXITCODE
+}
+Write-Output "NDK-Build completed successfully!"
 
 # Copy Build Output to more convenient location
 Write-Output "Copying Build Output to $BuildRoot ..."
