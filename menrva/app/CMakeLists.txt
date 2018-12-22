@@ -13,7 +13,7 @@ add_library(
 set_target_properties(
         libfftw3
         PROPERTIES IMPORTED_LOCATION
-        ${REPO_ROOT_DIR}/fftw3/lib/${ANDROID_ABI}/libfftw3.a
+        ${REPO_ROOT_DIR}/fftw3/out/${ANDROID_ABI}/libfftw3.a
 )
 
 # Creates and names a library, sets it as either STATIC
@@ -42,9 +42,6 @@ add_library( # Sets the name of the library.
 
         src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
 
-        src/main/cpp/libs/kissfft/kiss_fftr.c
-        src/main/cpp/libs/kissfft/kiss_fft.c
-
         src/main/cpp/libs/fftconvolver/Utilities.cpp
         src/main/cpp/libs/fftconvolver/AudioFFT.cpp
         src/main/cpp/libs/fftconvolver/FFTConvolver.cpp
@@ -55,7 +52,7 @@ add_library( # Sets the name of the library.
 target_include_directories(
         MenrvaEngine
         PRIVATE
-        ${REPO_ROOT_DIR}/fftw3/lib/include
+        ${REPO_ROOT_DIR}/fftw3/out/include
 )
 
 # Searches for a specified prebuilt library and stores the path as a

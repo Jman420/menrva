@@ -6,13 +6,14 @@ $SourceFilePattern = "*.c"
 $MakeFileName = "Android.mk"
 $ExcludedFolders = "test|simd|libbench2|mpi|support|threads|tools"
 $NdkBuild = "Android/Sdk/ndk-bundle/ndk-build.cmd"
-$BuildRoot = "./obj/local/"
-$BuildOutput = "../../lib"
+$StaticBuildRoot = "./obj/local/"
+$SharedBuildRoot = "./libs/"
+$OutputDir = "out"
 
 $FFTW3_Source_ConfigFileName = "fftw3_config.h"
 $FFTW3_Destination_ConfigFileName = "config.h"
 $FFTW3_IncludeFile = "$RootSourcePath/api/fftw3.h"
-$FFTW3_IncludeFileDest = "./lib/include/fftw3.h"
+$FFTW3_IncludeFileDest = "./$OutputDir/include/fftw3.h"
 
 # Find Source Directories
 Push-Location $RootSourcePath
@@ -95,12 +96,21 @@ if ($LASTEXITCODE -ne 0) {
 Write-Output "NDK-Build completed successfully!"
 
 # Copy Build Output to more convenient location
-Write-Output "Copying Build Output to $BuildRoot ..."
-Push-Location $BuildRoot
-$libraryFilePattern = If($LibraryType -eq "STATIC") { "*.a" } ElseIf($LibraryType -eq "SHARED") { "*.so" } Else { "*.bogus" }
-$libraryFiles = (Get-ChildItem -Path ./$libraryFilePattern -Recurse).FullName | Resolve-Path -Relative
+Write-Output "Copying Build Output to ./$OutputDir ..."
+$libraryFilePattern = "*.bogus"
+If($LibraryType -eq "STATIC") { 
+    $libraryFilePattern = "*.a"
+    $buildRoot = $StaticBuildRoot
+    $buildOutput = "../../$OutputDir"
+} ElseIf($LibraryType -eq "SHARED") {
+    $libraryFilePattern = "*.so"
+    $buildRoot = $SharedBuildRoot
+    $buildOutput = "../$OutputDir"
+}
+Push-Location $buildRoot
+$libraryFiles = (Get-ChildItem -Path $libraryFilePattern -Recurse).FullName | Resolve-Path -Relative
 foreach ($libFile in $libraryFiles) {
-    $libFileDest = "$BuildOutput/" + $libFile.Replace(".\", "").Replace("\", "/")
+    $libFileDest = "$buildOutput/" + $libFile.Replace(".\", "").Replace("\", "/")
     Write-Output "Copying $libFile to $libFileDest ..."
     New-Item -Force $libFileDest
     Copy-Item -Force $libFile -Destination $libFileDest

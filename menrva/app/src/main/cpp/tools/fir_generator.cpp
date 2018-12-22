@@ -89,7 +89,7 @@ float* FIR_Generator::Create(unsigned int filterSize, float* frequencySamples, f
     }
 
     // Perform Inverse FFT (turn frequencies into a signal)
-    int fftCalcSize = fftFrequencySize - 2;
+    size_t fftCalcSize = static_cast<size_t>(fftFrequencySize - 2);
     float* fftOutputSignal = (float*)malloc(sizeof(float) * fftFrequencySize);
 
     audiofft::AudioFFT fftEngine;

@@ -11,3 +11,10 @@ The 'build_fftw3.ps1' script is a PowerShell script which will automatically gen
     * #define VERSION "3.3.8"
   - Execute the 'build_fftw3.ps1' script
   - Resulting files are in /fftw3/lib/ directory
+
+## Notes
+The default configuration for FFTW3 contained within 'fftw3_config.h' will compile FFTW3 with single precision.  This means that all of the FFTW3 methods will use float data type for their calculations and will be prefixed with 'fftwf_'.  This is because Android AudioFlinger currently provides and expects float32 as the largest data type it will handle.
+
+To build FFTW3 with floating point precision simply comment out the following lines in 'fftw3_config.h' :
+  - #define BENCHFFT_SINGLE 1
+  - #define FFTW_SINGLE 1
