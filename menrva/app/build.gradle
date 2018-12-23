@@ -26,7 +26,12 @@ android {
             path "CMakeLists.txt"
         }
     }
-    sourceSets { main { jni.srcDirs = ['src/main/cpp/jni/'] } }
+    sourceSets {
+        main {
+            jni.srcDirs = ['src/main/cpp/jni/']
+            jniLibs.srcDirs = ['../../fftw3/out/']
+        }
+    }
 }
 
 dependencies {

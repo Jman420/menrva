@@ -8,12 +8,12 @@ set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
 
 add_library(
         libfftw3
-        STATIC IMPORTED
+        SHARED IMPORTED
 )
 set_target_properties(
         libfftw3
         PROPERTIES IMPORTED_LOCATION
-        ${REPO_ROOT_DIR}/fftw3/out/${ANDROID_ABI}/libfftw3.a
+        ${REPO_ROOT_DIR}/fftw3/out/${ANDROID_ABI}/libfftw3.so
 )
 
 # Creates and names a library, sets it as either STATIC

@@ -1,8 +1,9 @@
 // Author : Jman420
 
+#include <fftw3.h>
+
 #include "fir_generator.h"
 #include "logger.h"
-#include "../libs/fftconvolver/AudioFFT.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 
@@ -57,6 +58,14 @@ float* FIR_Generator::Create(unsigned int filterSize, float* frequencySamples, f
     float* fftFrequenciesReal = (float*)malloc(sizeof(float) * fftFrequencySize);
     float* fftFrequenciesImaginary = (float*)malloc(sizeof(float) * fftFrequencySize);
 
+    size_t fftCalcSize = static_cast<size_t>(fftFrequencySize - 2);
+    float* fftwOutput = (float*)fftwf_malloc(sizeof(float) * fftCalcSize);
+    fftw_iodim dim;
+    dim.n = static_cast<int>(fftCalcSize);
+    dim.is = 1;
+    dim.os = 1;
+    fftwf_plan fftwPlan = fftwf_plan_guru_split_dft_c2r(1, &dim, 0, 0, fftFrequenciesReal, fftFrequenciesImaginary, fftwOutput, FFTW_MEASURE);
+
     for (int amplitudeCounter = 0; amplitudeCounter < sampleSize - 1; amplitudeCounter++) {
         endSegmentIndex = (int)(frequencySamples[amplitudeCounter + 1] * interpolationSize) - 1;
 
@@ -89,12 +98,8 @@ float* FIR_Generator::Create(unsigned int filterSize, float* frequencySamples, f
     }
 
     // Perform Inverse FFT (turn frequencies into a signal)
-    size_t fftCalcSize = static_cast<size_t>(fftFrequencySize - 2);
     float* fftOutputSignal = (float*)malloc(sizeof(float) * fftFrequencySize);
-
-    audiofft::AudioFFT fftEngine;
-    fftEngine.init(fftCalcSize);
-    fftEngine.ifft(fftOutputSignal, fftFrequenciesReal, fftFrequenciesImaginary);
+    fftwf_execute_split_dft_c2r(fftwPlan, fftFrequenciesReal, fftFrequenciesImaginary, fftwOutput);
 
     // Perform Hamming Window Smoothing
     float hammingIncrement = (float)filterSize - 1.0f;
