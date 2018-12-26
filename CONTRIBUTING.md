@@ -9,6 +9,7 @@
 
 ## Compiling FFTW3 for Android
   - See instructions in [FFTW Build Readme](fftw3/README.md)
+  - Update Menrva CMakeList.txt if necessary; Menrva expects an FFTW3 Shared Library by default
 
 ## Development Tools & Tips
 
