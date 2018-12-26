@@ -3,6 +3,17 @@
 #include <cerrno>
 #include "command_map.h"
 
+function_map MenrvaCommandMap::CommandMap = {
+    { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
+    { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
+    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
+    { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
+    { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
+    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
+    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
+    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
+};
+
 // The value offset of an effect parameter is computed by rounding up
 // the parameter size to the next 32 bit alignment.
 // This method was taken from https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/dynamicsproc/EffectDynamicsProcessing.cpp#77
@@ -186,16 +197,5 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
     pReplyData = context->config;
     return 0;
 }
-
-function_map MenrvaCommandMap::CommandMap = {
-    { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
-    { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
-    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
-    { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
-    { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
-    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
-    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
-    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
-};
 
 MenrvaCommandMap::MenrvaCommandMap() {}

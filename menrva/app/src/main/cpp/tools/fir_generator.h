@@ -3,11 +3,14 @@
 #ifndef MENRVA_FIR_GENERATOR_H
 #define MENRVA_FIR_GENERATOR_H
 
-#include <math.h>
 #include <string>
+#include <math.h>
+#include "../abstracts/fft_interface_base.h"
 
 class FIR_Generator {
 public:
+    FIR_Generator(FFTInterfaceBase* fftEngine);
+
     /*
      * Create() - Returns a Finite Impulse Response of size 'interpolationSize' based on the provided
      * Frequency Samples & Amplitudes.
@@ -16,11 +19,13 @@ public:
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
-    float* Create(unsigned int filterSize, float* frequencySamples, float* amplitudeSamples, int sampleSize);
+    float* Create(unsigned int filterSize, float* frequencySamples, float* amplitudeSamples, unsigned int sampleSize);
 
 private:
     static const std::string LOG_TAG;
     static constexpr float PI2 = (float)M_PI * 2.0f;
+
+    FFTInterfaceBase* _FFTEngine;
 };
 
 #endif //MENRVA_FIR_GENERATOR_H

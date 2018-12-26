@@ -3,9 +3,9 @@
 #ifndef MENRVA_EQUALIZER_H
 #define MENRVA_EQUALIZER_H
 
-#include "ieffect.h"
+#include "../abstracts/effect_base.h"
 
-class Equalizer : public IEffect {
+class Equalizer : public EffectBase {
     void Process(audio_buffer_t* in, audio_buffer_t* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);

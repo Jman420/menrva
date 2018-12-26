@@ -5,7 +5,7 @@
 
 #include "../aosp/aosp_audio_effect_defs.h"
 
-class IEffect {
+class EffectBase {
 public:
     bool Enabled = false;
     virtual void Process(audio_buffer_t* in, audio_buffer_t* out) = 0;

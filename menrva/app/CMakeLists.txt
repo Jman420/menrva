@@ -27,26 +27,23 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/module_interface.cpp
-        src/main/cpp/engine/engine_interface.cpp
-        src/main/cpp/engine/effects_engine.cpp
-        src/main/cpp/engine/command_map.cpp
+        src/main/cpp/abstracts/fft_interface_base.cpp
+
+        src/main/cpp/fft/fftw_interface.cpp
 
         src/main/cpp/tools/fir_generator.cpp
         src/main/cpp/tools/logger.cpp
 
-        src/main/cpp/effects/ieffect.cpp
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp
         src/main/cpp/effects/stereo_widener.cpp
 
-        src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
+        src/main/cpp/engine/engine_interface.cpp
+        src/main/cpp/engine/effects_engine.cpp
+        src/main/cpp/engine/command_map.cpp
+        src/main/cpp/module_interface.cpp
 
-        src/main/cpp/libs/fftconvolver/Utilities.cpp
-        src/main/cpp/libs/fftconvolver/AudioFFT.cpp
-        src/main/cpp/libs/fftconvolver/FFTConvolver.cpp
-        src/main/cpp/libs/fftconvolver/BinauralFFTConvolver.cpp
-        src/main/cpp/libs/fftconvolver/TwoStageFFTConvolver.cpp
+        src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
 )
 
 target_include_directories(

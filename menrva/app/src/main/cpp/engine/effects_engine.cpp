@@ -12,14 +12,14 @@ void MenrvaEffectsEngine::ResetEffects() {
     engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     workingBuffer = (audio_buffer_t*)malloc(sizeof(audio_buffer_t));
-    for (IEffect* effect : menrvaEffects) {
+    for (EffectBase* effect : menrvaEffects) {
         effect->ResetConfig();
     }
 }
 
 int MenrvaEffectsEngine::Process(audio_buffer_t* in, audio_buffer_t* out) {
 
-    for (IEffect* effect : menrvaEffects) {
+    for (EffectBase* effect : menrvaEffects) {
         if (effect->Enabled) {
             effect->Process(in, out);
         }
@@ -35,7 +35,7 @@ void MenrvaEffectsEngine::SetEffectEnabled(int effectIndex, bool enabled) {
         return;
     }
 
-    IEffect* effect = menrvaEffects[effectIndex];
+    EffectBase* effect = menrvaEffects[effectIndex];
     effect->Enabled = enabled;
 }
 
@@ -44,6 +44,6 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(int effectIndex, char* settingN
         return;
     }
 
-    IEffect* effect = menrvaEffects[effectIndex];
+    EffectBase* effect = menrvaEffects[effectIndex];
     effect->ConfigureSetting(settingName, value);
 }
