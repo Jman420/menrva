@@ -16,16 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#include "fft_interface_base.h"
 
-void StereoWidener::Process(audio_buffer_t* in, audio_buffer_t* out) {
-    // TODO : Implement Stereo Widener Effect
+FFTInterfaceBase::FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize) {
+    Initialize(signalSize, componentSize);
 }
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
+int FFTInterfaceBase::getSignalSize() {
+    return _SignalSize;
 }
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
+int FFTInterfaceBase::getComponentSize() {
+    return _ComponentSize;
+}
+
+int FFTInterfaceBase::Initialize(unsigned int signalSize, unsigned int componentSize) {
+    _SignalSize = signalSize;
+    _ComponentSize = componentSize;
+
+    return componentSize;
 }

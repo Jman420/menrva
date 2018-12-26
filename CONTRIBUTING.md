@@ -5,6 +5,10 @@
   - Android SDK
   - Android NDK
   - Java SDK (JDK)
+  - FFTW3
+
+## Compiling FFTW3 for Android
+  - See instructions in [FFTW Build Readme](fftw3/README.md)
 
 ## Development Tools & Tips
 

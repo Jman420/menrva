@@ -1,7 +1,34 @@
-// Author : Jman420
+/* Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
 
 #include <cerrno>
 #include "command_map.h"
+
+function_map MenrvaCommandMap::CommandMap = {
+    { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
+    { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
+    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
+    { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
+    { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
+    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
+    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
+    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
+};
 
 // The value offset of an effect parameter is computed by rounding up
 // the parameter size to the next 32 bit alignment.
@@ -186,16 +213,5 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
     pReplyData = context->config;
     return 0;
 }
-
-function_map MenrvaCommandMap::CommandMap = {
-    { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
-    { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
-    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
-    { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
-    { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
-    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
-    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
-    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
-};
 
 MenrvaCommandMap::MenrvaCommandMap() {}

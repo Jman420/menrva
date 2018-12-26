@@ -16,16 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_FFTENGINEBASE_H
+#define MENRVA_FFTENGINEBASE_H
 
-void StereoWidener::Process(audio_buffer_t* in, audio_buffer_t* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+class FFTInterfaceBase {
+public:
+    FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize = 0);
+    virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
+    virtual void SignalToComponents(float* signal, float* realComponents, float* imagComponents) = 0;
+    virtual void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) = 0;
+    virtual float* Allocate(unsigned int size) = 0;
+    virtual void Deallocate(float* data) = 0;
+    int getSignalSize();
+    int getComponentSize();
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+protected:
+    int _SignalSize,
+        _ComponentSize;
+};
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+#endif //MENRVA_FFTENGINEBASE_H

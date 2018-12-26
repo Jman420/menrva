@@ -16,16 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_MENRVA_EFFECT_H
+#define MENRVA_MENRVA_EFFECT_H
 
-void StereoWidener::Process(audio_buffer_t* in, audio_buffer_t* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+#include "../aosp/aosp_audio_effect_defs.h"
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+class EffectBase {
+public:
+    bool Enabled = false;
+    virtual void Process(audio_buffer_t* in, audio_buffer_t* out) = 0;
+    virtual void ResetConfig() = 0;
+    virtual void ConfigureSetting(char* settingName, void* value) = 0;
+};
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+#endif //MENRVA_MENRVA_EFFECT_H

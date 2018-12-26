@@ -65,7 +65,8 @@ fastlane/test_output
 fastlane/readme.md
 
 # Ignore FFTW3 Source & Build Directories
+fftw3/obj/*
+fftw3/libs/*
+fftw3/out/*
 fftw3/jni/*
 !fftw3/jni/.gitignore
-fftw3/obj/*
-fftw3/lib/*
