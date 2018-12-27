@@ -20,18 +20,23 @@
 #include "fftw_interface.h"
 #include "../abstracts/fft_interface_base.h"
 
-PlanCache* FFTW_Interface::_PlansCache = new PlanCache();
+PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
-FFTW_Interface::FFTW_Interface(unsigned int signalSize, unsigned int componentSize) :
+FftwInterface::FftwInterface(unsigned int signalSize, unsigned int componentSize) :
         FFTInterfaceBase(signalSize, componentSize) {}
 
-int FFTW_Interface::Initialize(unsigned int signalSize, unsigned int componentSize) {
+int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSize) {
+    if (signalSize == 0 && componentSize == 0) {
+        FFTInterfaceBase::Initialize(signalSize, componentSize);
+        return 0;
+    }
+
     if (componentSize < 1) {
         componentSize = signalSize / 2 + 1;
     }
 
     std::string plansKey = std::to_string(signalSize) + "x" + std::to_string(componentSize);
-    std::map<std::string, fftw_plan_pair>::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    PlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
         _Plans = cachedPlansIterator->second;
         return componentSize;
@@ -45,8 +50,8 @@ int FFTW_Interface::Initialize(unsigned int signalSize, unsigned int componentSi
     float* freqReal = Allocate(componentSize);
     float* freqImag = Allocate(componentSize);
 
-    _Plans.Real2ComplexPlan = fftwf_plan_guru_split_dft_r2c(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
-    _Plans.Complex2RealPlan = fftwf_plan_guru_split_dft_c2r(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
+    _Plans.Real2ComplexPlan = Fftw3PlanReal2ComplexFunc(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
+    _Plans.Complex2RealPlan = Fftw3PlanComplex2RealFunc(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
     FFTInterfaceBase::Initialize(signalSize, componentSize);
 
@@ -56,18 +61,18 @@ int FFTW_Interface::Initialize(unsigned int signalSize, unsigned int componentSi
     return componentSize;
 }
 
-float* FFTW_Interface::Allocate(size_t size) {
+float* FftwInterface::Allocate(size_t size) {
     return fftwf_alloc_real(size);
 }
 
-void FFTW_Interface::Deallocate(float* data) {
+void FftwInterface::Deallocate(sample* data) {
     fftwf_free(data);
 }
 
-void FFTW_Interface::SignalToComponents(float* signal, float* realComponents, float* imagComponents) {
+void FftwInterface::SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) {
     fftwf_execute_split_dft_r2c(_Plans.Real2ComplexPlan, signal, realComponents, imagComponents);
 }
 
-void FFTW_Interface::ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) {
+void FftwInterface::ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) {
     fftwf_execute_split_dft_c2r(_Plans.Complex2RealPlan, realComponents, imagComponents, signal);
 }

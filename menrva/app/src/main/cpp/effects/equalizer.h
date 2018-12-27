@@ -22,7 +22,7 @@
 #include "../abstracts/effect_base.h"
 
 class Equalizer : public EffectBase {
-    void Process(audio_buffer_t* in, audio_buffer_t* out);
+    void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);
 };

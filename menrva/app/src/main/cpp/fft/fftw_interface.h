@@ -21,22 +21,19 @@
 
 #include <map>
 #include <fftw3.h>
+#include "fftw_functions.h"
 #include "../abstracts/fft_interface_base.h"
 
-struct fftw_plan_pair {
-    fftwf_plan Real2ComplexPlan,
-               Complex2RealPlan;
-};
 typedef std::map<std::string, fftw_plan_pair> PlanCache;
 
-class FFTW_Interface : public FFTInterfaceBase {
+class FftwInterface : public FFTInterfaceBase {
 public:
-    FFTW_Interface(unsigned int signalSize, unsigned int componentSize);
+    FftwInterface(unsigned int signalSize = 0, unsigned int componentSize = 0);
     int Initialize(unsigned int signalSize, unsigned int componentSize = 0) override;
-    void SignalToComponents(float* signal, float* realComponents, float* imagComponents) override;
-    void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) override;
-    float* Allocate(size_t size) override;
-    void Deallocate(float* data) override;
+    void SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) override;
+    void ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) override;
+    sample* Allocate(size_t size) override;
+    void Deallocate(sample* data) override;
 
 protected:
     static PlanCache* _PlansCache;

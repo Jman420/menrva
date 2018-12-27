@@ -16,16 +16,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_SERVICE_LOCATOR_H
+#define MENRVA_SERVICE_LOCATOR_H
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+#include "../abstracts/fft_interface_base.h"
+#include "../abstracts/logger_base.h"
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+class ServiceLocator {
+public:
+    LoggerBase* GetLogger();
+    FFTInterfaceBase* GetFftEngine(unsigned int signalSize = 0, unsigned int componentSize = 0);
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+private:
+    static LoggerBase* _Logger;
+};
+
+#endif //MENRVA_SERVICE_LOCATOR_H

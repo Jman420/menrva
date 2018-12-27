@@ -16,26 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_FFTW_FUNCTIONS_H
+#define MENRVA_FFTW_FUNCTIONS_H
 
-#include <cstddef>
+#include <fftw3.h>
 #include "../audio/sample.h"
 
-class FFTInterfaceBase {
-public:
-    FFTInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
-    virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual void SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) = 0;
-    virtual void ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) = 0;
-    virtual sample* Allocate(size_t size) = 0;
-    virtual void Deallocate(sample* data) = 0;
-    int getSignalSize();
-    int getComponentSize();
+#ifdef MENRVA_DOUBLE_PRECISION
+typedef fftw_plan FftwPlan;
+typedef fftw_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, double*, double*, double*, unsigned int);
+static fftwPlanFunc* Fftw3PlanReal2ComplexFunc = fftw_plan_guru_split_dft_r2c;
+static fftwPlanFunc* Fftw3PlanComplex2RealFunc = fftw_plan_guru_split_dft_c2r;
+#else
+typedef fftwf_plan FftwPlan;
+typedef fftwf_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, float*, float*, float*, unsigned int);
+static fftwPlanFunc* Fftw3PlanReal2ComplexFunc = fftwf_plan_guru_split_dft_r2c;
+static fftwPlanFunc* Fftw3PlanComplex2RealFunc = fftwf_plan_guru_split_dft_c2r;
+#endif
 
-protected:
-    int _SignalSize,
-        _ComponentSize;
+struct fftw_plan_pair {
+    FftwPlan Real2ComplexPlan,
+             Complex2RealPlan;
 };
 
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_FFTW_FUNCTIONS_H

@@ -48,9 +48,11 @@ void AudioComponentsBuffer::resetData() {
 }
 
 bool AudioComponentsBuffer::cloneFrom(AudioComponentsBuffer* source) {
-    _RealBuffer->cloneFrom(source->_RealBuffer);
-    _RealBuffer->cloneFrom(source->_ImagBuffer);
+    bool realCloneResult = _RealBuffer->cloneFrom(source->_RealBuffer),
+         imagCloneResult = _RealBuffer->cloneFrom(source->_ImagBuffer);
     _Size = source->_Size;
+
+    return realCloneResult && imagCloneResult;
 }
 
 size_t AudioComponentsBuffer::getSize() {

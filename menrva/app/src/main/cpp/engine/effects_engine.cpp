@@ -33,7 +33,7 @@ void MenrvaEffectsEngine::ResetEffects() {
     }
 }
 
-int MenrvaEffectsEngine::Process(audio_buffer_t* in, audio_buffer_t* out) {
+int MenrvaEffectsEngine::Process(AudioBuffer* in, AudioBuffer* out) {
 
     for (EffectBase* effect : menrvaEffects) {
         if (effect->Enabled) {

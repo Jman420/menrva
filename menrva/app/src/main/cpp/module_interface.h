@@ -22,6 +22,8 @@
 #include <string>
 #include "aosp/aosp_audio_effect_defs.h"
 #include "engine/effects_engine.h"
+#include "abstracts/logger_base.h"
+#include "tools/service_locator.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -35,8 +37,10 @@ struct menrva_module_context {
     __unused const effect_interface_s* itfe;
     effect_config_t* config;
 
-    MenrvaEffectsEngine* effectsEngine;
     MenrvaModuleStatus moduleStatus;
+    MenrvaEffectsEngine* effectsEngine;
+    AudioBuffer* inputBuffer;
+    AudioBuffer* outputBuffer;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
@@ -53,6 +57,9 @@ public:
 
 private:
     static const std::string LOG_TAG;
+
+    static ServiceLocator* _ServiceLocator;
+    static LoggerBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
     MenrvaModuleInterface();
