@@ -16,25 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_AUDIOCOMPONENTSBUFFER_H
+#define MENRVA_AUDIOCOMPONENTSBUFFER_H
 
 #include <cstddef>
+#include "audio_buffer.h"
 
-class FFTInterfaceBase {
+class AudioComponentsBuffer {
 public:
-    FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual void SignalToComponents(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual float* Allocate(size_t size) = 0;
-    virtual void Deallocate(float* data) = 0;
-    int getSignalSize();
-    int getComponentSize();
+    AudioComponentsBuffer(FFTInterfaceBase* fftEngine, size_t size);
+    ~AudioComponentsBuffer();
 
-protected:
-    int _SignalSize,
-        _ComponentSize;
+    void clear();
+    void resize(size_t size);
+    void resetData();
+    bool cloneFrom(AudioComponentsBuffer* source);
+
+    size_t getSize();
+    sample* getRealData();
+    sample* getImagData();
+    AudioBuffer* getRealBuffer();
+    AudioBuffer* getImagBuffer();
+
+private:
+    size_t _Size;
+    AudioBuffer* _RealBuffer;
+    AudioBuffer* _ImagBuffer;
 };
 
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_AUDIOCOMPONENTSBUFFER_H

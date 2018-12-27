@@ -16,25 +16,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_BUFFER_H
+#define MENRVA_BUFFER_H
 
 #include <cstddef>
+#include "../abstracts/fft_interface_base.h"
+#include "../audio/sample.h"
 
-class FFTInterfaceBase {
+class Buffer {
 public:
-    FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual void SignalToComponents(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual float* Allocate(size_t size) = 0;
-    virtual void Deallocate(float* data) = 0;
-    int getSignalSize();
-    int getComponentSize();
+    Buffer(FFTInterfaceBase* fftEngine, size_t size);
+    ~Buffer();
 
-protected:
-    int _SignalSize,
-        _ComponentSize;
+    void clear();
+    void resize(size_t size);
+    void resetData();
+    bool cloneFrom(const Buffer* source);
+
+    sample operator[](size_t index);
+    size_t getSize();
+    sample* getData();
+
+    static void swap(Buffer* itemA, Buffer* itemB);
+
+private:
+    size_t _Size;
+    sample* _Data;
+    FFTInterfaceBase* _FftEngine;
+
+    void initialize(size_t size);
 };
 
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_BUFFER_H

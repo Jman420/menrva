@@ -16,25 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_SAMPLE_H
+#define MENRVA_SAMPLE_H
 
-#include <cstddef>
+/* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
+ * of float types for all calculations.
+ *
+ * NOTE : At the time of writing the Android AudioFlinger Service expects float32 as the largest
+ * type it handles.  See the 'aosp/README.md' file for AOSP Source Files worth referencing, or the
+ * included structures copied from those files in 'aosp/aosp_audio_effect_defs.h'.  The relevant
+ * structure in this case is 'audio_buffer_t'.
+ */
+//#define MENRVA_DOUBLE_PRECISION
+#ifdef MENRVA_DOUBLE_PRECISION
+typedef double sample;
+#else
+typedef float sample;
+#endif
 
-class FFTInterfaceBase {
-public:
-    FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual void SignalToComponents(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) = 0;
-    virtual float* Allocate(size_t size) = 0;
-    virtual void Deallocate(float* data) = 0;
-    int getSignalSize();
-    int getComponentSize();
-
-protected:
-    int _SignalSize,
-        _ComponentSize;
-};
-
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_SAMPLE_H

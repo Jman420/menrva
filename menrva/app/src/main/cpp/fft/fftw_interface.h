@@ -35,7 +35,7 @@ public:
     int Initialize(unsigned int signalSize, unsigned int componentSize = 0) override;
     void SignalToComponents(float* signal, float* realComponents, float* imagComponents) override;
     void ComponentsToSignal(float* signal, float* realComponents, float* imagComponents) override;
-    float* Allocate(unsigned int size) override;
+    float* Allocate(size_t size) override;
     void Deallocate(float* data) override;
 
 protected:

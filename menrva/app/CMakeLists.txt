@@ -27,12 +27,14 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/abstracts/fft_interface_base.cpp
+        src/main/cpp/audio/audio_components_buffer.cpp
 
+        src/main/cpp/abstracts/fft_interface_base.cpp
         src/main/cpp/fft/fftw_interface.cpp
 
         src/main/cpp/tools/fir_generator.cpp
         src/main/cpp/tools/logger.cpp
+        src/main/cpp/tools/buffer.cpp
 
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp

@@ -56,7 +56,7 @@ int FFTW_Interface::Initialize(unsigned int signalSize, unsigned int componentSi
     return componentSize;
 }
 
-float* FFTW_Interface::Allocate(unsigned int size) {
+float* FFTW_Interface::Allocate(size_t size) {
     return fftwf_alloc_real(size);
 }
 
