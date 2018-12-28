@@ -6,6 +6,9 @@
   - Android NDK
   - Java SDK (JDK)
   - FFTW3
+  
+## Versioning
+Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
 
 ## Compiling FFTW3 for Android
   - See instructions in [FFTW Build Readme](fftw3/README.md)

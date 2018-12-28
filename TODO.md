@@ -1,0 +1,32 @@
+# Menrva Todo List - v0.1.0
+  - ~~Consolidate necessary AOSP Structures~~
+  - ~~Draft Audio Effect Module & Engine Structures~~
+  - ~~Draft Configurable Logging Layer~~
+  - ~~Implement FIR Generator~~
+  - ~~Compare FIR Generator output to JamesDSP~~
+  - ~~Draft Build Script for FFTW3 for Android~~
+  - ~~Determine FFTW3 Library Type to use for Menrva~~
+  - ~~Add FFTW3 Libs to Menrva Project~~
+  - ~~Link FFTW Libs in Menrva CMake~~
+  - ~~Add FFTConvolver to Menrva Project~~
+  - ~~Convert fft_generator to use float instead of double~~
+  - ~~Replace kiss_fft with fftw3~~
+  - ~~Replace Static fftw3 with Shared fftw3~~
+  - ~~Ensure using the correct fftw alloc & free functions~~
+  - ~~Draft FFT Wrapper & FFTW3 Wrapper Implementation~~
+  - ~~Replace direct FFTW3 usage with FFT Wrapper~~
+  - ~~Credits to fftw3-android, FFTConvolver (both implementations), FFTW & BetterExplain~~
+  - ~~Review & Update Documentation~~
+  - ~~Replace float with typedef for easy switch to double if needed~~
+  - ~~Draft Service Locator for Rough IoC~~
+  - Draft functions to swap data pointers within Buffer
+  - Draft Convolver
+  - Remove Unused Code
+  - Draft Bass Boost Effect Implementation
+  - Compare Bass Boost Effect to JamesDSP
+  - Draft UI Frontend
+  - Draft JNI Interface to Menrva Module Backend
+  - Draft Installation Method via UI w/ Root
+  - ? Draft Unit Tests ?
+  - ? CI Integration (TravisCI) ?
+  - Release
