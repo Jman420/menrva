@@ -24,7 +24,7 @@
 
 class AudioComponentsBuffer {
 public:
-    AudioComponentsBuffer(FFTInterfaceBase* fftEngine, size_t size);
+    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size);
     ~AudioComponentsBuffer();
 
     void Clear();

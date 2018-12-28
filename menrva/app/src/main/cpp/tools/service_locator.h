@@ -25,7 +25,7 @@
 class ServiceLocator {
 public:
     LoggerBase* GetLogger();
-    FFTInterfaceBase* GetFftEngine(unsigned int signalSize = 0, unsigned int componentSize = 0);
+    FftInterfaceBase* GetFftEngine(unsigned int signalSize = 0, unsigned int componentSize = 0);
 
 private:
     static LoggerBase* _Logger;

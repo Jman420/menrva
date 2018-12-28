@@ -24,9 +24,9 @@
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
-class FFTInterfaceBase {
+class FftInterfaceBase {
 public:
-    FFTInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
+    FftInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
     virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
     virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;

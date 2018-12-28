@@ -28,7 +28,7 @@
 
 class FIR_Generator {
 public:
-    FIR_Generator(LoggerBase* logger, FFTInterfaceBase* fftEngine);
+    FIR_Generator(LoggerBase* logger, FftInterfaceBase* fftEngine);
 
     /*
      * Create() - Returns a Finite Impulse Response of size 'interpolationSize' based on the provided
@@ -50,7 +50,7 @@ private:
                             HAMMING_046 = (sample)0.46;
 
     LoggerBase* _Logger;
-    FFTInterfaceBase* _FFTEngine;
+    FftInterfaceBase* _FFTEngine;
 };
 
 #endif //MENRVA_FIR_GENERATOR_H

@@ -26,7 +26,7 @@
 
 typedef std::map<std::string, fftw_plan_pair> PlanCache;
 
-class FftwInterface : public FFTInterfaceBase {
+class FftwInterface : public FftInterfaceBase {
 public:
     FftwInterface(unsigned int signalSize = 0, unsigned int componentSize = 0);
     int Initialize(unsigned int signalSize, unsigned int componentSize = 0) override;

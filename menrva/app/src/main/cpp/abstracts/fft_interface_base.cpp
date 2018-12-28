@@ -18,19 +18,19 @@
 
 #include "fft_interface_base.h"
 
-FFTInterfaceBase::FFTInterfaceBase(unsigned int signalSize, unsigned int componentSize) {
+FftInterfaceBase::FftInterfaceBase(unsigned int signalSize, unsigned int componentSize) {
     Initialize(signalSize, componentSize);
 }
 
-int FFTInterfaceBase::GetSignalSize() {
+int FftInterfaceBase::GetSignalSize() {
     return _SignalSize;
 }
 
-int FFTInterfaceBase::GetComponentSize() {
+int FftInterfaceBase::GetComponentSize() {
     return _ComponentSize;
 }
 
-int FFTInterfaceBase::Initialize(unsigned int signalSize, unsigned int componentSize) {
+int FftInterfaceBase::Initialize(unsigned int signalSize, unsigned int componentSize) {
     _SignalSize = signalSize;
     _ComponentSize = componentSize;
 

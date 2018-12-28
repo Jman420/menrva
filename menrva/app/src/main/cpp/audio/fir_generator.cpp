@@ -34,7 +34,7 @@ int RoundToNextPowerOf2(unsigned int value) {
     return value;
 }
 
-FIR_Generator::FIR_Generator(LoggerBase* logger, FFTInterfaceBase *fftEngine) {
+FIR_Generator::FIR_Generator(LoggerBase* logger, FftInterfaceBase *fftEngine) {
     _Logger = logger;
     _FFTEngine = fftEngine;
 }
