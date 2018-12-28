@@ -17,7 +17,7 @@
  */
 
 #include "fir_generator.h"
-#include "android_logger.h"
+#include "../tools/android_logger.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 
@@ -34,7 +34,7 @@ int RoundToNextPowerOf2(unsigned int value) {
     return value;
 }
 
-FIR_Generator::FIR_Generator(LoggerBase* logger, FFTInterfaceBase *fftEngine) {
+FIR_Generator::FIR_Generator(LoggerBase* logger, FftInterfaceBase *fftEngine) {
     _Logger = logger;
     _FFTEngine = fftEngine;
 }

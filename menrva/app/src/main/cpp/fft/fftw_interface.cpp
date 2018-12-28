@@ -23,11 +23,11 @@
 PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
 FftwInterface::FftwInterface(unsigned int signalSize, unsigned int componentSize) :
-        FFTInterfaceBase(signalSize, componentSize) {}
+        FftInterfaceBase(signalSize, componentSize) {}
 
 int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSize) {
     if (signalSize == 0 && componentSize == 0) {
-        FFTInterfaceBase::Initialize(signalSize, componentSize);
+        FftInterfaceBase::Initialize(signalSize, componentSize);
         return 0;
     }
 
@@ -53,7 +53,7 @@ int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSiz
     _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
     _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
-    FFTInterfaceBase::Initialize(signalSize, componentSize);
+    FftInterfaceBase::Initialize(signalSize, componentSize);
 
     Deallocate(outputSignal);
     Deallocate(freqReal);

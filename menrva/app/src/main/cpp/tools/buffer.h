@@ -22,12 +22,12 @@
 #include <cstddef>
 #include "../audio/sample.h"
 
-class FFTInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
+class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
 
 class Buffer {
 public:
-    Buffer(FFTInterfaceBase* fftEngine, size_t size = 0);
-    Buffer(FFTInterfaceBase* fftEngine, sample* data, size_t size);
+    Buffer(FftInterfaceBase* fftEngine, size_t size = 0);
+    Buffer(FftInterfaceBase* fftEngine, sample* data, size_t size);
     ~Buffer();
 
     bool CloneFrom(const Buffer* source);
@@ -37,7 +37,7 @@ public:
     void Free();
 
     sample& operator[](size_t index);
-    size_t GetSize();
+    size_t GetLength();
     sample* GetData();
 
     static void Swap(Buffer* itemA, Buffer* itemB);
@@ -45,7 +45,7 @@ public:
 private:
     size_t _Size;
     sample* _Data;
-    FFTInterfaceBase* _FftEngine;
+    FftInterfaceBase* _FftEngine;
 
     void Initialize(size_t size);
 };

@@ -19,7 +19,7 @@
 #include <cstdlib>
 #include "audio_components_buffer.h"
 
-AudioComponentsBuffer::AudioComponentsBuffer(FFTInterfaceBase* fftEngine, size_t size) {
+AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size) {
     _Size = size;
     _RealBuffer = new AudioBuffer(fftEngine, size);
     _ImagBuffer = new AudioBuffer(fftEngine, size);
@@ -55,7 +55,7 @@ bool AudioComponentsBuffer::CloneFrom(AudioComponentsBuffer* source) {
     return realCloneResult && imagCloneResult;
 }
 
-size_t AudioComponentsBuffer::GetSize() {
+size_t AudioComponentsBuffer::GetLength() {
     return _Size;
 }
 

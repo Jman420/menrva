@@ -16,32 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_CONVOLUTION_OPERATIONS_H
+#define MENRVA_CONVOLUTION_OPERATIONS_H
 
-#include <cstddef>
-#include "audio_buffer.h"
+#include "../audio/audio_buffer.h"
+#include "../audio/audio_components_buffer.h"
 
-class AudioComponentsBuffer {
+class ConvolutionOperations {
 public:
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size);
-    ~AudioComponentsBuffer();
-
-    void Clear();
-    void Resize(size_t size);
-    void ResetData();
-    bool CloneFrom(AudioComponentsBuffer* source);
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-private:
-    size_t _Size;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    void ResetAndClone(AudioBuffer* source, AudioBuffer* destination);
+    void Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output);
+    void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output);
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#endif //MENRVA_CONVOLUTION_OPERATIONS_H

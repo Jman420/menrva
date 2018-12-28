@@ -22,13 +22,13 @@
 #include <string>
 #include <math.h>
 #include "../abstracts/fft_interface_base.h"
-#include "../audio/sample.h"
-#include "../audio/audio_buffer.h"
+#include "sample.h"
+#include "audio_buffer.h"
 #include "../abstracts/logger_base.h"
 
 class FIR_Generator {
 public:
-    FIR_Generator(LoggerBase* logger, FFTInterfaceBase* fftEngine);
+    FIR_Generator(LoggerBase* logger, FftInterfaceBase* fftEngine);
 
     /*
      * Create() - Returns a Finite Impulse Response of size 'interpolationSize' based on the provided
@@ -50,7 +50,7 @@ private:
                             HAMMING_046 = (sample)0.46;
 
     LoggerBase* _Logger;
-    FFTInterfaceBase* _FFTEngine;
+    FftInterfaceBase* _FFTEngine;
 };
 
 #endif //MENRVA_FIR_GENERATOR_H

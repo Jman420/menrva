@@ -21,12 +21,12 @@
 #include "buffer.h"
 #include "../abstracts/fft_interface_base.h"
 
-Buffer::Buffer(FFTInterfaceBase* fftEngine, size_t size) {
+Buffer::Buffer(FftInterfaceBase* fftEngine, size_t size) {
     _FftEngine = fftEngine;
     Initialize(size);
 }
 
-Buffer::Buffer(FFTInterfaceBase* fftEngine, sample* data, size_t size) {
+Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t size) {
     _FftEngine = fftEngine;
     SetData(data, size);
 }
@@ -72,7 +72,7 @@ sample& Buffer::operator[](size_t index) {
     return _Data[index];
 }
 
-size_t Buffer::GetSize() {
+size_t Buffer::GetLength() {
     return _Size;
 }
 

@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_MENRVA_EFFECT_H
-#define MENRVA_MENRVA_EFFECT_H
+#ifndef MENRVA_EFFECT_BASE_H
+#define MENRVA_EFFECT_BASE_H
 
 #include "../aosp/aosp_audio_effect_defs.h"
 #include "../audio/audio_buffer.h"
@@ -30,4 +30,4 @@ public:
     virtual void ConfigureSetting(char* settingName, void* value) = 0;
 };
 
-#endif //MENRVA_MENRVA_EFFECT_H
+#endif //MENRVA_EFFECT_BASE_H

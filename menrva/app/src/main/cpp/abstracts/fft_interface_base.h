@@ -16,17 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_FFT_INTERFACE_BASE_H
+#define MENRVA_FFT_INTERFACE_BASE_H
 
 #include <cstddef>
 #include "../audio/sample.h"
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
-class FFTInterfaceBase {
+class FftInterfaceBase {
 public:
-    FFTInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
+    FftInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
     virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
     virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;
@@ -40,4 +40,4 @@ protected:
         _ComponentSize;
 };
 
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_FFT_INTERFACE_BASE_H
