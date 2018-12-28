@@ -22,7 +22,7 @@ To request an effect open a GitHub Issue describing the effect which you would l
 ## Calculation Precision
 I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
 
-To build a version of Menrva which uses C++ double type for double precision calculations see the (Configuring Calculation Precision)[CONTRIBUTING.md#configuring-calculation-precision] section of the [CONTRIBUTING](CONTRIBUTING.md) document.
+To build a version of Menrva which uses C++ double type for double precision calculations see the [Configuring Calculation Precision](CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](CONTRIBUTING.md) document.
   
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md) document
