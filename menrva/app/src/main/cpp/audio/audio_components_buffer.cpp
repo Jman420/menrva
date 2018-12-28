@@ -30,47 +30,47 @@ AudioComponentsBuffer::~AudioComponentsBuffer() {
     delete _ImagBuffer;
 }
 
-void AudioComponentsBuffer::clear() {
-    _RealBuffer->clear();
-    _ImagBuffer->clear();
+void AudioComponentsBuffer::Clear() {
+    _RealBuffer->Free();
+    _ImagBuffer->Free();
 }
 
-void AudioComponentsBuffer::resize(size_t size) {
-    _RealBuffer->resize(size);
-    _ImagBuffer->resize(size);
+void AudioComponentsBuffer::Resize(size_t size) {
+    _RealBuffer->Resize(size);
+    _ImagBuffer->Resize(size);
     _Size = size;
 }
 
-void AudioComponentsBuffer::resetData() {
-    _RealBuffer->resetData();
-    _ImagBuffer->resetData();
+void AudioComponentsBuffer::ResetData() {
+    _RealBuffer->ResetData();
+    _ImagBuffer->ResetData();
     _Size = 0;
 }
 
-bool AudioComponentsBuffer::cloneFrom(AudioComponentsBuffer* source) {
-    bool realCloneResult = _RealBuffer->cloneFrom(source->_RealBuffer),
-         imagCloneResult = _RealBuffer->cloneFrom(source->_ImagBuffer);
+bool AudioComponentsBuffer::CloneFrom(AudioComponentsBuffer* source) {
+    bool realCloneResult = _RealBuffer->CloneFrom(source->_RealBuffer),
+         imagCloneResult = _RealBuffer->CloneFrom(source->_ImagBuffer);
     _Size = source->_Size;
 
     return realCloneResult && imagCloneResult;
 }
 
-size_t AudioComponentsBuffer::getSize() {
+size_t AudioComponentsBuffer::GetSize() {
     return _Size;
 }
 
-sample* AudioComponentsBuffer::getRealData() {
-    return _RealBuffer->getData();
+sample* AudioComponentsBuffer::GetRealData() {
+    return _RealBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::getRealBuffer() {
+Buffer* AudioComponentsBuffer::GetRealBuffer() {
     return _RealBuffer;
 }
 
-sample* AudioComponentsBuffer::getImagData() {
-    return _ImagBuffer->getData();
+sample* AudioComponentsBuffer::GetImagData() {
+    return _ImagBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::getImagBuffer() {
+Buffer* AudioComponentsBuffer::GetImagBuffer() {
     return _ImagBuffer;
 }

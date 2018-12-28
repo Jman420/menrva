@@ -24,10 +24,12 @@
 class AndroidLogger : public LoggerBase {
 public:
     AndroidLogger();
+
     void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...) override;
 
 private:
-    static bool mInitialized;
+    static bool _Initialized;
+
     static void Initialize();
 };
 

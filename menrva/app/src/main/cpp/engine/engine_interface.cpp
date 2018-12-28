@@ -20,8 +20,9 @@
 #include "engine_interface.h"
 #include "command_map.h"
 #include "../module_interface.h"
+#include "../audio/sample.h"
 
-const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
+const effect_descriptor_t MenrvaEngineInterface::EffectDescriptor = {
     // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_NULL)
     .type = { 0xec7178ec, 0xe5e1, 0x4432, 0xa3f4, { 0x46, 0x57, 0xe6, 0x79, 0x52, 0x10 } },
     // UUID for this particular implementation (http://www.itu.int/ITU-T/asn1/uuid.html)
@@ -40,25 +41,23 @@ const effect_descriptor_t MenrvaEngineInterface::effectDescriptor = {
     .implementor = "Jman420"
 };
 
-const char* MenrvaEngineInterface::effectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
-const char* MenrvaEngineInterface::engineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
+const char* MenrvaEngineInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
+const char* MenrvaEngineInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out)
 {
     struct menrva_module_context *context = (menrva_module_context*)handle;
 
-    if (context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
+    if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
         return -ENODATA;
     }
-    if (context->moduleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
+    if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
         return 0;
     }
 
-    // TODO : Load Input from in into InputBuffer
-
-    int result = context->effectsEngine->Process(context->inputBuffer, context->outputBuffer);
-
-    // TODO : Load Output from OutputBuffer into out
+    context->InputBuffer->SetData((sample*) in->f32, in->frameCount, false);
+    context->OutputBuffer->SetData((sample*) out->f32, out->frameCount, false);
+    int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
 
     return result;
 }
@@ -68,8 +67,8 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
 {
     struct menrva_module_context *context = (menrva_module_context*)self;
 
-    if (context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
-        context->moduleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
+    if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
+        context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
 
         return -EINVAL;
     }
@@ -87,7 +86,7 @@ int MenrvaEngineInterface::GetDescriptorFromModule(effect_handle_t self,
         return -EINVAL;
     }
 
-    *pDescriptor = effectDescriptor;
+    *pDescriptor = EffectDescriptor;
     return 0;
 }
 

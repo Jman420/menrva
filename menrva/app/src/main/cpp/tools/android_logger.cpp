@@ -19,25 +19,25 @@
 #include "android_logger.h"
 #include "../aosp/liblog/android/log.h"
 
-bool AndroidLogger::mInitialized = false;
+bool AndroidLogger::_Initialized = false;
 
 AndroidLogger::AndroidLogger() : LoggerBase() {
     Initialize();
 }
 
 void AndroidLogger::Initialize() {
-    if (mInitialized) {
+    if (_Initialized) {
         return;
     }
 
     AppLogLevel = LogLevel::VERBOSE;
     // TODO : Get AppLogLevel from Shared Settings
 
-    mInitialized = true;
+    _Initialized = true;
 }
 
 void AndroidLogger::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
-    if (!mInitialized) {
+    if (!_Initialized) {
         Initialize();
     }
 

@@ -21,10 +21,10 @@
 
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectTypeUUID
         (JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaEngineInterface::effectTypeUUID);
+    return env->NewStringUTF(MenrvaEngineInterface::EffectTypeUUID);
 }
 
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngineUUID
         (JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaEngineInterface::engineUUID);
+    return env->NewStringUTF(MenrvaEngineInterface::EngineUUID);
 }

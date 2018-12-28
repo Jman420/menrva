@@ -19,7 +19,7 @@
 #include <cerrno>
 #include "command_map.h"
 
-function_map MenrvaCommandMap::CommandMap = {
+function_map MenrvaCommandMap::_CommandMap = {
     { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
     { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
     { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
@@ -53,11 +53,11 @@ static uint32_t getExpectedCmdSize(uint32_t paramSize, void* pParam) {
 
 int MenrvaCommandMap::Command(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    if (context->moduleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
+    if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
         return -EINVAL;
     }
 
-    std::map<uint32_t, CommandFunc> commandMap = MenrvaCommandMap::CommandMap;
+    std::map<uint32_t, CommandFunc> commandMap = MenrvaCommandMap::_CommandMap;
 
     int result = 0;
     function_map::iterator cmdFunction = commandMap.find(cmdCode);
@@ -116,8 +116,8 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
 int MenrvaCommandMap::ResetEngine(menrva_module_context* context, uint32_t cmdSize __unused,
                                   void* pCmdData __unused, uint32_t* replySize __unused,
                                   void* pReplyData __unused) {
-    if (context->effectsEngine != NULL) {
-        context->effectsEngine->ResetEffects();
+    if (context->EffectsEngine != NULL) {
+        context->EffectsEngine->ResetEffects();
     }
     return 0;
 }
@@ -129,7 +129,7 @@ int MenrvaCommandMap::EnableEngine(menrva_module_context* context, uint32_t cmdS
         return -EINVAL;
     }
 
-    context->effectsEngine->engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_ENABLED;
+    context->EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_ENABLED;
 
     *(int*)pReplyData = 0;
     return 0;
@@ -142,7 +142,7 @@ int MenrvaCommandMap::DisableEngine(menrva_module_context* context, uint32_t cmd
         return -EINVAL;
     }
 
-    context->effectsEngine->engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
+    context->EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
 
     *(int*)pReplyData = 0;
     return 0;
