@@ -77,7 +77,7 @@ A tool provided with the JDK for generating header files.  We will be using it t
 See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
 
 ### Enabling Double Precision
-  - Compile FFTW3 with Double Precision (see [FFTW Precision](fftw3/README#fftw-precision) for details)
+  - Compile FFTW3 with Double Precision (see [FFTW Precision](fftw3/README.md#fftw-precision) for details)
   - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` in [config.h](menrva/app/src/main/cpp/config.h)
   - Compile Menrva
   - Resulting APK is in /menrva/app/build/outputs/apk/<debug|release>/
