@@ -21,13 +21,15 @@
 
 #include <cstddef>
 #include "../audio/sample.h"
+#include "../audio/audio_buffer.h"
+#include "../audio/audio_components_buffer.h"
 
 class FFTInterfaceBase {
 public:
     FFTInterfaceBase(unsigned int signalSize = 0, unsigned int componentSize = 0);
     virtual int Initialize(unsigned int signalSize, unsigned int componentSize = 0);
-    virtual void SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) = 0;
-    virtual void ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) = 0;
+    virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
+    virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;
     virtual sample* Allocate(size_t size) = 0;
     virtual void Deallocate(sample* data) = 0;
     int getSignalSize();

@@ -18,6 +18,7 @@
 
 #include <cstring>
 #include "buffer.h"
+#include "../abstracts/fft_interface_base.h"
 
 Buffer::Buffer(FFTInterfaceBase* fftEngine, size_t size) {
     _FftEngine = fftEngine;
@@ -56,7 +57,7 @@ bool Buffer::cloneFrom(const Buffer* source) {
     return true;
 }
 
-sample Buffer::operator[](size_t index) {
+sample& Buffer::operator[](size_t index) {
     return _Data[index];
 }
 

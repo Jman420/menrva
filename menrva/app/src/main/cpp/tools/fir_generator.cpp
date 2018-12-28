@@ -74,9 +74,10 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
            endSegmentIndex = 0;
     unsigned int fftFrequencySize = (unsigned int)interpolationSize * 2;
 
-    sample* fftFrequenciesReal = _FFTEngine->Allocate(fftFrequencySize);
-    sample* fftFrequenciesImag = _FFTEngine->Allocate(fftFrequencySize);
-    sample* fftOutputSignal = _FFTEngine->Allocate(fftFrequencySize);
+    AudioBuffer fftOutputSignal = *new AudioBuffer(_FFTEngine, fftFrequencySize);
+    AudioComponentsBuffer fftFrequencies = *new AudioComponentsBuffer(_FFTEngine, fftFrequencySize);
+    AudioBuffer fftFrequenciesReal = *fftFrequencies.getRealBuffer();
+    AudioBuffer fftFrequenciesImag = *fftFrequencies.getImagBuffer();
 
     for (int amplitudeCounter = 0; amplitudeCounter < sampleSize - 1; amplitudeCounter++) {
         endSegmentIndex = (int)(frequencySamples[amplitudeCounter + 1] * interpolationSize) - 1;
@@ -112,7 +113,7 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
     // Perform Inverse FFT (turn frequencies into a signal)
     unsigned int fftCalcSize = fftFrequencySize - 2;
     _FFTEngine->Initialize(fftCalcSize, fftFrequencySize);
-    _FFTEngine->ComponentsToSignal(fftOutputSignal, fftFrequenciesReal, fftFrequenciesImag);
+    _FFTEngine->ComponentsToSignal(&fftFrequencies, &fftOutputSignal);
 
     // Perform Hamming Window Smoothing
     sample hammingIncrement = (sample)filterSize - ONE,
@@ -123,9 +124,8 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
         firBuffer[elementCounter] = (HAMMING_054 - HAMMING_046 * cos(PI2 * (sample)elementCounter / hammingIncrement)) * fftOutputSignal[elementCounter] * fftReductionScalar;
     }
 
-    _FFTEngine->Deallocate(fftFrequenciesReal);
-    _FFTEngine->Deallocate(fftFrequenciesImag);
-    _FFTEngine->Deallocate(fftOutputSignal);
+    delete &fftFrequencies;
+    delete &fftOutputSignal;
 
     return firBufferPtr;
 }

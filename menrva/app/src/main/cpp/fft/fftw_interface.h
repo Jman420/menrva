@@ -30,8 +30,8 @@ class FftwInterface : public FFTInterfaceBase {
 public:
     FftwInterface(unsigned int signalSize = 0, unsigned int componentSize = 0);
     int Initialize(unsigned int signalSize, unsigned int componentSize = 0) override;
-    void SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) override;
-    void ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) override;
+    void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
+    void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
     sample* Allocate(size_t size) override;
     void Deallocate(sample* data) override;
 

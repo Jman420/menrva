@@ -50,7 +50,6 @@ static fftwExecuteFunc* Fftw3ExecuteComplex2Real = fftwf_execute_split_dft_c2r;
 
 static fftwAllocateFunc* Fftw3Allocate = fftwf_alloc_real;
 static fftwFreeFunc* Fftw3Free = fftwf_free;
-static
 
 #endif
 

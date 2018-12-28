@@ -20,8 +20,9 @@
 #define MENRVA_BUFFER_H
 
 #include <cstddef>
-#include "../abstracts/fft_interface_base.h"
 #include "../audio/sample.h"
+
+class FFTInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
 
 class Buffer {
 public:
@@ -33,7 +34,7 @@ public:
     void resetData();
     bool cloneFrom(const Buffer* source);
 
-    sample operator[](size_t index);
+    sample& operator[](size_t index);
     size_t getSize();
     sample* getData();
 
