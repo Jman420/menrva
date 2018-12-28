@@ -29,7 +29,7 @@ See [CONTRIBUTING](CONTRIBUTING.md) document
 
 ## Special Thanks
 Huge thanks goes out to all of the XDA Audio Mod developers out there and their projects for inspiring me to start my own.  An even bigger thanks goes out to those developers that Open Source their DSP algorithms so the rest of us can use them.  Unlikely that this is a complete list : 
-  - [JamesDSP](https://github.com/james34602/JamesDSPManager) Dev Team ([james3460297](https://github.com/james34602)) - For providinng JamesDSP as an open source foundation
+  - [JamesDSP](https://github.com/james34602/JamesDSPManager) Dev Team ([james3460297](https://github.com/james34602)) - For providing JamesDSP as an open source foundation
   - [FFTW3-Android](https://github.com/Lauszus/fftw3-android) Dev Team ([Lauszus](https://github.com/Lauszus)) - For inspiration and guidance on FFTW compilation for Android
   - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) Dev Team ([HiFi-LoFi](https://github.com/HiFi-LoFi)) - For providing a reasonable and understandable FFT Convolver Implementation
   - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) Dev Team ([Bendrien](https://github.com/Bendrien)) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
