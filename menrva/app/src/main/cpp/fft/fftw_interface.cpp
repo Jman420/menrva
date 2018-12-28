@@ -50,8 +50,8 @@ int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSiz
     float* freqReal = Allocate(componentSize);
     float* freqImag = Allocate(componentSize);
 
-    _Plans.Real2ComplexPlan = Fftw3PlanReal2ComplexFunc(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
-    _Plans.Complex2RealPlan = Fftw3PlanComplex2RealFunc(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
+    _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
+    _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
     FFTInterfaceBase::Initialize(signalSize, componentSize);
 
@@ -62,17 +62,21 @@ int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSiz
 }
 
 float* FftwInterface::Allocate(size_t size) {
-    return fftwf_alloc_real(size);
+    return Fftw3Allocate(size);
 }
 
 void FftwInterface::Deallocate(sample* data) {
-    fftwf_free(data);
+    Fftw3Free(data);
 }
 
 void FftwInterface::SignalToComponents(sample* signal, sample* realComponents, sample* imagComponents) {
-    fftwf_execute_split_dft_r2c(_Plans.Real2ComplexPlan, signal, realComponents, imagComponents);
+    // TODO : Validate signal & component lengths
+
+    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal, realComponents, imagComponents);
 }
 
 void FftwInterface::ComponentsToSignal(sample* signal, sample* realComponents, sample* imagComponents) {
-    fftwf_execute_split_dft_c2r(_Plans.Complex2RealPlan, realComponents, imagComponents, signal);
+    // TODO : Validate signal & component lengths
+
+    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, realComponents, imagComponents, signal);
 }
