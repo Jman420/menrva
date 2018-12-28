@@ -17,38 +17,48 @@
  */
 
 #include <cstring>
+#include <cassert>
 #include "buffer.h"
 #include "../abstracts/fft_interface_base.h"
 
 Buffer::Buffer(FFTInterfaceBase* fftEngine, size_t size) {
     _FftEngine = fftEngine;
-    initialize(size);
+    Initialize(size);
+}
+
+Buffer::Buffer(FFTInterfaceBase* fftEngine, sample* data, size_t size) {
+    _FftEngine = fftEngine;
+    SetData(data, size);
 }
 
 Buffer::~Buffer() {
-    clear();
+    Free();
 }
 
-void Buffer::clear() {
+void Buffer::Free() {
+    if (!_Data) {
+        return;
+    }
+
     _FftEngine->Deallocate(_Data);
     _Size = 0;
 }
 
-void Buffer::resize(size_t size) {
+void Buffer::Resize(size_t size) {
     if (_Size == size) {
-        resetData();
+        ResetData();
         return;
     }
 
-    clear();
-    initialize(size);
+    Free();
+    Initialize(size);
 }
 
-void Buffer::resetData() {
+void Buffer::ResetData() {
     memset(_Data, 0, sizeof(sample) * _Size);
 }
 
-bool Buffer::cloneFrom(const Buffer* source) {
+bool Buffer::CloneFrom(const Buffer* source) {
     if (source->_Size != _Size || source == this) {
         return false;
     }
@@ -58,18 +68,19 @@ bool Buffer::cloneFrom(const Buffer* source) {
 }
 
 sample& Buffer::operator[](size_t index) {
+    assert(_Size > 0 && index < _Size);
     return _Data[index];
 }
 
-size_t Buffer::getSize() {
+size_t Buffer::GetSize() {
     return _Size;
 }
 
-sample* Buffer::getData() {
+sample* Buffer::GetData() {
     return _Data;
 }
 
-void Buffer::initialize(size_t size) {
+void Buffer::Initialize(size_t size) {
     _Size = size;
 
     if (size > 0) {
@@ -77,8 +88,17 @@ void Buffer::initialize(size_t size) {
     }
 }
 
-void Buffer::swap(Buffer* itemA, Buffer* itemB) {
+void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
     Buffer* temp = itemA;
     itemA = itemB;
     itemB = temp;
+}
+
+void Buffer::SetData(sample* data, size_t size, bool freeExisting) {
+    if (_Data && freeExisting) {
+        Free();
+    }
+
+    _Data = data;
+    _Size = size;
 }

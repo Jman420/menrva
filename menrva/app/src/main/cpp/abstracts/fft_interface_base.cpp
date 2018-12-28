@@ -22,11 +22,11 @@ FFTInterfaceBase::FFTInterfaceBase(unsigned int signalSize, unsigned int compone
     Initialize(signalSize, componentSize);
 }
 
-int FFTInterfaceBase::getSignalSize() {
+int FFTInterfaceBase::GetSignalSize() {
     return _SignalSize;
 }
 
-int FFTInterfaceBase::getComponentSize() {
+int FFTInterfaceBase::GetComponentSize() {
     return _ComponentSize;
 }
 

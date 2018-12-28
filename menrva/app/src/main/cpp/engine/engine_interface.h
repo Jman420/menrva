@@ -26,10 +26,10 @@
 class MenrvaEngineInterface {
 public:
     // Represents the Descriptor for the Menrva Effects Engine
-    static const effect_descriptor_t effectDescriptor;
+    static const effect_descriptor_t EffectDescriptor;
 
-    static const char* effectTypeUUID;
-    static const char* engineUUID;
+    static const char* EffectTypeUUID;
+    static const char* EngineUUID;
 
     static int Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out);
     static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData,

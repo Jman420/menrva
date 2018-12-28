@@ -27,16 +27,16 @@ public:
     AudioComponentsBuffer(FFTInterfaceBase* fftEngine, size_t size);
     ~AudioComponentsBuffer();
 
-    void clear();
-    void resize(size_t size);
-    void resetData();
-    bool cloneFrom(AudioComponentsBuffer* source);
+    void Clear();
+    void Resize(size_t size);
+    void ResetData();
+    bool CloneFrom(AudioComponentsBuffer* source);
 
-    size_t getSize();
-    sample* getRealData();
-    sample* getImagData();
-    AudioBuffer* getRealBuffer();
-    AudioBuffer* getImagBuffer();
+    size_t GetSize();
+    sample* GetRealData();
+    sample* GetImagData();
+    AudioBuffer* GetRealBuffer();
+    AudioBuffer* GetImagBuffer();
 
 private:
     size_t _Size;

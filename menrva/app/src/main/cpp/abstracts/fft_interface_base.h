@@ -32,8 +32,8 @@ public:
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;
     virtual sample* Allocate(size_t size) = 0;
     virtual void Deallocate(sample* data) = 0;
-    int getSignalSize();
-    int getComponentSize();
+    int GetSignalSize();
+    int GetComponentSize();
 
 protected:
     int _SignalSize,

@@ -61,7 +61,7 @@ private:
                          uint32_t* replySize, void* pReplyData);
 
     // Represents the Command to Function Map
-    static function_map CommandMap;
+    static function_map _CommandMap;
 };
 
 #endif //MENRVA_MENRVA_COMMAND_MAP_H

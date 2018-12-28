@@ -36,8 +36,8 @@ enum MenrvaEngineStatus {
 
 class MenrvaEffectsEngine {
 public:
-    MenrvaEngineStatus engineStatus;
-    audio_buffer_t* workingBuffer;
+    MenrvaEngineStatus _EngineStatus;
+    audio_buffer_t* _WorkingBuffer;
 
     MenrvaEffectsEngine();
     void ResetEffects();
@@ -46,7 +46,7 @@ public:
     void ConfigureEffectSetting(int effectIndex, char settingName[], void* value);
 
 private:
-    EffectBase* menrvaEffects[3] = {
+    EffectBase* _MenrvaEffects[3] = {
             new Equalizer(),
             new BassBoost(),
             new StereoWidener(),

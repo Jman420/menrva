@@ -76,8 +76,8 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
 
     AudioBuffer fftOutputSignal = *new AudioBuffer(_FFTEngine, fftFrequencySize);
     AudioComponentsBuffer fftFrequencies = *new AudioComponentsBuffer(_FFTEngine, fftFrequencySize);
-    AudioBuffer fftFrequenciesReal = *fftFrequencies.getRealBuffer();
-    AudioBuffer fftFrequenciesImag = *fftFrequencies.getImagBuffer();
+    AudioBuffer fftFrequenciesReal = *fftFrequencies.GetRealBuffer();
+    AudioBuffer fftFrequenciesImag = *fftFrequencies.GetImagBuffer();
 
     for (int amplitudeCounter = 0; amplitudeCounter < sampleSize - 1; amplitudeCounter++) {
         endSegmentIndex = (int)(frequencySamples[amplitudeCounter + 1] * interpolationSize) - 1;
@@ -119,7 +119,7 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
     sample hammingIncrement = (sample)filterSize - ONE,
            fftReductionScalar = ONE / fftCalcSize;
     AudioBuffer* firBufferPtr = new AudioBuffer(_FFTEngine, filterSize);
-    sample* firBuffer = firBufferPtr->getData();
+    sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterSize; elementCounter++) {
         firBuffer[elementCounter] = (HAMMING_054 - HAMMING_046 * cos(PI2 * (sample)elementCounter / hammingIncrement)) * fftOutputSignal[elementCounter] * fftReductionScalar;
     }

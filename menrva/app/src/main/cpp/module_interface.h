@@ -37,17 +37,17 @@ struct menrva_module_context {
     __unused const effect_interface_s* itfe;
     effect_config_t* config;
 
-    MenrvaModuleStatus moduleStatus;
-    MenrvaEffectsEngine* effectsEngine;
-    AudioBuffer* inputBuffer;
-    AudioBuffer* outputBuffer;
+    MenrvaModuleStatus ModuleStatus;
+    MenrvaEffectsEngine* EffectsEngine;
+    AudioBuffer* InputBuffer;
+    AudioBuffer* OutputBuffer;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
 class MenrvaModuleInterface {
 public:
     // Represents the public interface for interacting with the Menrva Audio Effects Engine
-    static const effect_interface_s engineInterface;
+    static const effect_interface_s EngineInterface;
 
     static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId,
                             effect_handle_t* pHandle);

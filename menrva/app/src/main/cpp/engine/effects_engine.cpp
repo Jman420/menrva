@@ -20,46 +20,43 @@
 #include "effects_engine.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine() {
-    engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
+    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
     ResetEffects();
 }
 
 void MenrvaEffectsEngine::ResetEffects() {
-    engineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
+    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
-    workingBuffer = (audio_buffer_t*)malloc(sizeof(audio_buffer_t));
-    for (EffectBase* effect : menrvaEffects) {
+    _WorkingBuffer = (audio_buffer_t*)malloc(sizeof(audio_buffer_t));
+    for (EffectBase* effect : _MenrvaEffects) {
         effect->ResetConfig();
     }
 }
 
 int MenrvaEffectsEngine::Process(AudioBuffer* in, AudioBuffer* out) {
-
-    for (EffectBase* effect : menrvaEffects) {
+    for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
             effect->Process(in, out);
         }
     }
 
-    // TODO : Write final processed buffer to out buffer
-
     return 0;
 }
 
 void MenrvaEffectsEngine::SetEffectEnabled(int effectIndex, bool enabled) {
-    if (effectIndex >= sizeof(menrvaEffects)) {
+    if (effectIndex >= sizeof(_MenrvaEffects)) {
         return;
     }
 
-    EffectBase* effect = menrvaEffects[effectIndex];
+    EffectBase* effect = _MenrvaEffects[effectIndex];
     effect->Enabled = enabled;
 }
 
 void MenrvaEffectsEngine::ConfigureEffectSetting(int effectIndex, char* settingName, void* value) {
-    if (effectIndex >= sizeof(menrvaEffects)) {
+    if (effectIndex >= sizeof(_MenrvaEffects)) {
         return;
     }
 
-    EffectBase* effect = menrvaEffects[effectIndex];
+    EffectBase* effect = _MenrvaEffects[effectIndex];
     effect->ConfigureSetting(settingName, value);
 }

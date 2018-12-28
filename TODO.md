@@ -19,7 +19,8 @@
   - ~~Review & Update Documentation~~
   - ~~Replace float with typedef for easy switch to double if needed~~
   - ~~Draft Service Locator for Rough IoC~~
-  - Draft functions to swap data pointers within Buffer
+  - ~~Draft functions to swap data pointers within Buffer~~
+  - ~~Push Input & Output buffers into AudioBuffer~~
   - Draft Convolver
   - Remove Unused Code
   - Draft Bass Boost Effect Implementation

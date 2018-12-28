@@ -72,11 +72,13 @@ void FftwInterface::Deallocate(sample* data) {
 void FftwInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
     // TODO : Validate signal & component lengths
 
-    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal->getData(), components->getRealData(), components->getImagData());
+    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal->GetData(), components->GetRealData(),
+                             components->GetImagData());
 }
 
 void FftwInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
     // TODO : Validate signal & component lengths
 
-    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components->getRealData(), components->getImagData(), signal->getData());
+    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components->GetRealData(),
+                             components->GetImagData(), signal->GetData());
 }
