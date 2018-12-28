@@ -21,6 +21,7 @@
   - ~~Draft Service Locator for Rough IoC~~
   - Draft functions to swap data pointers within Buffer
   - Draft Convolver
+  - Remove Unused Code
   - Draft Bass Boost Effect Implementation
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
