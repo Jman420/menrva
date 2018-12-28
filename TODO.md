@@ -21,13 +21,15 @@
   - ~~Draft Service Locator for Rough IoC~~
   - ~~Draft functions to swap data pointers within Buffer~~
   - ~~Push Input & Output buffers into AudioBuffer~~
-  - Draft Convolver
-  - Remove Unused Code
+  - ~~Adapt Convolution Operation Functions from FFTConvolver~~
+  - Adapt Convolver Process from FFTConvolver
+  - Remove Unused Code (FFTConvolver)
   - Draft Bass Boost Effect Implementation
-  - Compare Bass Boost Effect to JamesDSP
+  - ? Compare Bass Boost Effect to JamesDSP ?
   - Draft UI Frontend
   - Draft JNI Interface to Menrva Module Backend
   - Draft Installation Method via UI w/ Root
+  - Whole bunch of testing
   - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI) ?
   - Release

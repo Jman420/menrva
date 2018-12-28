@@ -72,7 +72,7 @@ sample& Buffer::operator[](size_t index) {
     return _Data[index];
 }
 
-size_t Buffer::GetSize() {
+size_t Buffer::GetLength() {
     return _Size;
 }
 

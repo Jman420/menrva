@@ -22,8 +22,8 @@
 #include <string>
 #include <math.h>
 #include "../abstracts/fft_interface_base.h"
-#include "../audio/sample.h"
-#include "../audio/audio_buffer.h"
+#include "sample.h"
+#include "audio_buffer.h"
 #include "../abstracts/logger_base.h"
 
 class FIR_Generator {

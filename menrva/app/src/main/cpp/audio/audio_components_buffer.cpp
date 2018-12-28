@@ -55,7 +55,7 @@ bool AudioComponentsBuffer::CloneFrom(AudioComponentsBuffer* source) {
     return realCloneResult && imagCloneResult;
 }
 
-size_t AudioComponentsBuffer::GetSize() {
+size_t AudioComponentsBuffer::GetLength() {
     return _Size;
 }
 

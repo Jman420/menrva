@@ -17,7 +17,7 @@
  */
 
 #include "fir_generator.h"
-#include "android_logger.h"
+#include "../tools/android_logger.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
 

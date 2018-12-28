@@ -16,38 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BUFFER_H
-#define MENRVA_BUFFER_H
+#ifndef MENRVA_CONVOLUTION_FUNCTIONS_H
+#define MENRVA_CONVOLUTION_FUNCTIONS_H
 
-#include <cstddef>
-#include "../audio/sample.h"
+#include "../audio/audio_buffer.h"
+#include "../audio/audio_components_buffer.h"
 
-class FFTInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
-
-class Buffer {
+class ConvolutionFunctions {
 public:
-    Buffer(FFTInterfaceBase* fftEngine, size_t size = 0);
-    Buffer(FFTInterfaceBase* fftEngine, sample* data, size_t size);
-    ~Buffer();
-
-    bool CloneFrom(const Buffer* source);
-    void SetData(sample* data, size_t size, bool freeExisting = true);
-    void Resize(size_t size);
-    void ResetData();
-    void Free();
-
-    sample& operator[](size_t index);
-    size_t GetLength();
-    sample* GetData();
-
-    static void Swap(Buffer* itemA, Buffer* itemB);
-
-private:
-    size_t _Size;
-    sample* _Data;
-    FFTInterfaceBase* _FftEngine;
-
-    void Initialize(size_t size);
+    void ResetAndClone(AudioBuffer* source, AudioBuffer* destination);
+    void Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output);
+    void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output);
 };
 
-#endif //MENRVA_BUFFER_H
+#endif //MENRVA_CONVOLUTION_FUNCTIONS_H

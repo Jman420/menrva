@@ -32,7 +32,7 @@ public:
     void ResetData();
     bool CloneFrom(AudioComponentsBuffer* source);
 
-    size_t GetSize();
+    size_t GetLength();
     sample* GetRealData();
     sample* GetImagData();
     AudioBuffer* GetRealBuffer();
