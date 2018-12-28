@@ -39,7 +39,7 @@ add_library( # Sets the name of the library.
 
         src/main/cpp/fft/fftw_interface.cpp
 
-        src/main/cpp/convolver/convolution_functions.cpp
+        src/main/cpp/convolver/convolution_operations.cpp
 
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp

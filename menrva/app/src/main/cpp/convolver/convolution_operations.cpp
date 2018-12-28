@@ -19,9 +19,9 @@
 #include <cstring>
 #include <algorithm>
 #include <cstdlib>
-#include "convolution_functions.h"
+#include "convolution_operations.h"
 
-void ConvolutionFunctions::ResetAndClone(AudioBuffer* source, AudioBuffer* destination) {
+void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* destination) {
     assert(destination->GetLength() >= source->GetLength());
 
     size_t cloneLength = destination->GetLength();
@@ -34,7 +34,7 @@ void ConvolutionFunctions::ResetAndClone(AudioBuffer* source, AudioBuffer* desti
     memset(destinationData + cloneSize, 0, sampleTypeSize * sizeDiff);
 }
 
-void ConvolutionFunctions::Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
+void ConvolutionOperations::Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
     assert(output.GetLength() >= bufferA.GetLength());
     assert(output.GetLength() >= bufferB.GetLength());
     assert(bufferA.GetLength() == bufferB.GetLength());
@@ -44,7 +44,7 @@ void ConvolutionFunctions::Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, Audio
     }
 }
 
-void ConvolutionFunctions::ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA,
+void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA,
                                                      AudioComponentsBuffer* bufferB,
                                                      AudioComponentsBuffer* output) {
     assert(output->GetLength() >= bufferA->GetLength());

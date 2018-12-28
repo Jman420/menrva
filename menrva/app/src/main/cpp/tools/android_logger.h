@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOG_MANAGER_H
-#define MENRVA_LOG_MANAGER_H
+#ifndef MENRVA_ANDROID_LOGGER_H
+#define MENRVA_ANDROID_LOGGER_H
 
 #include "../abstracts/logger_base.h"
 
@@ -33,4 +33,4 @@ private:
     static void Initialize();
 };
 
-#endif //MENRVA_LOG_MANAGER_H
+#endif //MENRVA_ANDROID_LOGGER_H

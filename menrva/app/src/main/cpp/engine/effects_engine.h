@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_MENRVA_EFFECTS_ENGINE_H
-#define MENRVA_MENRVA_EFFECTS_ENGINE_H
+#ifndef MENRVA_EFFECTS_ENGINE_H
+#define MENRVA_EFFECTS_ENGINE_H
 
 #include "../aosp/aosp_audio_effect_defs.h"
 #include "../abstracts/effect_base.h"
@@ -53,4 +53,4 @@ private:
     };
 };
 
-#endif //MENRVA_MENRVA_EFFECTS_ENGINE_H
+#endif //MENRVA_EFFECTS_ENGINE_H

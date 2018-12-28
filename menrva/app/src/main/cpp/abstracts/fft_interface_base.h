@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFTENGINEBASE_H
-#define MENRVA_FFTENGINEBASE_H
+#ifndef MENRVA_FFT_INTERFACE_BASE_H
+#define MENRVA_FFT_INTERFACE_BASE_H
 
 #include <cstddef>
 #include "../audio/sample.h"
@@ -40,4 +40,4 @@ protected:
         _ComponentSize;
 };
 
-#endif //MENRVA_FFTENGINEBASE_H
+#endif //MENRVA_FFT_INTERFACE_BASE_H

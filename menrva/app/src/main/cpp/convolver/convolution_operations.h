@@ -16,17 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONVOLUTION_FUNCTIONS_H
-#define MENRVA_CONVOLUTION_FUNCTIONS_H
+#ifndef MENRVA_CONVOLUTION_OPERATIONS_H
+#define MENRVA_CONVOLUTION_OPERATIONS_H
 
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
-class ConvolutionFunctions {
+class ConvolutionOperations {
 public:
     void ResetAndClone(AudioBuffer* source, AudioBuffer* destination);
     void Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output);
     void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output);
 };
 
-#endif //MENRVA_CONVOLUTION_FUNCTIONS_H
+#endif //MENRVA_CONVOLUTION_OPERATIONS_H

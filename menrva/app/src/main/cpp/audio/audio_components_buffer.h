@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIOCOMPONENTSBUFFER_H
-#define MENRVA_AUDIOCOMPONENTSBUFFER_H
+#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
 
 #include <cstddef>
 #include "audio_buffer.h"
@@ -44,4 +44,4 @@ private:
     AudioBuffer* _ImagBuffer;
 };
 
-#endif //MENRVA_AUDIOCOMPONENTSBUFFER_H
+#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
