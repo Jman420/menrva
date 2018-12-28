@@ -16,16 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_CONFIG_H
+#define MENRVA_CONFIG_H
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+/* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
+ * of float types for all calculations.
+ *
+ * NOTE : At the time of writing the Android AudioFlinger Service expects float32 as the largest
+ * type it handles.  See the 'aosp/README.md' file for AOSP Source Files worth referencing, or the
+ * included structures copied from those files in 'aosp/aosp_audio_effect_defs.h'.  The relevant
+ * structure in this case is 'audio_buffer_t'.
+ */
+//#define MENRVA_DOUBLE_PRECISION
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
-
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+#endif //MENRVA_CONFIG_H

@@ -16,16 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_SAMPLE_H
+#define MENRVA_SAMPLE_H
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+#include "../config.h"
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+#ifdef MENRVA_DOUBLE_PRECISION
+typedef double sample;
+#else
+typedef float sample;
+#endif
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+#endif //MENRVA_SAMPLE_H

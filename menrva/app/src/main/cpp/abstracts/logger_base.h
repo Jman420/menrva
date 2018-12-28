@@ -16,16 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_LOGGER_BASE_H
+#define MENRVA_LOGGER_BASE_H
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+#include <string>
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+enum LogLevel {
+    ERROR = 0,
+    WARNING = 1,
+    INFO = 2,
+    DEBUG = 3,
+    VERBOSE = 4,
+};
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+class LoggerBase {
+public:
+    static LogLevel AppLogLevel;
+
+    virtual void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...) = 0;
+};
+
+#endif //MENRVA_LOGGER_BASE_H

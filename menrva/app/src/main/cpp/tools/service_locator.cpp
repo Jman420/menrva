@@ -16,16 +16,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#include "service_locator.h"
+#include "android_logger.h"
+#include "../fft/fftw_interface.h"
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
+LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
+
+LoggerBase* ServiceLocator::GetLogger() {
+    return _Logger;
 }
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
-
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
+FFTInterfaceBase* ServiceLocator::GetFftEngine(unsigned int signalSize, unsigned int componentSize) {
+    return new FftwInterface(signalSize, componentSize);
 }

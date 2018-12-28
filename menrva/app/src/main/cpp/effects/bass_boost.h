@@ -24,7 +24,7 @@
 class BassBoost : public EffectBase {
 public:
     BassBoost();
-    void Process(audio_buffer_t* in, audio_buffer_t* out);
+    void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);
 

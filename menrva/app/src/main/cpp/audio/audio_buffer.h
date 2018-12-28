@@ -16,31 +16,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOG_MANAGER_H
-#define MENRVA_LOG_MANAGER_H
+#ifndef MENRVA_AUDIO_BUFFER_H
+#define MENRVA_AUDIO_BUFFER_H
 
-#include <string>
-#include "../aosp/liblog/android/log.h"
+#include "../tools/buffer.h"
 
-enum LogLevel {
-    ERROR = 0,
-    WARNING = 1,
-    INFO = 2,
-    DEBUG = 3,
-    VERBOSE = 4,
-};
+typedef Buffer AudioBuffer;
 
-class Logger {
-public:
-    static LogLevel AppLogLevel;
-
-    static void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...);
-
-private:
-    static bool mInitialized;
-    static void Initialize();
-
-    Logger();
-};
-
-#endif //MENRVA_LOG_MANAGER_H
+#endif //MENRVA_AUDIO_BUFFER_H

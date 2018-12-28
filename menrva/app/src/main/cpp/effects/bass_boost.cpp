@@ -22,7 +22,7 @@ BassBoost::BassBoost(){
     // TODO : Implement Initialization Logic
 }
 
-void BassBoost::Process(audio_buffer_t* in, audio_buffer_t* out) {
+void BassBoost::Process(AudioBuffer* in, AudioBuffer* out) {
     // TODO : Implement BassBoost Effect
 }
 

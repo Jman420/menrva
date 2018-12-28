@@ -16,16 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "stereo_widener.h"
+#ifndef MENRVA_AUDIOCOMPONENTSBUFFER_H
+#define MENRVA_AUDIOCOMPONENTSBUFFER_H
 
-void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Stereo Widener Effect
-}
+#include <cstddef>
+#include "audio_buffer.h"
 
-void StereoWidener::ResetConfig() {
-    // TODO : Implement Default Configuration for StereoWidener Effect
-}
+class AudioComponentsBuffer {
+public:
+    AudioComponentsBuffer(FFTInterfaceBase* fftEngine, size_t size);
+    ~AudioComponentsBuffer();
 
-void StereoWidener::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the StereoWidener Effect
-}
+    void clear();
+    void resize(size_t size);
+    void resetData();
+    bool cloneFrom(AudioComponentsBuffer* source);
+
+    size_t getSize();
+    sample* getRealData();
+    sample* getImagData();
+    AudioBuffer* getRealBuffer();
+    AudioBuffer* getImagBuffer();
+
+private:
+    size_t _Size;
+    AudioBuffer* _RealBuffer;
+    AudioBuffer* _ImagBuffer;
+};
+
+#endif //MENRVA_AUDIOCOMPONENTSBUFFER_H

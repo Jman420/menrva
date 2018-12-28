@@ -41,7 +41,7 @@ public:
 
     MenrvaEffectsEngine();
     void ResetEffects();
-    int Process(audio_buffer_t* in, audio_buffer_t* out);
+    int Process(AudioBuffer* in, AudioBuffer* out);
     void SetEffectEnabled(int effectIndex, bool enabled);
     void ConfigureEffectSetting(int effectIndex, char settingName[], void* value);
 

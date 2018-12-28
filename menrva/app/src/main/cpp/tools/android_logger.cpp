@@ -16,19 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "logger.h"
+#include "android_logger.h"
+#include "../aosp/liblog/android/log.h"
 
-bool Logger::mInitialized = false;
-LogLevel Logger::AppLogLevel = LogLevel::ERROR;
+bool AndroidLogger::mInitialized = false;
 
-void Logger::Initialize() {
-    Logger::AppLogLevel = LogLevel::VERBOSE;
+AndroidLogger::AndroidLogger() : LoggerBase() {
+    Initialize();
+}
+
+void AndroidLogger::Initialize() {
+    if (mInitialized) {
+        return;
+    }
+
+    AppLogLevel = LogLevel::VERBOSE;
     // TODO : Get AppLogLevel from Shared Settings
 
     mInitialized = true;
 }
 
-void Logger::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
+void AndroidLogger::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
     if (!mInitialized) {
         Initialize();
     }
@@ -60,5 +68,3 @@ void Logger::WriteLog(std::string message, std::string prefix, LogLevel logLevel
             break;
     }
 }
-
-Logger::Logger() {}

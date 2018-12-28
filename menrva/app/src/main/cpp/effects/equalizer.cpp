@@ -18,7 +18,7 @@
 
 #include "equalizer.h"
 
-void Equalizer::Process(audio_buffer_t* in, audio_buffer_t* out) {
+void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
     // TODO : Implement Equalizer Effect
 }
 

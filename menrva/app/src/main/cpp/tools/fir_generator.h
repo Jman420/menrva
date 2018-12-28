@@ -22,10 +22,13 @@
 #include <string>
 #include <math.h>
 #include "../abstracts/fft_interface_base.h"
+#include "../audio/sample.h"
+#include "../audio/audio_buffer.h"
+#include "../abstracts/logger_base.h"
 
 class FIR_Generator {
 public:
-    FIR_Generator(FFTInterfaceBase* fftEngine);
+    FIR_Generator(LoggerBase* logger, FFTInterfaceBase* fftEngine);
 
     /*
      * Create() - Returns a Finite Impulse Response of size 'interpolationSize' based on the provided
@@ -35,12 +38,18 @@ public:
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
-    float* Create(unsigned int filterSize, float* frequencySamples, float* amplitudeSamples, unsigned int sampleSize);
+    AudioBuffer* Create(unsigned int filterSize, sample* frequencySamples, sample* amplitudeSamples, unsigned int sampleSize);
 
 private:
     static const std::string LOG_TAG;
-    static constexpr float PI2 = (float)M_PI * 2.0f;
+    static constexpr sample PI = (sample)M_PI,
+                            PI2 = (sample)M_PI * (sample)2.0,
+                            ONE = (sample)1.0,
+                            ONE_HALF = (sample)0.5,
+                            HAMMING_054 = (sample)0.54,
+                            HAMMING_046 = (sample)0.46;
 
+    LoggerBase* _Logger;
     FFTInterfaceBase* _FFTEngine;
 };
 
