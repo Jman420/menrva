@@ -18,6 +18,11 @@ This project is an Android Audio Effect Module which contains various tunable au
 
 ## Requesting an Effect
 To request an effect open a GitHub Issue describing the effect which you would like.  Providing an open source implementation, algorithm, formula and/or any other documentation which may help in creating the effect is greatly appreciated.  Please note that I am not a mathmatician or electrical engineer and my background is mainly software engineering and development, so providing explanations or documentation which a computer scientist or engineer can understand will help speed up the process.
+
+## Calculation Precision
+I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
+
+To build a version of Menrva which uses C++ double type for double precision calculations see the (Configuring Calculation Precision)[CONTRIBUTING.md#configuring-calculation-precision] section of the [CONTRIBUTING](CONTRIBUTING.md) document.
   
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md) document
