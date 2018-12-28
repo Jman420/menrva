@@ -74,7 +74,7 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
     context->outputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine(), 0);
 
     // TODO : Configure any necessary parameters
-    //AndroidLogger::WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
+    //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
     context->moduleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
     _Logger->WriteLog("Successfully Initialized Menrva Context!", logPrefix);

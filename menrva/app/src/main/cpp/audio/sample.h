@@ -19,15 +19,8 @@
 #ifndef MENRVA_SAMPLE_H
 #define MENRVA_SAMPLE_H
 
-/* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
- * of float types for all calculations.
- *
- * NOTE : At the time of writing the Android AudioFlinger Service expects float32 as the largest
- * type it handles.  See the 'aosp/README.md' file for AOSP Source Files worth referencing, or the
- * included structures copied from those files in 'aosp/aosp_audio_effect_defs.h'.  The relevant
- * structure in this case is 'audio_buffer_t'.
- */
-//#define MENRVA_DOUBLE_PRECISION
+#include "../config.h"
+
 #ifdef MENRVA_DOUBLE_PRECISION
 typedef double sample;
 #else
