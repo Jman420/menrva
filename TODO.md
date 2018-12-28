@@ -5,7 +5,7 @@
   - ~~Implement FIR Generator~~
   - ~~Compare FIR Generator output to JamesDSP~~
   - ~~Draft Build Script for FFTW3 for Android~~
-  - ~~Determine Library Type to use for Menrva~~
+  - ~~Determine FFTW3 Library Type to use for Menrva~~
   - ~~Add FFTW3 Libs to Menrva Project~~
   - ~~Link FFTW Libs in Menrva CMake~~
   - ~~Add FFTConvolver to Menrva Project~~
