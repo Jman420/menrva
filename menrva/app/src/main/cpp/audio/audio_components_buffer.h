@@ -27,7 +27,7 @@ public:
     AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size = 0);
     ~AudioComponentsBuffer();
 
-    void Free();
+    void Reset();
     void Resize(size_t size);
     void ResetData();
     bool CloneFrom(AudioComponentsBuffer* source);

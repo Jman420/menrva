@@ -33,17 +33,18 @@ Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
 }
 
 Buffer::~Buffer() {
-    Free();
+    Reset();
+
+    delete _Data;
 }
 
-void Buffer::Free() {
-    if (!_Data) {
-        return;
-    }
-
-    _FftEngine->Deallocate(_Data);
+void Buffer::Reset() {
     _Length = 0;
     _MemorySize = 0;
+
+    if (_Data) {
+        _FftEngine->Deallocate(_Data);
+    }
 }
 
 void Buffer::Resize(size_t length) {
@@ -52,7 +53,7 @@ void Buffer::Resize(size_t length) {
         return;
     }
 
-    Free();
+    Reset();
     Initialize(length);
 }
 
@@ -104,7 +105,7 @@ void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
 
 void Buffer::SetData(sample* data, size_t length, bool freeExisting) {
     if (_Data && freeExisting) {
-        Free();
+        Reset();
     }
 
     _Data = data;

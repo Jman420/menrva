@@ -34,7 +34,7 @@ public:
     void SetData(sample* data, size_t length, bool freeExisting = true);
     void Resize(size_t length);
     void ResetData();
-    void Free();
+    void Reset();
 
     sample& operator[](size_t index);
     size_t GetLength();

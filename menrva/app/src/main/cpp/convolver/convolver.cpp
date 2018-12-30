@@ -50,8 +50,10 @@ void Convolver::Reset() {
     delete _WorkingComponents;
     delete _OverlapSignal;
 
-    _SignalScalar = 1;
     _FilterSegmentsLength = 0;
+    _FrameLength = 0;
+    _FrameSize = 0;
+    _SignalScalar = 1;
 }
 
 bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseResponse) {
@@ -101,6 +103,7 @@ bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseRespons
     _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
 
     _Initialized = true;
+    return true;
 }
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {

@@ -26,13 +26,15 @@ AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
+    Reset();
+
     delete _RealBuffer;
     delete _ImagBuffer;
 }
 
-void AudioComponentsBuffer::Free() {
-    _RealBuffer->Free();
-    _ImagBuffer->Free();
+void AudioComponentsBuffer::Reset() {
+    _RealBuffer->Reset();
+    _ImagBuffer->Reset();
 }
 
 void AudioComponentsBuffer::Resize(size_t size) {
