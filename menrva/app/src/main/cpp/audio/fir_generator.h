@@ -31,9 +31,9 @@ public:
     FIR_Generator(LoggerBase* logger, FftInterfaceBase* fftEngine);
 
     /*
-     * Create() - Returns a Finite Impulse Response of size 'interpolationSize' based on the provided
-     * Frequency Samples & Amplitudes.
-     * interpolationSize - Size of resulting FIR Filter (number of elements in the filter; 2048 or 4096)
+     * Create() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
+     *   Frequency Samples & Amplitudes.
+     * filterSize - Size of resulting FIR Filter (number of elements in the filter; 2048 or 4096 or other power of 2)
      * frequencySamples - Array of Frequency values to interpolate
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays

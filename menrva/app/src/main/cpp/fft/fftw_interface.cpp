@@ -22,10 +22,10 @@
 
 PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
-FftwInterface::FftwInterface(unsigned int signalSize, unsigned int componentSize) :
+FftwInterface::FftwInterface(size_t signalSize, size_t componentSize) :
         FftInterfaceBase(signalSize, componentSize) {}
 
-int FftwInterface::Initialize(unsigned int signalSize, unsigned int componentSize) {
+size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     if (signalSize == 0 && componentSize == 0) {
         FftInterfaceBase::Initialize(signalSize, componentSize);
         return 0;

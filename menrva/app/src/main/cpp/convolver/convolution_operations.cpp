@@ -34,21 +34,20 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* dest
     memset(destinationData + cloneSize, 0, sampleTypeSize * sizeDiff);
 }
 
-void ConvolutionOperations::Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
-    assert(output.GetLength() >= bufferA.GetLength());
-    assert(output.GetLength() >= bufferB.GetLength());
+void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
+                                        AudioBuffer &output, sample scalar) {
+    assert(output.GetLength() <= bufferA.GetLength());
     assert(bufferA.GetLength() == bufferB.GetLength());
 
-    for (int sampleCounter = 0; sampleCounter < bufferA.GetLength(); sampleCounter++) {
-        output[sampleCounter] = bufferA[sampleCounter] + bufferB[sampleCounter];
+    for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
+        output[sampleCounter] = (bufferA[sampleCounter] + bufferB[sampleCounter]) * scalar;
     }
 }
 
 void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA,
                                                      AudioComponentsBuffer* bufferB,
                                                      AudioComponentsBuffer* output) {
-    assert(output->GetLength() >= bufferA->GetLength());
-    assert(output->GetLength() >= bufferB->GetLength());
+    assert(output->GetLength() <= bufferA->GetLength());
     assert(bufferA->GetLength() == bufferB->GetLength());
 
     AudioBuffer bufferAReal = *bufferA->GetRealBuffer(),
@@ -58,7 +57,7 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* buf
                 outputReal = *output->GetRealBuffer(),
                 outputImag = *output->GetImagBuffer();
 
-    for (int sampleCounter = 0; sampleCounter < bufferA->GetLength(); sampleCounter++) {
+    for (int sampleCounter = 0; sampleCounter < output->GetLength(); sampleCounter++) {
         outputReal[sampleCounter] += bufferAReal[sampleCounter] * bufferBReal[sampleCounter] - bufferAImag[sampleCounter] * bufferBImag[sampleCounter];
         outputImag[sampleCounter] += bufferAReal[sampleCounter] * bufferBImag[sampleCounter] + bufferAImag[sampleCounter] * bufferBReal[sampleCounter];
     }

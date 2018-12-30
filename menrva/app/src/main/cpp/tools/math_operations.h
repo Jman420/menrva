@@ -16,32 +16,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_MATH_OPERATIONS_H
+#define MENRVA_MATH_OPERATIONS_H
 
 #include <cstddef>
-#include "audio_buffer.h"
 
-class AudioComponentsBuffer {
+class MathOperations {
 public:
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size = 0);
-    ~AudioComponentsBuffer();
-
-    void Reset();
-    void Resize(size_t size);
-    void ResetData();
-    bool CloneFrom(AudioComponentsBuffer* source);
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-private:
-    size_t _Size;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    static size_t RoundToNextPowerOf2(size_t value);
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#endif //MENRVA_MATH_OPERATIONS_H

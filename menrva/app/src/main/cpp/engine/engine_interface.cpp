@@ -55,8 +55,8 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         return 0;
     }
 
-    context->InputBuffer->SetData((sample*) in->f32, in->frameCount, false);
-    context->OutputBuffer->SetData((sample*) out->f32, out->frameCount, false);
+    context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
+    context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
     int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
 
     return result;

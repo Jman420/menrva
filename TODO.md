@@ -22,10 +22,13 @@
   - ~~Draft functions to swap data pointers within Buffer~~
   - ~~Push Input & Output buffers into AudioBuffer~~
   - ~~Adapt Convolution Operation Functions from FFTConvolver~~
-  - Adapt Convolver Process from FFTConvolver
-  - Remove Unused Code (FFTConvolver)
+  - ~~Remove Unused Code (FFTConvolver)~~
+  - ~~Adapt Convolver Process from FFTConvolver & JamesDSP~~
+  - Debug Backend Module Surface (Module, Engine & Command Map Objects)
+  - Add Verbose Logging Statements
   - Draft Bass Boost Effect Implementation
-  - ? Compare Bass Boost Effect to JamesDSP ?
+  - Compare Convolver to JamesDSP
+  - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
   - Draft JNI Interface to Menrva Module Backend
   - Draft Installation Method via UI w/ Root
