@@ -26,6 +26,7 @@ const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
 
 Convolver::Convolver(FftInterfaceBase* fftEngine) {
     _FftEngine = fftEngine;
+    _ConvolutionOperations = new ConvolutionOperations();
 
     Reset();
 }
@@ -40,68 +41,88 @@ void Convolver::Reset() {
     }
 
     _Initialized = false;
-    for (int segmentCounter = 0; segmentCounter < _SegmentCount; segmentCounter++) {
-        delete _ImpulseSegments[segmentCounter];
+    for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
+        delete _FilterSegments[segmentCounter];
     }
-    delete _ImpulseSegments;
+    delete _FilterSegments;
 
     delete _WorkingSignal;
     delete _WorkingComponents;
     delete _OverlapSignal;
 
     _SignalScalar = 0;
-    _SegmentCount = 0;
+    _FilterSegmentsLength = 0;
 }
 
-bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) {
+bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseResponse) {
     if (_Initialized) {
         Reset();
     }
 
-    if (audioInputSize < 1) {
+    if (frameLength < 1) {
         return false;
     }
 
-    size_t validImpulseResponseLength = FindImpulseResponseLength(*impulseResponse);
-    if (validImpulseResponseLength < 1) {
+    size_t validFilterLength = FindImpulseResponseLength(*filterImpulseResponse);
+    if (validFilterLength < 1) {
         return true;
     }
 
     // Calculate Segment Count & Size
-    size_t segmentSize = MathOperations::RoundToNextPowerOf2(audioInputSize),
-           segmentComponentsSize = segmentSize + 1,
-           segmentSignalSize = segmentSize * 2;
-    _SegmentCount = (segmentSize + validImpulseResponseLength - 1) / segmentSize;
-    size_t lastSegmentIndex = _SegmentCount - 1;
-    _FftEngine->Initialize(segmentSignalSize, segmentComponentsSize);
-    _SignalScalar = ONE_HALF / audioInputSize;
+    _FrameLength = frameLength;
+    _FrameSize = sizeof(sample) * _FrameLength;
+    size_t segmentLength = MathOperations::RoundToNextPowerOf2(_FrameLength),
+           segmentComponentsLength = segmentLength + 1,
+           segmentSignalLength = segmentLength * 2;
+    _FilterSegmentsLength = (segmentLength + validFilterLength - 1) / segmentLength;
+    _FftEngine->Initialize(segmentSignalLength, segmentComponentsLength);
+    _SignalScalar = ONE_HALF / _FrameLength;
 
     // Allocate Impulse Response Filter Segments
-    _ImpulseSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _SegmentCount);
+    _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
 
     // Allocate & Calculate Impulse Response Components for all except the Last Segment
-    AudioBuffer* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalSize);
-    for (int segmentCounter = 0; segmentCounter < _SegmentCount; segmentCounter++) {
-        _ImpulseSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsSize);
+    size_t lastSegmentIndex = _FilterSegmentsLength - 1;
+    AudioBuffer* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalLength);
+    for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
+        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
-        size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentSize : validImpulseResponseLength - (lastSegmentIndex * segmentSize);
-        memcpy(impulseSignalSegment->GetData(), &impulseResponse[segmentCounter * segmentSize], sizeof(sample) * copySize);
+        size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentLength : validFilterLength - (lastSegmentIndex * segmentLength);
+        memcpy(impulseSignalSegment->GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
         // Calculate & Store Impulse Segment's Components
-        _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[segmentCounter]);
+        _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
     }
 
     // Allocate Convolution Buffers
-    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalSize);
-    _WorkingComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsSize);
-    _OverlapSignal = new AudioBuffer(_FftEngine, audioInputSize);
+    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
+    _WorkingComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
+    _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
 
     _Initialized = true;
 }
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
-    // TODO : Implement Convolver Process Logic
+    // TODO : Copy Input Frame into First Half of Working Signal
+
+    // Calculate Input Frame's Components
+    _FftEngine->SignalToComponents(_WorkingSignal, _WorkingComponents);
+
+    // Multiply & Accumulate each of the Filter Segments
+    for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
+        AudioComponentsBuffer* filterSegment = _FilterSegments[segmentCounter];
+        _ConvolutionOperations->ComplexMultiplyAccumulate(_WorkingComponents, filterSegment, _WorkingComponents);
+    }
+
+    // Calculate Accumulated Signal
+    _FftEngine->ComponentsToSignal(_WorkingComponents, _WorkingSignal);
+
+    // Store Last Half of Accumulated Signal in Overlap
+    memcpy(_OverlapSignal->GetData(), &_WorkingSignal[_FrameLength], _FrameSize);
+
+    // TODO : Sum First Half of Accumulated Signal & Overlap into Output
+    
 }
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {

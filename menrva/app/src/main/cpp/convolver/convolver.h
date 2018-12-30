@@ -22,6 +22,7 @@
 #include <cstddef>
 #include "../abstracts/fft_interface_base.h"
 #include "../audio/audio_buffer.h"
+#include "convolution_operations.h"
 
 class Convolver {
 public:
@@ -29,18 +30,23 @@ public:
     ~Convolver();
 
     void Reset();
-    bool Initialize(size_t audioInputSize, AudioBuffer* impulseResponse);
+    bool Initialize(size_t frameLength, AudioBuffer* filterImpulseResponse);
     void Process(AudioBuffer* input, AudioBuffer* output);
 
 private:
     static constexpr sample ONE_HALF = (sample)0.5;
     static const float SIGNAL_THRESHOLD;
 
+    // TODO : Make Convolution Operations Injectable
+    ConvolutionOperations* _ConvolutionOperations;
+
     FftInterfaceBase* _FftEngine;
     bool _Initialized;
-    size_t _SegmentCount;
+    size_t _FilterSegmentsLength,
+           _FrameLength,
+           _FrameSize;
     sample _SignalScalar;
-    AudioComponentsBuffer** _ImpulseSegments;
+    AudioComponentsBuffer** _FilterSegments;
     AudioBuffer* _WorkingSignal;
     AudioBuffer* _OverlapSignal;
     AudioComponentsBuffer* _WorkingComponents;
