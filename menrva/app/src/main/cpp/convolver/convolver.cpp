@@ -71,7 +71,7 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
     size_t segmentSize = MathOperations::RoundToNextPowerOf2(audioInputSize),
            segmentComponentsSize = segmentSize + 1,
            segmentSignalSize = segmentSize * 2;
-    _SegmentCount = (segmentSize + impulseResponse->GetLength() - 1) / segmentSize;
+    _SegmentCount = (segmentSize + validImpulseResponseLength - 1) / segmentSize;
     size_t lastSegmentIndex = _SegmentCount - 1;
     _FftEngine->Initialize(segmentSignalSize, segmentComponentsSize);
     _SignalScalar = ONE_HALF / audioInputSize;
@@ -93,7 +93,7 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
 
     // Calculate Impulse Response Components for Last Segment (probably shorter)
     size_t lastImpulseSegmentIndex = lastSegmentIndex * segmentSize,
-           lastImpulseSegmentSize = impulseResponse->GetLength() - lastImpulseSegmentIndex;
+           lastImpulseSegmentSize = validImpulseResponseLength - lastImpulseSegmentIndex;
     impulseSignalSegment->ResetData();
     memcpy(impulseSignalSegment->GetData(), &impulseResponse[lastSegmentIndex], lastImpulseSegmentSize);
     _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[lastSegmentIndex]);
@@ -107,7 +107,7 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
 }
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
-
+    // TODO : Implement Convolver Process Logic
 }
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {
