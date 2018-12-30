@@ -41,7 +41,9 @@ private:
     size_t _SegmentCount;
     sample _SignalScalar;
     AudioComponentsBuffer** _ImpulseSegments;
+    AudioBuffer* _WorkingSignal;
     AudioBuffer* _OverlapSignal;
+    AudioComponentsBuffer* _WorkingComponents;
 
     size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
 };

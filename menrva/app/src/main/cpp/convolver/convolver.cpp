@@ -44,6 +44,9 @@ void Convolver::Reset() {
         delete _ImpulseSegments[segmentCounter];
     }
     delete _ImpulseSegments;
+
+    delete _WorkingSignal;
+    delete _WorkingComponents;
     delete _OverlapSignal;
 
     _SignalScalar = 0;
@@ -96,11 +99,9 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
     _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[lastSegmentIndex]);
 
     // Allocate Convolution Buffers
+    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalSize);
+    _WorkingComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsSize);
     _OverlapSignal = new AudioBuffer(_FftEngine, audioInputSize);
-
-    // TODO : ??? Pre-allocate Output Segment Buffers ???
-
-    // TODO : ??? Pre-allocate Input Buffer ???
 
     _Initialized = true;
 }
