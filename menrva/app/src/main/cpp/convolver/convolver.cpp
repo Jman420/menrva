@@ -81,22 +81,16 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
 
     // Allocate & Calculate Impulse Response Components for all except the Last Segment
     AudioBuffer* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalSize);
-    for (int segmentCounter = 0; segmentCounter < lastSegmentIndex; segmentCounter++) {
+    for (int segmentCounter = 0; segmentCounter < _SegmentCount; segmentCounter++) {
         _ImpulseSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsSize);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
-        memcpy(impulseSignalSegment->GetData(), &impulseResponse[segmentCounter * segmentSize], sizeof(sample) * segmentSize);
+        size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentSize : validImpulseResponseLength - (lastSegmentIndex * segmentSize);
+        memcpy(impulseSignalSegment->GetData(), &impulseResponse[segmentCounter * segmentSize], sizeof(sample) * copySize);
 
         // Calculate & Store Impulse Segment's Components
         _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[segmentCounter]);
     }
-
-    // Calculate Impulse Response Components for Last Segment (probably shorter)
-    size_t lastImpulseSegmentIndex = lastSegmentIndex * segmentSize,
-           lastImpulseSegmentSize = validImpulseResponseLength - lastImpulseSegmentIndex;
-    impulseSignalSegment->ResetData();
-    memcpy(impulseSignalSegment->GetData(), &impulseResponse[lastSegmentIndex], lastImpulseSegmentSize);
-    _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[lastSegmentIndex]);
 
     // Allocate Convolution Buffers
     _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalSize);
