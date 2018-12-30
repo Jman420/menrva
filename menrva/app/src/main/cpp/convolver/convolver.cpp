@@ -26,11 +26,28 @@ const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
 
 Convolver::Convolver(FftInterfaceBase* fftEngine) {
     _FftEngine = fftEngine;
-    _Initialized = false;
+
+    Reset();
 }
 
 Convolver::~Convolver() {
-    Free();
+    Reset();
+}
+
+void Convolver::Reset() {
+    if (!_Initialized) {
+        return;
+    }
+
+    _Initialized = false;
+    for (int segmentCounter = 0; segmentCounter < _SegmentCount; segmentCounter++) {
+        delete _ImpulseSegments[segmentCounter];
+    }
+    delete _ImpulseSegments;
+    delete _OverlapSignal;
+
+    _SignalScalar = 0;
+    _SegmentCount = 0;
 }
 
 bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) {
@@ -48,13 +65,13 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
     }
 
     // Calculate Segment Count & Size
-    audioInputSize = MathOperations::RoundToNextPowerOf2(audioInputSize);
-    _SegmentCount = (audioInputSize + impulseResponse->GetLength() - 1) / audioInputSize;
-    size_t segmentSize = audioInputSize,
+    size_t segmentSize = MathOperations::RoundToNextPowerOf2(audioInputSize),
            segmentComponentsSize = segmentSize + 1,
-           segmentSignalSize = segmentSize * 2,
-           lastSegmentIndex = _SegmentCount - 1;
+           segmentSignalSize = segmentSize * 2;
+    _SegmentCount = (segmentSize + impulseResponse->GetLength() - 1) / segmentSize;
+    size_t lastSegmentIndex = _SegmentCount - 1;
     _FftEngine->Initialize(segmentSignalSize, segmentComponentsSize);
+    _SignalScalar = ONE_HALF / audioInputSize;
 
     // Allocate Impulse Response Filter Segments
     _ImpulseSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _SegmentCount);
@@ -78,13 +95,18 @@ bool Convolver::Initialize(size_t audioInputSize, AudioBuffer* impulseResponse) 
     memcpy(impulseSignalSegment->GetData(), &impulseResponse[lastSegmentIndex], lastImpulseSegmentSize);
     _FftEngine->SignalToComponents(impulseSignalSegment, _ImpulseSegments[lastSegmentIndex]);
 
-    // TODO : Pre-allocate Output Segment Buffers
+    // Allocate Convolution Buffers
+    _OverlapSignal = new AudioBuffer(_FftEngine, audioInputSize);
 
-    // TODO : Pre-allocate Convolution Buffers (intermediateProducts, overlap & fullOutput)
+    // TODO : ??? Pre-allocate Output Segment Buffers ???
 
     // TODO : ??? Pre-allocate Input Buffer ???
 
     _Initialized = true;
+}
+
+void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
+
 }
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {

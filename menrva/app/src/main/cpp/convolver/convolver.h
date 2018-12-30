@@ -28,19 +28,20 @@ public:
     Convolver(FftInterfaceBase* fftEngine);
     ~Convolver();
 
+    void Reset();
     bool Initialize(size_t audioInputSize, AudioBuffer* impulseResponse);
     void Process(AudioBuffer* input, AudioBuffer* output);
-    void Reset();
-    void Free();
 
 private:
+    static constexpr sample ONE_HALF = (sample)0.5;
     static const float SIGNAL_THRESHOLD;
 
     FftInterfaceBase* _FftEngine;
-
     bool _Initialized;
     size_t _SegmentCount;
+    sample _SignalScalar;
     AudioComponentsBuffer** _ImpulseSegments;
+    AudioBuffer* _OverlapSignal;
 
     size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
 };

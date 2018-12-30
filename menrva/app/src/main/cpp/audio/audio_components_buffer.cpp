@@ -30,7 +30,7 @@ AudioComponentsBuffer::~AudioComponentsBuffer() {
     delete _ImagBuffer;
 }
 
-void AudioComponentsBuffer::Clear() {
+void AudioComponentsBuffer::Free() {
     _RealBuffer->Free();
     _ImagBuffer->Free();
 }
