@@ -26,13 +26,13 @@ class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ..
 
 class Buffer {
 public:
-    Buffer(FftInterfaceBase* fftEngine, size_t size = 0);
-    Buffer(FftInterfaceBase* fftEngine, sample* data, size_t size);
+    Buffer(FftInterfaceBase* fftEngine, size_t length = 0);
+    Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length);
     ~Buffer();
 
     bool CloneFrom(const Buffer* source);
-    void SetData(sample* data, size_t size, bool freeExisting = true);
-    void Resize(size_t size);
+    void SetData(sample* data, size_t length, bool freeExisting = true);
+    void Resize(size_t length);
     void ResetData();
     void Free();
 
@@ -43,11 +43,14 @@ public:
     static void Swap(Buffer* itemA, Buffer* itemB);
 
 private:
-    size_t _Size;
+    static size_t CalculateMemorySize(size_t length);
+
+    size_t _Length,
+           _MemorySize;
     sample* _Data;
     FftInterfaceBase* _FftEngine;
 
-    void Initialize(size_t size);
+    void Initialize(size_t length);
 };
 
 #endif //MENRVA_BUFFER_H

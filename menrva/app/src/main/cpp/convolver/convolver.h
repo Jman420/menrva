@@ -16,32 +16,33 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_CONVOLVER_H
+#define MENRVA_CONVOLVER_H
 
 #include <cstddef>
-#include "audio_buffer.h"
+#include "../abstracts/fft_interface_base.h"
+#include "../audio/audio_buffer.h"
 
-class AudioComponentsBuffer {
+class Convolver {
 public:
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size = 0);
-    ~AudioComponentsBuffer();
+    Convolver(FftInterfaceBase* fftEngine);
+    ~Convolver();
 
-    void Clear();
-    void Resize(size_t size);
-    void ResetData();
-    bool CloneFrom(AudioComponentsBuffer* source);
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
+    bool Initialize(size_t audioInputSize, AudioBuffer* impulseResponse);
+    void Process(AudioBuffer* input, AudioBuffer* output);
+    void Reset();
+    void Free();
 
 private:
-    size_t _Size;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    static const float SIGNAL_THRESHOLD;
+
+    FftInterfaceBase* _FftEngine;
+
+    bool _Initialized;
+    size_t _SegmentCount;
+    AudioComponentsBuffer** _ImpulseSegments;
+
+    size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#endif //MENRVA_CONVOLVER_H

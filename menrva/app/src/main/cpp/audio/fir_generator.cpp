@@ -18,21 +18,9 @@
 
 #include "fir_generator.h"
 #include "../tools/android_logger.h"
+#include "../tools/math_operations.h"
 
 const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
-
-// The following method is adapted from https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
-int RoundToNextPowerOf2(unsigned int value) {
-    value--;
-    value |= value >> 1;
-    value |= value >> 2;
-    value |= value >> 4;
-    value |= value >> 8;
-    value |= value >> 16;
-    value++;
-
-    return value;
-}
 
 FIR_Generator::FIR_Generator(LoggerBase* logger, FftInterfaceBase *fftEngine) {
     _Logger = logger;
@@ -69,21 +57,21 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
            interpolatedAmplitude = 0,
            fftRadianScalar = (filterSize - ONE) * ONE_HALF * PI,
            fftRadians = 0,
-           interpolationSize = RoundToNextPowerOf2(filterSize) + 1,
+           interpolationSize = MathOperations::RoundToNextPowerOf2(filterSize) + 1,
            beginSegmentIndex = 0,
            endSegmentIndex = 0;
     unsigned int fftFrequencySize = (unsigned int)interpolationSize * 2;
 
-    AudioBuffer fftOutputSignal = *new AudioBuffer(_FFTEngine, fftFrequencySize);
     AudioComponentsBuffer fftFrequencies = *new AudioComponentsBuffer(_FFTEngine, fftFrequencySize);
-    AudioBuffer fftFrequenciesReal = *fftFrequencies.GetRealBuffer();
-    AudioBuffer fftFrequenciesImag = *fftFrequencies.GetImagBuffer();
+    AudioBuffer fftFrequenciesReal = *fftFrequencies.GetRealBuffer(),
+                fftFrequenciesImag = *fftFrequencies.GetImagBuffer(),
+                fftOutputSignal = *new AudioBuffer(_FFTEngine, fftFrequencySize);
 
-    for (int amplitudeCounter = 0; amplitudeCounter < sampleSize - 1; amplitudeCounter++) {
-        endSegmentIndex = (int)(frequencySamples[amplitudeCounter + 1] * interpolationSize) - 1;
+    for (int sampleCounter = 0; sampleCounter < sampleSize - 1; sampleCounter++) {
+        endSegmentIndex = (int)(frequencySamples[sampleCounter + 1] * interpolationSize) - 1;
 
         if (beginSegmentIndex < 0 || endSegmentIndex > interpolationSize) {
-            std::string msg = "Invalid Amplitudes Provided : Amplitude change too great between indexes" + std::to_string(amplitudeCounter) + " and " + std::to_string(amplitudeCounter + 1);
+            std::string msg = "Invalid Amplitudes Provided : Amplitude change too great between indexes" + std::to_string(sampleCounter) + " and " + std::to_string(sampleCounter + 1);
             _Logger->WriteLog(msg, logPrefix, LogLevel::ERROR);
             return 0;
         }
@@ -91,12 +79,12 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
         for (float elementCounter = beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
             // Interpolate Amplitude
             amplitudeIncrement = (elementCounter - beginSegmentIndex) / (endSegmentIndex - beginSegmentIndex);
-            interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[amplitudeCounter + 1] + (ONE - amplitudeIncrement) * amplitudeSamples[amplitudeCounter];
+            interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[sampleCounter + 1] + (ONE - amplitudeIncrement) * amplitudeSamples[sampleCounter];
 
             // Setup FFT Frequencies
             fftRadians = fftRadianScalar * elementCounter / (interpolationSize - ONE);
             float realFreqData = interpolatedAmplitude * cos(fftRadians),
-                    imaginaryFreqData = (interpolatedAmplitude * sin(fftRadians));
+                  imaginaryFreqData = (interpolatedAmplitude * sin(fftRadians));
 
             int elementIndex = (int)elementCounter;
             fftFrequenciesReal[elementIndex] = realFreqData;
@@ -111,7 +99,7 @@ AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySam
     }
 
     // Perform Inverse FFT (turn frequencies into a signal)
-    unsigned int fftCalcSize = fftFrequencySize - 2;
+    size_t fftCalcSize = fftFrequencySize - 2;
     _FFTEngine->Initialize(fftCalcSize, fftFrequencySize);
     _FFTEngine->ComponentsToSignal(&fftFrequencies, &fftOutputSignal);
 

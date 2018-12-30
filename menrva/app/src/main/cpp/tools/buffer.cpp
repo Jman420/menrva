@@ -21,14 +21,15 @@
 #include "buffer.h"
 #include "../abstracts/fft_interface_base.h"
 
-Buffer::Buffer(FftInterfaceBase* fftEngine, size_t size) {
+Buffer::Buffer(FftInterfaceBase* fftEngine, size_t length) {
     _FftEngine = fftEngine;
-    Initialize(size);
+    Initialize(length);
+    ResetData();
 }
 
-Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t size) {
+Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
     _FftEngine = fftEngine;
-    SetData(data, size);
+    SetData(data, length);
 }
 
 Buffer::~Buffer() {
@@ -41,51 +42,58 @@ void Buffer::Free() {
     }
 
     _FftEngine->Deallocate(_Data);
-    _Size = 0;
+    _Length = 0;
+    _MemorySize = 0;
 }
 
-void Buffer::Resize(size_t size) {
-    if (_Size == size) {
+void Buffer::Resize(size_t length) {
+    if (_Length == length) {
         ResetData();
         return;
     }
 
     Free();
-    Initialize(size);
+    Initialize(length);
 }
 
 void Buffer::ResetData() {
-    memset(_Data, 0, sizeof(sample) * _Size);
+    if (_Length < 1) {
+        return;
+    }
+
+    memset(_Data, 0, _MemorySize);
 }
 
 bool Buffer::CloneFrom(const Buffer* source) {
-    if (source->_Size != _Size || source == this) {
+    if (source->_Length != _Length || source == this) {
         return false;
     }
 
-    memcpy(_Data, source->_Data, sizeof(sample) * _Size);
+    memcpy(_Data, source->_Data, _MemorySize);
     return true;
 }
 
 sample& Buffer::operator[](size_t index) {
-    assert(_Size > 0 && index < _Size);
+    assert(_Length > 0 && index < _Length);
     return _Data[index];
 }
 
 size_t Buffer::GetLength() {
-    return _Size;
+    return _Length;
 }
 
 sample* Buffer::GetData() {
     return _Data;
 }
 
-void Buffer::Initialize(size_t size) {
-    _Size = size;
-
-    if (size > 0) {
-        _Data = _FftEngine->Allocate(size);
+void Buffer::Initialize(size_t length) {
+    _Length = length;
+    _MemorySize = CalculateMemorySize(_Length);
+    if (_Length < 1) {
+        return;
     }
+
+    _Data = _FftEngine->Allocate(length);
 }
 
 void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
@@ -94,11 +102,16 @@ void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
     itemB = temp;
 }
 
-void Buffer::SetData(sample* data, size_t size, bool freeExisting) {
+void Buffer::SetData(sample* data, size_t length, bool freeExisting) {
     if (_Data && freeExisting) {
         Free();
     }
 
     _Data = data;
-    _Size = size;
+    _Length = length;
+    _MemorySize = CalculateMemorySize(_Length);
+}
+
+size_t Buffer::CalculateMemorySize(size_t length) {
+    return sizeof(sample) * length;
 }

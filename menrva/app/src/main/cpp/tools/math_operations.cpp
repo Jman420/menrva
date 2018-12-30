@@ -16,32 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#include "math_operations.h"
 
-#include <cstddef>
-#include "audio_buffer.h"
+// The following method is adapted from https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+size_t MathOperations::RoundToNextPowerOf2(size_t value) {
+    value--;
+    value |= value >> 1;
+    value |= value >> 2;
+    value |= value >> 4;
+    value |= value >> 8;
+    value |= value >> 16;
+    value++;
 
-class AudioComponentsBuffer {
-public:
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size = 0);
-    ~AudioComponentsBuffer();
-
-    void Clear();
-    void Resize(size_t size);
-    void ResetData();
-    bool CloneFrom(AudioComponentsBuffer* source);
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-private:
-    size_t _Size;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
-};
-
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+    return value;
+}
