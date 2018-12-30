@@ -50,7 +50,7 @@ void Convolver::Reset() {
     delete _WorkingComponents;
     delete _OverlapSignal;
 
-    _SignalScalar = 0;
+    _SignalScalar = 1;
     _FilterSegmentsLength = 0;
 }
 
@@ -104,7 +104,11 @@ bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseRespons
 }
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
-    // TODO : Copy Input Frame into First Half of Working Signal
+    // TODO : Verify that the Input & Output Buffers will be of the correct length (_FrameLength)
+
+    // Copy Input Frame into First Half & Zero out the Last Half of Working Signal
+    memcpy(_WorkingSignal->GetData(), input->GetData(), _FrameSize);
+    memset(&_WorkingSignal->GetData()[_FrameLength], 0, _FrameSize);
 
     // Calculate Input Frame's Components
     _FftEngine->SignalToComponents(_WorkingSignal, _WorkingComponents);
@@ -118,11 +122,11 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     // Calculate Accumulated Signal
     _FftEngine->ComponentsToSignal(_WorkingComponents, _WorkingSignal);
 
+    // Sum And Scale First Half of Accumulated Signal & Overlap into Output
+    _ConvolutionOperations->SumAndScale(*_OverlapSignal, *_WorkingSignal, *output, _SignalScalar);
+
     // Store Last Half of Accumulated Signal in Overlap
     memcpy(_OverlapSignal->GetData(), &_WorkingSignal[_FrameLength], _FrameSize);
-
-    // TODO : Sum First Half of Accumulated Signal & Overlap into Output
-    
 }
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {

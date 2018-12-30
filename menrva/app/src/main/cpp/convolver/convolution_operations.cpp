@@ -34,12 +34,13 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* dest
     memset(destinationData + cloneSize, 0, sampleTypeSize * sizeDiff);
 }
 
-void ConvolutionOperations::Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
+void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
+                                        AudioBuffer &output, sample scalar) {
     assert(output.GetLength() <= bufferA.GetLength());
     assert(bufferA.GetLength() == bufferB.GetLength());
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
-        output[sampleCounter] = bufferA[sampleCounter] + bufferB[sampleCounter];
+        output[sampleCounter] = (bufferA[sampleCounter] + bufferB[sampleCounter]) * scalar;
     }
 }
 

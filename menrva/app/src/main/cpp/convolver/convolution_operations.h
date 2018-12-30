@@ -25,7 +25,7 @@
 class ConvolutionOperations {
 public:
     void ResetAndClone(AudioBuffer* source, AudioBuffer* destination);
-    void Sum(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output);
+    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar = 1.0);
     void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output);
 };
 
