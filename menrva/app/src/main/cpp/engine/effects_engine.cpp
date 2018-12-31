@@ -19,43 +19,58 @@
 #include <cstdlib>
 #include "effects_engine.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine() {
+MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger) : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
     ResetEffects();
 }
 
 void MenrvaEffectsEngine::ResetEffects() {
+    _Logger->WriteLog("Resetting Effects...", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     for (EffectBase* effect : _MenrvaEffects) {
+        _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->Name);
         effect->ResetConfig();
     }
+    _Logger->WriteLog("Successfully Reset Effects.", LOG_SENDER, __func__);
 }
 
 int MenrvaEffectsEngine::Process(AudioBuffer* in, AudioBuffer* out) {
+    _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
+            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->Name);
             effect->Process(in, out);
+        }
+        else {
+            _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__);
         }
     }
 
+    _Logger->WriteLog("Successfully Processed AudioBuffer length : %d.  Output AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
     return 0;
 }
 
-void MenrvaEffectsEngine::SetEffectEnabled(int effectIndex, bool enabled) {
-    if (effectIndex >= sizeof(_MenrvaEffects)) {
+void MenrvaEffectsEngine::SetEffectEnabled(unsigned int effectIndex, bool enabled) {
+    _Logger->WriteLog("Setting Enabled Flag on Effect Index : %d to : %d", LOG_SENDER, __func__, effectIndex, enabled);
+    if (effectIndex >= EFFECTS_LENGTH) {
+        _Logger->WriteLog("Skipping Setting Enabled Flag on Effect Index : %d.  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, effectIndex);
         return;
     }
 
     EffectBase* effect = _MenrvaEffects[effectIndex];
     effect->Enabled = enabled;
+    _Logger->WriteLog("Successfully set Enabled Flag on Effect Index : %d to : %d", LOG_SENDER, __func__, effectIndex, enabled);
 }
 
-void MenrvaEffectsEngine::ConfigureEffectSetting(int effectIndex, char* settingName, void* value) {
+void MenrvaEffectsEngine::ConfigureEffectSetting(unsigned int effectIndex, char* settingName, void* value) {
+    _Logger->WriteLog("Setting Effect Configuration : %s on Effect Index : %d", LOG_SENDER, __func__, settingName, effectIndex);
     if (effectIndex >= sizeof(_MenrvaEffects)) {
+        _Logger->WriteLog("Skipping Setting Effect Configuration : %s on Effect Index : %d.  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, settingName, effectIndex);
         return;
     }
 
     EffectBase* effect = _MenrvaEffects[effectIndex];
     effect->ConfigureSetting(settingName, value);
+    _Logger->WriteLog("Successfully set Effect Configuration : %s on Effect Indedx : %d.", LOG_SENDER, __func__, settingName, effectIndex);
 }

@@ -16,23 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_EFFECT_BASE_H
-#define MENRVA_EFFECT_BASE_H
+#include "effect_base.h"
 
-#include <string>
-#include "../aosp/aosp_audio_effect_defs.h"
-#include "../audio/audio_buffer.h"
-
-class EffectBase {
-public:
-    const std::string Name;
-    bool Enabled;
-
-    EffectBase(std::string name);
-
-    virtual void Process(AudioBuffer* in, AudioBuffer* out) = 0;
-    virtual void ResetConfig() = 0;
-    virtual void ConfigureSetting(char* settingName, void* value) = 0;
-};
-
-#endif //MENRVA_EFFECT_BASE_H
+EffectBase::EffectBase(std::string name) : Name(name) { }

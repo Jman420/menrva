@@ -60,7 +60,8 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
-        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__);
+
+        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 

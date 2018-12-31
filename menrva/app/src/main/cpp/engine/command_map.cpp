@@ -228,7 +228,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
                                void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetParam Command...", LOG_SENDER, __func__);
     if (pCmdData == NULL || pReplyData == NULL || replySize == NULL) {
-        _Logger->WriteLog("Skipping GetParam Command.  Invalid parameters provided.", LOG_SENDER, __func__);
+        _Logger->WriteLog("Skipping GetParam Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 
@@ -270,7 +270,7 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
                                 void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetConfig Command...", LOG_SENDER, __func__);
     if (pReplyData == NULL || *replySize != sizeof(effect_config_t)) {
-        _Logger->WriteLog("Skipping GetConfig Command.  Invalid parameters provided.", LOG_SENDER, __func__);
+        _Logger->WriteLog("Skipping GetConfig Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 

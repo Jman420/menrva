@@ -30,6 +30,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/abstracts/logger_base.cpp
         src/main/cpp/abstracts/logging_base.cpp
         src/main/cpp/abstracts/fft_interface_base.cpp
+        src/main/cpp/abstracts/effect_base.cpp
 
         src/main/cpp/tools/android_logger.cpp
         src/main/cpp/tools/buffer.cpp
