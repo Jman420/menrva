@@ -17,14 +17,14 @@
  */
 
 #include "com_monkeystable_menrva_activities_JniInterface.h"
-#include "../engine/engine_interface.h"
+#include "../module_interface.h"
 
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectTypeUUID
         (JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaEngineInterface::EffectTypeUUID);
+    return env->NewStringUTF(MenrvaModuleInterface::EffectTypeUUID);
 }
 
 JNIEXPORT jstring JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngineUUID
         (JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaEngineInterface::EngineUUID);
+    return env->NewStringUTF(MenrvaModuleInterface::EngineUUID);
 }

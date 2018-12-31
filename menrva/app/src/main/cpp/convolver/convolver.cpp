@@ -24,9 +24,9 @@
 
 const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
 
-Convolver::Convolver(FftInterfaceBase* fftEngine) {
+Convolver::Convolver(FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations) {
     _FftEngine = fftEngine;
-    _ConvolutionOperations = new ConvolutionOperations();
+    _ConvolutionOperations = convolutionOperations;
 
     Reset();
 }

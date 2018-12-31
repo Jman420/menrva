@@ -26,7 +26,7 @@
 
 class Convolver {
 public:
-    Convolver(FftInterfaceBase* fftEngine);
+    Convolver(FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();
 
     void Reset();
@@ -37,10 +37,9 @@ private:
     static constexpr sample ONE_HALF = (sample)0.5;
     static const float SIGNAL_THRESHOLD;
 
-    // TODO : Make Convolution Operations Injectable
-    ConvolutionOperations* _ConvolutionOperations;
-
+    ConvolutionOperationsBase* _ConvolutionOperations;
     FftInterfaceBase* _FftEngine;
+
     bool _Initialized;
     size_t _FilterSegmentsLength,
            _FrameLength,
