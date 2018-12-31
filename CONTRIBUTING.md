@@ -14,6 +14,18 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
   - See instructions in [FFTW Build Readme](fftw3/README.md)
   - Update Menrva CMakeList.txt if necessary; Menrva expects an FFTW3 Shared Library by default
 
+## Configuring Calculation Precision
+See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
+
+### Enabling Double Precision
+  - Compile FFTW3 with Double Precision (see [FFTW Precision](fftw3/README.md#fftw-precision) for details)
+  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
+  - Recompile Menrva
+  - Resulting APK is in /menrva/app/build/outputs/apk/<debug|release>/
+  - Resulting Menrva Library is in /menrva/app/build/intermediates/cmake/<debug|release>/obj/
+  - Resulting FFTW3 Library is in /fftw3/out/
+  - Follow Manual Installation Steps
+
 ## Development Tools & Tips
 
 ### Android Emulator with Writable System
@@ -58,32 +70,3 @@ Android Emulator is already deeply integrated into Android Studio through the AV
     ```
   - You can now push files to the system & vendor folders and subfolders, as well as modify any files in the those folders, such as :  
   ```./adb.exe push %MenrvaProjectDir%/menrva/app/build/intermediates/cmake/debug/obj/x86/libMenrvaEngine.so /vendor/lib/soundfx/```
-
-### javah
-A tool provided with the JDK for generating header files.  We will be using it to generate C++ JNI Header files.
-
-#### Integrate javah into Android Studio
-  - Open File -> Settings -> Tools -> External Tools
-  - Add a new External Tools
-  - Use the following settings to configure the External Tool Parameters
-    * Name : Generate JNI Headers
-    * Program : $JDKPath$\bin\javah.exe
-    * Parameters : -classpath "$Classpath$" -v -jni "$FileClass$"
-    * Working Directory : $ProjectFileDir$\app\src\main\cpp\jni
-
-#### Using javah to Generate a JNI Header File
-  - Create a Java Class which declares a method using the 'native' keyword
-  - Right-click on the Java Class -> External Tools -> Generate JNI Headers
-  - Use the newly created C++ Header File in app\main\cpp\jni to expose the necessary native methods
-
-## Configuring Calculation Precision
-See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
-
-### Enabling Double Precision
-  - Compile FFTW3 with Double Precision (see [FFTW Precision](fftw3/README.md#fftw-precision) for details)
-  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` in [config.h](menrva/app/src/main/cpp/config.h)
-  - Compile Menrva
-  - Resulting APK is in /menrva/app/build/outputs/apk/<debug|release>/
-  - Resulting Menrva Library is in /menrva/app/build/intermediates/cmake/<debug|release>/obj/
-  - Resulting FFTW3 Library is in /fftw3/out/
-  - Follow Manual Installation steps

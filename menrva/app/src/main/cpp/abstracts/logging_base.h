@@ -16,22 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#ifndef MENRVA_LOGGING_BASE_H
+#define MENRVA_LOGGING_BASE_H
 
-#include "../abstracts/logger_base.h"
+#include <string>
+#include "logger_base.h"
 
-class AndroidLogger : public LoggerBase {
+class LoggingBase {
 public:
-    AndroidLogger();
+    LoggingBase(LoggerBase* logger, std::string prettyFunction);
 
-    void WriteLog(std::string message, std::string senderClass = "", std::string senderFunction = "",
-                  LogLevel logLevel = LogLevel::VERBOSE, ...) override;
+protected:
+    std::string LOG_SENDER;
+    LoggerBase* _Logger;
+
+    /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
+     *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();
+     *   Call this method from a Deriving Class Constructor to Initialize LOG_SENDER
+     * prettyFunction - The __PRETTY_FUNCTION__ Constant to parse
+     */
+    void InitializeLogSender(std::string prettyFunction);
 
 private:
-    static bool _Initialized;
-
-    static void Initialize();
+    static const std::string COLONS;
 };
 
-#endif //MENRVA_ANDROID_LOGGER_H
+#endif //MENRVA_LOGGING_BASE_H

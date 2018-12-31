@@ -16,22 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#include "logging_base.h"
 
-#include "../abstracts/logger_base.h"
+const std::string LoggingBase::COLONS = "::";
 
-class AndroidLogger : public LoggerBase {
-public:
-    AndroidLogger();
+LoggingBase::LoggingBase(LoggerBase* logger, std::string prettyFunction) {
+    InitializeLogSender(prettyFunction);
+    _Logger = logger;
+}
 
-    void WriteLog(std::string message, std::string senderClass = "", std::string senderFunction = "",
-                  LogLevel logLevel = LogLevel::VERBOSE, ...) override;
+void LoggingBase::InitializeLogSender(std::string prettyFunction) {
+    std::string className = "";
+    size_t colons = prettyFunction.find(COLONS);
+    if (colons == std::string::npos) {
+        className = COLONS;
+    }
+    else {
+        size_t begin = prettyFunction.substr(0,colons).rfind(" ") + 1;
+        size_t end = colons - begin;
 
-private:
-    static bool _Initialized;
+        className =  prettyFunction.substr(begin,end);
+    }
 
-    static void Initialize();
-};
-
-#endif //MENRVA_ANDROID_LOGGER_H
+    LOG_SENDER = className;
+}

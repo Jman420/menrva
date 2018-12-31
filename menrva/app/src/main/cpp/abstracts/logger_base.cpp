@@ -18,4 +18,31 @@
 
 #include "logger_base.h"
 
+const std::string LoggerBase::APP_NAME = "Menrva";
+const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::VERBOSE;
+
 LogLevel LoggerBase::AppLogLevel = LogLevel::ERROR;
+
+void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...) {
+    va_list args;
+    va_start(args, logLevel);
+    WriteLog(message, senderClass, "", logLevel, args);
+}
+
+void LoggerBase::WriteLog(std::string message, LogLevel logLevel, ...) {
+    va_list args;
+    va_start(args, logLevel);
+    WriteLog(message, "", "", logLevel, args);
+}
+
+void LoggerBase::WriteLog(std::string message, std::string senderClass, ...) {
+    va_list args;
+    va_start(args, senderClass);
+    WriteLog(message, senderClass, "", DEFAULT_LOG_LEVEL, args);
+}
+
+void LoggerBase::WriteLog(std::string message, ...) {
+    va_list args;
+    va_start(args, message);
+    WriteLog(message, "", "", DEFAULT_LOG_LEVEL, args);
+}

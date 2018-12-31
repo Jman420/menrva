@@ -41,7 +41,7 @@ public:
     AudioBuffer* Create(unsigned int filterSize, sample* frequencySamples, sample* amplitudeSamples, unsigned int sampleSize);
 
 private:
-    static const std::string LOG_TAG;
+    static const std::string LOG_SENDER;
     static constexpr sample PI = (sample)M_PI,
                             PI2 = (sample)M_PI * (sample)2.0,
                             ONE = (sample)1.0,

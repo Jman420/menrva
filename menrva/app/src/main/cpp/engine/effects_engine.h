@@ -37,7 +37,6 @@ enum MenrvaEngineStatus {
 class MenrvaEffectsEngine {
 public:
     MenrvaEngineStatus _EngineStatus;
-    audio_buffer_t* _WorkingBuffer;
 
     MenrvaEffectsEngine();
     void ResetEffects();

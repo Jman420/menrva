@@ -21,9 +21,9 @@
 
 #include <string>
 #include "aosp/aosp_audio_effect_defs.h"
-#include "engine/effects_engine.h"
-#include "abstracts/logger_base.h"
 #include "tools/service_locator.h"
+#include "abstracts/logger_base.h"
+#include "engine/effects_engine.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -59,7 +59,7 @@ public:
     static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);
 
 private:
-    static const std::string LOG_TAG;
+    static const std::string LOG_SENDER;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;

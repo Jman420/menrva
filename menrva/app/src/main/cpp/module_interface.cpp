@@ -21,7 +21,7 @@
 #include "engine/engine_interface.h"
 #include "tools/service_locator.h"
 
-const std::string MenrvaModuleInterface::LOG_TAG = "Menrva-ModuleInterface - ";
+const std::string MenrvaModuleInterface::LOG_SENDER = "ModuleInterface";
 ServiceLocator* MenrvaModuleInterface::_ServiceLocator = new ServiceLocator();
 LoggerBase* MenrvaModuleInterface::_Logger = _ServiceLocator->GetLogger();
 
@@ -57,40 +57,38 @@ const char* MenrvaModuleInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1
 
 int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused,
                                         int32_t ioId __unused, effect_handle_t* pHandle) {
-    std::string logPrefix = LOG_TAG + "CreateModule()";
-    _Logger->WriteLog("Creating Menrva Module...", logPrefix);
+    _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
 
     if (pHandle == NULL) {
-        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
     if (uuid == NULL) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
         std::string engineUuid = MenrvaModuleInterface::EngineUUID;
         std::string msg = "Incorrect Effect UUID provided. Does not match Menrva UUID : " + engineUuid;
-        _Logger->WriteLog(msg, logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Creating Menrva Context...", logPrefix);
+    _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
     menrva_module_context* context = new menrva_module_context();
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
     InitModule(context);
 
     *pHandle = (effect_handle_t)context;
-    _Logger->WriteLog("Successfully Created Menrva Module!", logPrefix);
+    _Logger->WriteLog("Successfully Created Menrva Module!", LOG_SENDER, __func__);
     return 0;
 }
 
 int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
-    std::string logPrefix = LOG_TAG + "InitModule()";
-    _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", logPrefix);
+    _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
     if (context->ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
-        _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_TAG);
+        _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
         return 0;
     }
 
@@ -104,21 +102,20 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
-    _Logger->WriteLog("Successfully Initialized Menrva Context!", logPrefix);
+    _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
     return 0;
 }
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
-    std::string logPrefix = LOG_TAG + "ReleaseModule()";
-    _Logger->WriteLog("Releasing Menrva Module...", logPrefix);
+    _Logger->WriteLog("Releasing Menrva Module...", LOG_SENDER, __func__);
     menrva_module_context* module = (menrva_module_context*)moduleHandle;
 
     if (module == NULL) {
-        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", logPrefix);
+        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", logPrefix);
+    _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", LOG_SENDER, __func__);
     module->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_RELEASING;
     delete module->EffectsEngine;
     delete module->InputBuffer;
@@ -126,41 +123,43 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     delete module->config;
     delete module;
 
-    _Logger->WriteLog("Successfully Released Menrva Module!", logPrefix);
+    _Logger->WriteLog("Successfully Released Menrva Module!", LOG_SENDER, __func__);
     return 0;
 }
 
 int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
                                                  effect_descriptor_t* pDescriptor) {
-    std::string logPrefix = LOG_TAG + "GetDescriptorFromUUID()";
-    _Logger->WriteLog("Getting Descriptor by UUID...", logPrefix);
+    _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
     if (pDescriptor == NULL) {
-        _Logger->WriteLog("Invalid Descriptor Pointer provided.", logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
     if (uuid == NULL) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
         std::string engineUuid = MenrvaModuleInterface::EngineUUID;
         std::string msg = "Incorrect Effect UUID provided. Does not match Menrva UUID : " + engineUuid;
-        _Logger->WriteLog(msg, logPrefix, LogLevel::ERROR);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
+    _Logger->WriteLog("Returning Effect Descriptor pointer!", LOG_SENDER, __func__);
     *pDescriptor = MenrvaModuleInterface::EffectDescriptor;
-    _Logger->WriteLog("Returning Effect Descriptor pointer!", logPrefix);
     return 0;
 }
 
 int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
                                                    effect_descriptor_t* pDescriptor) {
+    _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
     menrva_module_context* module = (menrva_module_context*)self;
     if (module == NULL || pDescriptor == NULL) {
+        _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 
+    _Logger->WriteLog("Returning Effect Descriptor pointer!", LOG_SENDER, __func__);
     *pDescriptor = EffectDescriptor;
     return 0;
 }

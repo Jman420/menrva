@@ -22,51 +22,53 @@
 #include "../module_interface.h"
 #include "../audio/sample.h"
 
-const std::string MenrvaEngineInterface::LOG_TAG = "Menrva-EngineInterface - ";
+const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 
 ServiceLocator* MenrvaEngineInterface::_ServiceLocator = new ServiceLocator();
 LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
+    _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
     struct menrva_module_context *context = (menrva_module_context*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return -ENODATA;
     }
     if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
 
+    _Logger->WriteLog("Input Buffer Frame Count : %d", LOG_SENDER, __func__, in->frameCount);
+    _Logger->WriteLog("Output Buffer Frame Count : %d", LOG_SENDER, __func__, out->frameCount);
+    _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
     context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
+
+    _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
     int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
 
+    _Logger->WriteLog("EffectsEngine finished Processing with Result : %d !", LOG_SENDER, __func__, result);
     return result;
 }
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
                                    void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    // BEGIN DEBUG
-    _Logger->WriteLog("Engine Interface Command() called with %d", LOG_TAG, LogLevel::VERBOSE, cmdCode);
-    _Logger->WriteLog("Command Passed is INIT : %d", LOG_TAG, LogLevel::VERBOSE, (cmdCode == EFFECT_CMD_INIT));
-    _Logger->WriteLog("Command Passed is SET_CONFIG : %d", LOG_TAG, LogLevel::VERBOSE, (cmdCode == EFFECT_CMD_SET_CONFIG));
-    // END DEBUG
-
+    _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
     struct menrva_module_context *context = (menrva_module_context*)self;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
-
+        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__);
         return -EINVAL;
     }
 
-    int result = MenrvaCommandMap::Command(context, cmdCode, cmdSize, pCmdData, replySize,
+    _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
+    int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize,
                                            pReplyData);
 
-    // BEGIN DEBUG
-    _Logger->WriteLog("Command Result : %d", LOG_TAG, LogLevel::VERBOSE, result);
-    // END DEBUG
-
+    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, LogLevel::VERBOSE, result);
     return result;
 }
 

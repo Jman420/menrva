@@ -20,7 +20,7 @@
 #include "../tools/android_logger.h"
 #include "../tools/math_operations.h"
 
-const std::string FIR_Generator::LOG_TAG = "Menrva-FIR_Generator - ";
+const std::string FIR_Generator::LOG_SENDER = "FIR_Generator";
 
 FIR_Generator::FIR_Generator(LoggerBase* logger, FftInterfaceBase *fftEngine) {
     _Logger = logger;
@@ -28,7 +28,7 @@ FIR_Generator::FIR_Generator(LoggerBase* logger, FftInterfaceBase *fftEngine) {
 }
 
 AudioBuffer* FIR_Generator::Create(unsigned int filterSize, sample* frequencySamples, sample* amplitudeSamples, unsigned int sampleSize) {
-    std::string logPrefix = LOG_TAG + "Create()";
+    std::string logPrefix = LOG_SENDER + "Create()";
 
     // Validate Frequency Samples
     _Logger->WriteLog("Validating Frequency Samples...", logPrefix, LogLevel::DEBUG);

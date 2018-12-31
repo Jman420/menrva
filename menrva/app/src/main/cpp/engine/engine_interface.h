@@ -30,7 +30,7 @@ public:
                        uint32_t* replySize, void* pReplyData);
 
 private:
-    static const std::string LOG_TAG;
+    static const std::string LOG_SENDER;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;

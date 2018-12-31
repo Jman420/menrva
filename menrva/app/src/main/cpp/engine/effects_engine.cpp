@@ -27,7 +27,6 @@ MenrvaEffectsEngine::MenrvaEffectsEngine() {
 void MenrvaEffectsEngine::ResetEffects() {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
-    _WorkingBuffer = (audio_buffer_t*)malloc(sizeof(audio_buffer_t));
     for (EffectBase* effect : _MenrvaEffects) {
         effect->ResetConfig();
     }

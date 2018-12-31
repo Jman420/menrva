@@ -36,12 +36,15 @@ using value_t = union {
 // Represents the Commands supported by the Menrva Audio Effects Module & Engine
 class MenrvaCommandMap {
 public:
-    static int Command(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
+    static int Process(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
                        void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
-    // Private Constructor to prevent instantiation of Static Class
-    MenrvaCommandMap();
+    static const std::string LOG_SENDER;
+    static const function_map _CommandMap;
+
+    static ServiceLocator* _ServiceLocator;
+    static LoggerBase* _Logger;
 
     static int InitModule(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
                           uint32_t* replySize, void* pReplyData);
@@ -60,8 +63,8 @@ private:
     static int GetConfig(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
                          uint32_t* replySize, void* pReplyData);
 
-    // Represents the Command to Function Map
-    static function_map _CommandMap;
+    // Private Constructor to prevent instantiation of Static Class
+    MenrvaCommandMap();
 };
 
 #endif //MENRVA_COMMAND_MAP_H
