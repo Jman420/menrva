@@ -18,6 +18,12 @@
 
 #include "stereo_widener.h"
 
+const std::string StereoWidener::EFFECT_NAME = "StereoWidener";
+
+StereoWidener::StereoWidener() : EffectBase(EFFECT_NAME) {
+
+}
+
 void StereoWidener::Process(AudioBuffer* in, AudioBuffer* out) {
     // TODO : Implement Stereo Widener Effect
 }

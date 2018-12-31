@@ -18,6 +18,12 @@
 
 #include "equalizer.h"
 
+const std::string Equalizer::EFFECT_NAME = "Equalizer";
+
+Equalizer::Equalizer() : EffectBase(EFFECT_NAME) {
+
+}
+
 void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
     // TODO : Implement Equalizer Effect
 }

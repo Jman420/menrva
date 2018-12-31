@@ -29,7 +29,7 @@ void MenrvaEffectsEngine::ResetEffects() {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     for (EffectBase* effect : _MenrvaEffects) {
-        _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->Name);
+        _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
         effect->ResetConfig();
     }
     _Logger->WriteLog("Successfully Reset Effects.", LOG_SENDER, __func__);
@@ -39,7 +39,7 @@ int MenrvaEffectsEngine::Process(AudioBuffer* in, AudioBuffer* out) {
     _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
-            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->Name);
+            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
             effect->Process(in, out);
         }
         else {
@@ -72,5 +72,5 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(unsigned int effectIndex, char*
 
     EffectBase* effect = _MenrvaEffects[effectIndex];
     effect->ConfigureSetting(settingName, value);
-    _Logger->WriteLog("Successfully set Effect Configuration : %s on Effect Indedx : %d.", LOG_SENDER, __func__, settingName, effectIndex);
+    _Logger->WriteLog("Successfully set Effect Configuration : %s on Effect Index : %d.", LOG_SENDER, __func__, settingName, effectIndex);
 }

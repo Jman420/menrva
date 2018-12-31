@@ -18,7 +18,9 @@
 
 #include "bass_boost.h"
 
-BassBoost::BassBoost(){
+const std::string BassBoost::EFFECT_NAME = "BassBoost";
+
+BassBoost::BassBoost() : EffectBase(EFFECT_NAME) {
     // TODO : Implement Initialization Logic
 }
 

@@ -25,7 +25,7 @@
 
 class EffectBase {
 public:
-    const std::string Name;
+    const std::string NAME;
     bool Enabled;
 
     EffectBase(std::string name);

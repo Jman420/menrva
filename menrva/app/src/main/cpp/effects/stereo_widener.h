@@ -22,9 +22,15 @@
 #include "../abstracts/effect_base.h"
 
 class StereoWidener : public EffectBase {
+public:
+    StereoWidener();
+
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);
+
+private:
+    static const std::string EFFECT_NAME;
 };
 
 #endif //MENRVA_STEREO_WIDENER_H

@@ -18,4 +18,4 @@
 
 #include "effect_base.h"
 
-EffectBase::EffectBase(std::string name) : Name(name) { }
+EffectBase::EffectBase(std::string name) : NAME(name) { }

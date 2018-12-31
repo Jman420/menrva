@@ -22,9 +22,15 @@
 #include "../abstracts/effect_base.h"
 
 class Equalizer : public EffectBase {
+public:
+    Equalizer();
+
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);
+
+private:
+    static const std::string EFFECT_NAME;
 };
 
 #endif //MENRVA_EQUALIZER_H

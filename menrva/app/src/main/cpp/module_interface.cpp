@@ -93,7 +93,7 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
     }
 
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context->EffectsEngine = new MenrvaEffectsEngine();
+    context->EffectsEngine = new MenrvaEffectsEngine(_Logger);
     context->itfe = &EngineInterface;
     context->InputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
     context->OutputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());

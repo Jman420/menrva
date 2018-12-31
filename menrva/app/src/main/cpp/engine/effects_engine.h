@@ -49,8 +49,8 @@ public:
 private:
     const static int EFFECTS_LENGTH = 3;
     EffectBase* _MenrvaEffects[EFFECTS_LENGTH] = {
-            new Equalizer(),
             new BassBoost(),
+            new Equalizer(),
             new StereoWidener(),
     };
 };
