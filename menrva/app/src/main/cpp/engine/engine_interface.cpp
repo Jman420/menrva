@@ -69,7 +69,7 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize,
                                            pReplyData);
 
-    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, LogLevel::VERBOSE, result);
+    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
 }
 

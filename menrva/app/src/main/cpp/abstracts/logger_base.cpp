@@ -20,8 +20,16 @@
 
 const std::string LoggerBase::APP_NAME = "Menrva";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::VERBOSE;
+const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
 
-LogLevel LoggerBase::AppLogLevel = LogLevel::ERROR;
+LogLevel LoggerBase::AppLogLevel = DEFAULT_APP_LOG_LEVEL;
+
+void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,
+                          LogLevel logLevel, ...) {
+    va_list args;
+    va_start(args, logLevel);
+    WriteLog(message, senderClass, senderFunction, logLevel, args);
+}
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...) {
     va_list args;
@@ -33,6 +41,12 @@ void LoggerBase::WriteLog(std::string message, LogLevel logLevel, ...) {
     va_list args;
     va_start(args, logLevel);
     WriteLog(message, "", "", logLevel, args);
+}
+
+void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, ...) {
+    va_list args;
+    va_start(args, senderFunction);
+    WriteLog(message, senderClass, senderFunction, DEFAULT_LOG_LEVEL, args);
 }
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, ...) {

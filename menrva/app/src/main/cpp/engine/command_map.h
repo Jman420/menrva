@@ -63,7 +63,7 @@ private:
     static int GetConfig(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
                          uint32_t* replySize, void* pReplyData);
 
-    static void LogBufferConfig(buffer_config_t bufferConfig);
+    static void LogBufferConfig(buffer_config_t* bufferConfig);
     static uint32_t GetExpectedReplySize(uint32_t paramSize, void* pParam);
 
     // Private Constructor to prevent instantiation of Static Class

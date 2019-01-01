@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     _Initialized = true;
 }
 
-void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...) {
+void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
     if (!_Initialized) {
         Initialize();
     }
@@ -45,19 +45,16 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         return;
     }
 
-    std::string prefix = APP_NAME + "-";
+    std::string prefix = APP_NAME;
     if (senderClass != "") {
-        prefix = prefix + senderClass + " - ";
+        prefix = prefix + "-" + senderClass;
     }
     if (senderFunction != "") {
-        prefix = prefix + senderFunction + " - ";
+        prefix = prefix + " - " + senderFunction + "()";
     }
 
     const char* logTag = prefix.c_str();
     const char* logMsg = message.c_str();
-
-    va_list args;
-    va_start(args, logLevel);
     android_LogPriority logPriority = static_cast<android_LogPriority>(logLevel);
 
     __android_log_vprint(logPriority, logTag, logMsg, args);

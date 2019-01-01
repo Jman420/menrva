@@ -43,23 +43,23 @@ static inline uint32_t computeParamVOffset(const effect_param_t* p) {
 
 int MenrvaCommandMap::Process(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    _Logger->WriteLog("Processing Command Id : %d ...", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog("Processing Command Id : %u ...", LOG_SENDER, __func__, cmdCode);
     if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
-        _Logger->WriteLog("Skipping Processing Command Id : %d.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
+        _Logger->WriteLog("Skipping Processing Command Id : %u.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Looking up Function for Command Id : %d", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog("Looking up Function for Command Id : %u", LOG_SENDER, __func__, cmdCode);
     std::map<uint32_t, CommandFunc> commandMap = MenrvaCommandMap::_CommandMap;
     function_map::iterator cmdFunction = commandMap.find(cmdCode);
     if (cmdFunction == commandMap.end()) {
-        _Logger->WriteLog("Unable to Process Command Id : %d.  No Function found.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
+        _Logger->WriteLog("Unable to Process Command Id : %u.  No Function found.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
         return 0;
     }
 
-    _Logger->WriteLog("Function found for Command Id : %d.  Calling Function...", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog("Function found for Command Id : %u.  Calling Function...", LOG_SENDER, __func__, cmdCode);
     int result = cmdFunction->second(context, cmdSize, pCmdData, replySize, pReplyData);
-    _Logger->WriteLog("Successfully Processed Command Id : %d.  Command Function Result : %d", LOG_SENDER, __func__, cmdCode, result);
+    _Logger->WriteLog("Successfully Processed Command Id : %u.  Command Function Result : %d", LOG_SENDER, __func__, cmdCode, result);
     return result;
 }
 
@@ -75,7 +75,7 @@ int MenrvaCommandMap::InitModule(menrva_module_context* context, uint32_t cmdSiz
     int result = MenrvaModuleInterface::InitModule(context);
     *(int*)pReplyData = result;
 
-    _Logger->WriteLog("Successfully Initialized Module with Result : %d", LOG_SENDER, __func__, result);
+    _Logger->WriteLog("Successfully Initialized Module with Result : %i", LOG_SENDER, __func__, result);
     return 0;
 }
 
@@ -91,9 +91,9 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
 
     effect_config_t* config = (effect_config_t*)pCmdData;
     _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__);
-    LogBufferConfig(config->inputCfg);
+    LogBufferConfig(&config->inputCfg);
     _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__);
-    LogBufferConfig(config->outputCfg);
+    LogBufferConfig(&config->outputCfg);
 
     _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
     if (config->inputCfg.samplingRate != config->outputCfg.samplingRate) {
@@ -114,7 +114,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         return -EINVAL;
     }
     if (config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %d", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %u", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
         return -EINVAL;
     }
 
@@ -123,7 +123,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
     int result = MenrvaCommandMap::ResetEngine(context, (uint32_t)NULL, NULL, NULL, NULL);
     *(int*)pReplyData = result;
 
-    _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result : %d", LOG_SENDER, __func__, result);
+    _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result : %i", LOG_SENDER, __func__, result);
     return 0;
 }
 
@@ -194,11 +194,11 @@ int MenrvaCommandMap::SetParam(menrva_module_context* context, uint32_t cmdSize,
         return -EINVAL;
     }
     const uint32_t valueOffset = computeParamVOffset(effectParam);
-    _Logger->WriteLog("Successfully calculated Parameter Value Offset : %d", LOG_SENDER, __func__, valueOffset);
+    _Logger->WriteLog("Successfully calculated Parameter Value Offset : %u", LOG_SENDER, __func__, valueOffset);
 
     _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
     const uint32_t* param = (uint32_t*)effectParam->data;
-    const int command = param[0];
+    const uint32_t command = param[0];
     _Logger->WriteLog("Successfully extracted Parameter Command Id : %d", LOG_SENDER, __func__, command);
 
     _Logger->WriteLog("Extracting Parameter Value...", LOG_SENDER, __func__);
@@ -211,7 +211,7 @@ int MenrvaCommandMap::SetParam(menrva_module_context* context, uint32_t cmdSize,
         // TODO : Handle the expected engine parameter changes
     }
 
-    _Logger->WriteLog("Successfully Processed Parameter Command Id : %d with Parameter Value : %d", LOG_SENDER, __func__, command, value);
+    _Logger->WriteLog("Successfully Processed Parameter Command Id : %u with Parameter Value : %d", LOG_SENDER, __func__, command, value);
     return 0;
 }
 
@@ -227,7 +227,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
     const effect_param_t* pEffectParam = (effect_param_t*)pCmdData;
     const uint32_t expectedReplySize = GetExpectedReplySize(pEffectParam->psize,
                                                             (void*) pEffectParam->data);
-    _Logger->WriteLog("Successfully calculated Expected Reply Data Size : %d", LOG_SENDER, __func__, expectedReplySize);
+    _Logger->WriteLog("Successfully calculated Expected Reply Data Size : %u", LOG_SENDER, __func__, expectedReplySize);
 
     _Logger->WriteLog("Preparing Reply Data...", LOG_SENDER, __func__);
     memcpy(pReplyData, pCmdData, expectedReplySize);
@@ -236,14 +236,14 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
 
     _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
     const uint32_t* param = (uint32_t*)replyData->data;
-    const int command = param[0];
-    _Logger->WriteLog("Successfully extracted Parameter Id : %d", LOG_SENDER, __func__, command);
+    const uint32_t command = param[0];
+    _Logger->WriteLog("Successfully extracted Parameter Id : %u", LOG_SENDER, __func__, command);
 
     _Logger->WriteLog("Calculating Parameter Value Offset...", LOG_SENDER, __func__);
     const uint32_t valueOffset = computeParamVOffset(replyData);
-    _Logger->WriteLog("Successfully calculated Parameter Value Offset : %d", LOG_SENDER, __func__, valueOffset);
+    _Logger->WriteLog("Successfully calculated Parameter Value Offset : %u", LOG_SENDER, __func__, valueOffset);
 
-    _Logger->WriteLog("Retrieving Parameter Value for Parameter Id : %d", LOG_SENDER, __func__, command);
+    _Logger->WriteLog("Retrieving Parameter Value for Parameter Id : %u", LOG_SENDER, __func__, command);
     // TODO : Draft Structs to contain necessary Reply Data Types
     void* pValue = replyData->data + valueOffset;
     uint32_t valueSize = 0;
@@ -253,7 +253,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
     replyData->vsize = valueSize;
     *replySize = sizeof(effect_param_t) + valueOffset + replyData->vsize;
 
-    _Logger->WriteLog("Successfully retrieved Parameter Value for Parameter Id %d.", LOG_SENDER, __func__, command);
+    _Logger->WriteLog("Successfully retrieved Parameter Value for Parameter Id %u.", LOG_SENDER, __func__, command);
     return 0;
 }
 
@@ -270,11 +270,14 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
     return 0;
 }
 
-void MenrvaCommandMap::LogBufferConfig(buffer_config_t bufferConfig) {
-    _Logger->WriteLog("Buffer Format : %d", LOG_SENDER, __func__, bufferConfig.format);
-    _Logger->WriteLog("Buffer Sample Rate : %d", LOG_SENDER, __func__, bufferConfig.samplingRate);
-    _Logger->WriteLog("Buffer Channel Count : %d", LOG_SENDER, __func__, bufferConfig.channels);
-    _Logger->WriteLog("Buffer Access Mode : %d", LOG_SENDER, __func__, bufferConfig.accessMode);
+void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
+    if (bufferConfig->format == 4292218464) {
+        _Logger->WriteLog("Uninitialized Buffer!", LOG_SENDER, __func__);
+    }
+    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, bufferConfig->format);
+    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, bufferConfig->samplingRate);
+    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, bufferConfig->channels);
+    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, bufferConfig->accessMode);
 }
 
 uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {

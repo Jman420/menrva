@@ -23,6 +23,7 @@ function ExecuteAdbCommand([string]$logMsg, [string]$failMsg, [string]$command) 
 ExecuteAdbCommand -logMsg "Obtaining Root on Device..." -failMsg "Failed to Obtain Root on Device!" -command "root"
 ExecuteAdbCommand -logMsg "Remounting Device Volumes..." -failMsg "Failed to Remount Device Volumes!" -command "remount"
 ExecuteAdbCommand -logMsg "Pushing Menrva Lib to Device..." -failMsg "Failed to Push Menrva Lib to Device!" -command "push $MenrvaLib $SoundFxLib"
+ExecuteAdbCommand -logMsg "Pushing FFTW3 Lib to Device..." -failMsg "Failed to Push FFTW3 Lib to Device!" -command "push $Fftw3Lib $VendorLib"
 ExecuteAdbCommand -logMsg "Pushing Audio Effects Config to Device..." -failMsg "Failed to Push Audio Effects Config to Device!" -command "push $AudioEffectsConfig $VendorEtc"
 ExecuteAdbCommand "Rebooting Device to Load Libraries..." -failMsg "Failed to Reboot Device!" -command "reboot"
 

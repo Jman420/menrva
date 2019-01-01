@@ -152,7 +152,8 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
 
 int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
                                                    effect_descriptor_t* pDescriptor) {
-    _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
+    std::string functionName = __func__;
+    _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, functionName.c_str());
     menrva_module_context* module = (menrva_module_context*)self;
     if (module == NULL || pDescriptor == NULL) {
         _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
