@@ -35,6 +35,11 @@ void MenrvaEffectsEngine::ResetEffects() {
     _Logger->WriteLog("Successfully Reset Effects.", LOG_SENDER, __func__);
 }
 
+int MenrvaEffectsEngine::SetBufferConfig(effect_config_t config) {
+    // TODO : Implement Logic to Configure Effects
+    return 0;
+}
+
 int MenrvaEffectsEngine::Process(AudioBuffer* in, AudioBuffer* out) {
     _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
     for (EffectBase* effect : _MenrvaEffects) {

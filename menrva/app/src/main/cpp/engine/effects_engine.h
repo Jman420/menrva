@@ -42,6 +42,7 @@ public:
 
     MenrvaEffectsEngine(LoggerBase* logger);
     void ResetEffects();
+    int SetBufferConfig(effect_config_t config);
     int Process(AudioBuffer* in, AudioBuffer* out);
     void SetEffectEnabled(unsigned int effectIndex, bool enabled);
     void ConfigureEffectSetting(unsigned int effectIndex, char settingName[], void* value);
@@ -49,9 +50,9 @@ public:
 private:
     const static int EFFECTS_LENGTH = 3;
     EffectBase* _MenrvaEffects[EFFECTS_LENGTH] = {
-            new BassBoost(),
-            new Equalizer(),
-            new StereoWidener(),
+        new BassBoost(),
+        new Equalizer(),
+        new StereoWidener(),
     };
 };
 

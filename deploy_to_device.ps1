@@ -10,21 +10,20 @@ $VendorLib = "/vendor/lib/"
 $VendorEtc = "/vendor/etc/"
 $SoundFxLib = "/vendor/lib/soundfx/"
 
-Write-Output "Obtaining Root on Device..."
-. $AdbExe root
-. $AdbExe remount
-
-Write-Output "Pushing Menrva Lib & Dependencies to Device..."
-. $AdbExe push $MenrvaLib $SoundFxLib
-if ($DependencyType.ToUpper() -eq "SHARED") {
-    . $AdbExe push $Fftw3Lib $VendorLib
+function ExecuteAdbCommand([string]$logMsg, [string]$failMsg, [string]$command) {
+    Write-Output $logMsg
+    Invoke-Expression "$AdbExe $command $parameters"
+    
+    if ($LASTEXITCODE -ne 0) {
+        Write-Output $failMsg
+        exit 1
+    }
 }
 
-Write-Output "Pushing Audio Effects Config to Device..."
-. $AdbExe push $AudioEffectsConfig $VendorEtc
+ExecuteAdbCommand -logMsg "Obtaining Root on Device..." -failMsg "Failed to Obtain Root on Device!" -command "root"
+ExecuteAdbCommand -logMsg "Remounting Device Volumes..." -failMsg "Failed to Remount Device Volumes!" -command "remount"
+ExecuteAdbCommand -logMsg "Pushing Menrva Lib to Device..." -failMsg "Failed to Push Menrva Lib to Device!" -command "push $MenrvaLib $SoundFxLib"
+ExecuteAdbCommand -logMsg "Pushing Audio Effects Config to Device..." -failMsg "Failed to Push Audio Effects Config to Device!" -command "push $AudioEffectsConfig $VendorEtc"
+ExecuteAdbCommand "Rebooting Device to Load Libraries..." -failMsg "Failed to Reboot Device!" -command "reboot"
 
-Write-Output "Rebooting Device to Load Libraries..."
-. $AdbExe reboot
-
-Write-Output "Successfully Deployed Menrva to Device!"
 Write-Output "Please wait for Device to reboot."

@@ -41,20 +41,6 @@ static inline uint32_t computeParamVOffset(const effect_param_t* p) {
     return ((p->psize + sizeof(int32_t) - 1) / sizeof(int32_t)) * sizeof(int32_t);
 }
 
-static uint32_t getExpectedReplySize(uint32_t paramSize, void* pParam) {
-    if (paramSize < sizeof(int32_t)) {
-        return 0;
-    }
-
-    int32_t param = *(int32_t*)pParam;
-
-    switch (param) {
-        // TODO : Add logic to return an expected parameter size
-    }
-
-    return 0;
-}
-
 int MenrvaCommandMap::Process(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id : %d ...", LOG_SENDER, __func__, cmdCode);
@@ -103,8 +89,13 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
     effect_config_t* config = (effect_config_t*)pCmdData;
+    _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__);
+    LogBufferConfig(config->inputCfg);
+    _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__);
+    LogBufferConfig(config->outputCfg);
+
+    _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
     if (config->inputCfg.samplingRate != config->outputCfg.samplingRate) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Sample Rate does not match Output Sample Rate.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
@@ -119,11 +110,11 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
     }
     if (config->outputCfg.accessMode != EFFECT_BUFFER_ACCESS_WRITE &&
         config->outputCfg.accessMode != EFFECT_BUFFER_ACCESS_ACCUMULATE) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode disallows Write & Accumulate.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
     if (config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %d", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
         return -EINVAL;
     }
 
@@ -234,8 +225,8 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
 
     _Logger->WriteLog("Calculating Expected Reply Data Size...", LOG_SENDER, __func__);
     const effect_param_t* pEffectParam = (effect_param_t*)pCmdData;
-    const uint32_t expectedReplySize = getExpectedReplySize(pEffectParam->psize,
-                                                            (void*)pEffectParam->data);
+    const uint32_t expectedReplySize = GetExpectedReplySize(pEffectParam->psize,
+                                                            (void*) pEffectParam->data);
     _Logger->WriteLog("Successfully calculated Expected Reply Data Size : %d", LOG_SENDER, __func__, expectedReplySize);
 
     _Logger->WriteLog("Preparing Reply Data...", LOG_SENDER, __func__);
@@ -276,6 +267,27 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
 
     _Logger->WriteLog("Successfully Retrieved Engine Config.", LOG_SENDER, __func__);
     pReplyData = context->config;
+    return 0;
+}
+
+void MenrvaCommandMap::LogBufferConfig(buffer_config_t bufferConfig) {
+    _Logger->WriteLog("Buffer Format : %d", LOG_SENDER, __func__, bufferConfig.format);
+    _Logger->WriteLog("Buffer Sample Rate : %d", LOG_SENDER, __func__, bufferConfig.samplingRate);
+    _Logger->WriteLog("Buffer Channel Count : %d", LOG_SENDER, __func__, bufferConfig.channels);
+    _Logger->WriteLog("Buffer Access Mode : %d", LOG_SENDER, __func__, bufferConfig.accessMode);
+}
+
+uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {
+    if (paramSize < sizeof(int32_t)) {
+        return 0;
+    }
+
+    int32_t param = *(int32_t*)pParam;
+
+    switch (param) {
+        // TODO : Add logic to return an expected parameter size
+    }
+
     return 0;
 }
 
