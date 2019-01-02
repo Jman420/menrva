@@ -19,6 +19,9 @@
 #include "android_logger.h"
 #include "../aosp/liblog/android/log.h"
 
+const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
+const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
+
 bool AndroidLogger::_Initialized = false;
 bool AndroidLogger::_WhitelistActive = true;
 logger_whitelist AndroidLogger::_Whitelist = *new logger_whitelist();
@@ -64,10 +67,10 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
     // Format Log Tag
     std::string prefix = APP_NAME;
     if (senderClass != "") {
-        prefix = prefix + "-" + senderClass;
+        prefix = prefix + LOG_ELEMENT_DELIMITER + senderClass;
     }
     if (senderFunction != "") {
-        prefix = prefix + "-" + senderFunction + "()";
+        prefix = prefix + LOG_ELEMENT_DELIMITER + senderFunction + FUNCTION_SUFFIX;
     }
 
     // Write Message

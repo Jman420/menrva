@@ -32,8 +32,10 @@ protected:
     void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) override;
 
 private:
-    static bool _Initialized;
-    static bool _WhitelistActive;
+    static const std::string LOG_ELEMENT_DELIMITER,
+                             FUNCTION_SUFFIX;
+    static bool _Initialized,
+                _WhitelistActive;
     static logger_whitelist _Whitelist;
 
     static void Initialize();
