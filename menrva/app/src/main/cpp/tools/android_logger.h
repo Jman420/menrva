@@ -25,12 +25,13 @@ class AndroidLogger : public LoggerBase {
 public:
     AndroidLogger();
 
+protected:
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) override;
+
 private:
     static bool _Initialized;
 
     static void Initialize();
-
-    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) override;
 };
 
 #endif //MENRVA_ANDROID_LOGGER_H

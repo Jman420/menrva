@@ -41,7 +41,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         Initialize();
     }
 
-    if (logLevel > AppLogLevel) {
+    if (logLevel < AppLogLevel) {
         return;
     }
 
@@ -50,12 +50,11 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         prefix = prefix + "-" + senderClass;
     }
     if (senderFunction != "") {
-        prefix = prefix + " - " + senderFunction + "()";
+        prefix = prefix + "-" + senderFunction + "()";
     }
 
     const char* logTag = prefix.c_str();
     const char* logMsg = message.c_str();
-    android_LogPriority logPriority = static_cast<android_LogPriority>(logLevel);
 
-    __android_log_vprint(logPriority, logTag, logMsg, args);
+    __android_log_vprint(logLevel, logTag, logMsg, args);
 }
