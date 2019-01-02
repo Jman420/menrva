@@ -22,28 +22,31 @@
 
 PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
-FftwInterface::FftwInterface(size_t signalSize, size_t componentSize) :
-        FftInterfaceBase(signalSize, componentSize) {}
+FftwInterface::FftwInterface(LoggerBase* logger, size_t signalSize, size_t componentSize) :
+        FftInterfaceBase(logger, signalSize, componentSize) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
-    if (signalSize == 0 && componentSize == 0) {
-        FftInterfaceBase::Initialize(signalSize, componentSize);
-        return 0;
+    _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);
+    componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
+    if (signalSize < 1 && componentSize < 1) {
+        return componentSize;
     }
 
-    if (componentSize < 1) {
-        componentSize = signalSize / 2 + 1;
-    }
-
+    _Logger->WriteLog("Calculating FFT Plans Cache Key for Signal Size (%d) and Component Size (%d)...", LOG_SENDER, __func__, signalSize, componentSize);
     std::string plansKey = std::to_string(signalSize) + "x" + std::to_string(componentSize);
+    const char* plansKeyC = plansKey.c_str();
+
+    _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
     PlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
+        _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
         _Plans = cachedPlansIterator->second;
         return componentSize;
     }
 
+    _Logger->WriteLog("Calculating and Caching FFT Plans for Cache Key (%s)...", LOG_SENDER, __func__, plansKeyC);
     fftw_iodim dim;
-    dim.n = signalSize;
+    dim.n = static_cast<int>(signalSize);
     dim.is = dim.os = 1;
 
     float* outputSignal = Allocate(signalSize);
@@ -53,7 +56,7 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
     _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
-    FftInterfaceBase::Initialize(signalSize, componentSize);
+    _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s)!", LOG_SENDER, __func__, plansKeyC);
 
     Deallocate(outputSignal);
     Deallocate(freqReal);

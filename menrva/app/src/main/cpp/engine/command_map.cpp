@@ -271,9 +271,6 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
-    if (bufferConfig->format == 4292218464) {
-        _Logger->WriteLog("Uninitialized Buffer!", LOG_SENDER, __func__);
-    }
     _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, bufferConfig->format);
     _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, bufferConfig->samplingRate);
     _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, bufferConfig->channels);

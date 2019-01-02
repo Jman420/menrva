@@ -20,10 +20,11 @@
 #define MENRVA_BASS_BOOST_H
 
 #include "../abstracts/effect_base.h"
+#include "../abstracts/logging_base.h"
 
-class BassBoost : public EffectBase {
+class BassBoost : public EffectBase, LoggingBase {
 public:
-    BassBoost();
+    BassBoost(LoggerBase* logger);
 
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();

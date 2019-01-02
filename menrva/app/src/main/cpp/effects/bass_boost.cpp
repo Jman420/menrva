@@ -20,7 +20,9 @@
 
 const std::string BassBoost::EFFECT_NAME = "BassBoost";
 
-BassBoost::BassBoost() : EffectBase(EFFECT_NAME) {
+BassBoost::BassBoost(LoggerBase* logger)
+        : EffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
     // TODO : Implement Initialization Logic
 }
 

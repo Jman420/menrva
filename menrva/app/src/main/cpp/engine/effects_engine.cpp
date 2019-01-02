@@ -19,7 +19,8 @@
 #include <cstdlib>
 #include "effects_engine.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger) : LoggingBase(logger, __PRETTY_FUNCTION__) {
+MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
     ResetEffects();
 }

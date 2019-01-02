@@ -26,19 +26,20 @@
 #include "audio_buffer.h"
 #include "../abstracts/logger_base.h"
 
-class FIR_Generator {
+class FIR_Generator : public LoggingBase {
 public:
     FIR_Generator(LoggerBase* logger, FftInterfaceBase* fftEngine);
 
     /*
-     * Create() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
+     * Calculate() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
      *   Frequency Samples & Amplitudes.
      * filterSize - Size of resulting FIR Filter (number of elements in the filter; 2048 or 4096 or other power of 2)
      * frequencySamples - Array of Frequency values to interpolate
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
      */
-    AudioBuffer* Create(unsigned int filterSize, sample* frequencySamples, sample* amplitudeSamples, unsigned int sampleSize);
+    AudioBuffer* Calculate(unsigned int filterSize, sample* frequencySamples,
+                           sample* amplitudeSamples, unsigned int sampleSize);
 
 private:
     static const std::string LOG_SENDER;
@@ -49,7 +50,6 @@ private:
                             HAMMING_054 = (sample)0.54,
                             HAMMING_046 = (sample)0.46;
 
-    LoggerBase* _Logger;
     FftInterfaceBase* _FFTEngine;
 };
 

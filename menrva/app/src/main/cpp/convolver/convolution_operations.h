@@ -23,8 +23,10 @@
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
-class ConvolutionOperations : public ConvolutionOperationsBase{
+class ConvolutionOperations : public ConvolutionOperationsBase, LoggingBase {
 public:
+    ConvolutionOperations(LoggerBase* logger);
+
     void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) override;
     void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar = 1.0) override;
     void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output) override;

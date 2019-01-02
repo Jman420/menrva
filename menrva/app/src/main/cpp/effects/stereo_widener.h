@@ -20,10 +20,11 @@
 #define MENRVA_STEREO_WIDENER_H
 
 #include "../abstracts/effect_base.h"
+#include "../abstracts/logging_base.h"
 
-class StereoWidener : public EffectBase {
+class StereoWidener : public EffectBase, LoggingBase {
 public:
-    StereoWidener();
+    StereoWidener(LoggerBase* logger);
 
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();

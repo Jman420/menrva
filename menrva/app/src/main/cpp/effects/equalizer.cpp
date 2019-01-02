@@ -20,7 +20,9 @@
 
 const std::string Equalizer::EFFECT_NAME = "Equalizer";
 
-Equalizer::Equalizer() : EffectBase(EFFECT_NAME) {
+Equalizer::Equalizer(LoggerBase* logger)
+        : EffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
 
 }
 

@@ -20,10 +20,11 @@
 #define MENRVA_EQUALIZER_H
 
 #include "../abstracts/effect_base.h"
+#include "../abstracts/logging_base.h"
 
-class Equalizer : public EffectBase {
+class Equalizer : public EffectBase, LoggingBase {
 public:
-    Equalizer();
+    Equalizer(LoggerBase* logger);
 
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();

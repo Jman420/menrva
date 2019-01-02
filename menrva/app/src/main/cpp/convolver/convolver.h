@@ -24,18 +24,20 @@
 #include "../audio/audio_buffer.h"
 #include "convolution_operations.h"
 
-class Convolver {
+class Convolver : public LoggingBase {
 public:
-    Convolver(FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
+    Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();
 
     void Reset();
-    bool Initialize(size_t frameLength, AudioBuffer* filterImpulseResponse);
+    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse);
     void Process(AudioBuffer* input, AudioBuffer* output);
 
 private:
     static constexpr sample ONE_HALF = (sample)0.5;
     static const float SIGNAL_THRESHOLD;
+
+    static size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
 
     ConvolutionOperationsBase* _ConvolutionOperations;
     FftInterfaceBase* _FftEngine;
@@ -50,7 +52,9 @@ private:
     AudioBuffer* _OverlapSignal;
     AudioComponentsBuffer* _WorkingComponents;
 
-    size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
+    void LogSegmentConfig();
+    void LogAudioComponents(AudioComponentsBuffer* audioComponents);
+    void LogSignal(AudioBuffer* signal);
 };
 
 #endif //MENRVA_CONVOLVER_H

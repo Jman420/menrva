@@ -41,6 +41,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         Initialize();
     }
 
+    // TODO : Add Logic to disable entries by SenderClasses & SenderFunction
     if (logLevel < AppLogLevel) {
         return;
     }

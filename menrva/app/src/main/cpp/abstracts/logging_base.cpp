@@ -29,7 +29,7 @@ void LoggingBase::InitializeLogSender(std::string prettyFunction) {
     std::string className = "";
     size_t colons = prettyFunction.find(COLONS);
     if (colons == std::string::npos) {
-        className = COLONS;
+        className = "";
     }
     else {
         size_t begin = prettyFunction.substr(0,colons).rfind(" ") + 1;
