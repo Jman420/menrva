@@ -20,6 +20,8 @@
 #include "../aosp/liblog/android/log.h"
 
 bool AndroidLogger::_Initialized = false;
+bool AndroidLogger::_WhitelistActive = true;
+logger_whitelist AndroidLogger::_Whitelist = *new logger_whitelist();
 
 AndroidLogger::AndroidLogger() : LoggerBase() {
     Initialize();
@@ -30,8 +32,12 @@ void AndroidLogger::Initialize() {
         return;
     }
 
+    // BEGIN DEBUG
     AppLogLevel = LogLevel::VERBOSE;
-    // TODO : Get AppLogLevel from Shared Settings
+    _WhitelistActive = false;
+    // END DEBUG
+
+    // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings
 
     _Initialized = true;
 }
@@ -41,11 +47,21 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         Initialize();
     }
 
-    // TODO : Add Logic to disable entries by SenderClasses & SenderFunction
+    // Check if Log Level is Disabled
     if (logLevel < AppLogLevel) {
         return;
     }
 
+    // Check Whitelist for Class Disabled
+    if (_WhitelistActive) {
+        logger_whitelist whitelist = AndroidLogger::_Whitelist;
+        logger_whitelist::iterator whitelistEntry = whitelist.find(senderClass);
+        if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
+            return;
+        }
+    }
+
+    // Format Log Tag
     std::string prefix = APP_NAME;
     if (senderClass != "") {
         prefix = prefix + "-" + senderClass;
@@ -54,8 +70,8 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         prefix = prefix + "-" + senderFunction + "()";
     }
 
+    // Write Message
     const char* logTag = prefix.c_str();
     const char* logMsg = message.c_str();
-
     __android_log_vprint(logLevel, logTag, logMsg, args);
 }

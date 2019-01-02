@@ -20,6 +20,9 @@
 #define MENRVA_ANDROID_LOGGER_H
 
 #include "../abstracts/logger_base.h"
+#include <map>
+
+typedef std::map<std::string, bool> logger_whitelist;
 
 class AndroidLogger : public LoggerBase {
 public:
@@ -30,6 +33,8 @@ protected:
 
 private:
     static bool _Initialized;
+    static bool _WhitelistActive;
+    static logger_whitelist _Whitelist;
 
     static void Initialize();
 };
