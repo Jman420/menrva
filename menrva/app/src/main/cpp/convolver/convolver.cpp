@@ -48,7 +48,7 @@ Convolver::~Convolver() {
 void Convolver::Reset() {
     _Logger->WriteLog("Resetting Convolver Configuration...", LOG_SENDER, __func__);
     if (!_Initialized) {
-        _Logger->WriteLog("Skipping resetting Convolver Configuration.  Convoler is Uninitialized.", LOG_SENDER, __func__);
+        _Logger->WriteLog("Skipping resetting Convolver Configuration.  Convolver is Uninitialized.", LOG_SENDER, __func__);
         return;
     }
 

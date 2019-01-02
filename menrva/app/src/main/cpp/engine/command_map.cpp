@@ -244,7 +244,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
     _Logger->WriteLog("Successfully calculated Parameter Value Offset : %u", LOG_SENDER, __func__, valueOffset);
 
     _Logger->WriteLog("Retrieving Parameter Value for Parameter Id : %u", LOG_SENDER, __func__, command);
-    // TODO : Draft Structs to contain necessary Reply Data Types
+    // TODO : Draft Structures to contain necessary Reply Data Types
     void* pValue = replyData->data + valueOffset;
     uint32_t valueSize = 0;
     switch (command) {
