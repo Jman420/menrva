@@ -36,13 +36,6 @@ add_library( # Sets the name of the library.
         src/main/cpp/tools/buffer.cpp
         src/main/cpp/tools/service_locator.cpp
         src/main/cpp/tools/math_operations.cpp
-        
-        src/main/cpp/audio/audio_components_buffer.cpp
-        
-        src/main/cpp/fft/fftw_interface.cpp
-
-        src/main/cpp/convolver/convolution_operations.cpp
-        src/main/cpp/convolver/convolver.cpp
 
         src/main/cpp/audio/audio_components_buffer.cpp
         src/main/cpp/audio/fir_generator.cpp
@@ -50,6 +43,7 @@ add_library( # Sets the name of the library.
         src/main/cpp/fft/fftw_interface.cpp
 
         src/main/cpp/convolver/convolution_operations.cpp
+        src/main/cpp/convolver/convolver.cpp
 
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp
