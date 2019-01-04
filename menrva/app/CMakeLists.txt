@@ -32,11 +32,24 @@ add_library( # Sets the name of the library.
         src/main/cpp/abstracts/fft_interface_base.cpp
         src/main/cpp/abstracts/effect_base.cpp
 
+        src/main/cpp/tools/android_logger.cpp
+        src/main/cpp/tools/buffer.cpp
+        src/main/cpp/tools/service_locator.cpp
+        src/main/cpp/tools/math_operations.cpp
+        
         src/main/cpp/audio/audio_components_buffer.cpp
-        src/main/cpp/audio/fir_generator.cpp
+        
+        src/main/cpp/fft/fftw_interface.cpp
 
         src/main/cpp/convolver/convolution_operations.cpp
         src/main/cpp/convolver/convolver.cpp
+
+        src/main/cpp/audio/audio_components_buffer.cpp
+        src/main/cpp/audio/fir_generator.cpp
+
+        src/main/cpp/fft/fftw_interface.cpp
+
+        src/main/cpp/convolver/convolution_operations.cpp
 
         src/main/cpp/effects/bass_boost.cpp
         src/main/cpp/effects/equalizer.cpp
@@ -45,17 +58,10 @@ add_library( # Sets the name of the library.
         src/main/cpp/engine/engine_interface.cpp
         src/main/cpp/engine/effects_engine.cpp
         src/main/cpp/engine/command_map.cpp
-
-        src/main/cpp/fft/fftw_interface.cpp
-
-        src/main/cpp/tools/android_logger.cpp
-        src/main/cpp/tools/buffer.cpp
-        src/main/cpp/tools/service_locator.cpp
-        src/main/cpp/tools/math_operations.cpp
+        
+        src/main/cpp/module_interface.cpp
 
         src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
-
-        src/main/cpp/module_interface.cpp
 )
 
 target_include_directories(
