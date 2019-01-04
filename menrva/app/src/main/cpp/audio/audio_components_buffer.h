@@ -21,10 +21,11 @@
 
 #include <cstddef>
 #include "audio_buffer.h"
+#include "../abstracts/logging_base.h"
 
-class AudioComponentsBuffer {
+class AudioComponentsBuffer : public LoggingBase {
 public:
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t size = 0);
+    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t size = 0);
     ~AudioComponentsBuffer();
 
     void Reset();

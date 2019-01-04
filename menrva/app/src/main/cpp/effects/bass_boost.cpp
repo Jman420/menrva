@@ -18,7 +18,11 @@
 
 #include "bass_boost.h"
 
-BassBoost::BassBoost(){
+const std::string BassBoost::EFFECT_NAME = "BassBoost";
+
+BassBoost::BassBoost(LoggerBase* logger)
+        : EffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
     // TODO : Implement Initialization Logic
 }
 

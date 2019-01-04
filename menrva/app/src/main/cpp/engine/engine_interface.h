@@ -20,23 +20,21 @@
 #define MENRVA_ENGINE_INTERFACE_H
 
 #include "../aosp/aosp_audio_effect_defs.h"
-#include "../audio/audio_buffer.h"
+#include "../abstracts/logger_base.h"
+#include "../tools/service_locator.h"
 
-// Represents the public interface for interacting with the Menrva Audio Effects Engine
 class MenrvaEngineInterface {
 public:
-    // Represents the Descriptor for the Menrva Effects Engine
-    static const effect_descriptor_t EffectDescriptor;
-
-    static const char* EffectTypeUUID;
-    static const char* EngineUUID;
-
     static int Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out);
     static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData,
                        uint32_t* replySize, void* pReplyData);
-    static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);
 
 private:
+    static const std::string LOG_SENDER;
+
+    static ServiceLocator* _ServiceLocator;
+    static LoggerBase* _Logger;
+
     // Private Constructor to prevent instantiation of Static Class
     MenrvaEngineInterface();
 };

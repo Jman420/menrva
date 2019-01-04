@@ -23,10 +23,11 @@
 #include "../audio/sample.h"
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
+#include "logging_base.h"
 
-class FftInterfaceBase {
+class FftInterfaceBase : public LoggingBase {
 public:
-    FftInterfaceBase(size_t signalSize = 0, size_t componentSize = 0);
+    FftInterfaceBase(LoggerBase* logger, size_t signalSize = 0, size_t componentSize = 0);
     virtual size_t Initialize(size_t signalSize, size_t componentSize = 0);
     virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;

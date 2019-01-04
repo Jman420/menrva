@@ -22,72 +22,55 @@
 #include "../module_interface.h"
 #include "../audio/sample.h"
 
-const effect_descriptor_t MenrvaEngineInterface::EffectDescriptor = {
-    // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_NULL)
-    .type = { 0xec7178ec, 0xe5e1, 0x4432, 0xa3f4, { 0x46, 0x57, 0xe6, 0x79, 0x52, 0x10 } },
-    // UUID for this particular implementation (http://www.itu.int/ITU-T/asn1/uuid.html)
-    .uuid = { 0xa91fdfe4, 0xd09e, 0x11e8, 0xa8d5, { 0xf2, 0x80, 0x1f, 0x1b, 0x9f, 0xd1 } },
-    // Version of the effect control API implemented
-    .apiVersion = EFFECT_CONTROL_API_VERSION,
-    // effect engine capabilities/requirements flags (see below)
-    .flags = EFFECT_FLAG_TYPE_INSERT | EFFECT_FLAG_INSERT_FIRST,
-    // CPU load indication
-    .cpuLoad = 10,
-    // Data Memory usage
-    .memoryUsage = 1,
-    // human readable effect name
-    .name = "MenrvaEngine",
-    // human readable effect implementor name
-    .implementor = "Jman420"
-};
+const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 
-const char* MenrvaEngineInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
-const char* MenrvaEngineInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
+ServiceLocator* MenrvaEngineInterface::_ServiceLocator = new ServiceLocator();
+LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
-int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out)
-{
+int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
+    _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
     struct menrva_module_context *context = (menrva_module_context*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return -ENODATA;
     }
     if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
 
+    _Logger->WriteLog("Input Buffer Frame Count : %d", LOG_SENDER, __func__, in->frameCount);
+    _Logger->WriteLog("Output Buffer Frame Count : %d", LOG_SENDER, __func__, out->frameCount);
+    _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
     context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
+
+    _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
     int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
 
+    _Logger->WriteLog("EffectsEngine finished Processing with Result : %d !", LOG_SENDER, __func__, result);
     return result;
 }
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
-                                   void* pCmdData, uint32_t* replySize, void* pReplyData)
-{
+                                   void* pCmdData, uint32_t* replySize, void* pReplyData) {
+    _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
     struct menrva_module_context *context = (menrva_module_context*)self;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
 
+        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
 
-    int result = MenrvaCommandMap::Command(context, cmdCode, cmdSize, pCmdData, replySize,
+    _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
+    int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize,
                                            pReplyData);
+
+    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
-}
-
-int MenrvaEngineInterface::GetDescriptorFromModule(effect_handle_t self,
-                                                   effect_descriptor_t* pDescriptor)
-{
-    menrva_module_context* module = (menrva_module_context*)self;
-    if (module == NULL || pDescriptor == NULL) {
-        return -EINVAL;
-    }
-
-    *pDescriptor = EffectDescriptor;
-    return 0;
 }
 
 MenrvaEngineInterface::MenrvaEngineInterface() {}

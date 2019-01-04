@@ -20,15 +20,23 @@
 #define MENRVA_ANDROID_LOGGER_H
 
 #include "../abstracts/logger_base.h"
+#include <map>
+
+typedef std::map<std::string, bool> logger_whitelist;
 
 class AndroidLogger : public LoggerBase {
 public:
     AndroidLogger();
 
-    void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...) override;
+protected:
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) override;
 
 private:
-    static bool _Initialized;
+    static const std::string LOG_ELEMENT_DELIMITER,
+                             FUNCTION_SUFFIX;
+    static bool _Initialized,
+                _WhitelistActive;
+    static logger_whitelist _Whitelist;
 
     static void Initialize();
 };

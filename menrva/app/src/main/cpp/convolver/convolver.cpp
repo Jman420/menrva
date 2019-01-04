@@ -24,9 +24,19 @@
 
 const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
 
-Convolver::Convolver(FftInterfaceBase* fftEngine) {
+size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {
+    size_t sampleCounter = impulseResponse.GetLength() - 1;
+    while (sampleCounter > 0 && fabs(impulseResponse[sampleCounter]) < SIGNAL_THRESHOLD) {
+        sampleCounter--;
+    }
+
+    return sampleCounter;
+}
+
+Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
-    _ConvolutionOperations = new ConvolutionOperations();
+    _ConvolutionOperations = convolutionOperations;
 
     Reset();
 }
@@ -36,7 +46,9 @@ Convolver::~Convolver() {
 }
 
 void Convolver::Reset() {
+    _Logger->WriteLog("Resetting Convolver Configuration...", LOG_SENDER, __func__);
     if (!_Initialized) {
+        _Logger->WriteLog("Skipping resetting Convolver Configuration.  Convolver is Uninitialized.", LOG_SENDER, __func__);
         return;
     }
 
@@ -54,24 +66,29 @@ void Convolver::Reset() {
     _FrameLength = 0;
     _FrameSize = 0;
     _SignalScalar = 1;
+    _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
 
-bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseResponse) {
+bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse) {
+    _Logger->WriteLog("Initializing Convolver Configuration...", LOG_SENDER, __func__);
     if (_Initialized) {
         Reset();
     }
 
-    if (frameLength < 1) {
+    _Logger->WriteLog("Validating Audio Frame Length and Impulse Response...", LOG_SENDER, __func__);
+    if (audioFrameLength < 1) {
+        _Logger->WriteLog("Invalid Audio Frame Length provided.  Audio Frame Length must be greater than 0.", LOG_SENDER, __func__, LogLevel::WARN);
         return false;
     }
 
     size_t validFilterLength = FindImpulseResponseLength(*filterImpulseResponse);
     if (validFilterLength < 1) {
+        _Logger->WriteLog("Invalid Impulse Response provided.  Length of non-zero Impulse Response Signal Values must be greater than 0.", LOG_SENDER, __func__, LogLevel::WARN);
         return true;
     }
 
-    // Calculate Segment Count & Size
-    _FrameLength = frameLength;
+    _Logger->WriteLog("Calculating Segment Count and Memory Size...", LOG_SENDER, __func__);
+    _FrameLength = audioFrameLength;
     _FrameSize = sizeof(sample) * _FrameLength;
     size_t segmentLength = MathOperations::RoundToNextPowerOf2(_FrameLength),
            segmentComponentsLength = segmentLength + 1,
@@ -79,64 +96,80 @@ bool Convolver::Initialize(size_t frameLength, AudioBuffer* filterImpulseRespons
     _FilterSegmentsLength = (segmentLength + validFilterLength - 1) / segmentLength;
     _FftEngine->Initialize(segmentSignalLength, segmentComponentsLength);
     _SignalScalar = ONE_HALF / _FrameLength;
+    LogSegmentConfig();
 
-    // Allocate Impulse Response Filter Segments
+    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...");
     _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
-
-    // Allocate & Calculate Impulse Response Components for all except the Last Segment
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
     AudioBuffer* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
-        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
+        _Logger->WriteLog("Allocating Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
+        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
+        _Logger->WriteLog("Preparing Filter Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentLength : validFilterLength - (lastSegmentIndex * segmentLength);
         memcpy(impulseSignalSegment->GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
-        // Calculate & Store Impulse Segment's Components
+        _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
+        LogAudioComponents(_FilterSegments[segmentCounter]);
     }
 
-    // Allocate Convolution Buffers
+    _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
     _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
-    _WorkingComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
+    _WorkingComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
     _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
 
     _Initialized = true;
+    _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
     return true;
 }
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
+    _Logger->WriteLog("Processing Audio Frame of length (%d)...", LOG_SENDER, __func__, input->GetLength());
     // TODO : Verify that the Input & Output Buffers will be of the correct length (_FrameLength)
 
     // Copy Input Frame into First Half & Zero out the Last Half of Working Signal
+    _Logger->WriteLog("Preparing Audio Frame...", LOG_SENDER, __func__);
     memcpy(_WorkingSignal->GetData(), input->GetData(), _FrameSize);
     memset(&_WorkingSignal->GetData()[_FrameLength], 0, _FrameSize);
 
-    // Calculate Input Frame's Components
+    _Logger->WriteLog("Calculating Audio Frame's Components...", LOG_SENDER, __func__);
     _FftEngine->SignalToComponents(_WorkingSignal, _WorkingComponents);
+    LogAudioComponents(_WorkingComponents);
 
-    // Multiply & Accumulate each of the Filter Segments
+    _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         AudioComponentsBuffer* filterSegment = _FilterSegments[segmentCounter];
         _ConvolutionOperations->ComplexMultiplyAccumulate(_WorkingComponents, filterSegment, _WorkingComponents);
     }
+    LogAudioComponents(_WorkingComponents);
 
-    // Calculate Accumulated Signal
+    _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
     _FftEngine->ComponentsToSignal(_WorkingComponents, _WorkingSignal);
+    LogSignal(_WorkingSignal);
 
-    // Sum And Scale First Half of Accumulated Signal & Overlap into Output
+    _Logger->WriteLog("Summing Convolved Signal with Overlap Signal and Scaling...", LOG_SENDER, __func__);
     _ConvolutionOperations->SumAndScale(*_OverlapSignal, *_WorkingSignal, *output, _SignalScalar);
+    LogSignal(output);
 
-    // Store Last Half of Accumulated Signal in Overlap
+    _Logger->WriteLog("Storing Remaining Overlap Signal...", LOG_SENDER, __func__);
     memcpy(_OverlapSignal->GetData(), &_WorkingSignal[_FrameLength], _FrameSize);
+    LogSignal(_OverlapSignal);
 }
 
-size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {
-    size_t sampleCounter = impulseResponse.GetLength() - 1;
-    while (sampleCounter > 0 && fabs(impulseResponse[sampleCounter]) < SIGNAL_THRESHOLD) {
-        sampleCounter--;
-    }
+void Convolver::LogSegmentConfig() {
+    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, _FrameLength);
+    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, _FrameSize);
+    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, _FilterSegmentsLength);
+    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, _SignalScalar);
+}
 
-    return sampleCounter;
+void Convolver::LogAudioComponents(AudioComponentsBuffer* audioComponents) {
+    // TODO : Add Logic to Log Audio Components
+}
+
+void Convolver::LogSignal(AudioBuffer* signal) {
+    // TODO : Add Logic to Log Signal
 }

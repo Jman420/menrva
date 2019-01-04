@@ -16,24 +16,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "equalizer.h"
+#ifndef MENRVA_CONVOLUTION_OPERATIONS_BASE_H
+#define MENRVA_CONVOLUTION_OPERATIONS_BASE_H
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
+#include "../audio/audio_components_buffer.h"
 
-Equalizer::Equalizer(LoggerBase* logger)
-        : EffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
+class ConvolutionOperationsBase {
+public:
+    virtual void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) = 0;
+    virtual void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar = 1.0) = 0;
+    virtual void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output) = 0;
+};
 
-}
-
-void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Equalizer Effect
-}
-
-void Equalizer::ResetConfig() {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
-
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
-}
+#endif //MENRVA_CONVOLUTION_OPERATIONS_BASE_H

@@ -19,12 +19,17 @@
 #ifndef MENRVA_EFFECT_BASE_H
 #define MENRVA_EFFECT_BASE_H
 
+#include <string>
 #include "../aosp/aosp_audio_effect_defs.h"
 #include "../audio/audio_buffer.h"
 
 class EffectBase {
 public:
-    bool Enabled = false;
+    const std::string NAME;
+    bool Enabled;
+
+    EffectBase(std::string name);
+
     virtual void Process(AudioBuffer* in, AudioBuffer* out) = 0;
     virtual void ResetConfig() = 0;
     virtual void ConfigureSetting(char* settingName, void* value) = 0;

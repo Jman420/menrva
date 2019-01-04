@@ -16,24 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "equalizer.h"
+#ifndef MENRVA_LOGGING_BASE_H
+#define MENRVA_LOGGING_BASE_H
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
+#include <string>
+#include "logger_base.h"
 
-Equalizer::Equalizer(LoggerBase* logger)
-        : EffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
+class LoggingBase {
+public:
+    LoggingBase(LoggerBase* logger, std::string prettyFunction);
 
-}
+protected:
+    std::string LOG_SENDER;
+    LoggerBase* _Logger;
 
-void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Equalizer Effect
-}
+    /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
+     *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();
+     *   Call this method from a Deriving Class Constructor to Initialize LOG_SENDER
+     * prettyFunction - The __PRETTY_FUNCTION__ Constant to parse
+     */
+    void InitializeLogSender(std::string prettyFunction);
 
-void Equalizer::ResetConfig() {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
+private:
+    static const std::string COLONS;
+};
 
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
-}
+#endif //MENRVA_LOGGING_BASE_H

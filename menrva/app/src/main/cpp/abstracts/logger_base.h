@@ -22,18 +22,34 @@
 #include <string>
 
 enum LogLevel {
-    ERROR = 0,
-    WARNING = 1,
-    INFO = 2,
+    VERBOSE = 2,
     DEBUG = 3,
-    VERBOSE = 4,
+    INFO = 4,
+    WARN = 5,
+    ERROR = 6,
+    FATAL = 7,
 };
 
 class LoggerBase {
 public:
+    const static std::string APP_NAME;
     static LogLevel AppLogLevel;
 
-    virtual void WriteLog(std::string message, std::string prefix = "", LogLevel logLevel = LogLevel::VERBOSE, ...) = 0;
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...);
+    void WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...);
+    void WriteLog(std::string message, LogLevel logLevel, ...);
+
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, ...);
+    void WriteLog(std::string message, std::string senderClass, ...);
+    void WriteLog(std::string message, ...);
+
+protected:
+    virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction,
+                          LogLevel logLevel, va_list args) = 0;
+
+private:
+    const static LogLevel DEFAULT_LOG_LEVEL;
+    const static LogLevel DEFAULT_APP_LOG_LEVEL;
 };
 
 #endif //MENRVA_LOGGER_BASE_H

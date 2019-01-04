@@ -24,8 +24,9 @@
   - ~~Adapt Convolution Operation Functions from FFTConvolver~~
   - ~~Remove Unused Code (FFTConvolver)~~
   - ~~Adapt Convolver Process from FFTConvolver & JamesDSP~~
+  - ~~Add Verbose Logging Statements~~
+  - ~~Draft Script to Deploy Backend Libs to Device through ADB~~
   - Debug Backend Module Surface (Module, Engine & Command Map Objects)
-  - Add Verbose Logging Statements
   - Draft Bass Boost Effect Implementation
   - Compare Convolver to JamesDSP
   - Compare Bass Boost Effect to JamesDSP

@@ -21,9 +21,9 @@
 
 #include <string>
 #include "aosp/aosp_audio_effect_defs.h"
-#include "engine/effects_engine.h"
-#include "abstracts/logger_base.h"
 #include "tools/service_locator.h"
+#include "abstracts/logger_base.h"
+#include "engine/effects_engine.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -46,17 +46,20 @@ struct menrva_module_context {
 // Represents the public interface for interacting with the Menrva Audio Effects Module
 class MenrvaModuleInterface {
 public:
-    // Represents the public interface for interacting with the Menrva Audio Effects Engine
+    static const effect_descriptor_t EffectDescriptor;
     static const effect_interface_s EngineInterface;
+    static const char* EffectTypeUUID;
+    static const char* EngineUUID;
 
     static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId,
                             effect_handle_t* pHandle);
     static int InitModule(menrva_module_context* context);
     static int ReleaseModule(effect_handle_t moduleHandle);
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
+    static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);
 
 private:
-    static const std::string LOG_TAG;
+    static const std::string LOG_SENDER;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;

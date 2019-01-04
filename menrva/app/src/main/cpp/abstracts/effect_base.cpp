@@ -16,24 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "equalizer.h"
+#include "effect_base.h"
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
-
-Equalizer::Equalizer(LoggerBase* logger)
-        : EffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
-
-}
-
-void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Equalizer Effect
-}
-
-void Equalizer::ResetConfig() {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
-
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
-}
+EffectBase::EffectBase(std::string name) : NAME(name) { }

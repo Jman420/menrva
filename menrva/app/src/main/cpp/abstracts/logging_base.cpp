@@ -16,24 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "equalizer.h"
+#include "logging_base.h"
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
+const std::string LoggingBase::COLONS = "::";
 
-Equalizer::Equalizer(LoggerBase* logger)
-        : EffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
-
+LoggingBase::LoggingBase(LoggerBase* logger, std::string prettyFunction) {
+    InitializeLogSender(prettyFunction);
+    _Logger = logger;
 }
 
-void Equalizer::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement Equalizer Effect
-}
+void LoggingBase::InitializeLogSender(std::string prettyFunction) {
+    std::string className = "";
+    size_t colons = prettyFunction.find(COLONS);
+    if (colons == std::string::npos) {
+        className = "";
+    }
+    else {
+        size_t begin = prettyFunction.substr(0,colons).rfind(" ") + 1;
+        size_t end = colons - begin;
 
-void Equalizer::ResetConfig() {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
+        className =  prettyFunction.substr(begin,end);
+    }
 
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
+    LOG_SENDER = className;
 }

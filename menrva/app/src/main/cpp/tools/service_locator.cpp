@@ -27,5 +27,5 @@ LoggerBase* ServiceLocator::GetLogger() {
 }
 
 FftInterfaceBase* ServiceLocator::GetFftEngine(unsigned int signalSize, unsigned int componentSize) {
-    return new FftwInterface(signalSize, componentSize);
+    return new FftwInterface(_Logger, signalSize, componentSize);
 }

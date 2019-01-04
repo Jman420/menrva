@@ -20,11 +20,18 @@
 #define MENRVA_EQUALIZER_H
 
 #include "../abstracts/effect_base.h"
+#include "../abstracts/logging_base.h"
 
-class Equalizer : public EffectBase {
+class Equalizer : public EffectBase, LoggingBase {
+public:
+    Equalizer(LoggerBase* logger);
+
     void Process(AudioBuffer* in, AudioBuffer* out);
     void ResetConfig();
     void ConfigureSetting(char* settingName, void* value);
+
+private:
+    static const std::string EFFECT_NAME;
 };
 
 #endif //MENRVA_EQUALIZER_H

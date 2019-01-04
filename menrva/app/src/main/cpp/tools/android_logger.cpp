@@ -19,7 +19,12 @@
 #include "android_logger.h"
 #include "../aosp/liblog/android/log.h"
 
+const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
+const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
+
 bool AndroidLogger::_Initialized = false;
+bool AndroidLogger::_WhitelistActive = true;
+logger_whitelist AndroidLogger::_Whitelist = *new logger_whitelist();
 
 AndroidLogger::AndroidLogger() : LoggerBase() {
     Initialize();
@@ -30,41 +35,46 @@ void AndroidLogger::Initialize() {
         return;
     }
 
+    // BEGIN DEBUG
     AppLogLevel = LogLevel::VERBOSE;
-    // TODO : Get AppLogLevel from Shared Settings
+    _WhitelistActive = false;
+    // END DEBUG
+
+    // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings
 
     _Initialized = true;
 }
 
-void AndroidLogger::WriteLog(std::string message, std::string prefix, LogLevel logLevel, ...) {
+void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
     if (!_Initialized) {
         Initialize();
     }
 
-    if (logLevel > AppLogLevel) {
+    // Check if Log Level is Disabled
+    if (logLevel < AppLogLevel) {
         return;
     }
 
-    va_list args;
-    va_start(args, logLevel);
+    // Check Whitelist for Class Disabled
+    if (_WhitelistActive) {
+        logger_whitelist whitelist = AndroidLogger::_Whitelist;
+        logger_whitelist::iterator whitelistEntry = whitelist.find(senderClass);
+        if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
+            return;
+        }
+    }
+
+    // Format Log Tag
+    std::string prefix = APP_NAME;
+    if (senderClass != "") {
+        prefix = prefix + LOG_ELEMENT_DELIMITER + senderClass;
+    }
+    if (senderFunction != "") {
+        prefix = prefix + LOG_ELEMENT_DELIMITER + senderFunction + FUNCTION_SUFFIX;
+    }
+
+    // Write Message
     const char* logTag = prefix.c_str();
     const char* logMsg = message.c_str();
-
-    switch (logLevel) {
-        case LogLevel::ERROR:
-            __android_log_vprint(ANDROID_LOG_ERROR, logTag, logMsg, args);
-            break;
-        case LogLevel::WARNING:
-            __android_log_vprint(ANDROID_LOG_WARN, logTag, logMsg, args);
-            break;
-        case LogLevel::INFO:
-            __android_log_vprint(ANDROID_LOG_INFO, logTag, logMsg, args);
-            break;
-        case LogLevel::DEBUG:
-            __android_log_vprint(ANDROID_LOG_DEBUG, logTag, logMsg, args);
-            break;
-        case LogLevel::VERBOSE:
-            __android_log_vprint(ANDROID_LOG_VERBOSE, logTag, logMsg, args);
-            break;
-    }
+    __android_log_vprint(logLevel, logTag, logMsg, args);
 }

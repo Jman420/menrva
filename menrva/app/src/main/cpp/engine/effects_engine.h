@@ -24,6 +24,8 @@
 #include "../effects/equalizer.h"
 #include "../effects/bass_boost.h"
 #include "../effects/stereo_widener.h"
+#include "../abstracts/logger_base.h"
+#include "../abstracts/logging_base.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNINITIALIZED,
@@ -34,23 +36,20 @@ enum MenrvaEngineStatus {
     MENRVA_ENGINE_ENABLED,
 };
 
-class MenrvaEffectsEngine {
+class MenrvaEffectsEngine : public LoggingBase {
 public:
     MenrvaEngineStatus _EngineStatus;
-    audio_buffer_t* _WorkingBuffer;
 
-    MenrvaEffectsEngine();
+    MenrvaEffectsEngine(LoggerBase* logger);
     void ResetEffects();
+    int SetBufferConfig(effect_config_t config);
     int Process(AudioBuffer* in, AudioBuffer* out);
-    void SetEffectEnabled(int effectIndex, bool enabled);
-    void ConfigureEffectSetting(int effectIndex, char settingName[], void* value);
+    void SetEffectEnabled(unsigned int effectIndex, bool enabled);
+    void ConfigureEffectSetting(unsigned int effectIndex, char settingName[], void* value);
 
 private:
-    EffectBase* _MenrvaEffects[3] = {
-            new Equalizer(),
-            new BassBoost(),
-            new StereoWidener(),
-    };
+    const static int EFFECTS_LENGTH = 3;
+    EffectBase* _MenrvaEffects[EFFECTS_LENGTH];
 };
 
 #endif //MENRVA_EFFECTS_ENGINE_H
