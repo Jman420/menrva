@@ -113,13 +113,15 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    if (config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
+    if (config->inputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
+            config->inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
+            config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %u", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
         return -EINVAL;
     }
 
     _Logger->WriteLog("Reconfiguring Effect Engine...", LOG_SENDER, __func__);
-    *context->config = *config;
+    context->config = config;
     int result = MenrvaCommandMap::ResetEngine(context, (uint32_t)NULL, NULL, NULL, NULL);
     *(int*)pReplyData = result;
 

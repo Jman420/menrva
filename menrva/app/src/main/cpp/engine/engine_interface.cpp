@@ -43,8 +43,31 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
     _Logger->WriteLog("Input Buffer Frame Count : %d", LOG_SENDER, __func__, in->frameCount);
     _Logger->WriteLog("Output Buffer Frame Count : %d", LOG_SENDER, __func__, out->frameCount);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
-    context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
-    context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
+    switch (context->config->inputCfg.format) {
+        case AUDIO_FORMAT_PCM_16_BIT:
+            // PCM 16 Bit : [-32767, 32767]
+            // TODO : Normalize Signal Data to between [-1, 1] to align with PCM Float Format
+            context->InputBuffer->SetData((sample*)in->s16, in->frameCount, false);
+            context->OutputBuffer->SetData((sample*)out->s16, out->frameCount, false);
+            break;
+
+        case AUDIO_FORMAT_PCM_32_BIT:
+            // PCM 32 Bit : [-2147483647, 2147483647]
+            // TODO : Normalize Signal Data to between [-1, 1] to align with PCM Float Format
+            context->InputBuffer->SetData((sample*)in->s32, in->frameCount, false);
+            context->OutputBuffer->SetData((sample*)out->s32, out->frameCount, false);
+            break;
+
+        case AUDIO_FORMAT_PCM_FLOAT:
+            // PCM Float : [-1.0, 1.0]
+            context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
+            context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
+            break;
+
+        default:
+            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided : %d", LOG_SENDER, __func__, LogLevel::WARN, context->config->inputCfg.format);
+            return -EINVAL;
+    }
 
     _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
     int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);

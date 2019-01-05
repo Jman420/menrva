@@ -28,6 +28,7 @@ enum LogLevel {
     WARN = 5,
     ERROR = 6,
     FATAL = 7,
+    DISABLED = 8,
 };
 
 class LoggerBase {
