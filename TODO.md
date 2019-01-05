@@ -28,6 +28,7 @@
   - ~~Draft Script to Deploy Backend Libs to Device through ADB~~
   - ~~Debug Backend Module Surface (Module, Engine & Command Map Objects)~~
   - Draft Bass Boost Effect Implementation
+  - Test & Debug Backend Module Stack
   - Compare Convolver to JamesDSP
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
