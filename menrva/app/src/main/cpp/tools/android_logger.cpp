@@ -51,7 +51,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
     }
 
     // Check if Log Level is Disabled
-    if (logLevel < AppLogLevel) {
+    if (logLevel < AppLogLevel || logLevel == LogLevel::DISABLED) {
         return;
     }
 
