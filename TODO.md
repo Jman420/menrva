@@ -27,6 +27,7 @@
   - ~~Add Verbose Logging Statements~~
   - ~~Draft Script to Deploy Backend Libs to Device through ADB~~
   - ~~Debug Backend Module Surface (Module, Engine & Command Map Objects)~~
+  - Fully Support PCM 16 & 32bit
   - Draft Bass Boost Effect Implementation
   - Test & Debug Backend Module Stack
   - Compare Convolver to JamesDSP
