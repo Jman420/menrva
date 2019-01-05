@@ -25,8 +25,6 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger)
     _MenrvaEffects[0] = new BassBoost(_Logger);
     _MenrvaEffects[1] = new StereoWidener(_Logger);
     _MenrvaEffects[2] = new Equalizer(_Logger);
-
-    ResetEffects();
 }
 
 void MenrvaEffectsEngine::ResetEffects() {

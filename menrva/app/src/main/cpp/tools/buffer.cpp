@@ -34,8 +34,6 @@ Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
 
 Buffer::~Buffer() {
     Reset();
-
-    delete _Data;
 }
 
 void Buffer::Reset() {
@@ -90,10 +88,6 @@ sample* Buffer::GetData() {
 void Buffer::Initialize(size_t length) {
     _Length = length;
     _MemorySize = CalculateMemorySize(_Length);
-    if (_Length < 1) {
-        return;
-    }
-
     _Data = _FftEngine->Allocate(length);
 }
 
