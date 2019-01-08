@@ -35,7 +35,7 @@ void MenrvaEffectsEngine::ResetEffects() {
         _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
         effect->ResetConfig();
     }
-    _Logger->WriteLog("Successfully Reset Effects!", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Clear Effects!", LOG_SENDER, __func__);
 }
 
 int MenrvaEffectsEngine::SetBufferConfig(effect_config_t config) {

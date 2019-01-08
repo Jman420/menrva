@@ -120,7 +120,12 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Reconfiguring Effect Engine...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Creating Audio Buffer Wrappers...", LOG_SENDER, __func__);
+
+    context->InputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
+    context->OutputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
+
+    _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context->config = config;
     int result = MenrvaCommandMap::ResetEngine(context, (uint32_t)NULL, NULL, NULL, NULL);
     *(int*)pReplyData = result;
@@ -141,7 +146,7 @@ int MenrvaCommandMap::ResetEngine(menrva_module_context* context, uint32_t cmdSi
     _Logger->WriteLog("Resetting Effects Engine...", LOG_SENDER, __func__);
     context->EffectsEngine->ResetEffects();
 
-    _Logger->WriteLog("Successfully Reset Effects Engine.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Clear Effects Engine.", LOG_SENDER, __func__);
     return 0;
 }
 
@@ -273,10 +278,10 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
-    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, bufferConfig->format);
-    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, bufferConfig->samplingRate);
-    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, bufferConfig->channels);
-    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, bufferConfig->accessMode);
+    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, bufferConfig->format, LogLevel::VERBOSE);
+    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, bufferConfig->samplingRate, LogLevel::VERBOSE);
+    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, bufferConfig->channels, LogLevel::VERBOSE);
+    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, bufferConfig->accessMode, LogLevel::VERBOSE);
 }
 
 uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {

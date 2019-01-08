@@ -16,11 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_BUFFER_H
-#define MENRVA_AUDIO_BUFFER_H
+#include "conversion_buffer.h"
 
-#include "../tools/buffer.h"
+ConversionBuffer::ConversionBuffer() {
+    _DataBuffer = new Buffer();
+}
 
-typedef Buffer AudioBuffer;
+ConversionBuffer::~ConversionBuffer() {
+    delete _DataBuffer;
+}
 
-#endif //MENRVA_AUDIO_BUFFER_H
+size_t ConversionBuffer::GetLength() {
+    return _DataBuffer->GetLength();
+}
+
+void ConversionBuffer::ResetData() {
+    _DataBuffer->ResetData();
+}
+
+void ConversionBuffer::Free() {
+    _DataBuffer->Free();
+}

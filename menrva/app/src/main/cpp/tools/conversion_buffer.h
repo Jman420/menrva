@@ -16,54 +16,45 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BUFFER_H
-#define MENRVA_BUFFER_H
+#ifndef MENRVA_CONVERSION_BUFFER_H
+#define MENRVA_CONVERSION_BUFFER_H
 
-#include <cstddef>
-#include <cassert>
+#include "buffer.h"
 
-template<class TInputType>
-class Buffer {
+template<class TInputType, class TOutputType>
+class ConversionBuffer {
 public:
-    Buffer();
-    ~Buffer();
+    ConversionBuffer();
+    ~ConversionBuffer();
 
     size_t GetLength();
     void ResetData();
     void Free();
 
-    Buffer(TInputType* data, size_t length) {
-        SetData(data, length);
+    ConversionBuffer(TInputType* data, size_t length) {
+        _DataBuffer = new Buffer<TInputType>(data, length);
     }
 
     void SetData(TInputType* data, size_t length) {
-        _Data = data;
-        _Length = length;
-        _MemorySize = CalculateMemorySize(_Length);
-        _DataSet = true;
+        _DataBuffer->SetData(data, length);
     }
 
+    // Read Operations
+    TOutputType operator[](size_t index) const {
+        return (TOutputType)_DataBuffer[index];
+    }
+
+    // Write Operations
     TInputType& operator[](size_t index) {
-        assert(_DataSet && index < _Length);
-        return _Data[index];
+        return _DataBuffer[index];
     }
 
     TInputType* GetData() {
-        assert(_DataSet);
-        return _Data;
+        return _DataBuffer->GetData();
     }
-
-    static void Swap(Buffer* itemA, Buffer* itemB);
 
 private:
-    bool _DataSet;
-    size_t _Length,
-           _MemorySize;
-    TInputType* _Data;
-
-    size_t CalculateMemorySize(size_t length) {
-        return sizeof(TInputType) * length;
-    }
+    Buffer<TInputType>* _DataBuffer;
 };
 
-#endif //MENRVA_BUFFER_H
+#endif //MENRVA_CONVERSION_BUFFER_H

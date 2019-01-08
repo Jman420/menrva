@@ -47,7 +47,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         case AUDIO_FORMAT_PCM_16_BIT:
             // PCM 16 Bit : [-32767, 32767]
             // TODO : Normalize Signal Data to between [-1, 1] to align with PCM Float Format
-            context->InputBuffer->SetData((sample*)in->s16, in->frameCount, false);
+            context->InputBuffer->SetData(&AudioFormat::PCM_16, in->s16, in->frameCount);
             context->OutputBuffer->SetData((sample*)out->s16, out->frameCount, false);
             break;
 

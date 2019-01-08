@@ -16,54 +16,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BUFFER_H
-#define MENRVA_BUFFER_H
+#ifndef MENRVA_AUDIOINPUTBUFFER_H
+#define MENRVA_AUDIOINPUTBUFFER_H
 
-#include <cstddef>
-#include <cassert>
+#include <cstdint>
+#include "audio_format.h"
+#include "sample.h"
+#include "../tools/conversion_buffer.h"
+#include "../abstracts/logging_base.h"
 
-template<class TInputType>
-class Buffer {
+union audio_input_buffer_u {
+    ConversionBuffer<int16_t, sample>* PCM_16;
+    ConversionBuffer<int32_t, sample>* PCM_32;
+    ConversionBuffer<float, sample>* PCM_Float;
+};
+
+class AudioInputBuffer : public LoggingBase {
 public:
-    Buffer();
-    ~Buffer();
+    AudioInputBuffer(LoggerBase* logger);
+    ~AudioInputBuffer();
 
     size_t GetLength();
     void ResetData();
     void Free();
 
-    Buffer(TInputType* data, size_t length) {
-        SetData(data, length);
-    }
-
-    void SetData(TInputType* data, size_t length) {
-        _Data = data;
-        _Length = length;
-        _MemorySize = CalculateMemorySize(_Length);
-        _DataSet = true;
-    }
-
-    TInputType& operator[](size_t index) {
-        assert(_DataSet && index < _Length);
-        return _Data[index];
-    }
-
-    TInputType* GetData() {
-        assert(_DataSet);
-        return _Data;
-    }
-
-    static void Swap(Buffer* itemA, Buffer* itemB);
+    void SetData(AudioFormat audioFormat, void* data, size_t length);
+    void* GetData();
+    sample operator[](size_t index) const;  // Read-Only Subscript Operator
 
 private:
-    bool _DataSet;
-    size_t _Length,
-           _MemorySize;
-    TInputType* _Data;
-
-    size_t CalculateMemorySize(size_t length) {
-        return sizeof(TInputType) * length;
-    }
+    AudioFormat _AudioFormat;
+    audio_input_buffer_u* _BufferWrapper;
 };
 
-#endif //MENRVA_BUFFER_H
+#endif //MENRVA_AUDIOINPUTBUFFER_H

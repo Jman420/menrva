@@ -16,40 +16,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <cstring>
-#include <cassert>
-#include "buffer.h"
-#include "../abstracts/fft_interface_base.h"
+#ifndef MENRVA_AUDIO_FORMAT_H
+#define MENRVA_AUDIO_FORMAT_H
 
-Buffer::Buffer() {
-    Free();
-}
+enum AudioFormat {
+    PCM_16 = 0x1u,
+    PCM_32 = 0x3u,
+    PCM_Float = 0x5u,
+    Sample,
+};
 
-Buffer::~Buffer() {
-    Free();
-}
-
-void Buffer::Free() {
-    _Length = 0;
-    _MemorySize = 0;
-    _Data = 0;
-    _DataSet = false;
-}
-
-void Buffer::ResetData() {
-    if (_Length < 1) {
-        return;
-    }
-
-    memset(_Data, 0, _MemorySize);
-}
-
-size_t Buffer::GetLength() {
-    return _Length;
-}
-
-void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
-    Buffer* temp = itemA;
-    itemA = itemB;
-    itemB = temp;
-}
+#endif //MENRVA_AUDIO_FORMAT_H

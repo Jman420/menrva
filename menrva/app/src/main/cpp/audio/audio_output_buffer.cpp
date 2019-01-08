@@ -16,40 +16,4 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <cstring>
-#include <cassert>
-#include "buffer.h"
-#include "../abstracts/fft_interface_base.h"
-
-Buffer::Buffer() {
-    Free();
-}
-
-Buffer::~Buffer() {
-    Free();
-}
-
-void Buffer::Free() {
-    _Length = 0;
-    _MemorySize = 0;
-    _Data = 0;
-    _DataSet = false;
-}
-
-void Buffer::ResetData() {
-    if (_Length < 1) {
-        return;
-    }
-
-    memset(_Data, 0, _MemorySize);
-}
-
-size_t Buffer::GetLength() {
-    return _Length;
-}
-
-void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
-    Buffer* temp = itemA;
-    itemA = itemB;
-    itemB = temp;
-}
+#include "audio_output_buffer.h"

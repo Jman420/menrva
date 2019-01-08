@@ -117,9 +117,9 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     }
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
-    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
+    _WorkingSignal = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
     _WorkingComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
-    _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
+    _OverlapSignal = new AudioBuffer(_Logger, _FftEngine, _FrameLength);
 
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);

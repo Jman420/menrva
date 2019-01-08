@@ -38,7 +38,7 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* dest
     _Logger->WriteLog("Cloning Source Buffer Length (%d) with memory size (%d)", LOG_SENDER, __func__, cloneLength, cloneSize);
     memcpy(destinationData, source, cloneSize);
     memset(destinationData + cloneSize, 0, sampleTypeSize * sizeDiff);
-    _Logger->WriteLog("Successfully Reset and Cloned Source Buffer into Destination Buffer!", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Clear and Cloned Source Buffer into Destination Buffer!", LOG_SENDER, __func__);
 }
 
 void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,

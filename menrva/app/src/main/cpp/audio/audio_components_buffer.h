@@ -25,11 +25,11 @@
 
 class AudioComponentsBuffer : public LoggingBase {
 public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t size = 0);
+    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
     ~AudioComponentsBuffer();
 
     void Reset();
-    void Resize(size_t size);
+    void Resize(size_t length);
     void ResetData();
     bool CloneFrom(AudioComponentsBuffer* source);
 

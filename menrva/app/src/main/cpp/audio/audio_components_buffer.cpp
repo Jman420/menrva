@@ -19,11 +19,14 @@
 #include <cstdlib>
 #include "audio_components_buffer.h"
 
-AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t size)
+AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
-    _Size = size;
-    _RealBuffer = new AudioBuffer(fftEngine, size);
-    _ImagBuffer = new AudioBuffer(fftEngine, size);
+    _Size = length;
+
+    _RealBuffer = new AudioBuffer(logger);
+
+
+    _ImagBuffer = new AudioBuffer(logger);
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
@@ -42,12 +45,12 @@ void AudioComponentsBuffer::Reset() {
     _Logger->WriteLog("Successfully reset Real & Imaginary Audio Buffers!", LOG_SENDER, __func__);
 }
 
-void AudioComponentsBuffer::Resize(size_t size) {
-    _Logger->WriteLog("Resizing Real & Imaginary Audio Buffers to (%u)...", LOG_SENDER, __func__, size);
-    _RealBuffer->Resize(size);
-    _ImagBuffer->Resize(size);
-    _Size = size;
-    _Logger->WriteLog("Successfully resized Real & Imaginary Audio Buffers to (%u)!", LOG_SENDER, __func__, size);
+void AudioComponentsBuffer::Resize(size_t length) {
+    _Logger->WriteLog("Resizing Real & Imaginary Audio Buffers to (%u)...", LOG_SENDER, __func__, length);
+    _RealBuffer->Resize(length);
+    _ImagBuffer->Resize(length);
+    _Size = length;
+    _Logger->WriteLog("Successfully resized Real & Imaginary Audio Buffers to (%u)!", LOG_SENDER, __func__, length);
 }
 
 void AudioComponentsBuffer::ResetData() {
@@ -74,7 +77,7 @@ sample* AudioComponentsBuffer::GetRealData() {
     return _RealBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::GetRealBuffer() {
+AudioBuffer* AudioComponentsBuffer::GetRealBuffer() {
     return _RealBuffer;
 }
 
@@ -82,6 +85,6 @@ sample* AudioComponentsBuffer::GetImagData() {
     return _ImagBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::GetImagBuffer() {
+AudioBuffer* AudioComponentsBuffer::GetImagBuffer() {
     return _ImagBuffer;
 }
