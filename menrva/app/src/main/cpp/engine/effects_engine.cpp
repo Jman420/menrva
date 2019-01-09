@@ -50,7 +50,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer* in, AudioOutputBuffer* out) {
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
             _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
-            //effect->Process(in, out);
+            effect->Process(in, out);
         }
         else {
             _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__);

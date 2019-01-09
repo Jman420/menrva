@@ -27,7 +27,7 @@
   - ~~Add Verbose Logging Statements~~
   - ~~Draft Script to Deploy Backend Libs to Device through ADB~~
   - ~~Debug Backend Module Surface (Module, Engine & Command Map Objects)~~
-  - Draft AudioInputBuffer & AudioOutputBuffer (input : sourceType->sample; output : sample->sourceType)
+  - ~~Draft AudioInputBuffer & AudioOutputBuffer (input : sourceType->sample; output : sample->sourceType)~~
   - Fully Support PCM 16, 32bit & Float Formats
   - Draft Bass Boost Effect Implementation
   - Test & Debug Backend Module Stack

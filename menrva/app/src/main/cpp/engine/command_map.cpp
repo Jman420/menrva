@@ -104,8 +104,16 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Channels do not match Output Channels.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    if (config->inputCfg.format != config->outputCfg.format) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format does not match Output Format.", LOG_SENDER, __func__, LogLevel::WARN);
+    if (config->inputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
+        config->inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
+        config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %u", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
+        return -EINVAL;
+    }
+    if (config->outputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
+        config->outputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
+        config->outputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Format not supported : %u", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
         return -EINVAL;
     }
     if (config->outputCfg.accessMode != EFFECT_BUFFER_ACCESS_WRITE &&
@@ -113,16 +121,10 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    if (config->inputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
-            config->inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
-            config->inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported : %u", LOG_SENDER, __func__, LogLevel::WARN, config->inputCfg.format);
-        return -EINVAL;
-    }
 
     _Logger->WriteLog("Creating Audio Buffer Wrappers...", LOG_SENDER, __func__);
-    context->InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger());
-    context->OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger());
+    context->InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger(), (AudioFormat)config->inputCfg.format);
+    context->OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger(), (AudioFormat)config->outputCfg.format);
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context->config = config;

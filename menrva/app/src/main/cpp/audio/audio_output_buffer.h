@@ -35,12 +35,15 @@ union audio_output_buffer_u {
 class AudioOutputBuffer : public LoggingBase {
 public:
     AudioOutputBuffer(LoggerBase* logger);
+    AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
     size_t GetLength();
     void ResetData();
     void Free();
 
+    void SetFormat(AudioFormat audioFormat);
+    void SetData(void* data, size_t length);
     void SetData(AudioFormat audioFormat, void* data, size_t length);
     void SetValue(size_t index, sample value);
     void* GetData();

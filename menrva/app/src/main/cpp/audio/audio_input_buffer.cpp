@@ -101,8 +101,33 @@ void AudioInputBuffer::Free() {
     }
 }
 
-void AudioInputBuffer::SetData(AudioFormat audioFormat, void* data, size_t length) {
+void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
+    if (_AudioFormat == audioFormat) {
+        return;
+    }
+
     _AudioFormat = audioFormat;
+    switch (_AudioFormat) {
+        case AudioFormat::PCM_16:
+            _BufferWrapper->PCM_16 = new ConversionBuffer<int16_t, sample>();
+            break;
+
+        case AudioFormat::PCM_32:
+            _BufferWrapper->PCM_32 = new ConversionBuffer<int32_t, sample>();
+            break;
+
+        case AudioFormat::PCM_Float:
+            _BufferWrapper->PCM_Float = new ConversionBuffer<float, sample>();
+            break;
+
+        default:
+            // TODO : Throw exception
+            _Logger->WriteLog("Invalid Audio Format Provided.  No Data Set!", LOG_SENDER, __func__, LogLevel::WARN);
+            break;
+    }
+}
+
+void AudioInputBuffer::SetData(void* data, size_t length) {
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16->SetData((int16_t*)data, length);
@@ -121,6 +146,11 @@ void AudioInputBuffer::SetData(AudioFormat audioFormat, void* data, size_t lengt
             _Logger->WriteLog("Invalid Audio Format Provided.  No Data Set!", LOG_SENDER, __func__, LogLevel::WARN);
             break;
     }
+}
+
+void AudioInputBuffer::SetData(AudioFormat audioFormat, void* data, size_t length) {
+    SetFormat(audioFormat);
+    SetData(data, length);
 }
 
 void* AudioInputBuffer::GetData() {

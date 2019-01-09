@@ -34,12 +34,15 @@ union audio_input_buffer_u {
 class AudioInputBuffer : public LoggingBase {
 public:
     AudioInputBuffer(LoggerBase* logger);
+    AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioInputBuffer();
 
     size_t GetLength();
     void ResetData();
     void Free();
 
+    void SetFormat(AudioFormat audioFormat);
+    void SetData(void* data, size_t length);
     void SetData(AudioFormat audioFormat, void* data, size_t length);
     void* GetData();
     sample operator[](size_t index) const;  // Read-Only Subscript Operator
