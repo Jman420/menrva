@@ -46,6 +46,8 @@ int MenrvaEffectsEngine::SetBufferConfig(effect_config_t config) {
 int MenrvaEffectsEngine::Process(AudioInputBuffer* in, AudioOutputBuffer* out) {
     _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
 
+    // TODO : Break Input Buffer into Frames of Expected Length (1024)
+    // TODO : Move Frames into Frame Buffers for Effect Processing
 
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
@@ -56,6 +58,8 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer* in, AudioOutputBuffer* out) {
             _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__);
         }
     }
+
+    // TODO : Move Processed Frames into Output Buffer
 
     _Logger->WriteLog("Successfully Processed AudioBuffer length : %d.  Output AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
     return 0;

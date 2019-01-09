@@ -24,6 +24,12 @@ AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
     _BufferWrapper = new audio_input_buffer_u();
 }
 
+AudioInputBuffer::AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _BufferWrapper = new audio_input_buffer_u();
+    SetFormat(audioFormat);
+}
+
 AudioInputBuffer::~AudioInputBuffer() {
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
