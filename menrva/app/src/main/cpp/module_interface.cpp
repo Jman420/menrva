@@ -93,7 +93,7 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
     }
 
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context->EffectsEngine = new MenrvaEffectsEngine(_Logger);
+    context->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine());
     context->itfe = &EngineInterface;
 
     // TODO : Configure any necessary default parameters

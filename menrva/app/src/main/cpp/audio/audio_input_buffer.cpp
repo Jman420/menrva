@@ -176,24 +176,62 @@ void* AudioInputBuffer::GetData() {
 }
 
 sample AudioInputBuffer::operator[](size_t index) const {
-    // TODO : Scale PCM16 & 32 to Float Format
+    sample normalizedValue = 0.0f;
+
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
-            int16_t value16 = (*_BufferWrapper->PCM_16)[index];
-            return (sample)value16;
+            int16_t value = (*_BufferWrapper->PCM_16)[index];
+            normalizedValue = Normalize<int16_t>(value);
+            break;
         }
 
         case AudioFormat::PCM_32: {
-            int32_t value32 = (*_BufferWrapper->PCM_32)[index];
-            return (sample)value32;
+            int32_t value = (*_BufferWrapper->PCM_32)[index];
+            normalizedValue = Normalize<int32_t>(value);
+            break;
         }
 
         case AudioFormat::PCM_Float: {
-            float valueFloat = (*_BufferWrapper->PCM_Float)[index];
-            return (sample)valueFloat;
+            float value = (*_BufferWrapper->PCM_Float)[index];
+            normalizedValue = (sample)value;
+            break;
         }
 
         default:
-            return 0;
+            break;
     }
+
+    return normalizedValue;
 }
+
+template<class TInputType>
+sample AudioInputBuffer::Normalize(TInputType data) const {
+    const sample maxRangeValue = PCM_FLOAT_MAX_VALUE,
+                 minRangeValue = PCM_FLOAT_MIN_VALUE,
+                 dataValue = (sample)data;
+
+    sample maxDataValue = 0.0f,
+           minDataValue = 0.0f;
+
+    switch (_AudioFormat) {
+        case AudioFormat::PCM_16:
+            maxDataValue = PCM16_MAX_VALUE;
+            minDataValue = PCM16_MIN_VALUE;
+            break;
+
+        case AudioFormat::PCM_32:
+            maxDataValue = PCM32_MAX_VALUE;
+            minDataValue = PCM32_MIN_VALUE;
+            break;
+
+        default:
+            // TODO : Throw Exception & Log Invalid Audio Format for Input Scaling
+            break;
+    }
+
+    sample normalizedValue = (maxRangeValue - minRangeValue) * ((dataValue - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue;
+    return normalizedValue;
+}
+
+template sample AudioInputBuffer::Normalize<int16_t>(int16_t data) const;
+template sample AudioInputBuffer::Normalize<int32_t>(int32_t data) const;

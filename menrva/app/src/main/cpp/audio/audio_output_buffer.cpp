@@ -160,16 +160,18 @@ void AudioOutputBuffer::SetData(AudioFormat audioFormat, void* data, size_t leng
 }
 
 void AudioOutputBuffer::SetValue(size_t index, sample value) {
-    // TODO : Scale Float to PCM16 & 32 Format
-
     switch (_AudioFormat) {
-        case AudioFormat::PCM_16:
-            (*_BufferWrapper->PCM_16)[index] = (int16_t)value;
+        case AudioFormat::PCM_16: {
+            int16_t normalizedValue = Normalize<int16_t>(value);
+            (*_BufferWrapper->PCM_16)[index] = normalizedValue;
             break;
+        }
 
-        case AudioFormat::PCM_32:
-            (*_BufferWrapper->PCM_32)[index] = (int32_t)value;
+        case AudioFormat::PCM_32: {
+            int32_t normalizedValue = Normalize<int32_t>(value);
+            (*_BufferWrapper->PCM_32)[index] = normalizedValue;
             break;
+        }
 
         case AudioFormat::PCM_Float:
             (*_BufferWrapper->PCM_Float)[index] = (float)value;
@@ -216,3 +218,34 @@ void* AudioOutputBuffer::operator[](size_t index) const {
             return 0;
     }
 }
+
+template<class TOutputType>
+TOutputType AudioOutputBuffer::Normalize(sample data) {
+    const sample maxDataValue = PCM_FLOAT_MAX_VALUE,
+                 minDataValue = PCM_FLOAT_MIN_VALUE;
+
+    sample maxRangeValue = 0.0f,
+           minRangeValue = 0.0f;
+
+    switch (_AudioFormat) {
+        case AudioFormat::PCM_16:
+            maxRangeValue = PCM16_MAX_VALUE;
+            minRangeValue = PCM16_MIN_VALUE;
+            break;
+
+        case AudioFormat::PCM_32:
+            maxRangeValue = PCM32_MAX_VALUE;
+            minRangeValue = PCM32_MIN_VALUE;
+            break;
+
+        default:
+            // TODO : Throw Exception & Log Invalid Audio Format for Input Scaling
+            break;
+    }
+
+    TOutputType normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
+    return normalizedValue;
+}
+
+template int16_t AudioOutputBuffer::Normalize<int16_t>(sample data);
+template int32_t AudioOutputBuffer::Normalize<int32_t>(sample data);

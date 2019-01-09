@@ -50,6 +50,9 @@ public:
 private:
     AudioFormat _AudioFormat;
     audio_input_buffer_u* _BufferWrapper;
+
+    template<class TInputType>
+    sample Normalize(TInputType data) const;
 };
 
 #endif //MENRVA_AUDIO_INPUT_BUFFER_H

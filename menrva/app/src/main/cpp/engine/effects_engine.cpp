@@ -18,13 +18,17 @@
 
 #include <cstdlib>
 #include "effects_engine.h"
+#include "../config.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger)
+MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
     _MenrvaEffects[0] = new BassBoost(_Logger);
     _MenrvaEffects[1] = new StereoWidener(_Logger);
     _MenrvaEffects[2] = new Equalizer(_Logger);
+
+    _WorkingInputBuffer = new AudioBuffer(fftEngine, DSP_FRAME_SIZE);
+    _WorkingOutputBuffer = new AudioBuffer(fftEngine, DSP_FRAME_SIZE);
 }
 
 void MenrvaEffectsEngine::ResetEffects() {
@@ -43,25 +47,24 @@ int MenrvaEffectsEngine::SetBufferConfig(effect_config_t config) {
     return 0;
 }
 
-int MenrvaEffectsEngine::Process(AudioInputBuffer* in, AudioOutputBuffer* out) {
-    _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
+int MenrvaEffectsEngine::Process(AudioInputBuffer* inputBuffer, AudioOutputBuffer* outputBuffer) {
+    _Logger->WriteLog("Processing AudioBuffer length : %d", LOG_SENDER, __func__, inputBuffer->GetLength());
 
-    // TODO : Break Input Buffer into Frames of Expected Length (1024)
-    // TODO : Move Frames into Frame Buffers for Effect Processing
+    // TODO : Load Input Buffer into Frames of Expected Length (1024) in WorkingInputBuffer
 
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
             _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
-            effect->Process(in, out);
+            effect->Process(_WorkingInputBuffer, _WorkingOutputBuffer);
         }
         else {
             _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__);
         }
     }
 
-    // TODO : Move Processed Frames into Output Buffer
+    // TODO : Move Processed Frames from WorkingOutputBuffer into Output Buffer
 
-    _Logger->WriteLog("Successfully Processed AudioBuffer length : %d.  Output AudioBuffer length : %d", LOG_SENDER, __func__, in->GetLength());
+    _Logger->WriteLog("Successfully Processed AudioBuffer length : %d.  Output AudioBuffer length : %d", LOG_SENDER, __func__, inputBuffer->GetLength());
     return 0;
 }
 

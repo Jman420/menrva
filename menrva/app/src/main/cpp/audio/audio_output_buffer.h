@@ -52,6 +52,9 @@ public:
 private:
     AudioFormat _AudioFormat;
     audio_output_buffer_u* _BufferWrapper;
+
+    template<class TOutputType>
+    TOutputType Normalize(sample data);
 };
 
 #endif //MENRVA_AUDIO_OUTPUT_BUFFER_H

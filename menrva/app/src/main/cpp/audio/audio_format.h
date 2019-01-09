@@ -19,11 +19,20 @@
 #ifndef MENRVA_AUDIO_FORMAT_H
 #define MENRVA_AUDIO_FORMAT_H
 
+#include "sample.h"
+
 enum AudioFormat {
     PCM_16 = 0x1u,
     PCM_32 = 0x3u,
     PCM_Float = 0x5u,
     Sample,
 };
+
+const sample PCM16_MAX_VALUE = 32767.0f,
+             PCM16_MIN_VALUE = -32767.0f,
+             PCM32_MAX_VALUE = 2147483647.0f,
+             PCM32_MIN_VALUE = -2147483647.0f,
+             PCM_FLOAT_MAX_VALUE = 1.0f,
+             PCM_FLOAT_MIN_VALUE = -1.0f;
 
 #endif //MENRVA_AUDIO_FORMAT_H
