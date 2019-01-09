@@ -27,9 +27,9 @@
 #include "../abstracts/logging_base.h"
 
 union audio_output_buffer_u {
-    ConversionBuffer<sample, int16_t>* PCM_16;
-    ConversionBuffer<sample, int32_t>* PCM_32;
-    ConversionBuffer<sample, float>* PCM_Float;
+    Buffer<int16_t>* PCM_16;
+    Buffer<int32_t>* PCM_32;
+    Buffer<float>* PCM_Float;
 };
 
 class AudioOutputBuffer : public LoggingBase {
@@ -41,9 +41,10 @@ public:
     void ResetData();
     void Free();
 
-    void SetData(AudioFormat* audioFormat, sample* data, size_t length);
+    void SetData(AudioFormat audioFormat, void* data, size_t length);
+    void SetValue(size_t index, sample value);
     void* GetData();
-    void* operator[](size_t index);  // Read/Write Operation
+    void* operator[](size_t index) const;
 
 private:
     AudioFormat _AudioFormat;

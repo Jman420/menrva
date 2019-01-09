@@ -16,32 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_AUDIO_BUFFER_H
+#define MENRVA_AUDIO_BUFFER_H
 
-#include <cstddef>
-#include "audio_buffer.h"
 #include "sample.h"
-#include "../abstracts/logging_base.h"
+#include "../tools/buffer.h"
 
-class AudioComponentsBuffer : public LoggingBase {
+class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
+
+class AudioBuffer : public Buffer<sample> {
 public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
-    ~AudioComponentsBuffer();
+    AudioBuffer(FftInterfaceBase* fftEngine);
+    AudioBuffer(FftInterfaceBase* fftEngine, size_t length);
+    AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length);
+    ~AudioBuffer() override;
 
-    void Free();
-    void ResetData();
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
+    void SetData(sample* data, size_t length) override;
 
 private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    FftInterfaceBase* _FftEngine;
+    bool _DisposeData;
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+
+#endif //MENRVA_AUDIO_BUFFER_H

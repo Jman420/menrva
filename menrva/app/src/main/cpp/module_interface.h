@@ -24,6 +24,8 @@
 #include "tools/service_locator.h"
 #include "abstracts/logger_base.h"
 #include "engine/effects_engine.h"
+#include "audio/audio_input_buffer.h"
+#include "audio/audio_output_buffer.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -39,8 +41,8 @@ struct menrva_module_context {
 
     MenrvaModuleStatus ModuleStatus;
     MenrvaEffectsEngine* EffectsEngine;
-    AudioBuffer* InputBuffer;
-    AudioBuffer* OutputBuffer;
+    AudioInputBuffer* InputBuffer;
+    AudioOutputBuffer* OutputBuffer;
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module

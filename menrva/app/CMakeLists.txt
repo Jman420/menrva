@@ -38,7 +38,9 @@ add_library( # Sets the name of the library.
         src/main/cpp/tools/buffer.cpp
         src/main/cpp/tools/conversion_buffer.cpp
 
+        src/main/cpp/audio/audio_buffer.cpp
         src/main/cpp/audio/audio_input_buffer.cpp
+        src/main/cpp/audio/audio_output_buffer.cpp
         src/main/cpp/audio/audio_components_buffer.cpp
         src/main/cpp/audio/fir_generator.cpp
 

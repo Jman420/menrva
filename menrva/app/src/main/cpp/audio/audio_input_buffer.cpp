@@ -17,6 +17,7 @@
  */
 
 #include "audio_input_buffer.h"
+#include "../tools/conversion_buffer.cpp"
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
@@ -26,21 +27,22 @@ AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
 AudioInputBuffer::~AudioInputBuffer() {
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
-            delete _BufferWrapper->PCM_16;
+            delete &_BufferWrapper->PCM_16;
             break;
 
         case AudioFormat::PCM_32:
-            delete _BufferWrapper->PCM_32;
+            delete &_BufferWrapper->PCM_32;
             break;
 
         case AudioFormat::PCM_Float:
-            delete _BufferWrapper->PCM_Float;
+            delete &_BufferWrapper->PCM_Float;
             break;
 
         default:
-            delete _BufferWrapper;
             break;
     }
+
+    delete _BufferWrapper;
 }
 
 size_t AudioInputBuffer::GetLength() {
@@ -140,17 +142,20 @@ void* AudioInputBuffer::GetData() {
 sample AudioInputBuffer::operator[](size_t index) const {
     // TODO : Scale PCM16 & 32 to Float Format
     switch (_AudioFormat) {
-        case AudioFormat::PCM_16:
+        case AudioFormat::PCM_16: {
             int16_t value16 = (*_BufferWrapper->PCM_16)[index];
             return (sample)value16;
+        }
 
-        case AudioFormat::PCM_32:
+        case AudioFormat::PCM_32: {
             int32_t value32 = (*_BufferWrapper->PCM_32)[index];
             return (sample)value32;
+        }
 
-        case AudioFormat::PCM_Float:
+        case AudioFormat::PCM_Float: {
             float valueFloat = (*_BufferWrapper->PCM_Float)[index];
             return (sample)valueFloat;
+        }
 
         default:
             return 0;

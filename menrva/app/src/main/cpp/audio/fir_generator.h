@@ -50,7 +50,7 @@ private:
                             HAMMING_054 = (sample)0.54,
                             HAMMING_046 = (sample)0.46;
 
-    FftInterfaceBase* _FFTEngine;
+    FftInterfaceBase* _FftEngine;
 };
 
 #endif //MENRVA_FIR_GENERATOR_H

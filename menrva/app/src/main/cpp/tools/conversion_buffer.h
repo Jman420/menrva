@@ -31,27 +31,10 @@ public:
     void ResetData();
     void Free();
 
-    ConversionBuffer(TInputType* data, size_t length) {
-        _DataBuffer = new Buffer<TInputType>(data, length);
-    }
-
-    void SetData(TInputType* data, size_t length) {
-        _DataBuffer->SetData(data, length);
-    }
-
-    // Read Operations
-    TOutputType operator[](size_t index) const {
-        return (TOutputType)_DataBuffer[index];
-    }
-
-    // Write Operations
-    TInputType& operator[](size_t index) {
-        return _DataBuffer[index];
-    }
-
-    TInputType* GetData() {
-        return _DataBuffer->GetData();
-    }
+    void SetData(TInputType* data, size_t length);
+    TOutputType operator[](size_t index) const;  // Read Operations
+    TInputType& operator[](size_t index);        // Write Operations
+    TInputType* GetData();
 
 private:
     Buffer<TInputType>* _DataBuffer;

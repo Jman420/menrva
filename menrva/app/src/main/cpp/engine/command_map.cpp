@@ -121,9 +121,8 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
     }
 
     _Logger->WriteLog("Creating Audio Buffer Wrappers...", LOG_SENDER, __func__);
-
-    context->InputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
-    context->OutputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
+    context->InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger());
+    context->OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger());
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context->config = config;

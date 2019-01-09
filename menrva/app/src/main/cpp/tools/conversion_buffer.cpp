@@ -16,24 +16,52 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <cstdint>
 #include "conversion_buffer.h"
+#include "buffer.cpp"
+#include "../audio/sample.h"
 
-ConversionBuffer::ConversionBuffer() {
-    _DataBuffer = new Buffer();
+template<class TInputType, class TOutputType>
+ConversionBuffer<TInputType, TOutputType>::ConversionBuffer(){
+    _DataBuffer = new Buffer<TInputType>();
 }
 
-ConversionBuffer::~ConversionBuffer() {
+template<class TInputType, class TOutputType>
+ConversionBuffer<TInputType, TOutputType>::~ConversionBuffer() {
     delete _DataBuffer;
 }
 
-size_t ConversionBuffer::GetLength() {
+template<class TInputType, class TOutputType>
+size_t ConversionBuffer<TInputType, TOutputType>::GetLength() {
     return _DataBuffer->GetLength();
 }
 
-void ConversionBuffer::ResetData() {
+template<class TInputType, class TOutputType>
+void ConversionBuffer<TInputType, TOutputType>::ResetData() {
     _DataBuffer->ResetData();
 }
 
-void ConversionBuffer::Free() {
+template<class TInputType, class TOutputType>
+void ConversionBuffer<TInputType, TOutputType>::Free() {
     _DataBuffer->Free();
+}
+
+template<class TInputType, class TOutputType>
+void ConversionBuffer<TInputType, TOutputType>::SetData(TInputType* data, size_t length) {
+    _DataBuffer->SetData(data, length);
+}
+
+template<class TInputType, class TOutputType>
+TOutputType ConversionBuffer<TInputType, TOutputType>::operator[](size_t index) const {
+    return (TOutputType)(*_DataBuffer)[index];
+}
+
+template<class TInputType, class TOutputType>
+TInputType &ConversionBuffer<TInputType, TOutputType>::operator[](size_t index) {
+    return (*_DataBuffer)[index];
+}
+
+template<class TInputType, class TOutputType>
+TInputType* ConversionBuffer<TInputType, TOutputType>::GetData() {
+    return _DataBuffer->GetData();
 }

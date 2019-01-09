@@ -26,36 +26,21 @@ template<class TInputType>
 class Buffer {
 public:
     Buffer();
-    ~Buffer();
+    Buffer(TInputType* data, size_t length);
+
+    virtual ~Buffer();
 
     size_t GetLength();
     void ResetData();
     void Free();
 
-    Buffer(TInputType* data, size_t length) {
-        SetData(data, length);
-    }
-
-    void SetData(TInputType* data, size_t length) {
-        _Data = data;
-        _Length = length;
-        _MemorySize = CalculateMemorySize(_Length);
-        _DataSet = true;
-    }
-
-    TInputType& operator[](size_t index) {
-        assert(_DataSet && index < _Length);
-        return _Data[index];
-    }
-
-    TInputType* GetData() {
-        assert(_DataSet);
-        return _Data;
-    }
+    virtual void SetData(TInputType* data, size_t length);
+    TInputType* GetData();
+    TInputType& operator[](size_t index);
 
     static void Swap(Buffer* itemA, Buffer* itemB);
 
-private:
+protected:
     bool _DataSet;
     size_t _Length,
            _MemorySize;

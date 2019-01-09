@@ -21,22 +21,31 @@
 #include "buffer.h"
 #include "../abstracts/fft_interface_base.h"
 
-Buffer::Buffer() {
+template<class TInputType>
+Buffer<TInputType>::Buffer() {
     Free();
 }
 
-Buffer::~Buffer() {
+template<class TInputType>
+Buffer<TInputType>::Buffer(TInputType* data, size_t length) {
+    SetData(data, length);
+}
+
+template<class TInputType>
+Buffer<TInputType>::~Buffer() {
     Free();
 }
 
-void Buffer::Free() {
+template<class TInputType>
+void Buffer<TInputType>::Free() {
     _Length = 0;
     _MemorySize = 0;
     _Data = 0;
     _DataSet = false;
 }
 
-void Buffer::ResetData() {
+template<class TInputType>
+void Buffer<TInputType>::ResetData() {
     if (_Length < 1) {
         return;
     }
@@ -44,11 +53,33 @@ void Buffer::ResetData() {
     memset(_Data, 0, _MemorySize);
 }
 
-size_t Buffer::GetLength() {
+template<class TInputType>
+size_t Buffer<TInputType>::GetLength() {
     return _Length;
 }
 
-void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
+template<class TInputType>
+void Buffer<TInputType>::SetData(TInputType* data, size_t length) {
+    _Data = data;
+    _Length = length;
+    _MemorySize = CalculateMemorySize(_Length);
+    _DataSet = true;
+}
+
+template<class TInputType>
+TInputType* Buffer<TInputType>::GetData() {
+    assert(_DataSet);
+    return _Data;
+}
+
+template<class TInputType>
+TInputType& Buffer<TInputType>::operator[](size_t index) {
+    assert(_DataSet && index < _Length);
+    return _Data[index];
+}
+
+template<class TInputType>
+void Buffer<TInputType>::Swap(Buffer* itemA, Buffer* itemB) {
     Buffer* temp = itemA;
     itemA = itemB;
     itemB = temp;
