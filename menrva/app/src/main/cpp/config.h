@@ -29,10 +29,10 @@
  */
 //#define MENRVA_DOUBLE_PRECISION
 
-/* DSP_FRAME_SIZE - Defines the number of audio samples in a single audio frame for processing.
+/* DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
  *
  * Recommended value : 1024
  */
-#define DSP_FRAME_SIZE 1024
+#define DSP_FRAME_LENGTH 1024
 
 #endif //MENRVA_CONFIG_H

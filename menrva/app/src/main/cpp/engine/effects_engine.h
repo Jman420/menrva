@@ -53,8 +53,11 @@ private:
     const static int EFFECTS_LENGTH = 3;
 
     EffectBase* _MenrvaEffects[EFFECTS_LENGTH];
-    AudioBuffer* _WorkingInputBuffer;
-    AudioBuffer* _WorkingOutputBuffer;
+    AudioBuffer* _InputAudioFrame;
+    AudioBuffer* _OutputAudioFrame;
+
+    void ProcessInputAudioFrame();
+    size_t ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer* outputBuffer);
 };
 
 #endif //MENRVA_EFFECTS_ENGINE_H

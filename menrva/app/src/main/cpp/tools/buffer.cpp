@@ -54,6 +54,16 @@ void Buffer<TInputType>::ResetData() {
 }
 
 template<class TInputType>
+void Buffer<TInputType>::ResetData(size_t startIndex) {
+    if (_Length < 1) {
+        return;
+    }
+
+    size_t memSizeNotReset = CalculateMemorySize(startIndex);
+    memset(&_Data[startIndex], 0, _MemorySize - memSizeNotReset);
+}
+
+template<class TInputType>
 size_t Buffer<TInputType>::GetLength() {
     return _Length;
 }

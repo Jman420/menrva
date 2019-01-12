@@ -32,6 +32,7 @@ public:
 
     size_t GetLength();
     void ResetData();
+    void ResetData(size_t startIndex);
     void Free();
 
     virtual void SetData(TInputType* data, size_t length);
