@@ -90,9 +90,9 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
     }
 
     effect_config_t* config = (effect_config_t*)pCmdData;
-    _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__);
+    _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
     LogBufferConfig(&config->inputCfg);
-    _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__);
+    _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
     LogBufferConfig(&config->outputCfg);
 
     _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
@@ -122,9 +122,19 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Creating Audio Buffer Wrappers...", LOG_SENDER, __func__);
-    context->InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger(), (AudioFormat)config->inputCfg.format);
-    context->OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger(), (AudioFormat)config->outputCfg.format);
+    if (!context->InputBuffer) {
+        _Logger->WriteLog("Creating Audio Input Buffer Wrapper...", LOG_SENDER, __func__);
+        context->InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger());
+    }
+
+    if (!context->OutputBuffer) {
+        _Logger->WriteLog("Creating Audio Output Buffer Wrapper...", LOG_SENDER, __func__);
+        context->OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger());
+    }
+
+    _Logger->WriteLog("Configuring Audio Buffer Wrappers...", LOG_SENDER, __func__);
+    context->InputBuffer->SetFormat((AudioFormat)config->inputCfg.format);
+    context->OutputBuffer->SetFormat((AudioFormat)config->outputCfg.format);
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context->config = config;

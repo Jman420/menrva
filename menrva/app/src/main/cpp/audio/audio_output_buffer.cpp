@@ -31,6 +31,7 @@ AudioOutputBuffer::AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat
 }
 
 AudioOutputBuffer::~AudioOutputBuffer() {
+    _Logger->WriteLog("Disposing of Audio Output Buffer...", LOG_SENDER, __func__);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
             delete _BufferWrapper->PCM_16;
@@ -49,6 +50,7 @@ AudioOutputBuffer::~AudioOutputBuffer() {
     }
 
     delete _BufferWrapper;
+    _Logger->WriteLog("Successfully disposed of Audio Output Buffer!", LOG_SENDER, __func__);
 }
 
 size_t AudioOutputBuffer::GetLength() {
@@ -63,6 +65,8 @@ size_t AudioOutputBuffer::GetLength() {
             return _BufferWrapper->PCM_Float->GetLength();
 
         default:
+            _Logger->WriteLog("Unable to retrieve length.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+            // TODO : Throw exception
             break;
     }
 
@@ -84,6 +88,8 @@ void AudioOutputBuffer::ResetData() {
             break;
 
         default:
+            _Logger->WriteLog("Unable to reset data.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+            // TODO : Throw exception
             break;
     }
 }
@@ -103,32 +109,40 @@ void AudioOutputBuffer::Free() {
             break;
 
         default:
+            _Logger->WriteLog("Unable to free buffer.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+            // TODO : Throw exception
             break;
     }
 }
 
 void AudioOutputBuffer::SetFormat(AudioFormat audioFormat) {
+    _Logger->WriteLog("Setting Audio Format to (%d)...", LOG_SENDER, __func__, audioFormat);
     if (_AudioFormat == audioFormat) {
+        _Logger->WriteLog("Audio Format already set.", LOG_SENDER, __func__);
         return;
     }
-
     _AudioFormat = audioFormat;
+
+    _Logger->WriteLog("Instantiating Buffer for Audio Format (%d)...", LOG_SENDER, __func__, _AudioFormat);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16 = new Buffer<int16_t>();
+            _Logger->WriteLog("Successfully instantiated PCM16 Buffer!", LOG_SENDER, __func__);
             break;
 
         case AudioFormat::PCM_32:
             _BufferWrapper->PCM_32 = new Buffer<int32_t>();
+            _Logger->WriteLog("Successfully instantiated PCM32 Buffer!", LOG_SENDER, __func__);
             break;
 
         case AudioFormat::PCM_Float:
             _BufferWrapper->PCM_Float = new Buffer<float>();
+            _Logger->WriteLog("Successfully instantiated PCM Float Buffer!", LOG_SENDER, __func__);
             break;
 
         default:
+            _Logger->WriteLog("Unable to instantiate Conversion Buffer.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
             // TODO : Throw exception
-            _Logger->WriteLog("Invalid Audio Format Provided.  No Data Set!", LOG_SENDER, __func__, LogLevel::WARN);
             break;
     }
 }
@@ -148,8 +162,8 @@ void AudioOutputBuffer::SetData(void* data, size_t length) {
             break;
 
         default:
+            _Logger->WriteLog("Unable to set Data.  Invalid Audio Format Provided.", LOG_SENDER, __func__, LogLevel::ERROR);
             // TODO : Throw exception
-            _Logger->WriteLog("Invalid Audio Format Provided.  No Data Set!", LOG_SENDER, __func__, LogLevel::WARN);
             break;
     }
 }
@@ -160,16 +174,19 @@ void AudioOutputBuffer::SetData(AudioFormat audioFormat, void* data, size_t leng
 }
 
 void AudioOutputBuffer::SetValue(size_t index, sample value) {
+    _Logger->WriteLog("Setting Normalized Value to Index (%d)...", LOG_SENDER, __func__, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
             int16_t normalizedValue = Normalize<int16_t>(value);
             (*_BufferWrapper->PCM_16)[index] = normalizedValue;
+            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
             break;
         }
 
         case AudioFormat::PCM_32: {
             int32_t normalizedValue = Normalize<int32_t>(value);
             (*_BufferWrapper->PCM_32)[index] = normalizedValue;
+            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
             break;
         }
 
@@ -178,8 +195,8 @@ void AudioOutputBuffer::SetValue(size_t index, sample value) {
             break;
 
         default:
+            _Logger->WriteLog("Unable to set Value.  Invalid Audio Format Provided.", LOG_SENDER, __func__, LogLevel::ERROR);
             // TODO : Throw exception
-            _Logger->WriteLog("Invalid Audio Format Provided.  No Value Set!", LOG_SENDER, __func__, LogLevel::WARN);
             break;
     }
 }
@@ -196,31 +213,43 @@ void* AudioOutputBuffer::GetData() {
             return _BufferWrapper->PCM_Float->GetData();
 
         default:
+            _Logger->WriteLog("Unable to return data.  Invalid Audio Format provided.", LOG_SENDER, __func__);
+            // TODO : Throw exception
             return nullptr;
     }
 }
 
 void* AudioOutputBuffer::operator[](size_t index) const {
+    _Logger->WriteLog("Retrieving Value of Index (%d)...", LOG_SENDER, __func__, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
-            return &(*_BufferWrapper->PCM_16)[index];
+            int16_t value = (*_BufferWrapper->PCM_16)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, value, index);
+            return &value;
         }
 
         case AudioFormat::PCM_32: {
-            return &(*_BufferWrapper->PCM_32)[index];
+            int32_t value = (*_BufferWrapper->PCM_32)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, value, index);
+            return &value;
         }
 
         case AudioFormat::PCM_Float: {
-            return &(*_BufferWrapper->PCM_Float)[index];
+            float value = (*_BufferWrapper->PCM_Float)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%f) for Index (%d)!", LOG_SENDER, __func__, value, index);
+            return &value;
         }
 
         default:
+            _Logger->WriteLog("Unable to retrieve Normalized Value of Index (%d).  Invalid Audio Format Provided.", LOG_SENDER, __func__);
+            // TODO : Throw Exception
             return 0;
     }
 }
 
 template<class TOutputType>
 TOutputType AudioOutputBuffer::Normalize(sample data) {
+    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, _AudioFormat);
     const sample maxDataValue = PCM_FLOAT_MAX_VALUE,
                  minDataValue = PCM_FLOAT_MIN_VALUE;
 
@@ -238,12 +267,18 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             minRangeValue = PCM32_MIN_VALUE;
             break;
 
+        case AudioFormat::PCM_Float:
+            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__);
+            return (TOutputType)data;
+
         default:
-            // TODO : Throw Exception & Log Invalid Audio Format for Input Scaling
+            _Logger->WriteLog("Unable to Normalize Value.  Invalid Audio Format Provided.", LOG_SENDER, __func__);
+            // TODO : Throw Exception
             break;
     }
 
     TOutputType normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
+    _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, normalizedValue);
     return normalizedValue;
 }
 
