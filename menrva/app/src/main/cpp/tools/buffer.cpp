@@ -68,12 +68,14 @@ void Buffer<TInputType>::SetData(TInputType* data, size_t length) {
 
 template<class TInputType>
 TInputType* Buffer<TInputType>::GetData() {
+    // TODO : Replace assert with exception
     assert(_DataSet);
     return _Data;
 }
 
 template<class TInputType>
 TInputType& Buffer<TInputType>::operator[](size_t index) {
+    // TODO : Replace assert with exception
     assert(_DataSet && index < _Length);
     return _Data[index];
 }
