@@ -19,7 +19,7 @@
 #include "logger_base.h"
 
 const std::string LoggerBase::APP_NAME = "Menrva";
-const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::VERBOSE;
+const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
 const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
 
 LogLevel LoggerBase::AppLogLevel = DEFAULT_APP_LOG_LEVEL;

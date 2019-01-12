@@ -16,32 +16,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_CONVERSION_BUFFER_H
+#define MENRVA_CONVERSION_BUFFER_H
 
-#include <cstddef>
-#include "audio_buffer.h"
-#include "sample.h"
-#include "../abstracts/logging_base.h"
+#include "buffer.h"
 
-class AudioComponentsBuffer : public LoggingBase {
+template<class TInputType, class TOutputType>
+class ConversionBuffer {
 public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
-    ~AudioComponentsBuffer();
-
-    void Free();
-    void ResetData();
+    ConversionBuffer();
+    ~ConversionBuffer();
 
     size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
+    void ResetData();
+    void Free();
+
+    void SetData(TInputType* data, size_t length);
+    TOutputType operator[](size_t index) const;  // Read Operations
+    TInputType& operator[](size_t index);        // Write Operations
+    TInputType* GetData();
 
 private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    Buffer<TInputType>* _DataBuffer;
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#endif //MENRVA_CONVERSION_BUFFER_H

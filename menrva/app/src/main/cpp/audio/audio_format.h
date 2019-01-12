@@ -16,32 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_AUDIO_FORMAT_H
+#define MENRVA_AUDIO_FORMAT_H
 
-#include <cstddef>
-#include "audio_buffer.h"
 #include "sample.h"
-#include "../abstracts/logging_base.h"
 
-class AudioComponentsBuffer : public LoggingBase {
-public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
-    ~AudioComponentsBuffer();
-
-    void Free();
-    void ResetData();
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+enum AudioFormat {
+    PCM_16 = 0x1u,
+    PCM_32 = 0x3u,
+    PCM_Float = 0x5u,
+    Sample,
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+const sample PCM16_MAX_VALUE = 32767.0f,
+             PCM16_MIN_VALUE = -32767.0f,
+             PCM32_MAX_VALUE = 2147483647.0f,
+             PCM32_MIN_VALUE = -2147483647.0f,
+             PCM_FLOAT_MAX_VALUE = 1.0f,
+             PCM_FLOAT_MIN_VALUE = -1.0f;
+
+#endif //MENRVA_AUDIO_FORMAT_H

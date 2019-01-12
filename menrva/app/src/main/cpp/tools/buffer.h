@@ -20,37 +20,35 @@
 #define MENRVA_BUFFER_H
 
 #include <cstddef>
-#include "../audio/sample.h"
+#include <cassert>
 
-class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
-
+template<class TInputType>
 class Buffer {
 public:
-    Buffer(FftInterfaceBase* fftEngine, size_t length = 0);
-    Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length);
-    ~Buffer();
+    Buffer();
+    Buffer(TInputType* data, size_t length);
 
-    bool CloneFrom(const Buffer* source);
-    void SetData(sample* data, size_t length, bool freeExisting = true);
-    void Resize(size_t length);
-    void ResetData();
-    void Reset();
+    virtual ~Buffer();
 
-    sample& operator[](size_t index);
     size_t GetLength();
-    sample* GetData();
+    void ResetData();
+    void Free();
+
+    virtual void SetData(TInputType* data, size_t length);
+    TInputType* GetData();
+    TInputType& operator[](size_t index);
 
     static void Swap(Buffer* itemA, Buffer* itemB);
 
-private:
-    static size_t CalculateMemorySize(size_t length);
-
+protected:
+    bool _DataSet;
     size_t _Length,
            _MemorySize;
-    sample* _Data;
-    FftInterfaceBase* _FftEngine;
+    TInputType* _Data;
 
-    void Initialize(size_t length);
+    size_t CalculateMemorySize(size_t length) {
+        return sizeof(TInputType) * length;
+    }
 };
 
 #endif //MENRVA_BUFFER_H

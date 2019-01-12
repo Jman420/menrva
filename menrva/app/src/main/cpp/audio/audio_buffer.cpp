@@ -16,32 +16,38 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
-
-#include <cstddef>
 #include "audio_buffer.h"
-#include "sample.h"
-#include "../abstracts/logging_base.h"
+#include "../tools/buffer.cpp"
+#include "../abstracts/fft_interface_base.h"
 
-class AudioComponentsBuffer : public LoggingBase {
-public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
-    ~AudioComponentsBuffer();
+AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine) {
+    _FftEngine = fftEngine;
+    _DisposeData = false;
+}
 
-    void Free();
-    void ResetData();
+AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
+    _FftEngine = fftEngine;
+    _Length = length;
+    _Data = _FftEngine->Allocate(_Length);
+    _DisposeData = true;
+}
 
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
+AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
+    _FftEngine = fftEngine;
+    _Length = length;
+    _Data = data;
+    _DisposeData = false;
+}
 
-private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
-};
+AudioBuffer::~AudioBuffer() {
+    if (!_DisposeData) {
+        return;
+    }
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+    delete _Data;
+}
+
+void AudioBuffer::SetData(sample* data, size_t length) {
+    Buffer::SetData(data, length);
+    _DisposeData = false;
+}

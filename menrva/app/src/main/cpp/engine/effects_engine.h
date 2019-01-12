@@ -26,6 +26,8 @@
 #include "../effects/stereo_widener.h"
 #include "../abstracts/logger_base.h"
 #include "../abstracts/logging_base.h"
+#include "../audio/audio_input_buffer.h"
+#include "../audio/audio_output_buffer.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNINITIALIZED,
@@ -40,16 +42,19 @@ class MenrvaEffectsEngine : public LoggingBase {
 public:
     MenrvaEngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LoggerBase* logger);
+    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine);
     void ResetEffects();
     int SetBufferConfig(effect_config_t config);
-    int Process(AudioBuffer* in, AudioBuffer* out);
+    int Process(AudioInputBuffer* inputBuffer, AudioOutputBuffer* outputBuffer);
     void SetEffectEnabled(unsigned int effectIndex, bool enabled);
     void ConfigureEffectSetting(unsigned int effectIndex, char settingName[], void* value);
 
 private:
     const static int EFFECTS_LENGTH = 3;
+
     EffectBase* _MenrvaEffects[EFFECTS_LENGTH];
+    AudioBuffer* _WorkingInputBuffer;
+    AudioBuffer* _WorkingOutputBuffer;
 };
 
 #endif //MENRVA_EFFECTS_ENGINE_H

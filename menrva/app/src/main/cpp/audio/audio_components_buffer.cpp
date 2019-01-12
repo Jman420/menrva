@@ -19,15 +19,15 @@
 #include <cstdlib>
 #include "audio_components_buffer.h"
 
-AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t size)
+AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
-    _Size = size;
-    _RealBuffer = new AudioBuffer(fftEngine, size);
-    _ImagBuffer = new AudioBuffer(fftEngine, size);
+    _Length = length;
+    _RealBuffer = new AudioBuffer(fftEngine, length);
+    _ImagBuffer = new AudioBuffer(fftEngine, length);
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
-    Reset();
+    Free();
 
     _Logger->WriteLog("Disposing of Real & Imaginary Audio Buffers...", LOG_SENDER, __func__);
     delete _RealBuffer;
@@ -35,46 +35,30 @@ AudioComponentsBuffer::~AudioComponentsBuffer() {
     _Logger->WriteLog("Successfully disposed of Real & Imaginary Audio Buffers!", LOG_SENDER, __func__);
 }
 
-void AudioComponentsBuffer::Reset() {
+void AudioComponentsBuffer::Free() {
     _Logger->WriteLog("Resetting Real & Imaginary Audio Buffers...", LOG_SENDER, __func__);
-    _RealBuffer->Reset();
-    _ImagBuffer->Reset();
+    _RealBuffer->Free();
+    _ImagBuffer->Free();
     _Logger->WriteLog("Successfully reset Real & Imaginary Audio Buffers!", LOG_SENDER, __func__);
-}
-
-void AudioComponentsBuffer::Resize(size_t size) {
-    _Logger->WriteLog("Resizing Real & Imaginary Audio Buffers to (%u)...", LOG_SENDER, __func__, size);
-    _RealBuffer->Resize(size);
-    _ImagBuffer->Resize(size);
-    _Size = size;
-    _Logger->WriteLog("Successfully resized Real & Imaginary Audio Buffers to (%u)!", LOG_SENDER, __func__, size);
 }
 
 void AudioComponentsBuffer::ResetData() {
     _Logger->WriteLog("Resetting Real & Imaginary Audio Data...", LOG_SENDER, __func__);
     _RealBuffer->ResetData();
     _ImagBuffer->ResetData();
-    _Size = 0;
+    _Length = 0;
     _Logger->WriteLog("Successfully reset Real & Imaginary Audio Data!", LOG_SENDER, __func__);
 }
 
-bool AudioComponentsBuffer::CloneFrom(AudioComponentsBuffer* source) {
-    bool realCloneResult = _RealBuffer->CloneFrom(source->_RealBuffer),
-         imagCloneResult = _RealBuffer->CloneFrom(source->_ImagBuffer);
-    _Size = source->_Size;
-
-    return realCloneResult && imagCloneResult;
-}
-
 size_t AudioComponentsBuffer::GetLength() {
-    return _Size;
+    return _Length;
 }
 
 sample* AudioComponentsBuffer::GetRealData() {
     return _RealBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::GetRealBuffer() {
+AudioBuffer* AudioComponentsBuffer::GetRealBuffer() {
     return _RealBuffer;
 }
 
@@ -82,6 +66,6 @@ sample* AudioComponentsBuffer::GetImagData() {
     return _ImagBuffer->GetData();
 }
 
-Buffer* AudioComponentsBuffer::GetImagBuffer() {
+AudioBuffer* AudioComponentsBuffer::GetImagBuffer() {
     return _ImagBuffer;
 }

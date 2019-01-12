@@ -93,10 +93,8 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
     }
 
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context->EffectsEngine = new MenrvaEffectsEngine(_Logger);
+    context->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine());
     context->itfe = &EngineInterface;
-    context->InputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
-    context->OutputBuffer = new AudioBuffer(_ServiceLocator->GetFftEngine());
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);

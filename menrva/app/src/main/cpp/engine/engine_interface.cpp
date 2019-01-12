@@ -21,6 +21,7 @@
 #include "command_map.h"
 #include "../module_interface.h"
 #include "../audio/sample.h"
+#include "../audio/audio_format.h"
 
 const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 
@@ -45,23 +46,18 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config->inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
-            // PCM 16 Bit : [-32767, 32767]
-            // TODO : Normalize Signal Data to between [-1, 1] to align with PCM Float Format
-            context->InputBuffer->SetData((sample*)in->s16, in->frameCount, false);
-            context->OutputBuffer->SetData((sample*)out->s16, out->frameCount, false);
+            context->InputBuffer->SetData(in->s16, in->frameCount);
+            context->OutputBuffer->SetData(out->s16, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_32_BIT:
-            // PCM 32 Bit : [-2147483647, 2147483647]
-            // TODO : Normalize Signal Data to between [-1, 1] to align with PCM Float Format
-            context->InputBuffer->SetData((sample*)in->s32, in->frameCount, false);
-            context->OutputBuffer->SetData((sample*)out->s32, out->frameCount, false);
+            context->InputBuffer->SetData(in->s32, in->frameCount);
+            context->OutputBuffer->SetData(out->s32, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_FLOAT:
-            // PCM Float : [-1.0, 1.0]
-            context->InputBuffer->SetData((sample*)in->f32, in->frameCount, false);
-            context->OutputBuffer->SetData((sample*)out->f32, out->frameCount, false);
+            context->InputBuffer->SetData(in->f32, in->frameCount);
+            context->OutputBuffer->SetData(out->f32, out->frameCount);
             break;
 
         default:

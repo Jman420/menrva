@@ -21,41 +21,31 @@
 #include "buffer.h"
 #include "../abstracts/fft_interface_base.h"
 
-Buffer::Buffer(FftInterfaceBase* fftEngine, size_t length) {
-    _FftEngine = fftEngine;
-    Initialize(length);
-    ResetData();
+template<class TInputType>
+Buffer<TInputType>::Buffer() {
+    Free();
 }
 
-Buffer::Buffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
-    _FftEngine = fftEngine;
+template<class TInputType>
+Buffer<TInputType>::Buffer(TInputType* data, size_t length) {
     SetData(data, length);
 }
 
-Buffer::~Buffer() {
-    Reset();
+template<class TInputType>
+Buffer<TInputType>::~Buffer() {
+    Free();
 }
 
-void Buffer::Reset() {
+template<class TInputType>
+void Buffer<TInputType>::Free() {
     _Length = 0;
     _MemorySize = 0;
-
-    if (_Data) {
-        _FftEngine->Deallocate(_Data);
-    }
+    _Data = 0;
+    _DataSet = false;
 }
 
-void Buffer::Resize(size_t length) {
-    if (_Length == length) {
-        ResetData();
-        return;
-    }
-
-    Reset();
-    Initialize(length);
-}
-
-void Buffer::ResetData() {
+template<class TInputType>
+void Buffer<TInputType>::ResetData() {
     if (_Length < 1) {
         return;
     }
@@ -63,50 +53,34 @@ void Buffer::ResetData() {
     memset(_Data, 0, _MemorySize);
 }
 
-bool Buffer::CloneFrom(const Buffer* source) {
-    if (source->_Length != _Length || source == this) {
-        return false;
-    }
-
-    memcpy(_Data, source->_Data, _MemorySize);
-    return true;
-}
-
-sample& Buffer::operator[](size_t index) {
-    assert(_Length > 0 && index < _Length);
-    return _Data[index];
-}
-
-size_t Buffer::GetLength() {
+template<class TInputType>
+size_t Buffer<TInputType>::GetLength() {
     return _Length;
 }
 
-sample* Buffer::GetData() {
-    return _Data;
-}
-
-void Buffer::Initialize(size_t length) {
-    _Length = length;
-    _MemorySize = CalculateMemorySize(_Length);
-    _Data = _FftEngine->Allocate(length);
-}
-
-void Buffer::Swap(Buffer* itemA, Buffer* itemB) {
-    Buffer* temp = itemA;
-    itemA = itemB;
-    itemB = temp;
-}
-
-void Buffer::SetData(sample* data, size_t length, bool freeExisting) {
-    if (_Data && freeExisting) {
-        Reset();
-    }
-
+template<class TInputType>
+void Buffer<TInputType>::SetData(TInputType* data, size_t length) {
     _Data = data;
     _Length = length;
     _MemorySize = CalculateMemorySize(_Length);
+    _DataSet = true;
 }
 
-size_t Buffer::CalculateMemorySize(size_t length) {
-    return sizeof(sample) * length;
+template<class TInputType>
+TInputType* Buffer<TInputType>::GetData() {
+    assert(_DataSet);
+    return _Data;
+}
+
+template<class TInputType>
+TInputType& Buffer<TInputType>::operator[](size_t index) {
+    assert(_DataSet && index < _Length);
+    return _Data[index];
+}
+
+template<class TInputType>
+void Buffer<TInputType>::Swap(Buffer* itemA, Buffer* itemB) {
+    Buffer* temp = itemA;
+    itemA = itemB;
+    itemB = temp;
 }

@@ -16,32 +16,45 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#ifndef MENRVA_AUDIO_OUTPUT_BUFFER_H
+#define MENRVA_AUDIO_OUTPUT_BUFFER_H
 
 #include <cstddef>
-#include "audio_buffer.h"
+#include <cstdint>
 #include "sample.h"
+#include "audio_format.h"
+#include "../tools/conversion_buffer.h"
 #include "../abstracts/logging_base.h"
 
-class AudioComponentsBuffer : public LoggingBase {
-public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
-    ~AudioComponentsBuffer();
-
-    void Free();
-    void ResetData();
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+union audio_output_buffer_u {
+    Buffer<int16_t>* PCM_16;
+    Buffer<int32_t>* PCM_32;
+    Buffer<float>* PCM_Float;
 };
 
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+class AudioOutputBuffer : public LoggingBase {
+public:
+    AudioOutputBuffer(LoggerBase* logger);
+    AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
+    ~AudioOutputBuffer();
+
+    size_t GetLength();
+    void ResetData();
+    void Free();
+
+    void SetFormat(AudioFormat audioFormat);
+    void SetData(void* data, size_t length);
+    void SetData(AudioFormat audioFormat, void* data, size_t length);
+    void SetValue(size_t index, sample value);
+    void* GetData();
+    void* operator[](size_t index) const;
+
+private:
+    AudioFormat _AudioFormat;
+    audio_output_buffer_u* _BufferWrapper;
+
+    template<class TOutputType>
+    TOutputType Normalize(sample data);
+};
+
+#endif //MENRVA_AUDIO_OUTPUT_BUFFER_H

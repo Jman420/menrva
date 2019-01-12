@@ -33,10 +33,14 @@ add_library( # Sets the name of the library.
         src/main/cpp/abstracts/effect_base.cpp
 
         src/main/cpp/tools/android_logger.cpp
-        src/main/cpp/tools/buffer.cpp
         src/main/cpp/tools/service_locator.cpp
         src/main/cpp/tools/math_operations.cpp
+        src/main/cpp/tools/buffer.cpp
+        src/main/cpp/tools/conversion_buffer.cpp
 
+        src/main/cpp/audio/audio_buffer.cpp
+        src/main/cpp/audio/audio_input_buffer.cpp
+        src/main/cpp/audio/audio_output_buffer.cpp
         src/main/cpp/audio/audio_components_buffer.cpp
         src/main/cpp/audio/fir_generator.cpp
 

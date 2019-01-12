@@ -19,8 +19,24 @@
 #ifndef MENRVA_AUDIO_BUFFER_H
 #define MENRVA_AUDIO_BUFFER_H
 
+#include "sample.h"
 #include "../tools/buffer.h"
 
-typedef Buffer AudioBuffer;
+class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
+
+class AudioBuffer : public Buffer<sample> {
+public:
+    AudioBuffer(FftInterfaceBase* fftEngine);
+    AudioBuffer(FftInterfaceBase* fftEngine, size_t length);
+    AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length);
+    ~AudioBuffer() override;
+
+    void SetData(sample* data, size_t length) override;
+
+private:
+    FftInterfaceBase* _FftEngine;
+    bool _DisposeData;
+};
+
 
 #endif //MENRVA_AUDIO_BUFFER_H

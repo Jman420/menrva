@@ -109,7 +109,7 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
         _Logger->WriteLog("Preparing Filter Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentLength : validFilterLength - (lastSegmentIndex * segmentLength);
-        memcpy(impulseSignalSegment->GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
+        memcpy(impulseSignalSegment->GetData(), &(*filterImpulseResponse)[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
         _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
@@ -128,7 +128,7 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     _Logger->WriteLog("Processing Audio Frame of length (%d)...", LOG_SENDER, __func__, input->GetLength());
-    // TODO : Verify that the Input & Output Buffers will be of the correct length (_FrameLength)
+    // TODO : Verify & Ensure that the Input & Output Buffers will be of the correct length (_FrameLength)
 
     // Copy Input Frame into First Half & Zero out the Last Half of Working Signal
     _Logger->WriteLog("Preparing Audio Frame...", LOG_SENDER, __func__);
@@ -155,15 +155,15 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     LogSignal(output);
 
     _Logger->WriteLog("Storing Remaining Overlap Signal...", LOG_SENDER, __func__);
-    memcpy(_OverlapSignal->GetData(), &_WorkingSignal[_FrameLength], _FrameSize);
+    memcpy(_OverlapSignal->GetData(), &(*_WorkingSignal)[_FrameLength], _FrameSize);
     LogSignal(_OverlapSignal);
 }
 
 void Convolver::LogSegmentConfig() {
-    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, _FrameLength);
-    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, _FrameSize);
-    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, _FilterSegmentsLength);
-    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, _SignalScalar);
+    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, _FrameLength, LogLevel::VERBOSE);
+    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, _FrameSize, LogLevel::VERBOSE);
+    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, _FilterSegmentsLength, LogLevel::VERBOSE);
+    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, _SignalScalar, LogLevel::VERBOSE);
 }
 
 void Convolver::LogAudioComponents(AudioComponentsBuffer* audioComponents) {

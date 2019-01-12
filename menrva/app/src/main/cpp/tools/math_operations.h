@@ -20,6 +20,8 @@
 #define MENRVA_MATH_OPERATIONS_H
 
 #include <cstddef>
+#include <cstdint>
+#include "../audio/sample.h"
 
 class MathOperations {
 public:
