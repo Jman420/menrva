@@ -223,21 +223,21 @@ void* AudioOutputBuffer::operator[](size_t index) const {
     _Logger->WriteLog("Retrieving Value of Index (%d)...", LOG_SENDER, __func__, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
-            int16_t value = (*_BufferWrapper->PCM_16)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, value, index);
-            return &value;
+            int16_t* value = &(*_BufferWrapper->PCM_16)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            return value;
         }
 
         case AudioFormat::PCM_32: {
-            int32_t value = (*_BufferWrapper->PCM_32)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, value, index);
-            return &value;
+            int32_t* value = &(*_BufferWrapper->PCM_32)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            return value;
         }
 
         case AudioFormat::PCM_Float: {
-            float value = (*_BufferWrapper->PCM_Float)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%f) for Index (%d)!", LOG_SENDER, __func__, value, index);
-            return &value;
+            float* value = &(*_BufferWrapper->PCM_Float)[index];
+            _Logger->WriteLog("Successfully retrieved Value (%f) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            return value;
         }
 
         default:
