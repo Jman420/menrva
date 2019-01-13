@@ -23,15 +23,35 @@ const std::string BassBoost::EFFECT_NAME = "BassBoost";
 BassBoost::BassBoost(LoggerBase* logger)
         : EffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
-    // TODO : Implement Initialization Logic
+    _ServiceLocator = new ServiceLocator();
+    _FirGenerator = _ServiceLocator->GetFirGenerator();
+    _Convolver = _ServiceLocator->GetConvolver();
 }
 
-void BassBoost::Process(AudioBuffer* in, AudioBuffer* out) {
-    // TODO : Implement BassBoost Effect
+void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {
+    if (!Enabled) {
+        return;
+    }
+
+    _Convolver->Process(input, output);
 }
 
-void BassBoost::ResetConfig() {
-    // TODO : Implement Default Configuration for BassBoost Effect
+void BassBoost::ResetConfig(effect_config_t* bufferConfig) {
+    // BEGIN DEBUG
+    sample sampleRate = bufferConfig->inputCfg.samplingRate,
+           centerFreq = 60.0,
+           freqTransition = 80.0,
+           strength = 6.0;
+
+    size_t filterSize = 4096,
+           sampleSize = 4;
+    sample frequencySamples[] = { 0, (sample)((centerFreq * 2.0) / sampleRate), (sample)((centerFreq * 2.0 + freqTransition) / sampleRate), 1.0 },
+           amplitudeSamples[] = { (sample)(pow(10.0, strength / 20.0)), (sample)(pow(10.0, strength / 20.0)), 1.0, 1.0 };
+
+    AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
+    _Convolver->Initialize(DSP_FRAME_LENGTH, impulseFilter);
+    Enabled = true;
+    // END DEBUG
 }
 
 void BassBoost::ConfigureSetting(char* settingName, void* value) {

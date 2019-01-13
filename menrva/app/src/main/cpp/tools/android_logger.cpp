@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    AppLogLevel = LogLevel::VERBOSE;
+    AppLogLevel = LogLevel::DEBUG;
     _WhitelistActive = false;
     // END DEBUG
 

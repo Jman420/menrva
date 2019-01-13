@@ -32,18 +32,18 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
     _OutputAudioFrame = new AudioBuffer(fftEngine, DSP_FRAME_LENGTH);
 }
 
-void MenrvaEffectsEngine::ResetEffects() {
+void MenrvaEffectsEngine::ResetEffects(effect_config_t* bufferConfig) {
     _Logger->WriteLog("Resetting Effects...", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     for (EffectBase* effect : _MenrvaEffects) {
         _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
-        effect->ResetConfig();
+        effect->ResetConfig(bufferConfig);
     }
     _Logger->WriteLog("Successfully Clear Effects!", LOG_SENDER, __func__);
 }
 
-int MenrvaEffectsEngine::SetBufferConfig(effect_config_t config) {
+int MenrvaEffectsEngine::SetBufferConfig(effect_config_t* bufferConfig) {
     // TODO : Implement Logic to Configure Effects
     return 0;
 }
@@ -52,14 +52,15 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer* inputBuffer, AudioOutputBuffe
     _Logger->WriteLog("Processing Input Audio Buffer of length (%d)...", LOG_SENDER, __func__, inputBuffer->GetLength());
     AudioBuffer inputFrame = *_InputAudioFrame;
     AudioInputBuffer input = *inputBuffer;
-
-    _Logger->WriteLog("Processing Audio Frames of size (%d)...", LOG_SENDER, __func__, DSP_FRAME_LENGTH);
     size_t inputFrameIndex = 0,
            outputBufferIndex = 0,
-           lastFrameIndex = DSP_FRAME_LENGTH - 1;
+           inputFrameLength = inputFrame.GetLength(),
+           lastFrameIndex = inputFrameLength - 1;
+
+    _Logger->WriteLog("Processing Audio Frames of size (%d)...", LOG_SENDER, __func__, inputFrameIndex);
     inputFrame[inputFrameIndex] = input[inputFrameIndex];
     for (size_t sampleCounter = 1; sampleCounter < inputBuffer->GetLength(); sampleCounter++) {
-        inputFrameIndex = sampleCounter % DSP_FRAME_LENGTH;
+        inputFrameIndex = sampleCounter % inputFrameLength;
         _Logger->WriteLog("Loading Input Buffer Index (%d) into Audio Frame Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleCounter, inputFrameIndex);
 
         sample value = input[sampleCounter];
@@ -88,7 +89,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer* inputBuffer, AudioOutputBuffe
     return 0;
 }
 
-void MenrvaEffectsEngine::SetEffectEnabled(unsigned int effectIndex, bool enabled) {
+void MenrvaEffectsEngine::SetEffectEnabled(uint8_t effectIndex, bool enabled) {
     _Logger->WriteLog("Setting Enabled Flag on Effect Index : %d to : %d", LOG_SENDER, __func__, effectIndex, enabled);
     if (effectIndex >= EFFECTS_LENGTH) {
         _Logger->WriteLog("Skipping Setting Enabled Flag on Effect Index : %d.  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, effectIndex);
@@ -100,7 +101,8 @@ void MenrvaEffectsEngine::SetEffectEnabled(unsigned int effectIndex, bool enable
     _Logger->WriteLog("Successfully set Enabled Flag on Effect Index : %d to : %d", LOG_SENDER, __func__, effectIndex, enabled);
 }
 
-void MenrvaEffectsEngine::ConfigureEffectSetting(unsigned int effectIndex, char* settingName, void* value) {
+void MenrvaEffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* settingName,
+                                                 void* value) {
     _Logger->WriteLog("Setting Effect Configuration : %s on Effect Index : %d", LOG_SENDER, __func__, settingName, effectIndex);
     if (effectIndex >= sizeof(_MenrvaEffects)) {
         _Logger->WriteLog("Skipping Setting Effect Configuration : %s on Effect Index : %d.  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, settingName, effectIndex);
@@ -116,11 +118,12 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Processing Input Audio Frame...", LOG_SENDER, __func__);
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
-            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
+            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str(), LogLevel::VERBOSE);
+            // TODO : Ensure that Effect's Processing will aggregate (need to output to the next effect's input buffer; probably need to re-think managing enabled effects in a separate vector collection, all effects except the last in collection will overwrite Input Buffer and only last effect will overwrite Output Buffer)
             effect->Process(_InputAudioFrame, _OutputAudioFrame);
         }
         else {
-            _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__);
+            _Logger->WriteLog("Skipping Effect : %s.  Effect Disabled.", LOG_SENDER, __func__, LogLevel::VERBOSE);
         }
     }
     _Logger->WriteLog("Successfully processed Input Audio Frame!", LOG_SENDER, __func__);
@@ -129,7 +132,7 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
 size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer* outputBuffer) {
     _Logger->WriteLog("Processing Output Audio Frame...", LOG_SENDER, __func__);
     AudioBuffer outputFrame = *_OutputAudioFrame;
-    for (size_t outputCounter = 0; outputCounter < DSP_FRAME_LENGTH; outputCounter++) {
+    for (size_t outputCounter = 0; outputCounter < outputBuffer->GetLength(); outputCounter++) {
         sample value = outputFrame[outputCounter];
         _Logger->WriteLog("Processing Output Audio Frame Index (%d) with Value (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter, value);
         outputBuffer->SetValue(outputCounter + startOutputIndex, value);

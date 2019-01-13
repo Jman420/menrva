@@ -21,17 +21,24 @@
 
 #include "../abstracts/effect_base.h"
 #include "../abstracts/logging_base.h"
+#include "../tools/service_locator.h"
+#include "../audio/fir_generator.h"
 
 class BassBoost : public EffectBase, LoggingBase {
 public:
     BassBoost(LoggerBase* logger);
 
-    void Process(AudioBuffer* in, AudioBuffer* out);
-    void ResetConfig();
+    void Process(AudioBuffer* input, AudioBuffer* output);
+    void ResetConfig(effect_config_t* bufferConfig);
     void ConfigureSetting(char* settingName, void* value);
 
 private:
     static const std::string EFFECT_NAME;
+
+    ServiceLocator* _ServiceLocator;
+    FirGenerator* _FirGenerator;
+    AudioBuffer* _FilterSignal;
+    Convolver* _Convolver;
 };
 
 #endif //MENRVA_BASS_BOOST_H

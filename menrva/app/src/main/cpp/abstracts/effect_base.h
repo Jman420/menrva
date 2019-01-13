@@ -30,8 +30,8 @@ public:
 
     EffectBase(std::string name);
 
-    virtual void Process(AudioBuffer* in, AudioBuffer* out) = 0;
-    virtual void ResetConfig() = 0;
+    virtual void Process(AudioBuffer* input, AudioBuffer* output) = 0;
+    virtual void ResetConfig(effect_config_t* bufferConfig) = 0;
     virtual void ConfigureSetting(char* settingName, void* value) = 0;
 };
 

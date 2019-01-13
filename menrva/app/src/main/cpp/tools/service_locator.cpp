@@ -21,11 +21,24 @@
 #include "../fft/fftw_interface.h"
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
+ConvolutionOperationsBase* ServiceLocator::_ConvolutionOperations = new ConvolutionOperations(_Logger);
 
 LoggerBase* ServiceLocator::GetLogger() {
     return _Logger;
 }
 
-FftInterfaceBase* ServiceLocator::GetFftEngine(unsigned int signalSize, unsigned int componentSize) {
-    return new FftwInterface(_Logger, signalSize, componentSize);
+FftInterfaceBase* ServiceLocator::GetFftEngine(size_t signalSize, size_t componentSize) {
+    return new FftwInterface(GetLogger(), signalSize, componentSize);
+}
+
+FirGenerator* ServiceLocator::GetFirGenerator(size_t signalSize, size_t componentSize) {
+    return new FirGenerator(GetLogger(), GetFftEngine(signalSize, componentSize));
+}
+
+ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {
+    return _ConvolutionOperations;
+}
+
+Convolver* ServiceLocator::GetConvolver() {
+    return new Convolver(GetLogger(), GetFftEngine(), GetConvolutionOperations());
 }

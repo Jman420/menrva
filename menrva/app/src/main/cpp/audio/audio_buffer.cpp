@@ -28,15 +28,14 @@ AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine) {
 AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
     _FftEngine = fftEngine;
     _Length = length;
-    _Data = _FftEngine->Allocate(_Length);
+    SetData(_FftEngine->Allocate(_Length), _Length);
     _DisposeData = true;
 }
 
 AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
     _FftEngine = fftEngine;
     _Length = length;
-    _Data = data;
-    _DisposeData = false;
+    SetData(data, _Length);
 }
 
 AudioBuffer::~AudioBuffer() {

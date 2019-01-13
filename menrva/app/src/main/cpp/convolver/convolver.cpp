@@ -38,7 +38,11 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
     _FftEngine = fftEngine;
     _ConvolutionOperations = convolutionOperations;
 
-    Reset();
+    _Initialized = false;
+    _FilterSegmentsLength = 0;
+    _FrameLength = 0;
+    _FrameSize = 0;
+    _SignalScalar = 1;
 }
 
 Convolver::~Convolver() {

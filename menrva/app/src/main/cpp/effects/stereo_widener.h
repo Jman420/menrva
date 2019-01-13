@@ -26,8 +26,8 @@ class StereoWidener : public EffectBase, LoggingBase {
 public:
     StereoWidener(LoggerBase* logger);
 
-    void Process(AudioBuffer* in, AudioBuffer* out);
-    void ResetConfig();
+    void Process(AudioBuffer* input, AudioBuffer* output);
+    void ResetConfig(effect_config_t* bufferConfig);
     void ConfigureSetting(char* settingName, void* value);
 
 private:

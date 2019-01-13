@@ -122,7 +122,7 @@ void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
         return;
     }
 
-    _Logger->WriteLog("Instantiating Conversion Buffer for Audio Format (%d)...", LOG_SENDER, __func__, _AudioFormat);
+    _Logger->WriteLog("Instantiating Conversion Buffer for Audio Format (%d)...", LOG_SENDER, __func__, audioFormat);
     switch (audioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16 = new ConversionBuffer<int16_t, sample>();
