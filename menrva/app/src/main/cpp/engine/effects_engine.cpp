@@ -28,8 +28,8 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
     _MenrvaEffects[1] = new StereoWidener(_Logger);
     _MenrvaEffects[2] = new Equalizer(_Logger);
 
-    _InputAudioFrame = new AudioBuffer(fftEngine, DSP_FRAME_LENGTH);
-    _OutputAudioFrame = new AudioBuffer(fftEngine, DSP_FRAME_LENGTH);
+    _InputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
+    _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
 }
 
 void MenrvaEffectsEngine::ResetEffects(effect_config_t* bufferConfig) {
@@ -40,7 +40,7 @@ void MenrvaEffectsEngine::ResetEffects(effect_config_t* bufferConfig) {
         _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
         effect->ResetConfig(bufferConfig);
     }
-    _Logger->WriteLog("Successfully Clear Effects!", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Reset Effects!", LOG_SENDER, __func__);
 }
 
 int MenrvaEffectsEngine::SetBufferConfig(effect_config_t* bufferConfig) {

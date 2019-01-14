@@ -27,7 +27,6 @@ class Buffer {
 public:
     Buffer();
     Buffer(TInputType* data, size_t length);
-
     virtual ~Buffer();
 
     size_t GetLength();

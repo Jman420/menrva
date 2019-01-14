@@ -22,8 +22,8 @@
 AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _Length = length;
-    _RealBuffer = new AudioBuffer(fftEngine, length);
-    _ImagBuffer = new AudioBuffer(fftEngine, length);
+    _RealBuffer = new AudioBuffer(_Logger, fftEngine, length);
+    _ImagBuffer = new AudioBuffer(_Logger, fftEngine, length);
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {

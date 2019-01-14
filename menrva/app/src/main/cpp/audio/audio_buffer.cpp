@@ -20,33 +20,41 @@
 #include "../tools/buffer.cpp"
 #include "../abstracts/fft_interface_base.h"
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine) {
-    _FftEngine = fftEngine;
+AudioBuffer::AudioBuffer(LoggerBase* logger)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _FftEngine = nullptr;
     _DisposeData = false;
 }
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
+AudioBuffer::AudioBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
     _Length = length;
     SetData(_FftEngine->Allocate(_Length), _Length);
     _DisposeData = true;
 }
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
-    _FftEngine = fftEngine;
+AudioBuffer::AudioBuffer(LoggerBase* logger, sample* data, size_t length)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _FftEngine = nullptr;
     _Length = length;
     SetData(data, _Length);
 }
 
 AudioBuffer::~AudioBuffer() {
+    _Logger->WriteLog("Disposing of Audio Buffer Data...", LOG_SENDER, __func__);
     if (!_DisposeData) {
+        _Logger->WriteLog("Skipping disposing of Audio Buffer Data.  Audio Buffer not owner of Data.", LOG_SENDER, __func__);
         return;
     }
 
-    delete _Data;
+    _FftEngine->Deallocate(_Data);
+    _Logger->WriteLog("Successfully disposed of Audio Buffer Data!", LOG_SENDER, __func__);
 }
 
 void AudioBuffer::SetData(sample* data, size_t length) {
+    _Logger->WriteLog("Setting Audio Buffer Data...", LOG_SENDER, __func__);
     Buffer::SetData(data, length);
     _DisposeData = false;
+    _Logger->WriteLog("Successfully set Audio Buffer Data!", LOG_SENDER, __func__);
 }

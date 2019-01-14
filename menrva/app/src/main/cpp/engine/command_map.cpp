@@ -289,10 +289,10 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
-    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, bufferConfig->format, LogLevel::VERBOSE);
-    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, bufferConfig->samplingRate, LogLevel::VERBOSE);
-    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, bufferConfig->channels, LogLevel::VERBOSE);
-    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, bufferConfig->accessMode, LogLevel::VERBOSE);
+    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->format);
+    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->samplingRate);
+    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->channels);
+    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->accessMode);
 }
 
 uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {
