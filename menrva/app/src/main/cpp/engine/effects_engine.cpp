@@ -32,6 +32,19 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
     _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
 }
 
+MenrvaEffectsEngine::~MenrvaEffectsEngine() {
+    _Logger->WriteLog("Disposing of Menrva Engine...", LOG_SENDER, __func__);
+    for (EffectBase* effect : _MenrvaEffects) {
+        _Logger->WriteLog("Disposing of Menrva Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
+        delete effect;
+    }
+
+    _Logger->WriteLog("Disposing of Input & Output Audio Frame Buffers...", LOG_SENDER, __func__);
+    delete _InputAudioFrame;
+    delete _OutputAudioFrame;
+    _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
+}
+
 void MenrvaEffectsEngine::ResetEffects(effect_config_t* bufferConfig) {
     _Logger->WriteLog("Resetting Effects...", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;

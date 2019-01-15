@@ -43,6 +43,8 @@ public:
     MenrvaEngineStatus _EngineStatus;
 
     MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine);
+    ~MenrvaEffectsEngine();
+
     void ResetEffects(effect_config_t* bufferConfig);
     int SetBufferConfig(effect_config_t* bufferConfig);
     int Process(AudioInputBuffer* inputBuffer, AudioOutputBuffer* outputBuffer);
