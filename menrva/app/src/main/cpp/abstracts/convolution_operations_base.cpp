@@ -16,30 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOGGING_BASE_H
-#define MENRVA_LOGGING_BASE_H
+#include "convolution_operations_base.h"
 
-#include <string>
-#include "logger_base.h"
-
-class LoggingBase {
-public:
-    LoggingBase(LoggerBase* logger, std::string prettyFunction);
-    ~LoggingBase();
-
-protected:
-    std::string LOG_SENDER;
-    LoggerBase* _Logger;
-
-    /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
-     *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();
-     *   Call this method from a Deriving Class Constructor to Initialize LOG_SENDER
-     * prettyFunction - The __PRETTY_FUNCTION__ Constant to parse
-     */
-    void InitializeLogSender(std::string prettyFunction);
-
-private:
-    static const std::string COLONS;
-};
-
-#endif //MENRVA_LOGGING_BASE_H
+void ConvolutionOperationsBase::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
+                                            AudioBuffer &output) {
+    SumAndScale(bufferA, bufferB, output, 0);
+}

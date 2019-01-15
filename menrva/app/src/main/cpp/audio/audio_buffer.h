@@ -28,7 +28,7 @@ class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ..
 class AudioBuffer : public Buffer<sample>,
                     public LoggingBase {
 public:
-    AudioBuffer(LoggerBase* logger);
+    explicit AudioBuffer(LoggerBase* logger);
     AudioBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length);
     AudioBuffer(LoggerBase* logger, sample* data, size_t length);
     ~AudioBuffer() override;

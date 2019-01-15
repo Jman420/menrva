@@ -29,6 +29,7 @@
 class FirGenerator : public LoggingBase {
 public:
     FirGenerator(LoggerBase* logger, FftInterfaceBase* fftEngine);
+    ~FirGenerator();
 
     /*
      * Calculate() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
@@ -41,7 +42,6 @@ public:
     AudioBuffer* Calculate(size_t filterLength, sample* frequencySamples, sample* amplitudeSamples, size_t sampleLength);
 
 private:
-    static const std::string LOG_SENDER;
     static constexpr sample PI = (sample)M_PI,
                             PI2 = (sample)M_PI * (sample)2.0,
                             ONE = (sample)1.0,

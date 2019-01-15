@@ -42,11 +42,11 @@ AudioBuffer::AudioBuffer(LoggerBase* logger, sample* data, size_t length)
 }
 
 AudioBuffer::~AudioBuffer() {
-    if (!_DisposeData) {
-        return;
-    }
+    delete _FftEngine;
 
-    _FftEngine->Deallocate(_Data);
+    if (_DisposeData) {
+        _FftEngine->Deallocate(_Data);
+    }
 }
 
 void AudioBuffer::SetData(sample* data, size_t length) {

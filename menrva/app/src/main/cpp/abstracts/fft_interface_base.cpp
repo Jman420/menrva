@@ -45,3 +45,7 @@ size_t FftInterfaceBase::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Successfully set FFT Signal Size (%d) and Component Size (%d)!", LOG_SENDER, __func__, signalSize, componentSize);
     return componentSize;
 }
+
+size_t FftInterfaceBase::Inintialize(size_t signalSize) {
+    Initialize(signalSize, 0);
+}

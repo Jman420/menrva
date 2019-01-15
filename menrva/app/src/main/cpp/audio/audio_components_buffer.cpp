@@ -27,8 +27,6 @@ AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBas
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
-    Free();
-
     delete _RealBuffer;
     delete _ImagBuffer;
 }

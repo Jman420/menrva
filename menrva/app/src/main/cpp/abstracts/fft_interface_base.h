@@ -28,13 +28,16 @@
 class FftInterfaceBase : public LoggingBase {
 public:
     explicit FftInterfaceBase(LoggerBase* logger);
-    virtual size_t Initialize(size_t signalSize, size_t componentSize = 0);
+
+    size_t GetSignalSize();
+    size_t GetComponentSize();
+    size_t Inintialize(size_t signalSize);
+
+    virtual size_t Initialize(size_t signalSize, size_t componentSize);
     virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;
     virtual sample* Allocate(size_t size) = 0;
     virtual void Deallocate(sample* data) = 0;
-    size_t GetSignalSize();
-    size_t GetComponentSize();
 
 protected:
     size_t _SignalSize,

@@ -34,7 +34,7 @@ union audio_output_buffer_u {
 
 class AudioOutputBuffer : public LoggingBase {
 public:
-    AudioOutputBuffer(LoggerBase* logger);
+    explicit AudioOutputBuffer(LoggerBase* logger);
     AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
