@@ -27,6 +27,11 @@ BassBoost::BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator)
     _Convolver = serviceLocator->GetConvolver();
 }
 
+BassBoost::~BassBoost() {
+    delete _FirGenerator;
+    delete _Convolver;
+}
+
 void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {
     if (!Enabled) {
         return;

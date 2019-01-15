@@ -20,7 +20,7 @@
 
 const std::string StereoWidener::EFFECT_NAME = "StereoWidener";
 
-StereoWidener::StereoWidener(LoggerBase* logger)
+StereoWidener::StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator)
         : EffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
 

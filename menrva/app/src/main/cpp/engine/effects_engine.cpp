@@ -25,8 +25,8 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
     _MenrvaEffects[0] = new BassBoost(_Logger, serviceLocator);
-    _MenrvaEffects[1] = new StereoWidener(_Logger);
-    _MenrvaEffects[2] = new Equalizer(_Logger);
+    _MenrvaEffects[1] = new StereoWidener(_Logger, serviceLocator);
+    _MenrvaEffects[2] = new Equalizer(_Logger, serviceLocator);
 
     _InputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
     _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
