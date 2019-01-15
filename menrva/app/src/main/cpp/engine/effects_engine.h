@@ -42,7 +42,7 @@ class MenrvaEffectsEngine : public LoggingBase {
 public:
     MenrvaEngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine);
+    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
     void ResetEffects(effect_config_t* bufferConfig);

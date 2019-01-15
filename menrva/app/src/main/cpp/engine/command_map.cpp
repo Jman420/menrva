@@ -157,7 +157,7 @@ int MenrvaCommandMap::ResetEngine(menrva_module_context* context, uint32_t cmdSi
     _Logger->WriteLog("Resetting Effects Engine...", LOG_SENDER, __func__);
     context->EffectsEngine->ResetEffects(context->config);
 
-    _Logger->WriteLog("Successfully Clear Effects Engine.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Reset Effects Engine.", LOG_SENDER, __func__);
     return 0;
 }
 

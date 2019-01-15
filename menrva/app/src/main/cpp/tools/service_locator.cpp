@@ -27,12 +27,12 @@ LoggerBase* ServiceLocator::GetLogger() {
     return _Logger;
 }
 
-FftInterfaceBase* ServiceLocator::GetFftEngine(size_t signalSize, size_t componentSize) {
-    return new FftwInterface(GetLogger(), signalSize, componentSize);
+FftInterfaceBase* ServiceLocator::GetFftEngine() {
+    return new FftwInterface(GetLogger());
 }
 
-FirGenerator* ServiceLocator::GetFirGenerator(size_t signalSize, size_t componentSize) {
-    return new FirGenerator(GetLogger(), GetFftEngine(signalSize, componentSize));
+FirGenerator* ServiceLocator::GetFirGenerator() {
+    return new FirGenerator(GetLogger(), GetFftEngine());
 }
 
 ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {

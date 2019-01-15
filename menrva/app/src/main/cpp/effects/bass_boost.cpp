@@ -20,12 +20,11 @@
 
 const std::string BassBoost::EFFECT_NAME = "BassBoost";
 
-BassBoost::BassBoost(LoggerBase* logger)
+BassBoost::BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator)
         : EffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
-    _ServiceLocator = new ServiceLocator();
-    _FirGenerator = _ServiceLocator->GetFirGenerator();
-    _Convolver = _ServiceLocator->GetConvolver();
+    _FirGenerator = serviceLocator->GetFirGenerator();
+    _Convolver = serviceLocator->GetConvolver();
 }
 
 void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {

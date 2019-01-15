@@ -27,7 +27,7 @@
 
 class FftInterfaceBase : public LoggingBase {
 public:
-    FftInterfaceBase(LoggerBase* logger, size_t signalSize = 0, size_t componentSize = 0);
+    explicit FftInterfaceBase(LoggerBase* logger);
     virtual size_t Initialize(size_t signalSize, size_t componentSize = 0);
     virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
     virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;

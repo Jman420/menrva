@@ -21,10 +21,10 @@
 #include "../config.h"
 #include "../tools/buffer.cpp"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine)
+MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNINITIALIZED;
-    _MenrvaEffects[0] = new BassBoost(_Logger);
+    _MenrvaEffects[0] = new BassBoost(_Logger, serviceLocator);
     _MenrvaEffects[1] = new StereoWidener(_Logger);
     _MenrvaEffects[2] = new Equalizer(_Logger);
 

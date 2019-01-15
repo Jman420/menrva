@@ -27,8 +27,8 @@
 class ServiceLocator {
 public:
     LoggerBase* GetLogger();
-    FftInterfaceBase* GetFftEngine(size_t signalSize = 0, size_t componentSize = 0);
-    FirGenerator* GetFirGenerator(size_t signalSize = 0, size_t componentSize = 0);
+    FftInterfaceBase* GetFftEngine();
+    FirGenerator* GetFirGenerator();
     ConvolutionOperationsBase* GetConvolutionOperations();
     Convolver* GetConvolver();
 

@@ -42,19 +42,14 @@ AudioBuffer::AudioBuffer(LoggerBase* logger, sample* data, size_t length)
 }
 
 AudioBuffer::~AudioBuffer() {
-    _Logger->WriteLog("Disposing of Audio Buffer Data...", LOG_SENDER, __func__);
     if (!_DisposeData) {
-        _Logger->WriteLog("Skipping disposing of Audio Buffer Data.  Audio Buffer not owner of Data.", LOG_SENDER, __func__);
         return;
     }
 
     _FftEngine->Deallocate(_Data);
-    _Logger->WriteLog("Successfully disposed of Audio Buffer Data!", LOG_SENDER, __func__);
 }
 
 void AudioBuffer::SetData(sample* data, size_t length) {
-    _Logger->WriteLog("Setting Audio Buffer Data...", LOG_SENDER, __func__);
     Buffer::SetData(data, length);
     _DisposeData = false;
-    _Logger->WriteLog("Successfully set Audio Buffer Data!", LOG_SENDER, __func__);
 }

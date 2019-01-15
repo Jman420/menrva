@@ -34,15 +34,15 @@ AudioInputBuffer::~AudioInputBuffer() {
     _Logger->WriteLog("Disposing of Audio Input Buffer...", LOG_SENDER, __func__);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
-            delete &_BufferWrapper->PCM_16;
+            delete _BufferWrapper->PCM_16;
             break;
 
         case AudioFormat::PCM_32:
-            delete &_BufferWrapper->PCM_32;
+            delete _BufferWrapper->PCM_32;
             break;
 
         case AudioFormat::PCM_Float:
-            delete &_BufferWrapper->PCM_Float;
+            delete _BufferWrapper->PCM_Float;
             break;
 
         default:

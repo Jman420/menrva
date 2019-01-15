@@ -22,8 +22,8 @@
 
 PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
-FftwInterface::FftwInterface(LoggerBase* logger, size_t signalSize, size_t componentSize) :
-        FftInterfaceBase(logger, signalSize, componentSize) {}
+FftwInterface::FftwInterface(LoggerBase* logger) :
+        FftInterfaceBase(logger) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);

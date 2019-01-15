@@ -102,7 +102,7 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     _SignalScalar = ONE_HALF / _FrameLength;
     LogSegmentConfig();
 
-    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...");
+    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
     _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
     AudioBuffer* impulseSignalSegment = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
