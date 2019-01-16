@@ -36,6 +36,8 @@ enum MenrvaModuleStatus {
 
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
 struct menrva_module_context {
+    ~menrva_module_context() = default;
+
     __unused const effect_interface_s* itfe;
     effect_config_t* config;
 
