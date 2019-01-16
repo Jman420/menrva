@@ -58,7 +58,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
     // Check Whitelist for Class Disabled
     if (_WhitelistActive) {
         logger_whitelist whitelist = AndroidLogger::_Whitelist;
-        auto whitelistEntry = whitelist.find(senderClass);
+        logger_whitelist::iterator whitelistEntry = whitelist.find(senderClass);
         if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
             return;
         }
@@ -66,10 +66,10 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
 
     // Format Log Tag
     std::string prefix = APP_NAME;
-    if (!senderClass.empty()) {
+    if (senderClass != "") {
         prefix = prefix + LOG_ELEMENT_DELIMITER + senderClass;
     }
-    if (!senderFunction.empty()) {
+    if (senderFunction != "") {
         prefix = prefix + LOG_ELEMENT_DELIMITER + senderFunction + FUNCTION_SUFFIX;
     }
 

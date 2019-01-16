@@ -49,7 +49,7 @@ const effect_interface_s MenrvaModuleInterface::EngineInterface =
     MenrvaEngineInterface::Process,
     MenrvaEngineInterface::Command,
     MenrvaModuleInterface::GetDescriptorFromModule,
-    nullptr
+    NULL
 };
 
 const char* MenrvaModuleInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
@@ -59,11 +59,11 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
                                         int32_t ioId __unused, effect_handle_t* pHandle) {
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
 
-    if (pHandle == nullptr) {
+    if (pHandle == NULL) {
         _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    if (uuid == nullptr) {
+    if (uuid == NULL) {
         _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
@@ -75,7 +75,7 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     }
 
     _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
-    auto* context = new menrva_module_context();
+    menrva_module_context* context = new menrva_module_context();
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
     InitModule(context);
 
@@ -106,9 +106,9 @@ int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     _Logger->WriteLog("Releasing Menrva Module...", LOG_SENDER, __func__);
-    auto* module = (menrva_module_context*)moduleHandle;
+    menrva_module_context* module = (menrva_module_context*)moduleHandle;
 
-    if (module == nullptr) {
+    if (module == NULL) {
         _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
@@ -127,11 +127,11 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
 int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
                                                  effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
-    if (pDescriptor == nullptr) {
+    if (pDescriptor == NULL) {
         _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    if (uuid == nullptr) {
+    if (uuid == NULL) {
         _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
@@ -149,9 +149,10 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
 
 int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
                                                    effect_descriptor_t* pDescriptor) {
-    _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
-    auto* module = (menrva_module_context*)self;
-    if (module == nullptr || pDescriptor == nullptr) {
+    std::string functionName = __func__;
+    _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, functionName.c_str());
+    menrva_module_context* module = (menrva_module_context*)self;
+    if (module == NULL || pDescriptor == NULL) {
         _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
@@ -161,7 +162,7 @@ int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
     return 0;
 }
 
-MenrvaModuleInterface::MenrvaModuleInterface() = default;
+MenrvaModuleInterface::MenrvaModuleInterface() {}
 
 // Required Exported Member for Android Audio Framework Entry Point
 extern "C" {

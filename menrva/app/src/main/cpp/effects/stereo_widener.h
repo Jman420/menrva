@@ -21,15 +21,14 @@
 
 #include "../abstracts/effect_base.h"
 #include "../abstracts/logging_base.h"
-#include "../tools/service_locator.h"
 
 class StereoWidener : public EffectBase, LoggingBase {
 public:
-    StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator);
+    StereoWidener(LoggerBase* logger);
 
-    void Process(AudioBuffer* input, AudioBuffer* output) override;
-    void ResetConfig(effect_config_t* bufferConfig) override;
-    void ConfigureSetting(char* settingName, void* value) override;
+    void Process(AudioBuffer* input, AudioBuffer* output);
+    void ResetConfig(effect_config_t* bufferConfig);
+    void ConfigureSetting(char* settingName, void* value);
 
 private:
     static const std::string EFFECT_NAME;

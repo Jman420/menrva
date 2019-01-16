@@ -25,10 +25,10 @@
 
 class ConvolutionOperations : public ConvolutionOperationsBase, LoggingBase {
 public:
-    explicit ConvolutionOperations(LoggerBase* logger);
+    ConvolutionOperations(LoggerBase* logger);
 
     void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) override;
-    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar) override;
+    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar = 1.0) override;
     void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output) override;
 };
 
