@@ -28,7 +28,7 @@ public:
     const std::string NAME;
     bool Enabled;
 
-    explicit EffectBase(std::string name);
+    EffectBase(std::string name);
 
     virtual void Process(AudioBuffer* input, AudioBuffer* output) = 0;
     virtual void ResetConfig(effect_config_t* bufferConfig) = 0;

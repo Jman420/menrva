@@ -17,7 +17,5 @@
  */
 
 #include "effect_base.h"
-#include <utility>
 
-EffectBase::EffectBase(std::string name)
-    : NAME(std::move(name)) { }
+EffectBase::EffectBase(std::string name) : NAME(name) { }

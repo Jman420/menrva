@@ -17,7 +17,6 @@
  */
 
 #include "logger_base.h"
-#include <utility>
 
 const std::string LoggerBase::APP_NAME = "Menrva";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
@@ -29,35 +28,35 @@ void LoggerBase::WriteLog(std::string message, std::string senderClass, std::str
                           LogLevel logLevel, ...) {
     va_list args;
     va_start(args, logLevel);
-    WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel, args);
+    WriteLog(message, senderClass, senderFunction, logLevel, args);
 }
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...) {
     va_list args;
     va_start(args, logLevel);
-    WriteLog(std::move(message), std::move(senderClass), "", logLevel, args);
+    WriteLog(message, senderClass, "", logLevel, args);
 }
 
 void LoggerBase::WriteLog(std::string message, LogLevel logLevel, ...) {
     va_list args;
     va_start(args, logLevel);
-    WriteLog(std::move(message), "", "", logLevel, args);
+    WriteLog(message, "", "", logLevel, args);
 }
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, ...) {
     va_list args;
     va_start(args, senderFunction);
-    WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), DEFAULT_LOG_LEVEL, args);
+    WriteLog(message, senderClass, senderFunction, DEFAULT_LOG_LEVEL, args);
 }
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, ...) {
     va_list args;
     va_start(args, senderClass);
-    WriteLog(std::move(message), std::move(senderClass), "", DEFAULT_LOG_LEVEL, args);
+    WriteLog(message, senderClass, "", DEFAULT_LOG_LEVEL, args);
 }
 
 void LoggerBase::WriteLog(std::string message, ...) {
     va_list args;
     va_start(args, message);
-    WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL, args);
+    WriteLog(message, "", "", DEFAULT_LOG_LEVEL, args);
 }

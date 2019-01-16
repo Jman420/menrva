@@ -25,7 +25,6 @@
 class LoggingBase {
 public:
     LoggingBase(LoggerBase* logger, std::string prettyFunction);
-    ~LoggingBase();
 
 protected:
     std::string LOG_SENDER;
