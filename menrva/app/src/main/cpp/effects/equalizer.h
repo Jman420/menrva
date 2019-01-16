@@ -21,14 +21,15 @@
 
 #include "../abstracts/effect_base.h"
 #include "../abstracts/logging_base.h"
+#include "../tools/service_locator.h"
 
 class Equalizer : public EffectBase, LoggingBase {
 public:
-    Equalizer(LoggerBase* logger);
+    explicit Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator);
 
-    void Process(AudioBuffer* input, AudioBuffer* output);
-    void ResetConfig(effect_config_t* bufferConfig);
-    void ConfigureSetting(char* settingName, void* value);
+    void Process(AudioBuffer* input, AudioBuffer* output) override;
+    void ResetConfig(effect_config_t* bufferConfig) override;
+    void ConfigureSetting(char* settingName, void* value) override;
 
 private:
     static const std::string EFFECT_NAME;

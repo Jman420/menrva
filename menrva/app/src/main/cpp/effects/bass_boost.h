@@ -28,16 +28,14 @@ class BassBoost : public EffectBase, LoggingBase {
 public:
     BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator);
 
-    void Process(AudioBuffer* input, AudioBuffer* output);
-    void ResetConfig(effect_config_t* bufferConfig);
-    void ConfigureSetting(char* settingName, void* value);
+    void Process(AudioBuffer* input, AudioBuffer* output) override;
+    void ResetConfig(effect_config_t* bufferConfig) override;
+    void ConfigureSetting(char* settingName, void* value) override;
 
 private:
     static const std::string EFFECT_NAME;
 
-    ServiceLocator* _ServiceLocator;
     FirGenerator* _FirGenerator;
-    AudioBuffer* _FilterSignal;
     Convolver* _Convolver;
 };
 

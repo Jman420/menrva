@@ -177,14 +177,14 @@ void AudioOutputBuffer::SetValue(size_t index, sample value) {
     _Logger->WriteLog("Setting Normalized Value to Index (%d)...", LOG_SENDER, __func__, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
-            int16_t normalizedValue = Normalize<int16_t>(value);
+            auto normalizedValue = Normalize<int16_t>(value);
             (*_BufferWrapper->PCM_16)[index] = normalizedValue;
             _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
             break;
         }
 
         case AudioFormat::PCM_32: {
-            int32_t normalizedValue = Normalize<int32_t>(value);
+            auto normalizedValue = Normalize<int32_t>(value);
             (*_BufferWrapper->PCM_32)[index] = normalizedValue;
             _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
             break;
@@ -277,7 +277,7 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             break;
     }
 
-    TOutputType normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
+    auto normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
     _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, normalizedValue);
     return normalizedValue;
 }

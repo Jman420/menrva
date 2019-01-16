@@ -16,23 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_STEREO_WIDENER_H
-#define MENRVA_STEREO_WIDENER_H
+#include "convolution_operations_base.h"
 
-#include "../abstracts/effect_base.h"
-#include "../abstracts/logging_base.h"
-#include "../tools/service_locator.h"
-
-class StereoWidener : public EffectBase, LoggingBase {
-public:
-    explicit StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator);
-
-    void Process(AudioBuffer* input, AudioBuffer* output) override;
-    void ResetConfig(effect_config_t* bufferConfig) override;
-    void ConfigureSetting(char* settingName, void* value) override;
-
-private:
-    static const std::string EFFECT_NAME;
-};
-
-#endif //MENRVA_STEREO_WIDENER_H
+void ConvolutionOperationsBase::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
+                                            AudioBuffer &output) {
+    SumAndScale(bufferA, bufferB, output, 1.0);
+}

@@ -47,6 +47,8 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
 
 Convolver::~Convolver() {
     Reset();
+
+    delete _ConvolutionOperations;
 }
 
 void Convolver::Reset() {
@@ -105,7 +107,7 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
     _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    AudioBuffer* impulseSignalSegment = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
+    auto* impulseSignalSegment = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         _Logger->WriteLog("Allocating Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
