@@ -21,7 +21,6 @@
 #include "../fft/fftw_interface.h"
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
-ConvolutionOperationsBase* ServiceLocator::_ConvolutionOperations = new ConvolutionOperations(_Logger);
 
 LoggerBase* ServiceLocator::GetLogger() {
     return _Logger;

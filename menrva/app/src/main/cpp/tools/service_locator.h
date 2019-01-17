@@ -34,7 +34,6 @@ public:
 
 private:
     static LoggerBase* _Logger;
-    static ConvolutionOperationsBase* _ConvolutionOperations;
 };
 
 #endif //MENRVA_SERVICE_LOCATOR_H
