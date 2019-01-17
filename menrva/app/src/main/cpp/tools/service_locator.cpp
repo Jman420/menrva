@@ -36,7 +36,7 @@ FirGenerator* ServiceLocator::GetFirGenerator() {
 }
 
 ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {
-    return _ConvolutionOperations;
+    return new ConvolutionOperations(GetLogger());
 }
 
 Convolver* ServiceLocator::GetConvolver() {

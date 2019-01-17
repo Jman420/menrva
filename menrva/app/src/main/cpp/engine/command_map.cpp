@@ -50,9 +50,8 @@ int MenrvaCommandMap::Process(menrva_module_context* context, uint32_t cmdCode, 
     }
 
     _Logger->WriteLog("Looking up Function for Command Id : %u", LOG_SENDER, __func__, cmdCode);
-    function_map commandMap = MenrvaCommandMap::_CommandMap;
-    function_map::iterator cmdFunction = commandMap.find(cmdCode);
-    if (cmdFunction == commandMap.end()) {
+    auto cmdFunction = MenrvaCommandMap::_CommandMap.find(cmdCode);
+    if (cmdFunction == MenrvaCommandMap::_CommandMap.end()) {
         _Logger->WriteLog("Unable to Process Command Id : %u.  No Function found.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
         return 0;
     }
