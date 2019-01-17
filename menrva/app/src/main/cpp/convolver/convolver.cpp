@@ -47,8 +47,6 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
 
 Convolver::~Convolver() {
     Reset();
-
-    delete _ConvolutionOperations;
 }
 
 void Convolver::Reset() {
@@ -71,7 +69,7 @@ void Convolver::Reset() {
     _FilterSegmentsLength = 0;
     _FrameLength = 0;
     _FrameSize = 0;
-    _SignalScalar = 1.0;
+    _SignalScalar = 1;
     _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
 

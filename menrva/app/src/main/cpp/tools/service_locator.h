@@ -31,6 +31,10 @@ public:
     FirGenerator* GetFirGenerator();
     ConvolutionOperationsBase* GetConvolutionOperations();
     Convolver* GetConvolver();
+
+private:
+    static LoggerBase* _Logger;
+    static ConvolutionOperationsBase* _ConvolutionOperations;
 };
 
 #endif //MENRVA_SERVICE_LOCATOR_H

@@ -118,7 +118,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     delete module->EffectsEngine;
     delete module->InputBuffer;
     delete module->OutputBuffer;
-    delete module;
+    free(module);
 
     _Logger->WriteLog("Successfully Released Menrva Module!", LOG_SENDER, __func__);
     return 0;

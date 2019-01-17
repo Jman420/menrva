@@ -36,8 +36,6 @@ public:
     const static std::string APP_NAME;
     static LogLevel AppLogLevel;
 
-    ~LoggerBase() = default;
-
     void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...);
     void WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...);
     void WriteLog(std::string message, LogLevel logLevel, ...);

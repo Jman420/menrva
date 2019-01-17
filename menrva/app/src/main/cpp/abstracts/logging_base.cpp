@@ -26,10 +26,6 @@ LoggingBase::LoggingBase(LoggerBase* logger, std::string prettyFunction) {
     _Logger = logger;
 }
 
-LoggingBase::~LoggingBase() {
-    delete _Logger;
-}
-
 void LoggingBase::InitializeLogSender(std::string prettyFunction) {
     std::string className;
     size_t colons = prettyFunction.find(COLONS);

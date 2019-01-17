@@ -29,7 +29,6 @@ public:
     bool Enabled;
 
     explicit EffectBase(std::string name);
-    virtual ~EffectBase() = default;
 
     virtual void Process(AudioBuffer* input, AudioBuffer* output) = 0;
     virtual void ResetConfig(effect_config_t* bufferConfig) = 0;

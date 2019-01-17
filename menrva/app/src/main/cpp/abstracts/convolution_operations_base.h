@@ -23,8 +23,6 @@
 
 class ConvolutionOperationsBase {
 public:
-    virtual ~ConvolutionOperationsBase() = default;
-
     void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output);
 
     virtual void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) = 0;
