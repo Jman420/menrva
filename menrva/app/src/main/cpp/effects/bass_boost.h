@@ -27,6 +27,7 @@
 class BassBoost : public EffectBase, LoggingBase {
 public:
     BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator);
+    ~BassBoost();
 
     void Process(AudioBuffer* input, AudioBuffer* output) override;
     void ResetConfig(effect_config_t* bufferConfig) override;

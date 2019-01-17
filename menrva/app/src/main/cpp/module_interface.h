@@ -67,7 +67,7 @@ private:
     static LoggerBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaModuleInterface();
+    MenrvaModuleInterface() = default;
 };
 
 #endif //MENRVA_MODULE_INTERFACE_H
