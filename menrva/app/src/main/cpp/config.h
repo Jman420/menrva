@@ -50,6 +50,10 @@
  * ----------------------------DO NOT MODIFY CODE BELOW THIS LINE---------------------------------
  */
 
+#if !defined(USE_FFTW) && !defined(USE_KISSFFT) && !defined(USE_KFR)
+    #error "No FFT Engine Implementation Declared.  One of the following Preprocessory Directives must be defined : USE_FFTW, USE_KISSFFT or USE_KFR."
+#endif
+
 #ifdef USE_FFTW
     #if (defined(USE_KISSFFT) || defined(USE_KFR)) && !defined(FFT_ENGINE_ERROR)
         #define FFT_ENGINE_ERROR 1

@@ -68,6 +68,7 @@ add_library( # Sets the name of the library.
 
         fft/fftw_interface.cpp
         fft/kissfft_interface.cpp
+        fft/kfr_interface.cpp
 
         convolver/convolution_operations.cpp
         convolver/convolver.cpp

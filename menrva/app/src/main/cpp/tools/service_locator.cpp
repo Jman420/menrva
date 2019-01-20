@@ -16,10 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include "../config.h"
 #include "service_locator.h"
 #include "android_logger.h"
-#include "../fft/fftw_interface.h"
-#include "../config.h"
+
+#ifdef USE_FFTW
+    #include "../fft/fftw_interface.h"
+#elif defined(USE_KISSFFT)
+    #include "../fft/kissfft_interface.h"
+#elif defined(USE_KFR)
+    #include "../fft/kfr_interface.h"
+#endif
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
@@ -35,7 +42,7 @@ FftInterfaceBase* ServiceLocator::GetFftEngine() {
 #elif defined(USE_KISSFFT)
     returnValue = new KissFftInterface(GetLogger());
 #elif defined(USE_KFR)
-    returnValue = nullptr;
+    returnValue = new KfrInterface(GetLogger());
 #endif
 
     return returnValue;

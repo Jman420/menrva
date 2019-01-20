@@ -16,9 +16,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_KISSFFT_FUNCTIONS_H
-#define MENRVA_KISSFFT_FUNCTIONS_H
+#include "kfr_interface.h"
 
-// TODO : Draft Abstract Function typedefs for KissFFT Functions
+KfrInterface::KfrInterface(LoggerBase* logger) : FftInterfaceBase(logger) {}
 
-#endif //MENRVA_KISSFFT_FUNCTIONS_H
+size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
+    // TODO : Implement KFR Initialization Logic
+
+    return FftInterfaceBase::Initialize(signalSize, componentSize);
+}
+
+void KfrInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
+    // TODO : Implement KFR SignalToComponents Logic
+}
+
+void KfrInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
+    // TODO : Implement KFR ComponentsToSignal Logic
+}
+
+sample* KfrInterface::Allocate(size_t size) {
+    sample* buffer = (sample*)malloc(size);
+    memset(buffer, 0, size);
+    return buffer;
+}
+
+void KfrInterface::Deallocate(sample* data) {
+    free(data);
+}

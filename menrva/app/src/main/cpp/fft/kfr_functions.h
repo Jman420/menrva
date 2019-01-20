@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_KISSFFT_FUNCTIONS_H
-#define MENRVA_KISSFFT_FUNCTIONS_H
+#ifndef MENRVA_KFR_FUNCTIONS_H
+#define MENRVA_KFR_FUNCTIONS_H
 
-// TODO : Draft Abstract Function typedefs for KissFFT Functions
+// TODO : Draft Abstract Function typedefs for KFR Functions
 
-#endif //MENRVA_KISSFFT_FUNCTIONS_H
+#endif //MENRVA_KFR_FUNCTIONS_H
