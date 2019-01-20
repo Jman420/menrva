@@ -33,6 +33,7 @@
   - ~~Ensure Disposal of all Objects~~
   - ~~Draft Bass Boost Effect Implementation~~
   - ~~Compare FIR Generator to JamesDSP~~
+  - ~~Migrate FFTW for Android to Submodule~~
   - Experiment with KFR Lib
   - Add Detailed Exceptions at failure points
   - Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)
