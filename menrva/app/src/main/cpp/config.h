@@ -19,6 +19,22 @@
 #ifndef MENRVA_CONFIG_H
 #define MENRVA_CONFIG_H
 
+/* DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
+ *
+ * Recommended value : 1024
+ */
+#define DSP_FRAME_LENGTH 1024
+
+/* USE_FFTW - Indicates to use FFTW in the current build
+ * USE_KISSFFT - Indicates to use KissFFT in the current build
+ * USE_KFR - Indicates to use KFR in the current build
+ *
+ * NOTE : Only one of the above Directives should be defined at once.
+ */
+#define USE_FFTW 1
+//#define USE_KISSFFT 1
+//#define USE_KFR 1
+
 /* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
  * of float types for all calculations.
  *
@@ -29,10 +45,31 @@
  */
 //#define MENRVA_DOUBLE_PRECISION
 
-/* DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
- *
- * Recommended value : 1024
+/*
+ * Code below this section is validation for the above Configuration to prevent undefined behavior.
+ * ----------------------------DO NOT MODIFY CODE BELOW THIS LINE---------------------------------
  */
-#define DSP_FRAME_LENGTH 1024
+
+#ifdef USE_FFTW
+    #if (defined(USE_KISSFFT) || defined(USE_KFR)) && !defined(FFT_ENGINE_ERROR)
+        #define FFT_ENGINE_ERROR 1
+    #endif
+#endif
+
+#ifdef USE_KISSFFT
+    #if (defined(USE_FFTW) || defined(USE_KFR)) && !defined(FFT_ENGINE_ERROR)
+        #define FFT_ENGINE_ERROR 1
+    #endif
+#endif
+
+#ifdef USE_KFR
+    #if (defined(USE_FFTW) || defined(USE_KISSFFT)) && !defined(FFT_ENGINE_ERROR)
+        #define FFT_ENGINE_ERROR 1
+    #endif
+#endif
+
+#ifdef FFT_ENGINE_ERROR
+    #error "Multiple FFT Engine Implementations Declared.  Only one of the following Preprocessor Directives can be defined : USE_FFTW, USE_KISSFFT or USE_KFR."
+#endif
 
 #endif //MENRVA_CONFIG_H

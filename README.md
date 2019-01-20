@@ -28,10 +28,12 @@ To build a version of Menrva which uses C++ double type for double precision cal
 See [CONTRIBUTING](CONTRIBUTING.md) document
 
 ## Special Thanks
-Huge thanks goes out to all of the XDA Audio Mod developers out there and their projects for inspiring me to start my own.  An even bigger thanks goes out to those developers that Open Source their DSP algorithms so the rest of us can use them.  Unlikely that this is a complete list : 
-  - [JamesDSP](https://github.com/james34602/JamesDSPManager) Dev Team ([james3460297](https://github.com/james34602)) - For providing JamesDSP as an open source foundation
-  - [FFTW3-Android](https://github.com/Lauszus/fftw3-android) Dev Team ([Lauszus](https://github.com/Lauszus)) - For inspiration and guidance on FFTW compilation for Android
-  - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) Dev Team ([HiFi-LoFi](https://github.com/HiFi-LoFi)) - For providing a reasonable and understandable FFT Convolver Implementation
-  - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) Dev Team ([Bendrien](https://github.com/Bendrien)) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
-  - [FFTW](http://fftw.org/) Dev Team ([FFTW](https://github.com/FFTW)) - For providing an awesome Fast Fourier Transform Library
-  - [BetterExplained](https://betterexplained.com/) Website - For providing this awesome explanation of the [Fourier Transform](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/)
+Huge thanks goes out to all of the XDA Audio Mod developers out there and their projects for inspiring me to start my own.  An even bigger thanks goes out to those developers that Open Source their DSP algorithms so the rest of us can use them.  Hopefully this is a complete list, if not please contact me : 
+  - [JamesDSP](https://github.com/james34602/JamesDSPManager) - For providing JamesDSP as an open source foundation and inspiration
+  - [FFTW3-Android](https://github.com/Lauszus/fftw3-android) - For inspiration and guidance on FFTW compilation for Android
+  - [BetterExplained](https://betterexplained.com/) - For providing this awesome explanation of the [Fourier Transform](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/)
+  - [FFTW](http://fftw.org/) - For providing an awesome Fast Fourier Transform Library
+  - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) - For providing a reasonable and understandable FFT Convolver Implementation
+  - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
+  - [KissFFT](https://github.com/mborgerding/kissfft) - For providing an awesome Fast Fourier Transform Library
+  - [KFR](https://www.kfrlib.com/) - For providing an awesome Fast Fourier Transform & DSP Library
