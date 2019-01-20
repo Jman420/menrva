@@ -19,6 +19,7 @@
 #include "service_locator.h"
 #include "android_logger.h"
 #include "../fft/fftw_interface.h"
+#include "../config.h"
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
@@ -27,7 +28,17 @@ LoggerBase* ServiceLocator::GetLogger() {
 }
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    return new FftwInterface(GetLogger());
+    FftInterfaceBase* returnValue = nullptr;
+
+#ifdef USE_FFTW
+    returnValue = new FftwInterface(GetLogger());
+#elif defined(USE_KISSFFT)
+    returnValue = new KissFftInterface(GetLogger());
+#elif defined(USE_KFR)
+    returnValue = nullptr;
+#endif
+
+    return returnValue;
 }
 
 FirGenerator* ServiceLocator::GetFirGenerator() {
