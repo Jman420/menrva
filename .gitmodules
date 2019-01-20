@@ -1,0 +1,4 @@
+[submodule "fftw"]
+	path = fftw
+	url = git@github.com:Jman420/fftw_for_android.git
+	branch = master
