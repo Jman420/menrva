@@ -2,3 +2,7 @@
 	path = fftw
 	url = git@github.com:Jman420/fftw_for_android.git
 	branch = master
+[submodule "kissfft"]
+	path = kissfft
+	url = git@github.com:Jman420/kissfft_for_android.git
+	branch = master
