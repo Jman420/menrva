@@ -6,3 +6,7 @@
 	path = kissfft
 	url = git@github.com:Jman420/kissfft_for_android.git
 	branch = master
+[submodule "kfr"]
+	path = kfr
+	url = git@github.com:kfrlib/kfr.git
+	branch = master
