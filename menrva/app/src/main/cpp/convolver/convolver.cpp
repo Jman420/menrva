@@ -38,11 +38,17 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
     _FftEngine = fftEngine;
     _ConvolutionOperations = convolutionOperations;
 
-    Reset();
+    _Initialized = false;
+    _FilterSegmentsLength = 0;
+    _FrameLength = 0;
+    _FrameSize = 0;
+    _SignalScalar = 1;
 }
 
 Convolver::~Convolver() {
     Reset();
+
+    delete _ConvolutionOperations;
 }
 
 void Convolver::Reset() {
@@ -98,10 +104,10 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     _SignalScalar = ONE_HALF / _FrameLength;
     LogSegmentConfig();
 
-    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...");
+    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
     _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    AudioBuffer* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalLength);
+    auto* impulseSignalSegment = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         _Logger->WriteLog("Allocating Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
@@ -117,9 +123,9 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     }
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
-    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
+    _WorkingSignal = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
     _WorkingComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
-    _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
+    _OverlapSignal = new AudioBuffer(_Logger, _FftEngine, _FrameLength);
 
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
@@ -160,10 +166,10 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
 }
 
 void Convolver::LogSegmentConfig() {
-    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, _FrameLength, LogLevel::VERBOSE);
-    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, _FrameSize, LogLevel::VERBOSE);
-    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, _FilterSegmentsLength, LogLevel::VERBOSE);
-    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, _SignalScalar, LogLevel::VERBOSE);
+    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameLength);
+    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameSize);
+    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FilterSegmentsLength);
+    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, _SignalScalar);
 }
 
 void Convolver::LogAudioComponents(AudioComponentsBuffer* audioComponents) {

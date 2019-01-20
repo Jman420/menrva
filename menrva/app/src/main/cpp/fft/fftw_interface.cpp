@@ -22,8 +22,8 @@
 
 PlanCache* FftwInterface::_PlansCache = new PlanCache();
 
-FftwInterface::FftwInterface(LoggerBase* logger, size_t signalSize, size_t componentSize) :
-        FftInterfaceBase(logger, signalSize, componentSize) {}
+FftwInterface::FftwInterface(LoggerBase* logger) :
+        FftInterfaceBase(logger) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);
@@ -53,8 +53,8 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     float* freqReal = Allocate(componentSize);
     float* freqImag = Allocate(componentSize);
 
-    _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, 0, outputSignal, freqReal, freqImag, FFTW_MEASURE);
-    _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, 0, freqReal, freqImag, outputSignal, FFTW_MEASURE);
+    _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, nullptr, outputSignal, freqReal, freqImag, FFTW_MEASURE);
+    _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, nullptr, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
     _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s)!", LOG_SENDER, __func__, plansKeyC);
 

@@ -33,7 +33,7 @@ union audio_input_buffer_u {
 
 class AudioInputBuffer : public LoggingBase {
 public:
-    AudioInputBuffer(LoggerBase* logger);
+    explicit AudioInputBuffer(LoggerBase* logger);
     AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioInputBuffer();
 

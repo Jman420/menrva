@@ -67,7 +67,7 @@ private:
     static uint32_t GetExpectedReplySize(uint32_t paramSize, void* pParam);
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaCommandMap();
+    MenrvaCommandMap() = default;
 };
 
 #endif //MENRVA_COMMAND_MAP_H

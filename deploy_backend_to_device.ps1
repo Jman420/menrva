@@ -27,4 +27,7 @@ ExecuteAdbCommand -logMsg "Pushing FFTW3 Lib to Device..." -failMsg "Failed to P
 ExecuteAdbCommand -logMsg "Pushing Audio Effects Config to Device..." -failMsg "Failed to Push Audio Effects Config to Device!" -command "push $AudioEffectsConfig $VendorEtc"
 ExecuteAdbCommand "Rebooting Device to Load Libraries..." -failMsg "Failed to Reboot Device!" -command "reboot"
 
-Write-Output "Please wait for Device to reboot."
+Write-Output "Please wait for Device to reboot!"
+
+$Timestamp = (Get-Date).ToString()
+Write-Output "Backend Deployed to Device at : $Timestamp"

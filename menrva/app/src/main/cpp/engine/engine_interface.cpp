@@ -91,5 +91,3 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
 }
-
-MenrvaEngineInterface::MenrvaEngineInterface() {}

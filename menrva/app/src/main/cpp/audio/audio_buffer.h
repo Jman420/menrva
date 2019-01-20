@@ -21,14 +21,16 @@
 
 #include "sample.h"
 #include "../tools/buffer.h"
+#include "../abstracts/logging_base.h"
 
 class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
 
-class AudioBuffer : public Buffer<sample> {
+class AudioBuffer : public Buffer<sample>,
+                    public LoggingBase {
 public:
-    AudioBuffer(FftInterfaceBase* fftEngine);
-    AudioBuffer(FftInterfaceBase* fftEngine, size_t length);
-    AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length);
+    explicit AudioBuffer(LoggerBase* logger);
+    AudioBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length);
+    AudioBuffer(LoggerBase* logger, sample* data, size_t length);
     ~AudioBuffer() override;
 
     void SetData(sample* data, size_t length) override;

@@ -20,23 +20,25 @@
 #include "../tools/buffer.cpp"
 #include "../abstracts/fft_interface_base.h"
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine) {
-    _FftEngine = fftEngine;
+AudioBuffer::AudioBuffer(LoggerBase* logger)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _FftEngine = nullptr;
     _DisposeData = false;
 }
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
+AudioBuffer::AudioBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
     _Length = length;
-    _Data = _FftEngine->Allocate(_Length);
+    SetData(_FftEngine->Allocate(_Length), _Length);
     _DisposeData = true;
 }
 
-AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, sample* data, size_t length) {
-    _FftEngine = fftEngine;
+AudioBuffer::AudioBuffer(LoggerBase* logger, sample* data, size_t length)
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _FftEngine = nullptr;
     _Length = length;
-    _Data = data;
-    _DisposeData = false;
+    SetData(data, _Length);
 }
 
 AudioBuffer::~AudioBuffer() {
@@ -44,7 +46,7 @@ AudioBuffer::~AudioBuffer() {
         return;
     }
 
-    delete _Data;
+    _FftEngine->Deallocate(_Data);
 }
 
 void AudioBuffer::SetData(sample* data, size_t length) {

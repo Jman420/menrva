@@ -17,22 +17,23 @@
  */
 
 #include "logging_base.h"
+#include <utility>
 
 const std::string LoggingBase::COLONS = "::";
 
 LoggingBase::LoggingBase(LoggerBase* logger, std::string prettyFunction) {
-    InitializeLogSender(prettyFunction);
+    InitializeLogSender(std::move(prettyFunction));
     _Logger = logger;
 }
 
 void LoggingBase::InitializeLogSender(std::string prettyFunction) {
-    std::string className = "";
+    std::string className;
     size_t colons = prettyFunction.find(COLONS);
     if (colons == std::string::npos) {
         className = "";
     }
     else {
-        size_t begin = prettyFunction.substr(0,colons).rfind(" ") + 1;
+        size_t begin = prettyFunction.substr(0,colons).rfind(' ') + 1;
         size_t end = colons - begin;
 
         className =  prettyFunction.substr(begin,end);

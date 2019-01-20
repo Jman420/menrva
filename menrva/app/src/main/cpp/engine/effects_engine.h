@@ -42,12 +42,14 @@ class MenrvaEffectsEngine : public LoggingBase {
 public:
     MenrvaEngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine);
-    void ResetEffects();
-    int SetBufferConfig(effect_config_t config);
+    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
+    ~MenrvaEffectsEngine();
+
+    void ResetEffects(effect_config_t* bufferConfig);
+    int SetBufferConfig(effect_config_t* bufferConfig);
     int Process(AudioInputBuffer* inputBuffer, AudioOutputBuffer* outputBuffer);
-    void SetEffectEnabled(unsigned int effectIndex, bool enabled);
-    void ConfigureEffectSetting(unsigned int effectIndex, char settingName[], void* value);
+    void SetEffectEnabled(uint8_t effectIndex, bool enabled);
+    void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
 
 private:
     const static int EFFECTS_LENGTH = 3;

@@ -22,32 +22,26 @@
 AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _Length = length;
-    _RealBuffer = new AudioBuffer(fftEngine, length);
-    _ImagBuffer = new AudioBuffer(fftEngine, length);
+    _RealBuffer = new AudioBuffer(_Logger, fftEngine, length);
+    _ImagBuffer = new AudioBuffer(_Logger, fftEngine, length);
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
     Free();
 
-    _Logger->WriteLog("Disposing of Real & Imaginary Audio Buffers...", LOG_SENDER, __func__);
     delete _RealBuffer;
     delete _ImagBuffer;
-    _Logger->WriteLog("Successfully disposed of Real & Imaginary Audio Buffers!", LOG_SENDER, __func__);
 }
 
 void AudioComponentsBuffer::Free() {
-    _Logger->WriteLog("Resetting Real & Imaginary Audio Buffers...", LOG_SENDER, __func__);
     _RealBuffer->Free();
     _ImagBuffer->Free();
-    _Logger->WriteLog("Successfully reset Real & Imaginary Audio Buffers!", LOG_SENDER, __func__);
 }
 
 void AudioComponentsBuffer::ResetData() {
-    _Logger->WriteLog("Resetting Real & Imaginary Audio Data...", LOG_SENDER, __func__);
     _RealBuffer->ResetData();
     _ImagBuffer->ResetData();
     _Length = 0;
-    _Logger->WriteLog("Successfully reset Real & Imaginary Audio Data!", LOG_SENDER, __func__);
 }
 
 size_t AudioComponentsBuffer::GetLength() {

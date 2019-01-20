@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    AppLogLevel = LogLevel::VERBOSE;
+    AppLogLevel = LogLevel::DEBUG;
     _WhitelistActive = false;
     // END DEBUG
 
@@ -58,7 +58,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
     // Check Whitelist for Class Disabled
     if (_WhitelistActive) {
         logger_whitelist whitelist = AndroidLogger::_Whitelist;
-        logger_whitelist::iterator whitelistEntry = whitelist.find(senderClass);
+        auto whitelistEntry = whitelist.find(senderClass);
         if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
             return;
         }
@@ -66,15 +66,13 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
 
     // Format Log Tag
     std::string prefix = APP_NAME;
-    if (senderClass != "") {
+    if (!senderClass.empty()) {
         prefix = prefix + LOG_ELEMENT_DELIMITER + senderClass;
     }
-    if (senderFunction != "") {
+    if (!senderFunction.empty()) {
         prefix = prefix + LOG_ELEMENT_DELIMITER + senderFunction + FUNCTION_SUFFIX;
     }
 
     // Write Message
-    const char* logTag = prefix.c_str();
-    const char* logMsg = message.c_str();
-    __android_log_vprint(logLevel, logTag, logMsg, args);
+    __android_log_vprint(logLevel, prefix.c_str(), message.c_str(), args);
 }

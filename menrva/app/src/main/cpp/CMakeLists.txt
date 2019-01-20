@@ -2,9 +2,10 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
+
 cmake_minimum_required(VERSION 3.4.1)
 
-set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../..)
 
 add_library(
         libfftw3
@@ -20,6 +21,7 @@ set_target_properties(
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds them for you.
 # Gradle automatically packages shared libraries with your APK.
+
 add_library( # Sets the name of the library.
         MenrvaEngine
 
@@ -27,39 +29,40 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/cpp/abstracts/logger_base.cpp
-        src/main/cpp/abstracts/logging_base.cpp
-        src/main/cpp/abstracts/fft_interface_base.cpp
-        src/main/cpp/abstracts/effect_base.cpp
+        abstracts/logger_base.cpp
+        abstracts/logging_base.cpp
+        abstracts/fft_interface_base.cpp
+        abstracts/effect_base.cpp
+        abstracts/convolution_operations_base.cpp
 
-        src/main/cpp/tools/android_logger.cpp
-        src/main/cpp/tools/service_locator.cpp
-        src/main/cpp/tools/math_operations.cpp
-        src/main/cpp/tools/buffer.cpp
-        src/main/cpp/tools/conversion_buffer.cpp
+        tools/android_logger.cpp
+        tools/service_locator.cpp
+        tools/math_operations.cpp
+        tools/buffer.cpp
+        tools/conversion_buffer.cpp
 
-        src/main/cpp/audio/audio_buffer.cpp
-        src/main/cpp/audio/audio_input_buffer.cpp
-        src/main/cpp/audio/audio_output_buffer.cpp
-        src/main/cpp/audio/audio_components_buffer.cpp
-        src/main/cpp/audio/fir_generator.cpp
+        audio/audio_buffer.cpp
+        audio/audio_input_buffer.cpp
+        audio/audio_output_buffer.cpp
+        audio/audio_components_buffer.cpp
+        audio/fir_generator.cpp
 
-        src/main/cpp/fft/fftw_interface.cpp
+        fft/fftw_interface.cpp
 
-        src/main/cpp/convolver/convolution_operations.cpp
-        src/main/cpp/convolver/convolver.cpp
+        convolver/convolution_operations.cpp
+        convolver/convolver.cpp
 
-        src/main/cpp/effects/bass_boost.cpp
-        src/main/cpp/effects/equalizer.cpp
-        src/main/cpp/effects/stereo_widener.cpp
+        effects/bass_boost.cpp
+        effects/equalizer.cpp
+        effects/stereo_widener.cpp
 
-        src/main/cpp/engine/engine_interface.cpp
-        src/main/cpp/engine/effects_engine.cpp
-        src/main/cpp/engine/command_map.cpp
-        
-        src/main/cpp/module_interface.cpp
+        engine/engine_interface.cpp
+        engine/effects_engine.cpp
+        engine/command_map.cpp
 
-        src/main/cpp/jni/com_monkeystable_menrva_activities_JniInterface.cpp
+        module_interface.cpp
+
+        jni/com_monkeystable_menrva_activities_JniInterface.cpp
 )
 
 target_include_directories(
@@ -73,6 +76,7 @@ target_include_directories(
 # default, you only need to specify the name of the public NDK library
 # you want to add. CMake verifies that the library exists before
 # completing its build.
+
 find_library( # Sets the name of the path variable.
         log-lib
 
@@ -84,6 +88,7 @@ find_library( # Sets the name of the path variable.
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
+
 target_link_libraries( # Specifies the target library.
         MenrvaEngine
 

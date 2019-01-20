@@ -18,9 +18,10 @@
 
 #include "fft_interface_base.h"
 
-FftInterfaceBase::FftInterfaceBase(LoggerBase* logger, size_t signalSize, size_t componentSize)
+FftInterfaceBase::FftInterfaceBase(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
-    Initialize(signalSize, componentSize);
+    _SignalSize = 0;
+    _ComponentSize = 0;
 }
 
 size_t FftInterfaceBase::GetSignalSize() {
@@ -43,4 +44,8 @@ size_t FftInterfaceBase::Initialize(size_t signalSize, size_t componentSize) {
 
     _Logger->WriteLog("Successfully set FFT Signal Size (%d) and Component Size (%d)!", LOG_SENDER, __func__, signalSize, componentSize);
     return componentSize;
+}
+
+size_t FftInterfaceBase::Initialize(size_t signalSize) {
+    return Initialize(signalSize, 0);
 }

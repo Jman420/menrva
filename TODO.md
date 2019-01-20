@@ -30,15 +30,19 @@
   - ~~Draft AudioInputBuffer & AudioOutputBuffer (input : sourceType->sample; output : sample->sourceType)~~
   - ~~Fully Support PCM 16, 32bit & Float Formats~~
   - ~~Draft logic to segment Audio Input Buffer into Audio Frame Size and process Frames~~
-  - Draft Bass Boost Effect Implementation
+  - ~~Ensure Disposal of all Objects~~
+  - ~~Draft Bass Boost Effect Implementation~~
+  - ~~Compare FIR Generator to JamesDSP~~
+  - Experiment with KFR Lib
   - Add Detailed Exceptions at failure points
+  - Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)
   - Test & Debug Backend Module Stack
   - Compare Convolver to JamesDSP
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
   - Draft JNI Interface to Menrva Module Backend
-  - Draft Installation Method via UI w/ Root
   - Whole bunch of testing
+  - ? Draft Installation Method via UI w/ Root ?
   - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI) ?
   - Release

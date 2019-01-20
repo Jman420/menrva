@@ -28,8 +28,9 @@ typedef std::map<std::string, fftw_plan_pair> PlanCache;
 
 class FftwInterface : public FftInterfaceBase {
 public:
-    FftwInterface(LoggerBase* logger, size_t signalSize = 0, size_t componentSize = 0);
-    size_t Initialize(size_t signalSize, size_t componentSize = 0) override;
+    explicit FftwInterface(LoggerBase* logger);
+
+    size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
     void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
     sample* Allocate(size_t size) override;
