@@ -25,7 +25,7 @@
 
 class Equalizer : public EffectBase, LoggingBase {
 public:
-    explicit Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator);
+    Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator);
 
     void Process(AudioBuffer* input, AudioBuffer* output) override;
     void ResetConfig(effect_config_t* bufferConfig) override;
