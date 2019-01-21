@@ -19,6 +19,32 @@
 #ifndef MENRVA_KISSFFT_FUNCTIONS_H
 #define MENRVA_KISSFFT_FUNCTIONS_H
 
-// TODO : Draft Abstract Function typedefs for KissFFT Functions
+#include "../config.h"
+#include "../../../../../../kissfft/out/include/kiss_fftr.h"
+
+typedef kiss_fftr_cfg KissFftPlan;
+typedef kiss_fftr_cfg (kissFftPlanFunc)(int, int, void*, size_t*);
+static kissFftPlanFunc* KissFftCreatePlan = kiss_fftr_alloc;
+
+#ifdef MENRVA_DOUBLE_PRECISION
+    typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const double*, kiss_fft_cpx*);
+    typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, double*);
+
+    static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
+    static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
+
+#else
+    typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const float*, kiss_fft_cpx*);
+    typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, float*);
+
+    static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
+    static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
+
+#endif
+
+struct kissfft_plan_pair {
+    KissFftPlan RealToComplexPlan,
+                ComplexToRealPlan;
+};
 
 #endif //MENRVA_KISSFFT_FUNCTIONS_H

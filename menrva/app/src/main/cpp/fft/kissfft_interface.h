@@ -19,8 +19,11 @@
 #ifndef MENRVA_KISSFFT_INTERFACE_H
 #define MENRVA_KISSFFT_INTERFACE_H
 
-
+#include <map>
 #include "../abstracts/fft_interface_base.h"
+#include "kissfft_functions.h"
+
+typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
 
 class KissFftInterface : public FftInterfaceBase {
 public:
@@ -33,7 +36,10 @@ public:
     void Deallocate(sample* data) override;
 
 private:
+    static KissFftPlanCache* _PlansCache;
 
+    kissfft_plan_pair _Plans;
+    kiss_fft_cpx* _ComplexValues;
 };
 
 

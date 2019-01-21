@@ -17,21 +17,54 @@
  */
 
 #include "kissfft_interface.h"
+#include "kissfft_functions.h"
 
-KissFftInterface::KissFftInterface(LoggerBase* logger) : FftInterfaceBase(logger) {}
+KissFftPlanCache* KissFftInterface::_PlansCache = new KissFftPlanCache();
+
+KissFftInterface::KissFftInterface(LoggerBase* logger) : FftInterfaceBase(logger) { }
 
 size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
-    // TODO : Implement KissFFT Initialization Logic
+    _Logger->WriteLog("Initializing KissFFT Interface...", LOG_SENDER, __func__);
+    componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
+    if (signalSize < 1 && componentSize < 1) {
+        return componentSize;
+    }
 
-    return FftInterfaceBase::Initialize(signalSize, componentSize);
+    _Logger->WriteLog("Calculating FFT Plans Cache Key for Signal Size (%d) and Component Size (%d)...", LOG_SENDER, __func__, signalSize, componentSize);
+    std::string plansKey = std::to_string(signalSize) + "x" + std::to_string(componentSize);
+    const char* plansKeyC = plansKey.c_str();
+
+    _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
+    KissFftPlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    if (cachedPlansIterator != _PlansCache->end()) {
+        _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
+        _Plans = cachedPlansIterator->second;
+        return componentSize;
+    }
+
+    _Logger->WriteLog("Calculating and Caching FFT Plans for Cache Key (%s)...", LOG_SENDER, __func__, plansKeyC);
+    _Plans.RealToComplexPlan = KissFftCreatePlan(signalSize, 0, 0, 0);
+    _Plans.ComplexToRealPlan = KissFftCreatePlan(componentSize, 1, 0, 0);
+    _PlansCache->insert( { plansKey, _Plans } );
+    _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s).", LOG_SENDER, __func__, plansKeyC);
+
+    _Logger->WriteLog("Allocating KissFFT Components Buffer...", LOG_SENDER, __func__);
+    _ComplexValues = (kiss_fft_cpx*)calloc(componentSize, sizeof(kiss_fft_cpx));
+
+    _Logger->WriteLog("Successfully initialized KissFFT Interface!", LOG_SENDER, __func__);
+    return componentSize;
 }
 
 void KissFftInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
-    // TODO : Implement KissFFT SignalToComponents Logic
+    KissFftRealToComplex(_Plans.RealToComplexPlan, signal->GetData(), _ComplexValues);
+
+    // TODO : Copy _ComplexValues to components
 }
 
 void KissFftInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
-    // TODO : Implement KissFFT ComponentsToSignal Logic
+    // TODO : Copy components to _ComplexValues
+
+    KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComplexValues, signal->GetData());
 }
 
 sample* KissFftInterface::Allocate(size_t size) {

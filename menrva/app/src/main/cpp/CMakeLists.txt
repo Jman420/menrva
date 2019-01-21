@@ -90,10 +90,6 @@ target_include_directories(
         MenrvaEngine
         PRIVATE
         ${FFTW_OUTPUT_DIR}/include
-)
-target_include_directories(
-        MenrvaEngine
-        PRIVATE
         ${KISSFFT_OUTPUT_DIR}/include
 )
 

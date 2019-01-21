@@ -19,6 +19,8 @@
 #ifndef MENRVA_KFR_FUNCTIONS_H
 #define MENRVA_KFR_FUNCTIONS_H
 
+#include "../config.h"
+
 // TODO : Draft Abstract Function typedefs for KFR Functions
 
 #endif //MENRVA_KFR_FUNCTIONS_H
