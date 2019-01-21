@@ -58,11 +58,23 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
 void KissFftInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
     KissFftRealToComplex(_Plans.RealToComplexPlan, signal->GetData(), _ComplexValues);
 
-    // TODO : Copy _ComplexValues to components
+    sample* realComponents = components->GetRealBuffer()->GetData();
+    sample* imagComponents = components->GetImagBuffer()->GetData();
+    for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
+        kiss_fft_cpx* kissFftComponents = &_ComplexValues[componentCounter];
+        realComponents[componentCounter] = kissFftComponents->r;
+        imagComponents[componentCounter] = kissFftComponents->i;
+    }
 }
 
 void KissFftInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
-    // TODO : Copy components to _ComplexValues
+    sample* realComponents = components->GetRealBuffer()->GetData();
+    sample* imagComponents = components->GetImagBuffer()->GetData();
+    for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
+        kiss_fft_cpx* kissFftComponents = &_ComplexValues[componentCounter];
+        kissFftComponents->r = realComponents[componentCounter];
+        kissFftComponents->i = imagComponents[componentCounter];
+    }
 
     KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComplexValues, signal->GetData());
 }
