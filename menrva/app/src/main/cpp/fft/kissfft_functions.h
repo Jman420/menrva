@@ -19,8 +19,8 @@
 #ifndef MENRVA_KISSFFT_FUNCTIONS_H
 #define MENRVA_KISSFFT_FUNCTIONS_H
 
+#include <kiss_fftr.h>
 #include "../config.h"
-#include "../../../../../../kissfft/out/include/kiss_fftr.h"
 
 typedef kiss_fftr_cfg KissFftPlan;
 typedef kiss_fftr_cfg (kissFftPlanFunc)(int, int, void*, size_t*);
