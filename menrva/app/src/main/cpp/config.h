@@ -31,9 +31,9 @@
  *
  * NOTE : Only one of the above Directives should be defined at once.
  */
-#define USE_FFTW 1
-//#define USE_KISSFFT 1
-//#define USE_KFR 1
+#define USE_FFTW
+//#define USE_KISSFFT
+//#define USE_KFR
 
 /* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
  * of float types for all calculations.
@@ -44,6 +44,8 @@
  * structure in this case is 'audio_buffer_t'.
  */
 //#define MENRVA_DOUBLE_PRECISION
+
+
 
 /*
  * Code below this section is validation for the above Configuration to prevent undefined behavior.
