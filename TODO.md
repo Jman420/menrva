@@ -33,7 +33,7 @@
   - ~~Ensure Disposal of all Objects~~
   - ~~Draft Bass Boost Effect Implementation~~
   - ~~Migrate FFTW for Android to Submodule~~
-  - Add KissFFT Compile-Time Support
+  - ~~Add KissFFT Compile-Time Support~~
   - Add KFR Lib Compile-Time Support
   - Add Detailed Exceptions at failure points
   - Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)
