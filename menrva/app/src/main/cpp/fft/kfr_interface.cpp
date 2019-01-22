@@ -73,13 +73,3 @@ void KfrInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBu
 
     _Plan->execute(signal->GetData(), _ComponentsBuffer, _TempBuffer);
 }
-
-sample* KfrInterface::Allocate(size_t size) {
-    sample* buffer = (sample*)malloc(size);
-    memset(buffer, 0, size);
-    return buffer;
-}
-
-void KfrInterface::Deallocate(sample* data) {
-    free(data);
-}

@@ -32,8 +32,6 @@ public:
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
     void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
-    sample* Allocate(size_t size) override;
-    void Deallocate(sample* data) override;
 
 private:
     static size_t ZERO;

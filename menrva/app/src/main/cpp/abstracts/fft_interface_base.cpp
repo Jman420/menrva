@@ -49,3 +49,13 @@ size_t FftInterfaceBase::Initialize(size_t signalSize, size_t componentSize) {
 size_t FftInterfaceBase::Initialize(size_t signalSize) {
     return Initialize(signalSize, 0);
 }
+
+sample* FftInterfaceBase::Allocate(size_t size) {
+    sample* buffer = (sample*)malloc(sizeof(sample) * size);
+    memset(buffer, 0, size);
+    return buffer;
+}
+
+void FftInterfaceBase::Deallocate(sample* data) {
+    free(data);
+}

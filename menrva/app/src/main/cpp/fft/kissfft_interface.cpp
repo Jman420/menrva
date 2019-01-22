@@ -78,13 +78,3 @@ void KissFftInterface::ComponentsToSignal(AudioComponentsBuffer* components, Aud
 
     KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComplexValues, signal->GetData());
 }
-
-sample* KissFftInterface::Allocate(size_t size) {
-    sample* buffer = (sample*)malloc(size);
-    memset(buffer, 0, size);
-    return buffer;
-}
-
-void KissFftInterface::Deallocate(sample* data) {
-    free(data);
-}
