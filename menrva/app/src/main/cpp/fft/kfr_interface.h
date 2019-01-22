@@ -19,11 +19,15 @@
 #ifndef MENRVA_KFR_INTERFACE_H
 #define MENRVA_KFR_INTERFACE_H
 
+#include <kfr/dft.hpp>
 #include "../abstracts/fft_interface_base.h"
+
+using namespace kfr;
 
 class KfrInterface : public FftInterfaceBase {
 public:
     explicit KfrInterface(LoggerBase* logger);
+    ~KfrInterface();
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
@@ -32,7 +36,11 @@ public:
     void Deallocate(sample* data) override;
 
 private:
+    static size_t ZERO;
 
+    dft_plan_real_ptr<sample> _Plan;
+    complex<sample>* _ComponentsBuffer;
+    u8* _TempBuffer;
 };
 
 
