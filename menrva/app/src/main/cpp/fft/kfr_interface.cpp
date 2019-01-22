@@ -43,7 +43,7 @@ size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KFR Buffers...", LOG_SENDER, __func__);
     univector<complex<sample>> componentsVector(signalSize);
     _ComponentsBuffer = componentsVector.data();
-    univector<u8> tempVector(static_cast<const u8 &>(_Plan->temp_size));
+    univector<u8> tempVector(static_cast<const u8&>(_Plan->temp_size));
     _TempBuffer = tempVector.data();
 
     _Logger->WriteLog("Successfully initialized KFR Interface!", LOG_SENDER, __func__);
