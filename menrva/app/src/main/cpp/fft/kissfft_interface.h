@@ -37,7 +37,7 @@ private:
     static KissFftPlanCache* _PlansCache;
 
     kissfft_plan_pair _Plans;
-    kiss_fft_cpx* _ComplexValues;
+    kiss_fft_cpx* _ComponentsBuffer;
 };
 
 

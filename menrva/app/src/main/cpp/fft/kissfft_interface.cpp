@@ -49,21 +49,20 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s).", LOG_SENDER, __func__, plansKeyC);
 
     _Logger->WriteLog("Allocating KissFFT Components Buffer...", LOG_SENDER, __func__);
-    _ComplexValues = (kiss_fft_cpx*)calloc(componentSize, sizeof(kiss_fft_cpx));
+    _ComponentsBuffer = (kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx) * componentSize);
 
     _Logger->WriteLog("Successfully initialized KissFFT Interface!", LOG_SENDER, __func__);
     return componentSize;
 }
 
 void KissFftInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
-    KissFftRealToComplex(_Plans.RealToComplexPlan, signal->GetData(), _ComplexValues);
+    KissFftRealToComplex(_Plans.RealToComplexPlan, signal->GetData(), _ComponentsBuffer);
 
     sample* realComponents = components->GetRealBuffer()->GetData();
     sample* imagComponents = components->GetImagBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
-        kiss_fft_cpx* kissFftComponents = &_ComplexValues[componentCounter];
-        realComponents[componentCounter] = kissFftComponents->r;
-        imagComponents[componentCounter] = kissFftComponents->i;
+        realComponents[componentCounter] = _ComponentsBuffer[componentCounter].r;
+        imagComponents[componentCounter] = _ComponentsBuffer[componentCounter].i;
     }
 }
 
@@ -71,10 +70,9 @@ void KissFftInterface::ComponentsToSignal(AudioComponentsBuffer* components, Aud
     sample* realComponents = components->GetRealBuffer()->GetData();
     sample* imagComponents = components->GetImagBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
-        kiss_fft_cpx* kissFftComponents = &_ComplexValues[componentCounter];
-        kissFftComponents->r = realComponents[componentCounter];
-        kissFftComponents->i = imagComponents[componentCounter];
+        _ComponentsBuffer[componentCounter].r = realComponents[componentCounter];
+        _ComponentsBuffer[componentCounter].i = imagComponents[componentCounter];
     }
 
-    KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComplexValues, signal->GetData());
+    KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComponentsBuffer, signal->GetData());
 }

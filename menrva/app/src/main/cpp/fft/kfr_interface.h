@@ -34,8 +34,6 @@ public:
     void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
 
 private:
-    static size_t ZERO;
-
     dft_plan_real_ptr<sample> _Plan;
     complex<sample>* _ComponentsBuffer;
     u8* _TempBuffer;
