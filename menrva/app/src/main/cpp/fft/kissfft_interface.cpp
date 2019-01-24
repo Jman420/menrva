@@ -44,7 +44,7 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
 
     _Logger->WriteLog("Calculating and Caching FFT Plans for Cache Key (%s)...", LOG_SENDER, __func__, plansKeyC);
     _Plans.RealToComplexPlan = KissFftCreatePlan(signalSize, 0, 0, 0);
-    _Plans.ComplexToRealPlan = KissFftCreatePlan(componentSize, 1, 0, 0);
+    _Plans.ComplexToRealPlan = KissFftCreatePlan(signalSize, 1, 0, 0);
     _PlansCache->insert( { plansKey, _Plans } );
     _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s).", LOG_SENDER, __func__, plansKeyC);
 
