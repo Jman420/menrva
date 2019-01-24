@@ -53,7 +53,7 @@ void BassBoost::ResetConfig(effect_config_t* bufferConfig) {
            amplitudeSamples[] = { (sample)(pow(10.0, strength / 20.0)), (sample)(pow(10.0, strength / 20.0)), 1.0, 1.0 };
 
     AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
-    _Convolver->Initialize(DSP_FRAME_LENGTH, impulseFilter);
+    _Convolver->Initialize(MENRVA_DSP_FRAME_LENGTH, impulseFilter);
     Enabled = true;
     // END DEBUG
 }

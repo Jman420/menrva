@@ -19,21 +19,21 @@
 #ifndef MENRVA_CONFIG_H
 #define MENRVA_CONFIG_H
 
-/* DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
+/* MENRVA_DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
  *
  * Recommended value : 1024
  */
-#define DSP_FRAME_LENGTH 1024
+#define MENRVA_DSP_FRAME_LENGTH 1024
 
-/* USE_FFTW - Indicates to use FFTW in the current build
- * USE_KISSFFT - Indicates to use KissFFT in the current build
- * USE_KFR - Indicates to use KFR in the current build
+/* MENRVA_USE_FFTW - Indicates to use FFTW in the current build
+ * MENRVA_USE_KISSFFT - Indicates to use KissFFT in the current build
+ * MENRVA_USE_KFR - Indicates to use KFR in the current build
  *
  * NOTE : Only one of the above Directives should be defined at once.
  */
-#define USE_FFTW
-//#define USE_KISSFFT
-//#define USE_KFR
+//#define MENRVA_USE_FFTW
+//#define MENRVA_USE_KISSFFT
+#define MENRVA_USE_KFR
 
 /* MENRVA_DOUBLE_PRECISION - Uncomment the following define to switch Menrva to use double instead
  * of float types for all calculations.
@@ -52,30 +52,30 @@
  * ----------------------------DO NOT MODIFY CODE BELOW THIS LINE---------------------------------
  */
 
-#if !defined(USE_FFTW) && !defined(USE_KISSFFT) && !defined(USE_KFR)
-    #error "No FFT Engine Implementation Declared.  One of the following Preprocessory Directives must be defined : USE_FFTW, USE_KISSFFT or USE_KFR."
+#if !defined(MENRVA_USE_FFTW) && !defined(MENRVA_USE_KISSFFT) && !defined(MENRVA_USE_KFR)
+    #error "No FFT Engine Implementation Declared.  One of the following Preprocessory Directives must be defined : MENRVA_USE_FFTW, MENRVA_USE_KISSFFT or MENRVA_USE_KFR."
 #endif
 
-#ifdef USE_FFTW
-    #if (defined(USE_KISSFFT) || defined(USE_KFR)) && !defined(FFT_ENGINE_ERROR)
+#ifdef MENRVA_USE_FFTW
+    #if (defined(MENRVA_USE_KISSFFT) || defined(MENRVA_USE_KFR)) && !defined(FFT_ENGINE_ERROR)
         #define FFT_ENGINE_ERROR 1
     #endif
 #endif
 
-#ifdef USE_KISSFFT
-    #if (defined(USE_FFTW) || defined(USE_KFR)) && !defined(FFT_ENGINE_ERROR)
+#ifdef MENRVA_USE_KISSFFT
+    #if (defined(MENRVA_USE_FFTW) || defined(MENRVA_USE_KFR)) && !defined(FFT_ENGINE_ERROR)
         #define FFT_ENGINE_ERROR 1
     #endif
 #endif
 
-#ifdef USE_KFR
-    #if (defined(USE_FFTW) || defined(USE_KISSFFT)) && !defined(FFT_ENGINE_ERROR)
+#ifdef MENRVA_USE_KFR
+    #if (defined(MENRVA_USE_FFTW) || defined(MENRVA_USE_KISSFFT)) && !defined(FFT_ENGINE_ERROR)
         #define FFT_ENGINE_ERROR 1
     #endif
 #endif
 
 #ifdef FFT_ENGINE_ERROR
-    #error "Multiple FFT Engine Implementations Declared.  Only one of the following Preprocessor Directives can be defined : USE_FFTW, USE_KISSFFT or USE_KFR."
+    #error "Multiple FFT Engine Implementations Declared.  Only one of the following Preprocessor Directives can be defined : MENRVA_USE_FFTW, MENRVA_USE_KISSFFT or MENRVA_USE_KFR."
 #endif
 
 #endif //MENRVA_CONFIG_H

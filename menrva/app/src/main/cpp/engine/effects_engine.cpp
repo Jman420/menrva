@@ -28,8 +28,8 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
     _MenrvaEffects[1] = new StereoWidener(_Logger, serviceLocator);
     _MenrvaEffects[2] = new Equalizer(_Logger, serviceLocator);
 
-    _InputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
-    _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, DSP_FRAME_LENGTH);
+    _InputAudioFrame = new AudioBuffer(_Logger, fftEngine, MENRVA_DSP_FRAME_LENGTH);
+    _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, MENRVA_DSP_FRAME_LENGTH);
 }
 
 MenrvaEffectsEngine::~MenrvaEffectsEngine() {
@@ -153,5 +153,5 @@ size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, Aud
     }
 
     _Logger->WriteLog("Successfully processed Output Audio Frame!", LOG_SENDER, __func__);
-    return startOutputIndex + DSP_FRAME_LENGTH;
+    return startOutputIndex + MENRVA_DSP_FRAME_LENGTH;
 }

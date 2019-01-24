@@ -20,11 +20,11 @@
 #include "service_locator.h"
 #include "android_logger.h"
 
-#ifdef USE_FFTW
+#ifdef MENRVA_USE_FFTW
     #include "../fft/fftw_interface.h"
-#elif defined(USE_KISSFFT)
+#elif defined(MENRVA_USE_KISSFFT)
     #include "../fft/kissfft_interface.h"
-#elif defined(USE_KFR)
+#elif defined(MENRVA_USE_KFR)
     #include "../fft/kfr_interface.h"
 #endif
 
@@ -37,11 +37,11 @@ LoggerBase* ServiceLocator::GetLogger() {
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
     FftInterfaceBase* returnValue = nullptr;
 
-#ifdef USE_FFTW
+#ifdef MENRVA_USE_FFTW
     returnValue = new FftwInterface(GetLogger());
-#elif defined(USE_KISSFFT)
+#elif defined(MENRVA_USE_KISSFFT)
     returnValue = new KissFftInterface(GetLogger());
-#elif defined(USE_KFR)
+#elif defined(MENRVA_USE_KFR)
     returnValue = new KfrInterface(GetLogger());
 #endif
 
