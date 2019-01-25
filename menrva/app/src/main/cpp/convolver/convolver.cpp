@@ -134,9 +134,6 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     _Logger->WriteLog("Processing Audio Frame of length (%d)...", LOG_SENDER, __func__, input->GetLength());
-    // TODO : Verify & Ensure that the Input & Output Buffers will be of the correct length (_FrameLength)
-
-    // Copy Input Frame into First Half & Zero out the Last Half of Working Signal
     _Logger->WriteLog("Preparing Audio Frame...", LOG_SENDER, __func__);
     memcpy(_WorkingSignal->GetData(), input->GetData(), _FrameSize);
     memset(&_WorkingSignal->GetData()[_FrameLength], 0, _FrameSize);
