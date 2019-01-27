@@ -206,6 +206,7 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
     _FftEngine->ComponentsToSignal(_MixedComponents[_MixCounter], _WorkingSignal);
     LogSignal(_WorkingSignal);
+    _MixedComponents[_MixCounter]->ResetData();
     _MixCounter = (_MixCounter + 1) % _MixedComponentsLength;
 
     _Logger->WriteLog("Summing Convolved Signal with Overlap Signal and Scaling...", LOG_SENDER, __func__);
