@@ -21,7 +21,7 @@
 
 #include "../abstracts/logger_base.h"
 #include "../abstracts/fft_interface_base.h"
-#include "../audio/fir_generator.h"
+#include "../ir/fir_generator.h"
 #include "../convolver/convolver.h"
 
 class ServiceLocator {

@@ -93,10 +93,10 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             fftFrequenciesReal[elementCounter] = realFreqData;
             fftFrequenciesImag[elementCounter] = imaginaryFreqData * -ONE;
 
-            size_t reverseElementIndex = fftFrequencyLength - elementCounter - 1;
-            fftFrequenciesReal[reverseElementIndex] = realFreqData;
-            fftFrequenciesImag[reverseElementIndex] = imaginaryFreqData;
-            _Logger->WriteLog("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, reverseElementIndex);
+            size_t reverseElementCounter = fftFrequencyLength - elementCounter - 1;
+            fftFrequenciesReal[reverseElementCounter] = realFreqData;
+            fftFrequenciesImag[reverseElementCounter] = imaginaryFreqData;
+            _Logger->WriteLog("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, reverseElementCounter);
         }
 
         _Logger->WriteLog("Successfully calculated Frequency Components for Element Indexes (%g) to (%g)!", LOG_SENDER, __func__, beginSegmentIndex, endSegmentIndex);
