@@ -20,22 +20,19 @@
 #include "../tools/buffer.cpp"
 #include "../abstracts/fft_interface_base.h"
 
-AudioBuffer::AudioBuffer(LoggerBase* logger)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+AudioBuffer::AudioBuffer() {
     _FftEngine = nullptr;
     _DisposeData = false;
 }
 
-AudioBuffer::AudioBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
     _FftEngine = fftEngine;
     _Length = length;
     SetData(_FftEngine->Allocate(_Length), _Length);
     _DisposeData = true;
 }
 
-AudioBuffer::AudioBuffer(LoggerBase* logger, sample* data, size_t length)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+AudioBuffer::AudioBuffer(sample* data, size_t length) {
     _FftEngine = nullptr;
     _Length = length;
     SetData(data, _Length);

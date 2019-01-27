@@ -19,11 +19,10 @@
 #include <cstdlib>
 #include "audio_components_buffer.h"
 
-AudioComponentsBuffer::AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length) {
     _Length = length;
-    _RealBuffer = new AudioBuffer(_Logger, fftEngine, length);
-    _ImagBuffer = new AudioBuffer(_Logger, fftEngine, length);
+    _RealBuffer = new AudioBuffer(fftEngine, length);
+    _ImagBuffer = new AudioBuffer(fftEngine, length);
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
