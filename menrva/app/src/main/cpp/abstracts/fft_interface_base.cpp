@@ -16,6 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <cstring>
+#include <malloc.h>
 #include "fft_interface_base.h"
 
 FftInterfaceBase::FftInterfaceBase() {

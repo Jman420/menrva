@@ -19,7 +19,6 @@
 #ifndef MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MODULE_INTERFACE_H
 
-#include <string>
 #include "aosp/aosp_audio_effect_defs.h"
 #include "tools/service_locator.h"
 #include "abstracts/logger_base.h"

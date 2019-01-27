@@ -19,7 +19,6 @@
 #ifndef MENRVA_FFT_INTERFACE_BASE_H
 #define MENRVA_FFT_INTERFACE_BASE_H
 
-#include <cstddef>
 #include "../audio/sample.h"
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"

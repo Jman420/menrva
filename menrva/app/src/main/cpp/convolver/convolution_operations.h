@@ -20,10 +20,12 @@
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
 #include "../abstracts/convolution_operations_base.h"
+#include "../abstracts/logging_base.h"
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
-class ConvolutionOperations : public ConvolutionOperationsBase, LoggingBase {
+class ConvolutionOperations : public ConvolutionOperationsBase,
+                              public LoggingBase {
 public:
     explicit ConvolutionOperations(LoggerBase* logger);
 

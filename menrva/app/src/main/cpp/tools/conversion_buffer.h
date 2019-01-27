@@ -19,6 +19,7 @@
 #ifndef MENRVA_CONVERSION_BUFFER_H
 #define MENRVA_CONVERSION_BUFFER_H
 
+#include <cstddef>
 #include "buffer.h"
 
 template<class TInputType, class TOutputType>

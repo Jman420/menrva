@@ -22,9 +22,9 @@
 #include "../abstracts/effect_base.h"
 #include "../abstracts/logging_base.h"
 #include "../tools/service_locator.h"
-#include "../audio/fir_generator.h"
 
-class BassBoost : public EffectBase, LoggingBase {
+class BassBoost : public EffectBase,
+                  public LoggingBase {
 public:
     BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator);
     ~BassBoost() override;

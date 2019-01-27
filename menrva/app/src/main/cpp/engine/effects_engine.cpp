@@ -16,10 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <cstdlib>
 #include "effects_engine.h"
 #include "../config.h"
 #include "../tools/buffer.cpp"
+#include "../effects/bass_boost.h"
+#include "../effects/stereo_widener.h"
+#include "../effects/equalizer.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
@@ -28,8 +30,8 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
     _MenrvaEffects[1] = new StereoWidener(_Logger, serviceLocator);
     _MenrvaEffects[2] = new Equalizer(_Logger, serviceLocator);
 
-    _InputAudioFrame = new AudioBuffer(_Logger, fftEngine, MENRVA_DSP_FRAME_LENGTH);
-    _OutputAudioFrame = new AudioBuffer(_Logger, fftEngine, MENRVA_DSP_FRAME_LENGTH);
+    _InputAudioFrame = new AudioBuffer(fftEngine, MENRVA_DSP_FRAME_LENGTH);
+    _OutputAudioFrame = new AudioBuffer(fftEngine, MENRVA_DSP_FRAME_LENGTH);
 }
 
 MenrvaEffectsEngine::~MenrvaEffectsEngine() {

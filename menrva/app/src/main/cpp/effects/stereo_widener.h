@@ -23,7 +23,8 @@
 #include "../abstracts/logging_base.h"
 #include "../tools/service_locator.h"
 
-class StereoWidener : public EffectBase, LoggingBase {
+class StereoWidener : public EffectBase,
+                      public LoggingBase {
 public:
     StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator);
 

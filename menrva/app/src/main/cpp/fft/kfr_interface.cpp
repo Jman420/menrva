@@ -21,7 +21,7 @@
 using namespace kfr;
 
 KfrInterface::KfrInterface(LoggerBase* logger)
-    : FftInterfaceBase(logger) {}
+    : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 KfrInterface::~KfrInterface() {
     delete _ComponentsBuffer;
