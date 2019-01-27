@@ -65,12 +65,14 @@ void Convolver::Reset() {
     delete _FilterSegments;
 
     delete _WorkingSignal;
-    delete _WorkingComponents;
+    delete _InputComponents;
+    delete _MixedComponents;
     delete _OverlapSignal;
 
     _FilterSegmentsLength = 0;
     _FrameLength = 0;
     _FrameSize = 0;
+    _SegmentCounter = 0;
     _SignalScalar = 1;
     _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
@@ -124,8 +126,11 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
     _WorkingSignal = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
-    _WorkingComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
     _OverlapSignal = new AudioBuffer(_Logger, _FftEngine, _FrameLength);
+    _InputComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
+    _MixedComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
+    _MixedComponents->ResetData();
+    _SegmentCounter = 0;
 
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
@@ -134,23 +139,27 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
 
 void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     _Logger->WriteLog("Processing Audio Frame of length (%d)...", LOG_SENDER, __func__, input->GetLength());
+    if (!_Initialized) {
+        _Logger->WriteLog("Convolver not Initialized!  Skipping Processing Audio Frame.", LOG_SENDER, __func__, LogLevel::ERROR);
+        return;
+    }
+
     _Logger->WriteLog("Preparing Audio Frame...", LOG_SENDER, __func__);
     memcpy(_WorkingSignal->GetData(), input->GetData(), _FrameSize);
     memset(&_WorkingSignal->GetData()[_FrameLength], 0, _FrameSize);
 
     _Logger->WriteLog("Calculating Audio Frame's Components...", LOG_SENDER, __func__);
-    _FftEngine->SignalToComponents(_WorkingSignal, _WorkingComponents);
-    LogAudioComponents(_WorkingComponents);
+    _FftEngine->SignalToComponents(_WorkingSignal, _InputComponents);
+    LogAudioComponents(_InputComponents);
 
     _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
-    for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
-        AudioComponentsBuffer* filterSegment = _FilterSegments[segmentCounter];
-        _ConvolutionOperations->ComplexMultiplyAccumulate(_WorkingComponents, filterSegment, _WorkingComponents);
-    }
-    LogAudioComponents(_WorkingComponents);
+    AudioComponentsBuffer* filterSegment = _FilterSegments[_SegmentCounter];
+    _ConvolutionOperations->ComplexMultiplyAccumulate(_InputComponents, filterSegment, _MixedComponents);
+    _SegmentCounter = (_SegmentCounter + 1) % _FilterSegmentsLength;
+    LogAudioComponents(_MixedComponents);
 
     _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
-    _FftEngine->ComponentsToSignal(_WorkingComponents, _WorkingSignal);
+    _FftEngine->ComponentsToSignal(_MixedComponents, _WorkingSignal);
     LogSignal(_WorkingSignal);
 
     _Logger->WriteLog("Summing Convolved Signal with Overlap Signal and Scaling...", LOG_SENDER, __func__);

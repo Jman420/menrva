@@ -32,7 +32,7 @@ public:
     virtual ~EffectBase() = default;
 
     virtual void Process(AudioBuffer* input, AudioBuffer* output) = 0;
-    virtual void ResetConfig(effect_config_t* bufferConfig) = 0;
+    virtual void ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) = 0;
     virtual void ConfigureSetting(char* settingName, void* value) = 0;
 };
 

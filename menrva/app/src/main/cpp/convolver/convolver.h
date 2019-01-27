@@ -45,12 +45,14 @@ private:
     bool _Initialized;
     size_t _FilterSegmentsLength,
            _FrameLength,
-           _FrameSize;
+           _FrameSize,
+           _SegmentCounter;
     sample _SignalScalar;
     AudioComponentsBuffer** _FilterSegments;
     AudioBuffer* _WorkingSignal;
     AudioBuffer* _OverlapSignal;
-    AudioComponentsBuffer* _WorkingComponents;
+    AudioComponentsBuffer* _InputComponents;
+    AudioComponentsBuffer* _MixedComponents;
 
     void LogSegmentConfig();
     void LogAudioComponents(AudioComponentsBuffer* audioComponents);

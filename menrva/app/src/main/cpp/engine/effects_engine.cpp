@@ -51,7 +51,7 @@ void MenrvaEffectsEngine::ResetEffects(effect_config_t* bufferConfig) {
 
     for (EffectBase* effect : _MenrvaEffects) {
         _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
-        effect->ResetConfig(bufferConfig);
+        effect->ResetConfig(bufferConfig, MENRVA_DSP_FRAME_LENGTH);
     }
     _Logger->WriteLog("Successfully Reset Effects!", LOG_SENDER, __func__);
 }
@@ -145,6 +145,8 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
 size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer* outputBuffer) {
     _Logger->WriteLog("Processing Output Audio Frame...", LOG_SENDER, __func__);
     AudioBuffer outputFrame = *_OutputAudioFrame;
+    size_t outputFrameLength = outputFrame.GetLength();
+
     for (size_t outputCounter = 0; outputCounter < outputBuffer->GetLength(); outputCounter++) {
         sample value = outputFrame[outputCounter];
         _Logger->WriteLog("Processing Output Audio Frame Index (%d) with Value (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter, value);
@@ -153,5 +155,5 @@ size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, Aud
     }
 
     _Logger->WriteLog("Successfully processed Output Audio Frame!", LOG_SENDER, __func__);
-    return startOutputIndex + MENRVA_DSP_FRAME_LENGTH;
+    return startOutputIndex + outputFrameLength;
 }
