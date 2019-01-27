@@ -6,15 +6,34 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../..)
+set(FFTW_OUTPUT_DIR ${REPO_ROOT_DIR}/fftw/out)
+set(KISSFFT_OUTPUT_DIR ${REPO_ROOT_DIR}/kissfft/out)
+set(KFR_SOURCE_DIR ${REPO_ROOT_DIR}/kfr)
+set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
 
 add_library(
-        libfftw3
+        libfftw
         SHARED IMPORTED
 )
 set_target_properties(
-        libfftw3
+        libfftw
         PROPERTIES IMPORTED_LOCATION
-        ${REPO_ROOT_DIR}/fftw3/out/${ANDROID_ABI}/libfftw3.so
+        ${FFTW_OUTPUT_DIR}/${ANDROID_ABI}/libfftw3.so
+)
+
+add_library(
+        libkissfft
+        SHARED IMPORTED
+)
+set_target_properties(
+        libkissfft
+        PROPERTIES IMPORTED_LOCATION
+        ${KISSFFT_OUTPUT_DIR}/${ANDROID_ABI}/libkissfft.so
+)
+
+add_subdirectory(
+        ${KFR_SOURCE_DIR}
+        ${KFR_BINARY_DIR}
 )
 
 # Creates and names a library, sets it as either STATIC
@@ -48,6 +67,8 @@ add_library( # Sets the name of the library.
         audio/fir_generator.cpp
 
         fft/fftw_interface.cpp
+        fft/kissfft_interface.cpp
+        fft/kfr_interface.cpp
 
         convolver/convolution_operations.cpp
         convolver/convolver.cpp
@@ -68,7 +89,8 @@ add_library( # Sets the name of the library.
 target_include_directories(
         MenrvaEngine
         PRIVATE
-        ${REPO_ROOT_DIR}/fftw3/out/include
+        ${FFTW_OUTPUT_DIR}/include
+        ${KISSFFT_OUTPUT_DIR}/include
 )
 
 # Searches for a specified prebuilt library and stores the path as a
@@ -95,5 +117,8 @@ target_link_libraries( # Specifies the target library.
         # Links the target library to the log library
         # included in the NDK.
         ${log-lib}
-        libfftw3
+        libfftw
+        libkissfft
+        kfr
+        kfr_dft
 )

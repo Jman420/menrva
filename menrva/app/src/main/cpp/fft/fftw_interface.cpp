@@ -20,7 +20,7 @@
 #include "fftw_interface.h"
 #include "../abstracts/fft_interface_base.h"
 
-PlanCache* FftwInterface::_PlansCache = new PlanCache();
+FftwPlanCache* FftwInterface::_PlansCache = new FftwPlanCache();
 
 FftwInterface::FftwInterface(LoggerBase* logger) :
         FftInterfaceBase(logger) {}
@@ -37,7 +37,7 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     const char* plansKeyC = plansKey.c_str();
 
     _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
-    PlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    FftwPlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
         _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
         _Plans = cachedPlansIterator->second;
@@ -49,18 +49,20 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     dim.n = static_cast<int>(signalSize);
     dim.is = dim.os = 1;
 
-    float* outputSignal = Allocate(signalSize);
-    float* freqReal = Allocate(componentSize);
-    float* freqImag = Allocate(componentSize);
+    sample* outputSignal = Allocate(signalSize);
+    sample* freqReal = Allocate(componentSize);
+    sample* freqImag = Allocate(componentSize);
 
     _Plans.Real2ComplexPlan = Fftw3PlanReal2Complex(1, &dim, 0, nullptr, outputSignal, freqReal, freqImag, FFTW_MEASURE);
     _Plans.Complex2RealPlan = Fftw3PlanComplex2Real(1, &dim, 0, nullptr, freqReal, freqImag, outputSignal, FFTW_MEASURE);
     _PlansCache->insert( { plansKey, _Plans } );
-    _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s)!", LOG_SENDER, __func__, plansKeyC);
+    _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s).", LOG_SENDER, __func__, plansKeyC);
 
     Deallocate(outputSignal);
     Deallocate(freqReal);
     Deallocate(freqImag);
+
+    _Logger->WriteLog("Successfully initialized FFTW Interface!", LOG_SENDER, __func__);
     return componentSize;
 }
 
@@ -73,15 +75,11 @@ void FftwInterface::Deallocate(sample* data) {
 }
 
 void FftwInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
-    // TODO : Validate signal & component lengths
-
     Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal->GetData(), components->GetRealData(),
                              components->GetImagData());
 }
 
 void FftwInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
-    // TODO : Validate signal & component lengths
-
     Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components->GetRealData(),
                              components->GetImagData(), signal->GetData());
 }

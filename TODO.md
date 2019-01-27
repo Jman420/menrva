@@ -32,12 +32,14 @@
   - ~~Draft logic to segment Audio Input Buffer into Audio Frame Size and process Frames~~
   - ~~Ensure Disposal of all Objects~~
   - ~~Draft Bass Boost Effect Implementation~~
+  - ~~Migrate FFTW for Android to Submodule~~
+  - ~~Add KissFFT Compile-Time Support~~
+  - ~~Add KFR Lib Compile-Time Support~~
   - ~~Compare FIR Generator to JamesDSP~~
-  - Experiment with KFR Lib
+  - Compare Convolver to JamesDSP
   - Add Detailed Exceptions at failure points
   - Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)
   - Test & Debug Backend Module Stack
-  - Compare Convolver to JamesDSP
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
   - Draft JNI Interface to Menrva Module Backend

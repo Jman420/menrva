@@ -26,30 +26,30 @@ typedef float* (fftwAllocateFunc)(size_t);
 typedef void (fftwFreeFunc)(void*);
 
 #ifdef MENRVA_DOUBLE_PRECISION
-typedef fftw_plan FftwPlan;
-typedef fftw_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, double*, double*, double*, unsigned int);
-typedef void (fftwExecuteFunc)(const fftwf_plan, double*, double*, double*);
+    typedef fftw_plan FftwPlan;
+    typedef fftw_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, double*, double*, double*, unsigned int);
+    typedef void (fftwExecuteFunc)(const fftwf_plan, double*, double*, double*);
 
-static fftwPlanFunc* Fftw3PlanReal2Complex = fftw_plan_guru_split_dft_r2c;
-static fftwExecuteFunc* Fftw3ExecuteReal2Complex = fftw_execute_split_dft_r2c;
-static fftwPlanFunc* Fftw3PlanComplex2Real = fftw_plan_guru_split_dft_c2r;
-static fftwExecuteFunc* Fftw3ExecuteComplex2Real = fftw_execute_split_dft_c2r;
+    static fftwPlanFunc* Fftw3PlanReal2Complex = fftw_plan_guru_split_dft_r2c;
+    static fftwExecuteFunc* Fftw3ExecuteReal2Complex = fftw_execute_split_dft_r2c;
+    static fftwPlanFunc* Fftw3PlanComplex2Real = fftw_plan_guru_split_dft_c2r;
+    static fftwExecuteFunc* Fftw3ExecuteComplex2Real = fftw_execute_split_dft_c2r;
 
-static fftwAllocate* Fftw3Allocate = fftw_alloc_real;
-static fftwFreeFunc* Fftw3Free = fftw_free;
+    static fftwAllocate* Fftw3Allocate = fftw_alloc_real;
+    static fftwFreeFunc* Fftw3Free = fftw_free;
 
 #else
-typedef fftwf_plan FftwPlan;
-typedef fftwf_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, float*, float*, float*, unsigned int);
-typedef void (fftwExecuteFunc)(const fftwf_plan, float*, float*, float*);
+    typedef fftwf_plan FftwPlan;
+    typedef fftwf_plan (fftwPlanFunc)(int, const fftw_iodim*, int, const fftw_iodim*, float*, float*, float*, unsigned int);
+    typedef void (fftwExecuteFunc)(const fftwf_plan, float*, float*, float*);
 
-static fftwPlanFunc* Fftw3PlanReal2Complex = fftwf_plan_guru_split_dft_r2c;
-static fftwExecuteFunc* Fftw3ExecuteReal2Complex = fftwf_execute_split_dft_r2c;
-static fftwPlanFunc* Fftw3PlanComplex2Real = fftwf_plan_guru_split_dft_c2r;
-static fftwExecuteFunc* Fftw3ExecuteComplex2Real = fftwf_execute_split_dft_c2r;
+    static fftwPlanFunc* Fftw3PlanReal2Complex = fftwf_plan_guru_split_dft_r2c;
+    static fftwExecuteFunc* Fftw3ExecuteReal2Complex = fftwf_execute_split_dft_r2c;
+    static fftwPlanFunc* Fftw3PlanComplex2Real = fftwf_plan_guru_split_dft_c2r;
+    static fftwExecuteFunc* Fftw3ExecuteComplex2Real = fftwf_execute_split_dft_c2r;
 
-static fftwAllocateFunc* Fftw3Allocate = fftwf_alloc_real;
-static fftwFreeFunc* Fftw3Free = fftwf_free;
+    static fftwAllocateFunc* Fftw3Allocate = fftwf_alloc_real;
+    static fftwFreeFunc* Fftw3Free = fftwf_free;
 
 #endif
 

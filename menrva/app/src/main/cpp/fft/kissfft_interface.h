@@ -16,23 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_EQUALIZER_H
-#define MENRVA_EQUALIZER_H
+#ifndef MENRVA_KISSFFT_INTERFACE_H
+#define MENRVA_KISSFFT_INTERFACE_H
 
-#include "../abstracts/effect_base.h"
-#include "../abstracts/logging_base.h"
-#include "../tools/service_locator.h"
+#include <map>
+#include "../abstracts/fft_interface_base.h"
+#include "kissfft_functions.h"
 
-class Equalizer : public EffectBase, LoggingBase {
+typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
+
+class KissFftInterface : public FftInterfaceBase {
 public:
-    Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator);
+    explicit KissFftInterface(LoggerBase* logger);
 
-    void Process(AudioBuffer* input, AudioBuffer* output) override;
-    void ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) override;
-    void ConfigureSetting(char* settingName, void* value) override;
+    size_t Initialize(size_t signalSize, size_t componentSize) override;
+    void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
+    void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
 
 private:
-    static const std::string EFFECT_NAME;
+    static KissFftPlanCache* _PlansCache;
+
+    kissfft_plan_pair _Plans;
+    kiss_fft_cpx* _ComponentsBuffer;
 };
 
-#endif //MENRVA_EQUALIZER_H
+
+#endif //MENRVA_KISSFFT_INTERFACE_H

@@ -44,17 +44,17 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* dest
 void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
                                         AudioBuffer &output, sample scalar) {
     _Logger->WriteLog("Summing and Scaling Audio Buffers by (%f)...", LOG_SENDER, __func__, scalar);
-    assert(output.GetLength() >= bufferA.GetLength());
-    assert(bufferA.GetLength() == bufferB.GetLength());
+    assert(output.GetLength() <= bufferA.GetLength());
+    assert(bufferA.GetLength() <= bufferB.GetLength());
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
         sample valueA = bufferA[sampleCounter],
                valueB = bufferB[sampleCounter];
 
-        _Logger->WriteLog("Summing and Scaling values (%f) and (%f)...", LOG_SENDER, __func__, valueA, valueB);
+        _Logger->WriteLog("Summing and Scaling values (%f) and (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, valueA, valueB);
         sample result = (valueA + valueB) * scalar;
         output[sampleCounter] = result;
-        _Logger->WriteLog("Successfully Summed and Scaled values into Result (%f).", LOG_SENDER, __func__, result);
+        _Logger->WriteLog("Successfully Summed and Scaled values into Result (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     }
     _Logger->WriteLog("Successfully Summed and Scaled AudioBuffers by (%f)!", LOG_SENDER, __func__, scalar);
 }
@@ -63,15 +63,15 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* buf
                                                       AudioComponentsBuffer* bufferB,
                                                       AudioComponentsBuffer* output) {
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
-    assert(output->GetLength() >= bufferA->GetLength());
-    assert(bufferA->GetLength() == bufferB->GetLength());
+    assert(output->GetLength() <= bufferA->GetLength());
+    assert(bufferA->GetLength() <= bufferB->GetLength());
 
-    AudioBuffer bufferAReal = *bufferA->GetRealBuffer(),
-            bufferAImag = *bufferA->GetImagBuffer(),
-            bufferBReal = *bufferB->GetRealBuffer(),
-            bufferBImag = *bufferB->GetImagBuffer(),
-            outputReal = *output->GetRealBuffer(),
-            outputImag = *output->GetImagBuffer();
+    sample* bufferAReal = bufferA->GetRealBuffer()->GetData();
+    sample* bufferAImag = bufferA->GetImagBuffer()->GetData();
+    sample* bufferBReal = bufferB->GetRealBuffer()->GetData();
+    sample* bufferBImag = bufferB->GetImagBuffer()->GetData();
+    sample* outputReal = output->GetRealBuffer()->GetData();
+    sample* outputImag = output->GetImagBuffer()->GetData();
 
     for (int sampleCounter = 0; sampleCounter < output->GetLength(); sampleCounter++) {
         sample valueAReal = bufferAReal[sampleCounter],
@@ -79,18 +79,15 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* buf
                valueBReal = bufferBReal[sampleCounter],
                valueBImag = bufferBImag[sampleCounter];
 
-        _Logger->WriteLog("Multiplying Value A (real %f, imaginary %f) and Value B (real %f, imaginary %f)...", LOG_SENDER, __func__, valueAReal, valueAImag, valueBReal, valueBImag);
+        _Logger->WriteLog("Multiplying Value A (real %f, imaginary %f) and Value B (real %f, imaginary %f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, valueAReal, valueAImag, valueBReal, valueBImag);
         sample realResult = bufferAReal[sampleCounter] * bufferBReal[sampleCounter] - bufferAImag[sampleCounter] * bufferBImag[sampleCounter],
                imaginaryResult = bufferAReal[sampleCounter] * bufferBImag[sampleCounter] + bufferAImag[sampleCounter] * bufferBReal[sampleCounter];
-        _Logger->WriteLog("Successfully Multiplied Values into (real %f, imaginary %f).", LOG_SENDER, __func__, realResult, imaginaryResult);
+        _Logger->WriteLog("Successfully Multiplied Values into (real %f, imaginary %f).", LOG_SENDER, __func__, LogLevel::VERBOSE, realResult, imaginaryResult);
 
-        sample* outputRealPtr = &outputReal[sampleCounter];
-        sample* outputImagPrt = &outputImag[sampleCounter];
-
-        _Logger->WriteLog("Accumulating Values with Output Values (real %f, imaginary %f)...", LOG_SENDER, __func__, *outputRealPtr, *outputImagPrt);
-        *outputRealPtr += realResult;
-        *outputImagPrt += imaginaryResult;
-        _Logger->WriteLog("Successfully Accumulated Values into (real %f, imaginary %f)...", LOG_SENDER, __func__, *outputRealPtr, *outputImagPrt);
+        _Logger->WriteLog("Accumulating Values with Output Values (real %f, imaginary %f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputReal[sampleCounter], outputImag[sampleCounter]);
+        outputReal[sampleCounter] += realResult;
+        outputImag[sampleCounter] += imaginaryResult;
+        _Logger->WriteLog("Successfully Accumulated Values into (real %f, imaginary %f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputReal[sampleCounter], outputImag[sampleCounter]);
     }
     _Logger->WriteLog("Successfully Multiplied and Accumulated Audio Component Buffers!", LOG_SENDER, __func__);
 }

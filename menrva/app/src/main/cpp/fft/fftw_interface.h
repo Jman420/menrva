@@ -20,11 +20,10 @@
 #define MENRVA_FFTW_INTERFACE_H
 
 #include <map>
-#include <fftw3.h>
 #include "fftw_functions.h"
 #include "../abstracts/fft_interface_base.h"
 
-typedef std::map<std::string, fftw_plan_pair> PlanCache;
+typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
 class FftwInterface : public FftInterfaceBase {
 public:
@@ -37,7 +36,7 @@ public:
     void Deallocate(sample* data) override;
 
 protected:
-    static PlanCache* _PlansCache;
+    static FftwPlanCache* _PlansCache;
 
     fftw_plan_pair _Plans;
 };

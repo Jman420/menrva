@@ -29,7 +29,7 @@ android {
     sourceSets {
         main {
             jni.srcDirs = ['src/main/cpp/jni/']
-            jniLibs.srcDirs = ['../../fftw3/out/']
+            jniLibs.srcDirs = ['../../fftw/out/', '../../kissfft/out/']
         }
     }
 }

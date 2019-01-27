@@ -41,7 +41,6 @@ void AudioComponentsBuffer::Free() {
 void AudioComponentsBuffer::ResetData() {
     _RealBuffer->ResetData();
     _ImagBuffer->ResetData();
-    _Length = 0;
 }
 
 size_t AudioComponentsBuffer::GetLength() {
