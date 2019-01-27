@@ -21,10 +21,12 @@
 
 #include <kfr/dft.hpp>
 #include "../abstracts/fft_interface_base.h"
+#include "../abstracts/logging_base.h"
 
 using namespace kfr;
 
-class KfrInterface : public FftInterfaceBase {
+class KfrInterface : public FftInterfaceBase,
+                     public LoggingBase {
 public:
     explicit KfrInterface(LoggerBase* logger);
     ~KfrInterface();

@@ -22,10 +22,12 @@
 #include <map>
 #include "../abstracts/fft_interface_base.h"
 #include "kissfft_functions.h"
+#include "../abstracts/logging_base.h"
 
 typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
 
-class KissFftInterface : public FftInterfaceBase {
+class KissFftInterface : public FftInterfaceBase,
+                         public LoggingBase {
 public:
     explicit KissFftInterface(LoggerBase* logger);
 

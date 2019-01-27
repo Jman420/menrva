@@ -20,7 +20,6 @@
 #define MENRVA_BUFFER_H
 
 #include <cstddef>
-#include <cassert>
 
 template<class TInputType>
 class Buffer {

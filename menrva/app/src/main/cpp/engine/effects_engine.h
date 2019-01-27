@@ -19,15 +19,12 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-#include "../aosp/aosp_audio_effect_defs.h"
-#include "../abstracts/effect_base.h"
-#include "../effects/equalizer.h"
-#include "../effects/bass_boost.h"
-#include "../effects/stereo_widener.h"
-#include "../abstracts/logger_base.h"
+
 #include "../abstracts/logging_base.h"
+#include "../abstracts/effect_base.h"
 #include "../audio/audio_input_buffer.h"
 #include "../audio/audio_output_buffer.h"
+#include "../tools/service_locator.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNINITIALIZED,

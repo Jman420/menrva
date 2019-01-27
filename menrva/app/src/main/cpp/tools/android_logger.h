@@ -19,8 +19,8 @@
 #ifndef MENRVA_ANDROID_LOGGER_H
 #define MENRVA_ANDROID_LOGGER_H
 
-#include "../abstracts/logger_base.h"
 #include <map>
+#include "../abstracts/logger_base.h"
 
 typedef std::map<std::string, bool> logger_whitelist;
 

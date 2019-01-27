@@ -20,11 +20,13 @@
 #define MENRVA_CONVOLVER_H
 
 #include <cstddef>
+#include "../abstracts/logging_base.h"
+#include "../abstracts/convolver_base.h"
 #include "../abstracts/fft_interface_base.h"
 #include "../audio/audio_buffer.h"
 #include "convolution_operations.h"
 
-class Convolver : public LoggingBase {
+class Convolver : public LoggingBase, ConvolverBase {
 public:
     Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();

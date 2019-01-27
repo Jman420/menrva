@@ -19,7 +19,6 @@
 #include <cstring>
 #include <cassert>
 #include "buffer.h"
-#include "../abstracts/fft_interface_base.h"
 
 template<class TInputType>
 Buffer<TInputType>::Buffer() {

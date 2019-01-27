@@ -60,10 +60,10 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
            endSegmentIndex = 0;
     size_t fftFrequencyLength = (size_t)interpolationLength * 2;
 
-    AudioComponentsBuffer fftFrequencies(_Logger, _FftEngine, fftFrequencyLength);
+    AudioComponentsBuffer fftFrequencies(_FftEngine, fftFrequencyLength);
     AudioBuffer fftFrequenciesReal = *fftFrequencies.GetRealBuffer(),
                 fftFrequenciesImag = *fftFrequencies.GetImagBuffer(),
-                fftOutputSignal(_Logger, _FftEngine, fftFrequencyLength);
+                fftOutputSignal(_FftEngine, fftFrequencyLength);
 
     _Logger->WriteLog("Interpolating Frequencies & Amplitudes for Inverse FFT Processing...", LOG_SENDER, __func__);
     for (size_t sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
@@ -90,8 +90,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Real Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, realFreqData);
             _Logger->WriteLog("Imaginary Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, imaginaryFreqData);
 
-            fftFrequenciesReal[elementIndex] = realFreqData;
-            fftFrequenciesImag[elementIndex] = imaginaryFreqData * -ONE;
+            fftFrequenciesReal[elementCounter] = realFreqData;
+            fftFrequenciesImag[elementCounter] = imaginaryFreqData * -ONE;
 
             size_t reverseElementIndex = fftFrequencyLength - elementCounter - 1;
             fftFrequenciesReal[reverseElementIndex] = realFreqData;
@@ -111,7 +111,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
     sample hammingIncrement = (sample)filterLength - ONE,
            fftReductionScalar = ONE / fftCalcSize;
-    AudioBuffer* firBufferPtr = new AudioBuffer(_Logger, _FftEngine, filterLength);
+    AudioBuffer* firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
     sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterLength; elementCounter++) {
         sample originalValue = fftOutputSignal[elementCounter],

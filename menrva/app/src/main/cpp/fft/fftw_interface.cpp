@@ -16,7 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <string>
 #include "fftw_interface.h"
 #include "../abstracts/fft_interface_base.h"
 

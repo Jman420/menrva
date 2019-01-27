@@ -21,7 +21,8 @@
 
 KissFftPlanCache* KissFftInterface::_PlansCache = new KissFftPlanCache();
 
-KissFftInterface::KissFftInterface(LoggerBase* logger) : FftInterfaceBase(logger) { }
+KissFftInterface::KissFftInterface(LoggerBase* logger)
+    : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KissFFT Interface...", LOG_SENDER, __func__);

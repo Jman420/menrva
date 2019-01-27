@@ -17,8 +17,6 @@
  */
 
 #include <cstring>
-#include <algorithm>
-#include <cstdlib>
 #include "convolution_operations.h"
 
 ConvolutionOperations::ConvolutionOperations(LoggerBase* logger)

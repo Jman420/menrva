@@ -17,8 +17,6 @@
  */
 
 #include <cmath>
-#include <cstdlib>
-#include <cstring>
 #include "convolver.h"
 #include "../tools/math_operations.h"
 
@@ -26,7 +24,7 @@ const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {
     size_t sampleCounter = impulseResponse.GetLength() - 1;
-    while (sampleCounter > 0 && fabs(impulseResponse[sampleCounter]) < SIGNAL_THRESHOLD) {
+    while (sampleCounter > 0 && abs(impulseResponse[sampleCounter]) < SIGNAL_THRESHOLD) {
         sampleCounter--;
     }
 
@@ -109,10 +107,10 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
     _FilterSegments = (AudioComponentsBuffer**)malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength);
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    auto* impulseSignalSegment = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
+    auto* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         _Logger->WriteLog("Allocating Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
-        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
+        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
         _Logger->WriteLog("Preparing Filter Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
@@ -125,10 +123,10 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
     }
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
-    _WorkingSignal = new AudioBuffer(_Logger, _FftEngine, segmentSignalLength);
-    _OverlapSignal = new AudioBuffer(_Logger, _FftEngine, _FrameLength);
-    _InputComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
-    _MixedComponents = new AudioComponentsBuffer(_Logger, _FftEngine, segmentComponentsLength);
+    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
+    _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
+    _InputComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
+    _MixedComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
     _MixedComponents->ResetData();
     _SegmentCounter = 0;
 
