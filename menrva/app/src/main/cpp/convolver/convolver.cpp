@@ -66,15 +66,21 @@ void Convolver::Reset() {
     }
     delete _FilterSegments;
 
+    for (int mixCounter = 0; mixCounter < _MixedComponentsLength; mixCounter++) {
+        delete _MixedComponents[mixCounter];
+    }
+    delete _MixedComponents;
+
     delete _WorkingSignal;
     delete _InputComponents;
-    delete _MixedComponents;
     delete _OverlapSignal;
 
-    _FilterSegmentsLength = 0;
     _FrameLength = 0;
     _FrameSize = 0;
+    _FilterSegmentsLength = 0;
     _SegmentCounter = 0;
+    _MixedComponentsLength = 0;
+    _MixCounter = 0;
     _SignalScalar = 1;
     _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
