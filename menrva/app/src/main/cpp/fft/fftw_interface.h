@@ -22,10 +22,12 @@
 #include <map>
 #include "fftw_functions.h"
 #include "../abstracts/fft_interface_base.h"
+#include "../abstracts/logging_base.h"
 
 typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
-class FftwInterface : public FftInterfaceBase {
+class FftwInterface : public FftInterfaceBase,
+                      public LoggingBase {
 public:
     explicit FftwInterface(LoggerBase* logger);
 

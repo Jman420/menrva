@@ -23,14 +23,17 @@
 FftwPlanCache* FftwInterface::_PlansCache = new FftwPlanCache();
 
 FftwInterface::FftwInterface(LoggerBase* logger) :
-        FftInterfaceBase(logger) {}
+        LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
+        _Logger->WriteLog("Invalid Signal and Component Sizes provided!", LOG_SENDER, __func__, LogLevel::ERROR);
+        // TODO : Throw exception
         return componentSize;
     }
+    _Logger->WriteLog("Successfully set FFT Signal Size (%d) and Component Size (%d)!", LOG_SENDER, __func__, signalSize, componentSize);
 
     _Logger->WriteLog("Calculating FFT Plans Cache Key for Signal Size (%d) and Component Size (%d)...", LOG_SENDER, __func__, signalSize, componentSize);
     std::string plansKey = std::to_string(signalSize) + "x" + std::to_string(componentSize);

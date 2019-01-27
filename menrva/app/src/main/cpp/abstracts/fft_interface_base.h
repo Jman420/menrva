@@ -23,11 +23,10 @@
 #include "../audio/sample.h"
 #include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
-#include "logging_base.h"
 
-class FftInterfaceBase : public LoggingBase {
+class FftInterfaceBase {
 public:
-    explicit FftInterfaceBase(LoggerBase* logger);
+    explicit FftInterfaceBase();
 
     size_t Initialize(size_t signalSize);
     size_t GetSignalSize();

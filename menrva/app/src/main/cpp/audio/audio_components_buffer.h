@@ -22,11 +22,10 @@
 #include <cstddef>
 #include "audio_buffer.h"
 #include "sample.h"
-#include "../abstracts/logging_base.h"
 
-class AudioComponentsBuffer : public LoggingBase {
+class AudioComponentsBuffer {
 public:
-    AudioComponentsBuffer(LoggerBase* logger, FftInterfaceBase* fftEngine, size_t length = 0);
+    explicit AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length = 0);
     ~AudioComponentsBuffer();
 
     void Free();
