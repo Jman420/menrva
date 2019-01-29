@@ -52,7 +52,8 @@ private:
            _FilterSegmentsLength,
            _SegmentCounter,
            _MixedComponentsLength,
-           _MixCounter;
+           _MixCounter,
+           _OperationsPerConvolution;
     sample _SignalScalar;
     AudioComponentsBuffer** _FilterSegments;
     AudioBuffer* _WorkingSignal;

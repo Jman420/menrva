@@ -81,6 +81,7 @@ void Convolver::Reset() {
     _SegmentCounter = 0;
     _MixedComponentsLength = 0;
     _MixCounter = 0;
+    _OperationsPerConvolution = 0;
     _SignalScalar = 1;
     _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
@@ -149,12 +150,14 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
         _MixedComponents[bufferCounter] = mixedBuffer;
     }
     _MixCounter = 0;
+    _OperationsPerConvolution = std::min(_FilterSegmentsLength, _MixedComponentsLength);
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
+    _InputComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
     _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
     _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
-    _InputComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
-
+    _OverlapSignal->ResetData();
+    
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
     return true;
@@ -193,7 +196,7 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     LogAudioComponents(_InputComponents);
 
     _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
-    for (size_t bufferCounter = 0; bufferCounter < _MixedComponentsLength; bufferCounter++) {
+    for (size_t bufferCounter = 0; bufferCounter < _OperationsPerConvolution; bufferCounter++) {
         size_t segmentIndex = (bufferCounter + _SegmentCounter) % _FilterSegmentsLength,
                mixBufferIndex = (bufferCounter + _MixCounter) % _MixedComponentsLength;
 
