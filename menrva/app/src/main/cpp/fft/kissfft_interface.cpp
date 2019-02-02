@@ -24,6 +24,10 @@ KissFftPlanCache* KissFftInterface::_PlansCache = new KissFftPlanCache();
 KissFftInterface::KissFftInterface(LoggerBase* logger)
     : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
+KissFftInterface::~KissFftInterface() {
+    delete _ComponentsBuffer;
+}
+
 size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KissFFT Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
@@ -36,15 +40,15 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     const char* plansKeyC = plansKey.c_str();
 
     _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
-    KissFftPlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    auto cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
         _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
         _Plans = cachedPlansIterator->second;
     }
     else {
         _Logger->WriteLog("Calculating and Caching FFT Plans for Cache Key (%s)...", LOG_SENDER, __func__, plansKeyC);
-        _Plans.RealToComplexPlan = KissFftCreatePlan(signalSize, 0, 0, 0);
-        _Plans.ComplexToRealPlan = KissFftCreatePlan(signalSize, 1, 0, 0);
+        _Plans.RealToComplexPlan = KissFftCreatePlan(signalSize, 0, nullptr, 0);
+        _Plans.ComplexToRealPlan = KissFftCreatePlan(signalSize, 1, nullptr, 0);
         _PlansCache->insert({plansKey, _Plans});
         _Logger->WriteLog("Successfully Calculated and Cached FFT Plans for Cache Key (%s).", LOG_SENDER, __func__, plansKeyC);
     }

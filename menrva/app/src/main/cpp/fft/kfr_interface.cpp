@@ -35,10 +35,10 @@ size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
         return componentSize;
     }
 
-    _Logger->WriteLog("Getting KFR Plan...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Getting KFR Plan for Signal Size (%d)...", LOG_SENDER, __func__, signalSize);
     _Plan = dft_cache::instance().getreal(ctype<sample>, signalSize);
 
-    _Logger->WriteLog("Initializing KFR Buffers...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Initializing KFR Buffers for Component Size (%d)...", LOG_SENDER, __func__, componentSize);
     univector<complex<sample>> componentsVector(componentSize);
     _ComponentsBuffer = componentsVector.data();
     univector<u8> tempVector(static_cast<const u8&>(_Plan->temp_size));

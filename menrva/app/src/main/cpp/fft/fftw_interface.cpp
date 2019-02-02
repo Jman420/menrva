@@ -39,7 +39,7 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     const char* plansKeyC = plansKey.c_str();
 
     _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
-    FftwPlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    auto cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
         _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
         _Plans = cachedPlansIterator->second;
