@@ -63,8 +63,9 @@ private:
     static int GetConfig(menrva_module_context* context, uint32_t cmdSize, void* pCmdData,
                          uint32_t* replySize, void* pReplyData);
 
-    static void LogBufferConfig(buffer_config_t* bufferConfig);
+    static inline uint32_t ComputeParamVOffset(const effect_param_t* p);
     static uint32_t GetExpectedReplySize(uint32_t paramSize, void* pParam);
+    static void LogBufferConfig(buffer_config_t* bufferConfig);
 
     // Private Constructor to prevent instantiation of Static Class
     MenrvaCommandMap() = default;

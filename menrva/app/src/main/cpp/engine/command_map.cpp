@@ -34,13 +34,6 @@ const function_map MenrvaCommandMap::_CommandMap = {
     { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
 };
 
-// The value offset of an effect parameter is computed by rounding up
-// the parameter size to the next 32 bit alignment.
-// This method was taken from https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/dynamicsproc/EffectDynamicsProcessing.cpp#77
-static inline uint32_t computeParamVOffset(const effect_param_t* p) {
-    return ((p->psize + sizeof(int32_t) - 1) / sizeof(int32_t)) * sizeof(int32_t);
-}
-
 int MenrvaCommandMap::Process(menrva_module_context* context, uint32_t cmdCode, uint32_t cmdSize,
                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id : %u ...", LOG_SENDER, __func__, cmdCode);
@@ -88,7 +81,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context* context, uint32_t cmdSize
         return -EINVAL;
     }
 
-    effect_config_t* config = (effect_config_t*)pCmdData;
+    auto config = (effect_config_t*)pCmdData;
     _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
     LogBufferConfig(&config->inputCfg);
     _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
@@ -210,7 +203,7 @@ int MenrvaCommandMap::SetParam(menrva_module_context* context, uint32_t cmdSize,
         _Logger->WriteLog("Skipping SetParam Command.  Invalid Parameter Size provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return -EINVAL;
     }
-    const uint32_t valueOffset = computeParamVOffset(effectParam);
+    const uint32_t valueOffset = ComputeParamVOffset(effectParam);
     _Logger->WriteLog("Successfully calculated Parameter Value Offset : %u", LOG_SENDER, __func__, valueOffset);
 
     _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
@@ -248,7 +241,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
 
     _Logger->WriteLog("Preparing Reply Data...", LOG_SENDER, __func__);
     memcpy(pReplyData, pCmdData, expectedReplySize);
-    effect_param_t* replyData = (effect_param_t*)pReplyData;
+    auto replyData = (effect_param_t*)pReplyData;
     _Logger->WriteLog("Successfully prepared Reply Data.", LOG_SENDER, __func__);
 
     _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
@@ -257,7 +250,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context* context, uint32_t cmdSize 
     _Logger->WriteLog("Successfully extracted Parameter Id : %u", LOG_SENDER, __func__, command);
 
     _Logger->WriteLog("Calculating Parameter Value Offset...", LOG_SENDER, __func__);
-    const uint32_t valueOffset = computeParamVOffset(replyData);
+    const uint32_t valueOffset = ComputeParamVOffset(replyData);
     _Logger->WriteLog("Successfully calculated Parameter Value Offset : %u", LOG_SENDER, __func__, valueOffset);
 
     _Logger->WriteLog("Retrieving Parameter Value for Parameter Id : %u", LOG_SENDER, __func__, command);
@@ -287,13 +280,6 @@ int MenrvaCommandMap::GetConfig(menrva_module_context* context, uint32_t cmdSize
     return 0;
 }
 
-void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
-    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->format);
-    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->samplingRate);
-    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->channels);
-    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->accessMode);
-}
-
 uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {
     if (paramSize < sizeof(int32_t)) {
         return 0;
@@ -306,4 +292,18 @@ uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam
     }
 
     return 0;
+}
+
+// The value offset of an effect parameter is computed by rounding up
+// the parameter size to the next 32 bit alignment.
+// This method was taken from https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/dynamicsproc/EffectDynamicsProcessing.cpp#77
+uint32_t MenrvaCommandMap::ComputeParamVOffset(const effect_param_t* p) {
+    return ((p->psize + sizeof(int32_t) - 1) / sizeof(int32_t)) * sizeof(int32_t);
+}
+
+void MenrvaCommandMap::LogBufferConfig(buffer_config_t* bufferConfig) {
+    _Logger->WriteLog("Buffer Format : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->format);
+    _Logger->WriteLog("Buffer Sample Rate : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->samplingRate);
+    _Logger->WriteLog("Buffer Channel Count : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->channels);
+    _Logger->WriteLog("Buffer Access Mode : %u", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig->accessMode);
 }
