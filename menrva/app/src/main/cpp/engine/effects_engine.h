@@ -42,9 +42,9 @@ public:
     MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
-    void ResetEffects(effect_config_t* bufferConfig);
-    int SetBufferConfig(effect_config_t* bufferConfig);
-    int Process(AudioInputBuffer* inputBuffer, AudioOutputBuffer* outputBuffer);
+    void ResetEffects(effect_config_t& bufferConfig);
+    int SetBufferConfig(effect_config_t& bufferConfig);
+    int Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer);
     void SetEffectEnabled(uint8_t effectIndex, bool enabled);
     void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
 
@@ -56,7 +56,7 @@ private:
     AudioBuffer* _OutputAudioFrame;
 
     void ProcessInputAudioFrame();
-    size_t ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer* outputBuffer);
+    size_t ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer);
 };
 
 #endif //MENRVA_EFFECTS_ENGINE_H

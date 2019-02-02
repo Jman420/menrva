@@ -39,8 +39,8 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         return 0;
     }
 
-    _Logger->WriteLog("Input Buffer Frame Count : %d", LOG_SENDER, __func__, in->frameCount);
-    _Logger->WriteLog("Output Buffer Frame Count : %d", LOG_SENDER, __func__, out->frameCount);
+    _Logger->WriteLog("Input Buffer Frame Count (%d).", LOG_SENDER, __func__, in->frameCount);
+    _Logger->WriteLog("Output Buffer Frame Count (%d).", LOG_SENDER, __func__, out->frameCount);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config->inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
@@ -59,14 +59,14 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
             break;
 
         default:
-            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided : %d", LOG_SENDER, __func__, LogLevel::WARN, context->config->inputCfg.format);
+            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::WARN, context->config->inputCfg.format);
             return -EINVAL;
     }
 
     _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
-    int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
+    int result = context->EffectsEngine->Process(*context->InputBuffer, *context->OutputBuffer);
 
-    _Logger->WriteLog("EffectsEngine finished Processing with Result : %d !", LOG_SENDER, __func__, result);
+    _Logger->WriteLog("EffectsEngine finished Processing with Result (%d)!", LOG_SENDER, __func__, result);
     return result;
 }
 
@@ -83,9 +83,8 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     }
 
     _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
-    int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize,
-                                           pReplyData);
+    int result = MenrvaCommandMap::Process(*context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
-    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
+    _Logger->WriteLog("CommandMap finished Processing with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
 }

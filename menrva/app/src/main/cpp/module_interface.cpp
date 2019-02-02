@@ -68,38 +68,36 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        std::string engineUuid = MenrvaModuleInterface::EngineUUID;
-        std::string msg = "Incorrect Effect UUID provided. Does not match Menrva UUID : " + engineUuid;
-        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::WARN, MenrvaModuleInterface::EngineUUID);
         return -EINVAL;
     }
 
     _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
     auto context = new menrva_module_context();
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
-    InitModule(context);
+    InitModule(*context);
 
     *pHandle = (effect_handle_t)context;
     _Logger->WriteLog("Successfully Created Menrva Module!", LOG_SENDER, __func__);
     return 0;
 }
 
-int MenrvaModuleInterface::InitModule(menrva_module_context* context) {
+int MenrvaModuleInterface::InitModule(menrva_module_context& context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
-    if (context->ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
+    if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
         _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
         return 0;
     }
 
-    context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
-    context->itfe = &EngineInterface;
+    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
+    context.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
+    context.itfe = &EngineInterface;
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
-    context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
+    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
     _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
     return 0;
 }

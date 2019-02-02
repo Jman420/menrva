@@ -54,7 +54,7 @@ public:
 
     static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId,
                             effect_handle_t* pHandle);
-    static int InitModule(menrva_module_context* context);
+    static int InitModule(menrva_module_context& context);
     static int ReleaseModule(effect_handle_t moduleHandle);
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
     static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);
