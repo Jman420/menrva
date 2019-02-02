@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "effect_base.h"
 #include <utility>
+#include "effect_base.h"
 
 EffectBase::EffectBase(std::string name)
     : NAME(std::move(name)) {}

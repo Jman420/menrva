@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "logger_base.h"
 #include <utility>
+#include "logger_base.h"
 
 const std::string LoggerBase::APP_NAME = "Menrva";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;

@@ -4,7 +4,7 @@ param([string]$Architecture = "x86",
 $MenrvaBuildApk = "./menrva/app/build/outputs/apk/$BuildType/app-$BuildType.apk"
 $ArtifactsRoot = "./artifacts"
 $AppArtifact = "$ArtifactsRoot/MenrvaApp-$BuildType.apk"
-$BackendArtifactDir = "$ArtifactsRoot/backend/"
+$BackendArtifactDir = "$ArtifactsRoot/backend"
       
 $AdbExe = "$env:LOCALAPPDATA/Android/Sdk/platform-tools/adb.exe"
 $MenrvaLib = "$BackendArtifactDir/$Architecture/libMenrvaEngine.so"

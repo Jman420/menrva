@@ -19,6 +19,7 @@
 #ifndef MENRVA_CONVOLUTION_OPERATIONS_BASE_H
 #define MENRVA_CONVOLUTION_OPERATIONS_BASE_H
 
+#include "../audio/audio_buffer.h"
 #include "../audio/audio_components_buffer.h"
 
 class ConvolutionOperationsBase {
