@@ -56,4 +56,4 @@ ExecuteAdbCommand "Rebooting Device to Load Libraries..." -failMsg "Failed to Re
 Write-Output "Please wait for Device to reboot!"
 
 $Timestamp = (Get-Date).ToString()
-Write-Output "Backend Deployed to Device at : $Timestamp"
+Write-Output "Menrva Deployed to Device at : $Timestamp"
