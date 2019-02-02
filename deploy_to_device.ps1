@@ -41,7 +41,7 @@ $backendFileEntries = $apkZip.Entries | where { $_.FullName -like "lib/*" }
 foreach ($backendFileEntry in $backendFileEntries) {
     $backendOutputFile = $backendFileEntry.FullName.Replace("lib/", "")
     New-Item -Force "$BackendArtifactDir/$backendOutputFile"
-    [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, "../$BackendArtifactDir/$backendOutputFile") 
+    [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, "../$BackendArtifactDir/$backendOutputFile", $true) 
 }
 $apkZip.Dispose()
 
