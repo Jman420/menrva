@@ -17,7 +17,6 @@
  */
 
 #include "fir_generator.h"
-#include "../tools/android_logger.h"
 #include "../tools/math_operations.h"
 
 const std::string FirGenerator::LOG_SENDER = "FirGenerator";
@@ -25,6 +24,10 @@ const std::string FirGenerator::LOG_SENDER = "FirGenerator";
 FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
+}
+
+FirGenerator::~FirGenerator() {
+    delete _FftEngine;
 }
 
 AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySamples, sample* amplitudeSamples, size_t sampleLength) {
@@ -79,7 +82,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
 
         _Logger->WriteLog("Calculating Frequency Components for Element Indexes (%g) to (%g)...", LOG_SENDER, __func__, beginSegmentIndex, endSegmentIndex);
         for (int elementCounter = (int)beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
-            sample elementIndex = (sample)elementCounter;
+            auto elementIndex = (sample)elementCounter;
             amplitudeIncrement = (elementIndex - beginSegmentIndex) / (endSegmentIndex - beginSegmentIndex);
             interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[sampleCounter + 1] + (ONE - amplitudeIncrement) * amplitudeSamples[sampleCounter];
             _Logger->WriteLog("Interpolated Amplitude for Element Index (%d) is (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, interpolatedAmplitude);
@@ -111,7 +114,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
     sample hammingIncrement = (sample)filterLength - ONE,
            fftReductionScalar = ONE / fftCalcSize;
-    AudioBuffer* firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
+    auto firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
     sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterLength; elementCounter++) {
         sample originalValue = fftOutputSignal[elementCounter],

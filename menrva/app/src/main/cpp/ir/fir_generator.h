@@ -29,6 +29,7 @@
 class FirGenerator : public LoggingBase {
 public:
     FirGenerator(LoggerBase* logger, FftInterfaceBase* fftEngine);
+    ~FirGenerator();
 
     /*
      * Calculate() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
