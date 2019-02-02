@@ -50,7 +50,6 @@ private:
     size_t _FrameLength,
            _FrameSize,
            _FilterSegmentsLength,
-           _SegmentCounter,
            _MixedComponentsLength,
            _MixCounter,
            _OperationsPerConvolution;
