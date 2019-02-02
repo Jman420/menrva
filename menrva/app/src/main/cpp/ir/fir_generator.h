@@ -23,8 +23,8 @@
 #include <cmath>
 #include "../abstracts/logging_base.h"
 #include "../abstracts/fft_interface_base.h"
-#include "sample.h"
-#include "audio_buffer.h"
+#include "../audio/sample.h"
+#include "../audio/audio_buffer.h"
 
 class FirGenerator : public LoggingBase {
 public:

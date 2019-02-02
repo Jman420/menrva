@@ -21,17 +21,18 @@
 
 #include <cstddef>
 #include "../abstracts/logging_base.h"
-#include "../abstracts/convolver_base.h"
 #include "../abstracts/fft_interface_base.h"
 #include "../audio/audio_buffer.h"
 #include "convolution_operations.h"
 
-class Convolver : public LoggingBase, ConvolverBase {
+class Convolver : public LoggingBase {
 public:
     Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();
 
     void Reset();
+    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, size_t autoConvolveFrames);
+    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, bool fullAutoConvolveFilter);
     bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse);
     void Process(AudioBuffer* input, AudioBuffer* output);
 
@@ -40,21 +41,24 @@ private:
     static const float SIGNAL_THRESHOLD;
 
     static size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
+    static size_t CalculateSegmentsCount(size_t segmentLength, size_t filterLength);
 
     ConvolutionOperationsBase* _ConvolutionOperations;
     FftInterfaceBase* _FftEngine;
 
     bool _Initialized;
-    size_t _FilterSegmentsLength,
-           _FrameLength,
+    size_t _FrameLength,
            _FrameSize,
-           _SegmentCounter;
+           _FilterSegmentsLength,
+           _MixedComponentsLength,
+           _MixCounter,
+           _OperationsPerConvolution;
     sample _SignalScalar;
     AudioComponentsBuffer** _FilterSegments;
     AudioBuffer* _WorkingSignal;
     AudioBuffer* _OverlapSignal;
     AudioComponentsBuffer* _InputComponents;
-    AudioComponentsBuffer* _MixedComponents;
+    AudioComponentsBuffer** _MixedComponents;
 
     void LogSegmentConfig();
     void LogAudioComponents(AudioComponentsBuffer* audioComponents);

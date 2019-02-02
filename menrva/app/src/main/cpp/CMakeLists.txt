@@ -64,7 +64,8 @@ add_library( # Sets the name of the library.
         audio/audio_input_buffer.cpp
         audio/audio_output_buffer.cpp
         audio/audio_components_buffer.cpp
-        audio/fir_generator.cpp
+
+        ir/fir_generator.cpp
 
         fft/fftw_interface.cpp
         fft/kissfft_interface.cpp

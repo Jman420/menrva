@@ -41,5 +41,4 @@ private:
     u8* _TempBuffer;
 };
 
-
 #endif //MENRVA_KFR_INTERFACE_H

@@ -55,5 +55,5 @@ sample* FftInterfaceBase::Allocate(size_t size) {
 }
 
 void FftInterfaceBase::Deallocate(sample* data) {
-    free(data);
+    delete data;
 }
