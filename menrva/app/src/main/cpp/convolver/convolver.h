@@ -61,8 +61,6 @@ private:
     AudioComponentsBuffer** _MixedComponents;
 
     void LogSegmentConfig();
-    void LogAudioComponents(AudioComponentsBuffer* audioComponents);
-    void LogSignal(AudioBuffer* signal);
 };
 
 #endif //MENRVA_CONVOLVER_H

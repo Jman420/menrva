@@ -135,7 +135,6 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
 
         _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
-        LogAudioComponents(_FilterSegments[segmentCounter]);
     }
 
     _Logger->WriteLog("Allocating AutoConvolution Buffers...", LOG_SENDER, __func__);
@@ -191,7 +190,6 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
 
     _Logger->WriteLog("Calculating Audio Frame's Components...", LOG_SENDER, __func__);
     _FftEngine->SignalToComponents(_WorkingSignal, _InputComponents);
-    LogAudioComponents(_InputComponents);
 
     _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
     for (size_t bufferCounter = 0; bufferCounter < _OperationsPerConvolution; bufferCounter++) {
@@ -200,21 +198,17 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
         AudioComponentsBuffer* filterSegment = _FilterSegments[bufferCounter];
         _ConvolutionOperations->ComplexMultiplyAccumulate(_InputComponents, filterSegment, _MixedComponents[mixBufferIndex]);
     }
-    LogAudioComponents(_MixedComponents[_MixCounter]);
 
     _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
     _FftEngine->ComponentsToSignal(_MixedComponents[_MixCounter], _WorkingSignal);
-    LogSignal(_WorkingSignal);
     _MixedComponents[_MixCounter]->ResetData();
     _MixCounter = (_MixCounter + 1) % _MixedComponentsLength;
 
     _Logger->WriteLog("Summing Convolved Signal with Overlap Signal and Scaling...", LOG_SENDER, __func__);
     _ConvolutionOperations->SumAndScale(*_OverlapSignal, *_WorkingSignal, *output, _SignalScalar);
-    LogSignal(output);
 
     _Logger->WriteLog("Storing Remaining Overlap Signal...", LOG_SENDER, __func__);
     memcpy(_OverlapSignal->GetData(), &(*_WorkingSignal)[_FrameLength], _FrameSize);
-    LogSignal(_OverlapSignal);
 }
 
 void Convolver::LogSegmentConfig() {
@@ -222,12 +216,4 @@ void Convolver::LogSegmentConfig() {
     _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameSize);
     _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FilterSegmentsLength);
     _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, _SignalScalar);
-}
-
-void Convolver::LogAudioComponents(AudioComponentsBuffer* audioComponents) {
-    // TODO : Add Logic to Log Audio Components
-}
-
-void Convolver::LogSignal(AudioBuffer* signal) {
-    // TODO : Add Logic to Log Signal
 }
