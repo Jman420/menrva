@@ -22,11 +22,13 @@
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
+    _AudioFormat = AudioFormat::Sample;
 }
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
+    _AudioFormat = AudioFormat::Sample;
     SetFormat(audioFormat);
 }
 

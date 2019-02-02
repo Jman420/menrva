@@ -19,7 +19,6 @@
 #ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
 #define MENRVA_AUDIO_COMPONENTS_BUFFER_H
 
-#include <cstddef>
 #include "audio_buffer.h"
 #include "sample.h"
 
