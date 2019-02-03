@@ -18,6 +18,7 @@
 
 package com.monkeystable.menrva.activities;
 
+import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.AudioEffectInterface;
 import android.support.v7.app.AppCompatActivity;
@@ -55,10 +56,17 @@ public class MainActivity extends AppCompatActivity {
                                     "Effect Type UUID : " + effectTypeUUID + System.lineSeparator() +
                                     "Engine UUID : " + engineUUID);
 
+        MediaPlayer testSong = MediaPlayer.create(MainActivity.this, R.raw.test_song);
+        AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(effectTypeUUID, engineUUID, 0, testSong.getAudioSessionId());
+        menrvaEffect.setEnabled(true);
+
         TextView engineInfoText = findViewById(R.id.engineInfo);
-        AudioEffect menrvaEffect = AudioEffectInterface.CreateAudioEffect(effectTypeUUID, engineUUID, 1, 0);
         AudioEffect.Descriptor menrvaDesc = menrvaEffect.getDescriptor();
         engineInfoText.setText("Effect Name : " + menrvaDesc.name + System.lineSeparator() +
-                                "Implementor : " + menrvaDesc.implementor);
+                                "Implementor : " + menrvaDesc.implementor + System.lineSeparator() +
+                                "Audio Session Id : " + testSong.getAudioSessionId() + System.lineSeparator() +
+                                "Effect Enabled : " + menrvaEffect.getEnabled());
+
+        testSong.start();
     }
 }

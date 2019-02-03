@@ -19,8 +19,6 @@
 #include "fir_generator.h"
 #include "../tools/math_operations.h"
 
-const std::string FirGenerator::LOG_SENDER = "FirGenerator";
-
 FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;

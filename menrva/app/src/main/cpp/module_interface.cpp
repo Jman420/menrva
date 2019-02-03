@@ -135,7 +135,7 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
         _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
-        return -EINVAL;
+        return -ENOENT;
     }
 
     _Logger->WriteLog("Returning Effect Descriptor pointer!", LOG_SENDER, __func__);

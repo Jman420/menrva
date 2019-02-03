@@ -194,7 +194,7 @@ void* AudioInputBuffer::GetData() {
 }
 
 sample AudioInputBuffer::operator[](size_t index) const {
-    _Logger->WriteLog("Retrieving Normalized Value of Index (%d)...", LOG_SENDER, __func__, index);
+    _Logger->WriteLog("Retrieving Normalized Value of Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, index);
     sample normalizedValue = 0.0f;
 
     switch (_AudioFormat) {
@@ -222,13 +222,13 @@ sample AudioInputBuffer::operator[](size_t index) const {
             throw std::runtime_error(msg);
     }
 
-    _Logger->WriteLog("Successfully retrieved Normalized Value (%f) for Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
+    _Logger->WriteLog("Successfully retrieved Normalized Value (%f) for Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue, index);
     return normalizedValue;
 }
 
 template<class TInputType>
 sample AudioInputBuffer::Normalize(TInputType data) const {
-    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, _AudioFormat);
+    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _AudioFormat);
     const sample maxRangeValue = PCM_FLOAT_MAX_VALUE,
                  minRangeValue = PCM_FLOAT_MIN_VALUE,
                  dataValue = (sample)data;
@@ -248,7 +248,7 @@ sample AudioInputBuffer::Normalize(TInputType data) const {
             break;
 
         case AudioFormat::PCM_Float:
-            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__);
+            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__, LogLevel::VERBOSE);
             return dataValue;
 
         default:
@@ -258,7 +258,7 @@ sample AudioInputBuffer::Normalize(TInputType data) const {
     }
 
     sample normalizedValue = (maxRangeValue - minRangeValue) * ((dataValue - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue;
-    _Logger->WriteLog("Successfully normalized value to (%f).", LOG_SENDER, __func__, normalizedValue);
+    _Logger->WriteLog("Successfully normalized value to (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }
 

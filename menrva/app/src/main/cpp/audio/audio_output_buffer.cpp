@@ -174,19 +174,19 @@ void AudioOutputBuffer::SetData(AudioFormat audioFormat, void* data, size_t leng
 }
 
 void AudioOutputBuffer::SetValue(size_t index, sample value) {
-    _Logger->WriteLog("Setting Normalized Value to Index (%d)...", LOG_SENDER, __func__, index);
+    _Logger->WriteLog("Setting Normalized Value to Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
             auto normalizedValue = Normalize<int16_t>(value);
             (*_BufferWrapper->PCM_16)[index] = normalizedValue;
-            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
+            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue, index);
             break;
         }
 
         case AudioFormat::PCM_32: {
             auto normalizedValue = Normalize<int32_t>(value);
             (*_BufferWrapper->PCM_32)[index] = normalizedValue;
-            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
+            _Logger->WriteLog("Successfully set Normalized Value (%d) to Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue, index);
             break;
         }
 
@@ -220,23 +220,23 @@ void* AudioOutputBuffer::GetData() {
 }
 
 void* AudioOutputBuffer::operator[](size_t index) const {
-    _Logger->WriteLog("Retrieving Value of Index (%d)...", LOG_SENDER, __func__, index);
+    _Logger->WriteLog("Retrieving Value of Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, index);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
             int16_t* value = &(*_BufferWrapper->PCM_16)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, *value, index);
             return value;
         }
 
         case AudioFormat::PCM_32: {
             int32_t* value = &(*_BufferWrapper->PCM_32)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            _Logger->WriteLog("Successfully retrieved Value (%d) for Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, *value, index);
             return value;
         }
 
         case AudioFormat::PCM_Float: {
             float* value = &(*_BufferWrapper->PCM_Float)[index];
-            _Logger->WriteLog("Successfully retrieved Value (%f) for Index (%d)!", LOG_SENDER, __func__, *value, index);
+            _Logger->WriteLog("Successfully retrieved Value (%f) for Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, *value, index);
             return value;
         }
 
@@ -249,7 +249,7 @@ void* AudioOutputBuffer::operator[](size_t index) const {
 
 template<class TOutputType>
 TOutputType AudioOutputBuffer::Normalize(sample data) {
-    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, _AudioFormat);
+    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _AudioFormat);
     const sample maxDataValue = PCM_FLOAT_MAX_VALUE,
                  minDataValue = PCM_FLOAT_MIN_VALUE;
 
@@ -268,7 +268,7 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             break;
 
         case AudioFormat::PCM_Float:
-            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__);
+            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__, LogLevel::VERBOSE);
             return (TOutputType)data;
 
         default:
@@ -278,7 +278,7 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
     }
 
     auto normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
-    _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, normalizedValue);
+    _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }
 
