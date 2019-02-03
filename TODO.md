@@ -40,7 +40,8 @@
   - ~~Change FFT Engine at Runtime~~
   - ~~Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)~~
   - ~~Add Detailed Exceptions at failure points~~
-  - Test & Debug Backend Module Stack
+  - ~~Test & Debug Backend Module Stack~~
+  - Debug Sample Conversion Issues? (distorted output; consider implementing a no-op effect for testing)
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
   - Draft Installation Method via UI w/ Root
