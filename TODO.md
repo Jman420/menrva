@@ -43,9 +43,9 @@
   - Test & Debug Backend Module Stack
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend
+  - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
   - Whole bunch of testing
-  - ? Draft Installation Method via UI w/ Root ?
   - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI) ?
   - Release
