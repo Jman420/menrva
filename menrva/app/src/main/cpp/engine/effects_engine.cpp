@@ -133,7 +133,7 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Processing Input Audio Frame...", LOG_SENDER, __func__);
     for (EffectBase* effect : _MenrvaEffects) {
         if (effect->Enabled) {
-            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str(), LogLevel::VERBOSE);
+            _Logger->WriteLog("Processing Effect : %s", LOG_SENDER, __func__, LogLevel::VERBOSE, effect->NAME.c_str());
             // TODO : Ensure that Effect's Processing will aggregate (need to output to the next effect's input buffer; probably need to re-think managing enabled effects in a separate vector collection, all effects except the last in collection will overwrite Input Buffer and only last effect will overwrite Output Buffer)
             effect->Process(*_InputAudioFrame, *_OutputAudioFrame);
         }
