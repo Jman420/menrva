@@ -16,7 +16,6 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <cstdlib>
 #include "audio_components_buffer.h"
 
 AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length) {

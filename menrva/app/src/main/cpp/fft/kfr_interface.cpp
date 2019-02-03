@@ -32,13 +32,15 @@ size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KFR Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
-        return componentSize;
+        std::string msg = "Invalid Signal and Component Sizes provided!";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
 
-    _Logger->WriteLog("Getting KFR Plan...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Getting KFR Plan for Signal Size (%d)...", LOG_SENDER, __func__, signalSize);
     _Plan = dft_cache::instance().getreal(ctype<sample>, signalSize);
 
-    _Logger->WriteLog("Initializing KFR Buffers...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Initializing KFR Buffers for Component Size (%d)...", LOG_SENDER, __func__, componentSize);
     univector<complex<sample>> componentsVector(componentSize);
     _ComponentsBuffer = componentsVector.data();
     univector<u8> tempVector(static_cast<const u8&>(_Plan->temp_size));
@@ -48,24 +50,24 @@ size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     return componentSize;
 }
 
-void KfrInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
-    _Plan->execute(_ComponentsBuffer, signal->GetData(), _TempBuffer);
+void KfrInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) {
+    _Plan->execute(_ComponentsBuffer, signal.GetData(), _TempBuffer);
 
-    sample* realComponents = components->GetRealBuffer()->GetData();
-    sample* imagComponents = components->GetImagBuffer()->GetData();
-    for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
+    sample* realComponents = components.GetRealBuffer()->GetData();
+    sample* imagComponents = components.GetImagBuffer()->GetData();
+    for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
         realComponents[componentCounter] = _ComponentsBuffer[componentCounter].re;
         imagComponents[componentCounter] = _ComponentsBuffer[componentCounter].im;
     }
 }
 
-void KfrInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
-    sample* realComponents = components->GetRealBuffer()->GetData();
-    sample* imagComponents = components->GetImagBuffer()->GetData();
-    for (int componentCounter = 0; componentCounter < components->GetLength(); componentCounter++) {
+void KfrInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) {
+    sample* realComponents = components.GetRealBuffer()->GetData();
+    sample* imagComponents = components.GetImagBuffer()->GetData();
+    for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
         _ComponentsBuffer[componentCounter].re = realComponents[componentCounter];
         _ComponentsBuffer[componentCounter].im = imagComponents[componentCounter];
     }
 
-    _Plan->execute(signal->GetData(), _ComponentsBuffer, _TempBuffer);
+    _Plan->execute(signal.GetData(), _ComponentsBuffer, _TempBuffer);
 }

@@ -29,8 +29,8 @@ public:
     BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator);
     ~BassBoost() override;
 
-    void Process(AudioBuffer* input, AudioBuffer* output) override;
-    void ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) override;
+    void Process(AudioBuffer& input, AudioBuffer& output) override;
+    void ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) override;
     void ConfigureSetting(char* settingName, void* value) override;
 
 private:

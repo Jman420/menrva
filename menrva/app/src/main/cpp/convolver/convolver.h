@@ -31,10 +31,10 @@ public:
     ~Convolver();
 
     void Reset();
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, size_t autoConvolveFrames);
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, bool fullAutoConvolveFilter);
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse);
-    void Process(AudioBuffer* input, AudioBuffer* output);
+    void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames);
+    void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, bool fullAutoConvolveFilter);
+    void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse);
+    void Process(AudioBuffer& input, AudioBuffer& output);
 
 private:
     static constexpr sample ONE_HALF = (sample)0.5;
@@ -61,8 +61,6 @@ private:
     AudioComponentsBuffer** _MixedComponents;
 
     void LogSegmentConfig();
-    void LogAudioComponents(AudioComponentsBuffer* audioComponents);
-    void LogSignal(AudioBuffer* signal);
 };
 
 #endif //MENRVA_CONVOLVER_H

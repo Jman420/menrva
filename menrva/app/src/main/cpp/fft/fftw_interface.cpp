@@ -28,9 +28,9 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
-        _Logger->WriteLog("Invalid Signal and Component Sizes provided!", LOG_SENDER, __func__, LogLevel::ERROR);
-        // TODO : Throw exception
-        return componentSize;
+        std::string msg = "Invalid Signal and Component Sizes provided!";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
     _Logger->WriteLog("Successfully set FFT Signal Size (%d) and Component Size (%d)!", LOG_SENDER, __func__, signalSize, componentSize);
 
@@ -39,7 +39,7 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     const char* plansKeyC = plansKey.c_str();
 
     _Logger->WriteLog("Checking FFT Plans Cache for Key (%s)...", LOG_SENDER, __func__, plansKeyC);
-    FftwPlanCache::iterator cachedPlansIterator = _PlansCache->find(plansKey);
+    auto cachedPlansIterator = _PlansCache->find(plansKey);
     if (cachedPlansIterator != _PlansCache->end()) {
         _Logger->WriteLog("Successfully found Cached FFT Plans for Initialization!", LOG_SENDER, __func__);
         _Plans = cachedPlansIterator->second;
@@ -76,12 +76,10 @@ void FftwInterface::Deallocate(sample* data) {
     Fftw3Free(data);
 }
 
-void FftwInterface::SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) {
-    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal->GetData(), components->GetRealData(),
-                             components->GetImagData());
+void FftwInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) {
+    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal.GetData(), components.GetRealData(), components.GetImagData());
 }
 
-void FftwInterface::ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) {
-    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components->GetRealData(),
-                             components->GetImagData(), signal->GetData());
+void FftwInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) {
+    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components.GetRealData(), components.GetImagData(), signal.GetData());
 }

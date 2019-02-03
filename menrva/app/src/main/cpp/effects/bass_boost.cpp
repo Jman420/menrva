@@ -32,7 +32,7 @@ BassBoost::~BassBoost() {
     delete _Convolver;
 }
 
-void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {
+void BassBoost::Process(AudioBuffer& input, AudioBuffer& output) {
     if (!Enabled) {
         return;
     }
@@ -40,9 +40,9 @@ void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {
     _Convolver->Process(input, output);
 }
 
-void BassBoost::ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) {
+void BassBoost::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
     // BEGIN DEBUG
-    sample sampleRate = bufferConfig->inputCfg.samplingRate,
+    sample sampleRate = bufferConfig.inputCfg.samplingRate,
            centerFreq = 60.0,
            freqTransition = 80.0,
            strength = 6.0;
@@ -53,7 +53,7 @@ void BassBoost::ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLeng
            amplitudeSamples[] = { (sample)(pow(10.0, strength / 20.0)), (sample)(pow(10.0, strength / 20.0)), 1.0, 1.0 };
 
     AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
-    _Convolver->Initialize(audioFrameLength, impulseFilter);
+    _Convolver->Initialize(audioFrameLength, *impulseFilter);
     Enabled = true;
     // END DEBUG
 }

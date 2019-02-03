@@ -70,3 +70,6 @@ fftw3/libs/*
 fftw3/out/*
 fftw3/jni/*
 !fftw3/jni/.gitignore
+
+# Ignore Deploy Artifacts
+artifacts/*

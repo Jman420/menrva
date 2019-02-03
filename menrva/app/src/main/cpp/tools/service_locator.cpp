@@ -19,33 +19,35 @@
 #include "../config.h"
 #include "service_locator.h"
 #include "android_logger.h"
-
-#ifdef MENRVA_USE_FFTW
-    #include "../fft/fftw_interface.h"
-#elif defined(MENRVA_USE_KISSFFT)
-    #include "../fft/kissfft_interface.h"
-#elif defined(MENRVA_USE_KFR)
-    #include "../fft/kfr_interface.h"
-#endif
+#include "../fft/fftw_interface.h"
+#include "../fft/kissfft_interface.h"
+#include "../fft/kfr_interface.h"
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
+
+ServiceLocator::ServiceLocator() {
+    _FftEngineType = FftEngineType::KFR;
+
+    // TODO : Get FFT Engine Type from Shared Settings
+}
 
 LoggerBase* ServiceLocator::GetLogger() {
     return _Logger;
 }
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    FftInterfaceBase* returnValue = nullptr;
+    switch (_FftEngineType) {
+        case FftEngineType::KFR:
+            return new KfrInterface(GetLogger());
 
-#ifdef MENRVA_USE_FFTW
-    returnValue = new FftwInterface(GetLogger());
-#elif defined(MENRVA_USE_KISSFFT)
-    returnValue = new KissFftInterface(GetLogger());
-#elif defined(MENRVA_USE_KFR)
-    returnValue = new KfrInterface(GetLogger());
-#endif
+        case FftEngineType::FFTW:
+            return new FftwInterface(GetLogger());
 
-    return returnValue;
+        case FftEngineType::KISS_FFT:
+            return new KissFftInterface(GetLogger());
+    }
+
+    throw std::runtime_error("Invalid FFT Engine Type.");
 }
 
 FirGenerator* ServiceLocator::GetFirGenerator() {

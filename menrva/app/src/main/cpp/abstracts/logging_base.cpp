@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "logging_base.h"
 #include <utility>
+#include "logging_base.h"
 
 const std::string LoggingBase::COLONS = "::";
 

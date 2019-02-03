@@ -49,7 +49,7 @@ size_t FftInterfaceBase::Initialize(size_t signalSize) {
 }
 
 sample* FftInterfaceBase::Allocate(size_t size) {
-    sample* buffer = (sample*)malloc(sizeof(sample) * size);
+    auto buffer = (sample*)malloc(sizeof(sample) * size);
     memset(buffer, 0, size);
     return buffer;
 }

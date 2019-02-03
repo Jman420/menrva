@@ -37,9 +37,9 @@
   - ~~Add KFR Lib Compile-Time Support~~
   - ~~Compare FIR Generator to JamesDSP~~
   - ~~Compare Convolver to JamesDSP~~
-  - Change FFT Engine at Runtime
-  - Add Detailed Exceptions at failure points
-  - Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)
+  - ~~Change FFT Engine at Runtime~~
+  - ~~Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)~~
+  - ~~Add Detailed Exceptions at failure points~~
   - Test & Debug Backend Module Stack
   - Compare Bass Boost Effect to JamesDSP
   - Draft UI Frontend

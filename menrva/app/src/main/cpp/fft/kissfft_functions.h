@@ -30,17 +30,14 @@ static kissFftPlanFunc* KissFftCreatePlan = kiss_fftr_alloc;
     typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const double*, kiss_fft_cpx*);
     typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, double*);
 
-    static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
-    static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
-
 #else
     typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const float*, kiss_fft_cpx*);
     typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, float*);
 
-    static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
-    static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
-
 #endif
+
+static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
+static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
 
 struct kissfft_plan_pair {
     KissFftPlan RealToComplexPlan,

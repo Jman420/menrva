@@ -17,7 +17,6 @@
  */
 
 #include "fir_generator.h"
-#include "../tools/android_logger.h"
 #include "../tools/math_operations.h"
 
 const std::string FirGenerator::LOG_SENDER = "FirGenerator";
@@ -27,16 +26,21 @@ FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
     _FftEngine = fftEngine;
 }
 
+FirGenerator::~FirGenerator() {
+    delete _FftEngine;
+}
+
 AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySamples, sample* amplitudeSamples, size_t sampleLength) {
     _Logger->WriteLog("Validating Frequency Samples...", LOG_SENDER, __func__);
     if (sampleLength < 2) {
-        _Logger->WriteLog("Invalid Samples Provided (%d).  Minimum Sample Size is 2.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return nullptr;
+        _Logger->WriteLog("Invalid Samples Provided (%d).  Minimum Sample Size is 2.", LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error("Invalid Samples Provided.  Minimum Sample Size is 2.");
     }
     size_t lastSampleIndex = sampleLength - 1;
     if (frequencySamples[0] != 0 || frequencySamples[lastSampleIndex] != 1) {
-        _Logger->WriteLog("Invalid Frequency Samples Provided.  Frequency Samples must begin with 0 and end with 1 IE. { 0, 0.2, 0.5, 1 }", LOG_SENDER, __func__, LogLevel::ERROR);
-        return nullptr;
+        std::string msg = "Invalid Frequency Samples Provided.  Frequency Samples must begin with 0 and end with 1 IE. { 0, 0.2, 0.5, 1 }";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
     for (int sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
         sample currentFreq = frequencySamples[sampleCounter],
@@ -44,8 +48,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
 
         _Logger->WriteLog("Frequency Index (%d) has value (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleCounter, currentFreq);
         if (currentFreq >= nextFreq) {
-            _Logger->WriteLog("Invalid Frequency Samples Provided.  Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }.  Next Frequency Value (%d) vs Current Frequency Value (%d)", LOG_SENDER, __func__, LogLevel::ERROR, nextFreq, currentFreq);
-            return nullptr;
+            _Logger->WriteLog("Invalid Frequency Samples Provided.  Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }.  Next Frequency Value (%d) vs Current Frequency Value (%d)", LOG_SENDER, __func__, LogLevel::FATAL, nextFreq, currentFreq);
+            throw std::runtime_error("Invalid Frequency Samples Provided.  Frequency Samples much increase over each element IE. { 0, 0.2, 0.5, 1 }.");
         }
     }
     _Logger->WriteLog("Frequency Index (%d) has value (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, lastSampleIndex, frequencySamples[lastSampleIndex]);
@@ -72,14 +76,13 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
         endSegmentIndex = (int)(frequencySamples[nextSampleIndex] * interpolationLength) - 1;
 
         if (beginSegmentIndex < 0 || endSegmentIndex > interpolationLength) {
-            std::string msg = "Invalid Amplitudes Provided.  Amplitude change too great between indexes (%d) and (%d).";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::ERROR, sampleCounter, nextSampleIndex);
-            return nullptr;
+            _Logger->WriteLog("Invalid Amplitudes Provided.  Amplitude change too great between indexes (%d) and (%d).", LOG_SENDER, __func__, LogLevel::FATAL, sampleCounter, nextSampleIndex);
+            throw std::runtime_error("Invalid Amplitudes Provided.  Amplitude change too great.");
         }
 
         _Logger->WriteLog("Calculating Frequency Components for Element Indexes (%g) to (%g)...", LOG_SENDER, __func__, beginSegmentIndex, endSegmentIndex);
         for (int elementCounter = (int)beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
-            sample elementIndex = (sample)elementCounter;
+            auto elementIndex = (sample)elementCounter;
             amplitudeIncrement = (elementIndex - beginSegmentIndex) / (endSegmentIndex - beginSegmentIndex);
             interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[sampleCounter + 1] + (ONE - amplitudeIncrement) * amplitudeSamples[sampleCounter];
             _Logger->WriteLog("Interpolated Amplitude for Element Index (%d) is (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, interpolatedAmplitude);
@@ -106,12 +109,12 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Calculating FIR Signal from Interpolated Frequency Components...", LOG_SENDER, __func__);
     size_t fftCalcSize = fftFrequencyLength - 2;
     _FftEngine->Initialize(fftCalcSize, fftFrequencyLength);
-    _FftEngine->ComponentsToSignal(&fftFrequencies, &fftOutputSignal);
+    _FftEngine->ComponentsToSignal(fftFrequencies, fftOutputSignal);
 
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
     sample hammingIncrement = (sample)filterLength - ONE,
            fftReductionScalar = ONE / fftCalcSize;
-    AudioBuffer* firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
+    auto firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
     sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterLength; elementCounter++) {
         sample originalValue = fftOutputSignal[elementCounter],

@@ -28,10 +28,10 @@ LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
-    struct menrva_module_context *context = (menrva_module_context*)handle;
+    auto context = (menrva_module_context*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENODATA;
     }
     if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
@@ -39,8 +39,8 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         return 0;
     }
 
-    _Logger->WriteLog("Input Buffer Frame Count : %d", LOG_SENDER, __func__, in->frameCount);
-    _Logger->WriteLog("Output Buffer Frame Count : %d", LOG_SENDER, __func__, out->frameCount);
+    _Logger->WriteLog("Input Buffer Frame Count (%d).", LOG_SENDER, __func__, in->frameCount);
+    _Logger->WriteLog("Output Buffer Frame Count (%d).", LOG_SENDER, __func__, out->frameCount);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config->inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
@@ -59,33 +59,32 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
             break;
 
         default:
-            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided : %d", LOG_SENDER, __func__, LogLevel::WARN, context->config->inputCfg.format);
+            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::ERROR, context->config->inputCfg.format);
             return -EINVAL;
     }
 
     _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
-    int result = context->EffectsEngine->Process(context->InputBuffer, context->OutputBuffer);
+    int result = context->EffectsEngine->Process(*context->InputBuffer, *context->OutputBuffer);
 
-    _Logger->WriteLog("EffectsEngine finished Processing with Result : %d !", LOG_SENDER, __func__, result);
+    _Logger->WriteLog("EffectsEngine finished Processing with Result (%d)!", LOG_SENDER, __func__, result);
     return result;
 }
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
                                    void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
-    struct menrva_module_context *context = (menrva_module_context*)self;
+    auto context = (menrva_module_context*)self;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
 
-        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
     _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
-    int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize,
-                                           pReplyData);
+    int result = MenrvaCommandMap::Process(*context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
-    _Logger->WriteLog("CommandMap finished Processing with Result : %d", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
+    _Logger->WriteLog("CommandMap finished Processing with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
 }

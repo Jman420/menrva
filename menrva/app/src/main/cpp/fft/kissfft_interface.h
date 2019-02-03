@@ -21,8 +21,8 @@
 
 #include <map>
 #include "../abstracts/fft_interface_base.h"
-#include "kissfft_functions.h"
 #include "../abstracts/logging_base.h"
+#include "kissfft_functions.h"
 
 typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
 
@@ -30,10 +30,11 @@ class KissFftInterface : public FftInterfaceBase,
                          public LoggingBase {
 public:
     explicit KissFftInterface(LoggerBase* logger);
+    ~KissFftInterface();
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
-    void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
-    void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
+    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
+    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
 
 private:
     static KissFftPlanCache* _PlansCache;

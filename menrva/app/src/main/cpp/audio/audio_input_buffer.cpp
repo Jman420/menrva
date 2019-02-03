@@ -22,11 +22,13 @@
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
+    _AudioFormat = AudioFormat::Sample;
 }
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
+    _AudioFormat = AudioFormat::Sample;
     SetFormat(audioFormat);
 }
 
@@ -65,12 +67,10 @@ size_t AudioInputBuffer::GetLength() {
             return _BufferWrapper->PCM_Float->GetLength();
 
         default:
-            _Logger->WriteLog("Unable to retrieve length.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-            // TODO : Throw exception
-            break;
+            std::string msg = "Unable to retrieve length.  Invalid Audio Format provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
-
-    return 0;
 }
 
 void AudioInputBuffer::ResetData() {
@@ -88,9 +88,9 @@ void AudioInputBuffer::ResetData() {
             break;
 
         default:
-            _Logger->WriteLog("Unable to reset data.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-            // TODO : Throw exception
-            break;
+            std::string msg = "Unable to reset data.  Invalid Audio Format provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 }
 
@@ -109,9 +109,9 @@ void AudioInputBuffer::Free() {
             break;
 
         default:
-            _Logger->WriteLog("Unable to free buffer.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-            // TODO : Throw exception
-            break;
+            std::string msg = "Unable to free buffer.  Invalid Audio Format provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 }
 
@@ -140,9 +140,9 @@ void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
             break;
 
         default:
-            _Logger->WriteLog("Unable to instantiate Conversion Buffer.  Invalid Audio Format provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-            // TODO : Throw exception
-            break;
+            std::string msg = "Unable to instantiate Conversion Buffer.  Invalid Audio Format provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 
     _AudioFormat = audioFormat;
@@ -164,9 +164,9 @@ void AudioInputBuffer::SetData(void* data, size_t length) {
             break;
 
         default:
-            _Logger->WriteLog("Unable to set Data.  Invalid Audio Format Provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-            // TODO : Throw exception
-            break;
+            std::string msg = "Unable to set Data.  Invalid Audio Format Provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 }
 
@@ -187,9 +187,9 @@ void* AudioInputBuffer::GetData() {
             return _BufferWrapper->PCM_Float->GetData();
 
         default:
-            _Logger->WriteLog("Unable to return data.  Invalid Audio Format provided.", LOG_SENDER, __func__);
-            // TODO : Throw exception
-            return nullptr;
+            std::string msg = "Unable to return data.  Invalid Audio Format provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 }
 
@@ -217,9 +217,9 @@ sample AudioInputBuffer::operator[](size_t index) const {
         }
 
         default:
-            _Logger->WriteLog("Unable to retrieve Normalized Value of Index (%d).  Invalid Audio Format Provided.", LOG_SENDER, __func__);
-            // TODO : Throw Exception
-            break;
+            std::string msg = "Unable to retrieve Normalized Value.  Invalid Audio Format Provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 
     _Logger->WriteLog("Successfully retrieved Normalized Value (%f) for Index (%d)!", LOG_SENDER, __func__, normalizedValue, index);
@@ -252,9 +252,9 @@ sample AudioInputBuffer::Normalize(TInputType data) const {
             return dataValue;
 
         default:
-            _Logger->WriteLog("Unable to Normalize Value.  Invalid Audio Format Provided.", LOG_SENDER, __func__);
-            // TODO : Throw Exception
-            break;
+            std::string msg = "Unable to Normalize Value.  Invalid Audio Format Provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
     }
 
     sample normalizedValue = (maxRangeValue - minRangeValue) * ((dataValue - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue;
