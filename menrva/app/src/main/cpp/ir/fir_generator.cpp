@@ -70,7 +70,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Interpolating Frequencies & Amplitudes for Inverse FFT Processing...", LOG_SENDER, __func__);
     for (size_t sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
         size_t nextSampleIndex = sampleCounter + 1;
-        _Logger->WriteLog("Validating Frequency Change for Indexes (%d) and (%d)...", LOG_SENDER, __func__, sampleCounter, nextSampleIndex);
+        _Logger->WriteLog("Validating Frequency Change for Indexes (%d) and (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleCounter, nextSampleIndex);
         endSegmentIndex = (int)(frequencySamples[nextSampleIndex] * interpolationLength) - 1;
 
         if (beginSegmentIndex < 0 || endSegmentIndex > interpolationLength) {
@@ -78,7 +78,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             throw std::runtime_error("Invalid Amplitudes Provided.  Amplitude change too great.");
         }
 
-        _Logger->WriteLog("Calculating Frequency Components for Element Indexes (%g) to (%g)...", LOG_SENDER, __func__, beginSegmentIndex, endSegmentIndex);
+        _Logger->WriteLog("Calculating Frequency Components for Element Indexes (%g) to (%g)...", LOG_SENDER, __func__, LogLevel::VERBOSE, beginSegmentIndex, endSegmentIndex);
         for (int elementCounter = (int)beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
             auto elementIndex = (sample)elementCounter;
             amplitudeIncrement = (elementIndex - beginSegmentIndex) / (endSegmentIndex - beginSegmentIndex);
@@ -100,7 +100,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, reverseElementCounter);
         }
 
-        _Logger->WriteLog("Successfully calculated Frequency Components for Element Indexes (%g) to (%g)!", LOG_SENDER, __func__, beginSegmentIndex, endSegmentIndex);
+        _Logger->WriteLog("Successfully calculated Frequency Components for Element Indexes (%g) to (%g)!", LOG_SENDER, __func__, LogLevel::VERBOSE, beginSegmentIndex, endSegmentIndex);
         beginSegmentIndex = endSegmentIndex + 1;
     }
 
