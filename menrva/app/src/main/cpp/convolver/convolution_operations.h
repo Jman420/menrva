@@ -29,9 +29,9 @@ class ConvolutionOperations : public ConvolutionOperationsBase,
 public:
     explicit ConvolutionOperations(LoggerBase* logger);
 
-    void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) override;
-    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar) override;
-    void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output) override;
+    void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) override;
+    void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) override;
+    void ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) override;
 };
 
 #endif //MENRVA_CONVOLUTION_OPERATIONS_H

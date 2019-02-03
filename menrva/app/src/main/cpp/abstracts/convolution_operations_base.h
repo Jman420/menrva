@@ -28,9 +28,9 @@ public:
 
     void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output);
 
-    virtual void ResetAndClone(AudioBuffer* source, AudioBuffer* destination) = 0;
-    virtual void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output, sample scalar) = 0;
-    virtual void ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA, AudioComponentsBuffer* bufferB, AudioComponentsBuffer* output) = 0;
+    virtual void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) = 0;
+    virtual void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) = 0;
+    virtual void ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) = 0;
 };
 
 #endif //MENRVA_CONVOLUTION_OPERATIONS_BASE_H

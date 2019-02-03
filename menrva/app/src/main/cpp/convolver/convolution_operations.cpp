@@ -22,25 +22,24 @@
 ConvolutionOperations::ConvolutionOperations(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
-void ConvolutionOperations::ResetAndClone(AudioBuffer* source, AudioBuffer* destination) {
+void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);
-    assert(destination->GetLength() >= source->GetLength());
+    assert(destination.GetLength() >= source.GetLength());
 
     _Logger->WriteLog("Calculating Clone Length and Memory Size...", LOG_SENDER, __func__);
-    size_t cloneLength = destination->GetLength();
-    size_t sizeDiff = cloneLength - source->GetLength();
+    size_t cloneLength = destination.GetLength();
+    size_t sizeDiff = cloneLength - source.GetLength();
     size_t sampleTypeSize = sizeof(sample);
-    sample* destinationData = destination->GetData();
+    sample* destinationData = destination.GetData();
     size_t cloneSize = sampleTypeSize * cloneLength;
 
     _Logger->WriteLog("Cloning Source Buffer Length (%d) with memory size (%d)", LOG_SENDER, __func__, cloneLength, cloneSize);
-    memcpy(destinationData, source->GetData(), cloneSize);
+    memcpy(destinationData, source.GetData(), cloneSize);
     memset(destinationData + cloneSize, 0, sampleTypeSize * sizeDiff);
     _Logger->WriteLog("Successfully Clear and Cloned Source Buffer into Destination Buffer!", LOG_SENDER, __func__);
 }
 
-void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB,
-                                        AudioBuffer &output, sample scalar) {
+void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) {
     _Logger->WriteLog("Summing and Scaling Audio Buffers by (%f)...", LOG_SENDER, __func__, scalar);
     assert(output.GetLength() <= bufferA.GetLength());
     assert(bufferA.GetLength() <= bufferB.GetLength());
@@ -57,21 +56,21 @@ void ConvolutionOperations::SumAndScale(AudioBuffer &bufferA, AudioBuffer &buffe
     _Logger->WriteLog("Successfully Summed and Scaled AudioBuffers by (%f)!", LOG_SENDER, __func__, scalar);
 }
 
-void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer* bufferA,
-                                                      AudioComponentsBuffer* bufferB,
-                                                      AudioComponentsBuffer* output) {
+void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA,
+                                                      AudioComponentsBuffer& bufferB,
+                                                      AudioComponentsBuffer& output) {
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
-    assert(output->GetLength() <= bufferA->GetLength());
-    assert(bufferA->GetLength() <= bufferB->GetLength());
+    assert(output.GetLength() <= bufferA.GetLength());
+    assert(bufferA.GetLength() <= bufferB.GetLength());
 
-    sample* bufferAReal = bufferA->GetRealBuffer()->GetData();
-    sample* bufferAImag = bufferA->GetImagBuffer()->GetData();
-    sample* bufferBReal = bufferB->GetRealBuffer()->GetData();
-    sample* bufferBImag = bufferB->GetImagBuffer()->GetData();
-    sample* outputReal = output->GetRealBuffer()->GetData();
-    sample* outputImag = output->GetImagBuffer()->GetData();
+    sample* bufferAReal = bufferA.GetRealBuffer()->GetData();
+    sample* bufferAImag = bufferA.GetImagBuffer()->GetData();
+    sample* bufferBReal = bufferB.GetRealBuffer()->GetData();
+    sample* bufferBImag = bufferB.GetImagBuffer()->GetData();
+    sample* outputReal = output.GetRealBuffer()->GetData();
+    sample* outputImag = output.GetImagBuffer()->GetData();
 
-    for (int sampleCounter = 0; sampleCounter < output->GetLength(); sampleCounter++) {
+    for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
         sample valueAReal = bufferAReal[sampleCounter],
                valueAImag = bufferAImag[sampleCounter],
                valueBReal = bufferBReal[sampleCounter],

@@ -31,10 +31,10 @@ public:
     ~Convolver();
 
     void Reset();
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, size_t autoConvolveFrames);
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse, bool fullAutoConvolveFilter);
-    bool Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseResponse);
-    void Process(AudioBuffer* input, AudioBuffer* output);
+    bool Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames);
+    bool Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, bool fullAutoConvolveFilter);
+    bool Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse);
+    void Process(AudioBuffer& input, AudioBuffer& output);
 
 private:
     static constexpr sample ONE_HALF = (sample)0.5;
