@@ -5,28 +5,35 @@
   - Android SDK
   - Android NDK
   - Java SDK (JDK)
-  - FFTW3
+  - FFTW
+  - KFR Lib
+  - KissFFT
   
 ## Versioning
 Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
 
-## Compiling FFTW3 for Android
-  - See instructions in [FFTW Build Readme](fftw3/README.md)
-  - Update Menrva CMakeList.txt if necessary; Menrva expects an FFTW3 Shared Library by default
+## Compiling FFTW for Android
+  - See instructions in [FFTW Build Readme](fftw/README.md)
+  
+## Compiling KissFFT for Android
+  - See instructions in [KissFFT Build Readme](kissfft/README.md)
 
 ## Configuring Calculation Precision
 See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
 
 ### Enabling Double Precision
-  - Compile FFTW3 with Double Precision (see [FFTW Precision](fftw3/README.md#fftw-precision) for details)
+  - Compile FFTW with Double Precision (see [FFTW Precision](fftw/README.md#fftw-precision) for details)
+  - Compile KissFFT with Double Precision (see [KissFFT Precision](kissfft/README#kissfft-precision) for details)
   - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
   - Recompile Menrva
-  - Resulting APK is in /menrva/app/build/outputs/apk/<debug|release>/
-  - Resulting Menrva Library is in /menrva/app/build/intermediates/cmake/<debug|release>/obj/
-  - Resulting FFTW3 Library is in /fftw3/out/
-  - Follow Manual Installation Steps
+  - Follow Installation Instructions of your choice
+  
+## Automated ADB Installation
+  - Complete a Successful Build
+  - Run an Android Emulated Device via AVD -OR- Attach an Android Device via USB with ADB Debugging Enabled
+  - Execute [deploy_to_device.ps1](deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
 
-## Development Tools & Tips
+## AVD Tips & Tricks
 
 ### Android Emulator with Writable System
 Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.

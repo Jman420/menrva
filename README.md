@@ -33,7 +33,7 @@ Huge thanks goes out to all of the XDA Audio Mod developers out there and their 
   - [FFTW3-Android](https://github.com/Lauszus/fftw3-android) - For inspiration and guidance on FFTW compilation for Android
   - [BetterExplained](https://betterexplained.com/) - For providing this awesome explanation of the [Fourier Transform](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/)
   - [FFTW](http://fftw.org/) - For providing an awesome Fast Fourier Transform Library
-  - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) - For providing a reasonable and understandable FFT Convolver Implementation
-  - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
   - [KissFFT](https://github.com/mborgerding/kissfft) - For providing an awesome Fast Fourier Transform Library
   - [KFR](https://www.kfrlib.com/) - For providing an awesome Fast Fourier Transform & DSP Library
+  - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) - For providing a reasonable and understandable FFT Convolver Implementation
+  - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
