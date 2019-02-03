@@ -16,6 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <algorithm>
 #include "effects_engine.h"
 #include "../config.h"
 #include "../tools/buffer.cpp"
@@ -65,13 +66,13 @@ int MenrvaEffectsEngine::SetBufferConfig(effect_config_t& bufferConfig) {
 
 int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog("Processing Input Audio Buffer of length (%d)...", LOG_SENDER, __func__, inputBuffer.GetLength());
-    AudioBuffer inputFrame = *_InputAudioFrame;
+    AudioBuffer& inputFrame = *_InputAudioFrame;
     size_t inputFrameIndex = 0,
            outputBufferIndex = 0,
            inputFrameLength = inputFrame.GetLength(),
            lastFrameIndex = inputFrameLength - 1;
 
-    _Logger->WriteLog("Processing Audio Frames of size (%d)...", LOG_SENDER, __func__, inputFrameIndex);
+    _Logger->WriteLog("Processing Audio Frames of size (%d)...", LOG_SENDER, __func__, inputFrameLength);
     inputFrame[inputFrameIndex] = inputBuffer[inputFrameIndex];
     for (size_t sampleCounter = 1; sampleCounter < inputBuffer.GetLength(); sampleCounter++) {
         inputFrameIndex = sampleCounter % inputFrameLength;
@@ -145,14 +146,15 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
 
 size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog("Processing Output Audio Frame...", LOG_SENDER, __func__);
-    AudioBuffer outputFrame = *_OutputAudioFrame;
-    size_t outputFrameLength = outputFrame.GetLength();
+    AudioBuffer& outputFrame = *_OutputAudioFrame;
+    size_t outputFrameLength = std::min(outputFrame.GetLength(), outputBuffer.GetLength() - startOutputIndex);
 
-    for (size_t outputCounter = 0; outputCounter < outputBuffer.GetLength(); outputCounter++) {
+    for (size_t outputCounter = 0; outputCounter < outputFrameLength; outputCounter++) {
         sample value = outputFrame[outputCounter];
-        _Logger->WriteLog("Processing Output Audio Frame Index (%d) with Value (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter, value);
-        outputBuffer.SetValue(outputCounter + startOutputIndex, value);
-        _Logger->WriteLog("Successfully processed Output Audio Frame Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter);
+        size_t outputBufferIndex = outputCounter + startOutputIndex;
+        _Logger->WriteLog("Processing Output Audio Frame Index (%d) with Value (%f) into Output Buffer Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter, value, outputBufferIndex);
+        outputBuffer.SetValue(outputBufferIndex, value);
+        _Logger->WriteLog("Successfully processed Output Audio Frame Index (%d) into Output Buffer Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, outputCounter, outputBufferIndex);
     }
 
     _Logger->WriteLog("Successfully processed Output Audio Frame!", LOG_SENDER, __func__);
