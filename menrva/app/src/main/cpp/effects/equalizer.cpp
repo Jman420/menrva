@@ -26,11 +26,11 @@ Equalizer::Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator)
 
 }
 
-void Equalizer::Process(AudioBuffer* input, AudioBuffer* output) {
+void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
     // TODO : Implement Equalizer Effect
 }
 
-void Equalizer::ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) {
+void Equalizer::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
     // TODO : Implement Default Configuration for Equalizer Effect
 }
 

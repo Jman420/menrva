@@ -32,17 +32,17 @@ BassBoost::~BassBoost() {
     delete _Convolver;
 }
 
-void BassBoost::Process(AudioBuffer* input, AudioBuffer* output) {
+void BassBoost::Process(AudioBuffer& input, AudioBuffer& output) {
     if (!Enabled) {
         return;
     }
 
-    _Convolver->Process(input, output);
+    _Convolver->Process(&input, &output);
 }
 
-void BassBoost::ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) {
+void BassBoost::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
     // BEGIN DEBUG
-    sample sampleRate = bufferConfig->inputCfg.samplingRate,
+    sample sampleRate = bufferConfig.inputCfg.samplingRate,
            centerFreq = 60.0,
            freqTransition = 80.0,
            strength = 6.0;

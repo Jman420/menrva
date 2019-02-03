@@ -26,11 +26,11 @@ StereoWidener::StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator)
 
 }
 
-void StereoWidener::Process(AudioBuffer* input, AudioBuffer* output) {
+void StereoWidener::Process(AudioBuffer& input, AudioBuffer& output) {
     // TODO : Implement Stereo Widener Effect
 }
 
-void StereoWidener::ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) {
+void StereoWidener::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
     // TODO : Implement Default Configuration for StereoWidener Effect
 }
 

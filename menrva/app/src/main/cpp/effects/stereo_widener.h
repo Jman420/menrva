@@ -28,8 +28,8 @@ class StereoWidener : public EffectBase,
 public:
     StereoWidener(LoggerBase* logger, ServiceLocator* serviceLocator);
 
-    void Process(AudioBuffer* input, AudioBuffer* output) override;
-    void ResetConfig(effect_config_t* bufferConfig, size_t audioFrameLength) override;
+    void Process(AudioBuffer& input, AudioBuffer& output) override;
+    void ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) override;
     void ConfigureSetting(char* settingName, void* value) override;
 
 private:
