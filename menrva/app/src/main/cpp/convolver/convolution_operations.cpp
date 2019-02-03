@@ -24,7 +24,10 @@ ConvolutionOperations::ConvolutionOperations(LoggerBase* logger)
 
 void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);
-    assert(destination.GetLength() >= source.GetLength());
+    if (destination.GetLength() < source.GetLength()) {
+        _Logger->WriteLog("Unable to Reset and Clone Audio Buffers.  Destination Buffer (%d) smaller than Source Buffer (%d).", LOG_SENDER, __func__, LogLevel::FATAL, destination.GetLength(), source.GetLength());
+        throw std::runtime_error("Unable to Reset and Clone Audio Buffers.  Destination Buffer smaller than Source Buffer.");
+    }
 
     _Logger->WriteLog("Calculating Clone Length and Memory Size...", LOG_SENDER, __func__);
     size_t cloneLength = destination.GetLength();
@@ -41,8 +44,14 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& dest
 
 void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) {
     _Logger->WriteLog("Summing and Scaling Audio Buffers by (%f)...", LOG_SENDER, __func__, scalar);
-    assert(output.GetLength() <= bufferA.GetLength());
-    assert(bufferA.GetLength() <= bufferB.GetLength());
+    if (output.GetLength() > bufferA.GetLength()) {
+        _Logger->WriteLog("Unable to Sum and Scale Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", LOG_SENDER, __func__, LogLevel::FATAL, output.GetLength(), bufferA.GetLength());
+        throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Output Buffer larger than Source Buffer A.");
+    }
+    if (bufferA.GetLength() > bufferB.GetLength()) {
+        _Logger->WriteLog("Unable to Sum and Scale Audio Buffers.  Source Buffer A (%d) larger than Source Buffer B (%d).", LOG_SENDER, __func__, LogLevel::FATAL, bufferA.GetLength(), bufferB.GetLength());
+        throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Source Buffer A larger than Source Buffer B.");
+    }
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
         sample valueA = bufferA[sampleCounter],
@@ -60,8 +69,14 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
                                                       AudioComponentsBuffer& bufferB,
                                                       AudioComponentsBuffer& output) {
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
-    assert(output.GetLength() <= bufferA.GetLength());
-    assert(bufferA.GetLength() <= bufferB.GetLength());
+    if (output.GetLength() > bufferA.GetLength()) {
+        _Logger->WriteLog("Unable to Multiply and Accumulate Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", LOG_SENDER, __func__, LogLevel::FATAL, output.GetLength(), bufferA.GetLength());
+        throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Output Buffer larger than Source Buffer A.");
+    }
+    if (bufferA.GetLength() > bufferB.GetLength()) {
+        _Logger->WriteLog("Unable to Multiply and Accumulate Audio Buffers.  Source Buffer A (%d) larger than Source Buffer B (%d).", LOG_SENDER, __func__, LogLevel::FATAL, bufferA.GetLength(), bufferB.GetLength());
+        throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Source Buffer A larger than Source Buffer B.");
+    }
 
     sample* bufferAReal = bufferA.GetRealBuffer()->GetData();
     sample* bufferAImag = bufferA.GetImagBuffer()->GetData();

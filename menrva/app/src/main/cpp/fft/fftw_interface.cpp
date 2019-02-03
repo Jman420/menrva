@@ -28,9 +28,9 @@ size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
-        _Logger->WriteLog("Invalid Signal and Component Sizes provided!", LOG_SENDER, __func__, LogLevel::ERROR);
-        // TODO : Throw exception
-        return componentSize;
+        std::string msg = "Invalid Signal and Component Sizes provided!";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
     _Logger->WriteLog("Successfully set FFT Signal Size (%d) and Component Size (%d)!", LOG_SENDER, __func__, signalSize, componentSize);
 

@@ -85,7 +85,7 @@ void Convolver::Reset() {
     _Logger->WriteLog("Successfully reset Convolver Configuration!", LOG_SENDER, __func__);
 }
 
-bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames) {
+void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames) {
     _Logger->WriteLog("Initializing Convolver Configuration...", LOG_SENDER, __func__);
     if (_Initialized) {
         Reset();
@@ -93,14 +93,15 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
 
     _Logger->WriteLog("Validating Audio Frame Length and Impulse Response...", LOG_SENDER, __func__);
     if (audioFrameLength < 1) {
-        _Logger->WriteLog("Invalid Audio Frame Length provided.  Audio Frame Length must be greater than 0.", LOG_SENDER, __func__, LogLevel::WARN);
-        return false;
+        std::string msg = "Invalid Audio Frame Length provided.  Audio Frame Length must be greater than 0.";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
 
     size_t validFilterLength = FindImpulseResponseLength(filterImpulseResponse);
     if (validFilterLength < 1) {
         _Logger->WriteLog("Invalid Impulse Response provided.  Length of non-zero Impulse Response Signal Values must be greater than 0.", LOG_SENDER, __func__, LogLevel::WARN);
-        return true;
+        return;
     }
 
     _Logger->WriteLog("Calculating Segment Count and Memory Size...", LOG_SENDER, __func__);
@@ -116,8 +117,9 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
 
     _Logger->WriteLog("Validating AutoConvolve Frames Length...", LOG_SENDER, __func__);
     if (_FilterSegmentsLength < autoConvolveFrames) {
-        _Logger->WriteLog("Invalid AutoConvolve Frames Length provided.  AutoConvolve Frames must be less than or equal to the Filter Segments Length.", LOG_SENDER, __func__);
-        return false;
+        std::string msg = "Invalid AutoConvolve Frames Length provided.  AutoConvolve Frames must be less than or equal to the Filter Segments Length.";
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        throw std::runtime_error(msg);
     }
 
     _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
@@ -157,10 +159,9 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
-    return true;
 }
 
-bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, bool fullAutoConvolveFilter) {
+void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, bool fullAutoConvolveFilter) {
     size_t autoConvolveFrames = 0;
 
     if (fullAutoConvolveFilter) {
@@ -169,11 +170,11 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
         autoConvolveFrames = CalculateSegmentsCount(segmentLength, validFilterLength);
     }
 
-    return Initialize(audioFrameLength, filterImpulseResponse, autoConvolveFrames);
+    Initialize(audioFrameLength, filterImpulseResponse, autoConvolveFrames);
 }
 
-bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse) {
-    return Initialize(audioFrameLength, filterImpulseResponse, false);
+void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse) {
+    Initialize(audioFrameLength, filterImpulseResponse, false);
 }
 
 void Convolver::Process(AudioBuffer& input, AudioBuffer& output) {

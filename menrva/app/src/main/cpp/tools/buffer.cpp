@@ -18,6 +18,7 @@
 
 #include <cstring>
 #include <cassert>
+#include <stdexcept>
 #include "buffer.h"
 
 template<class TInputType>
@@ -40,7 +41,6 @@ void Buffer<TInputType>::Free() {
     _Length = 0;
     _MemorySize = 0;
     _Data = 0;
-    _DataSet = false;
 }
 
 template<class TInputType>
@@ -72,20 +72,19 @@ void Buffer<TInputType>::SetData(TInputType* data, size_t length) {
     _Data = data;
     _Length = length;
     _MemorySize = CalculateMemorySize(_Length);
-    _DataSet = true;
 }
 
 template<class TInputType>
 TInputType* Buffer<TInputType>::GetData() {
-    // TODO : Replace assert with exception
-    assert(_DataSet);
     return _Data;
 }
 
 template<class TInputType>
 TInputType& Buffer<TInputType>::operator[](size_t index) {
-    // TODO : Replace assert with exception
-    assert(_DataSet && index < _Length);
+    if (index > _Length) {
+        throw std::runtime_error("Buffer index out of bounds.");
+    }
+
     return _Data[index];
 }
 

@@ -60,15 +60,15 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
 
     if (pHandle == nullptr) {
-        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
     if (uuid == nullptr) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::WARN, MenrvaModuleInterface::EngineUUID);
+        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
         return -EINVAL;
     }
 
@@ -107,7 +107,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     auto module = (menrva_module_context*)moduleHandle;
 
     if (module == nullptr) {
-        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
@@ -126,11 +126,11 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
                                                  effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
     if (pDescriptor == nullptr) {
-        _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
     if (uuid == nullptr) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
@@ -148,7 +148,7 @@ int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
     auto module = (menrva_module_context*)self;
     if (module == nullptr || pDescriptor == nullptr) {
-        _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 

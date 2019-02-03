@@ -40,7 +40,6 @@ public:
     static void Swap(Buffer* itemA, Buffer* itemB);
 
 protected:
-    bool _DataSet;
     size_t _Length,
            _MemorySize;
     TInputType* _Data;

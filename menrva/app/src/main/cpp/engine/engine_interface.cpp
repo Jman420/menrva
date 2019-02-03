@@ -31,7 +31,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
     auto context = (menrva_module_context*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENODATA;
     }
     if (context->ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
@@ -59,7 +59,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
             break;
 
         default:
-            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::WARN, context->config->inputCfg.format);
+            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::ERROR, context->config->inputCfg.format);
             return -EINVAL;
     }
 
@@ -78,7 +78,7 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
 
-        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 

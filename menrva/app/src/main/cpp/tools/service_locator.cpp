@@ -36,23 +36,18 @@ LoggerBase* ServiceLocator::GetLogger() {
 }
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    FftInterfaceBase* returnValue = nullptr;
-
     switch (_FftEngineType) {
         case FftEngineType::KFR:
-            returnValue = new KfrInterface(GetLogger());
-            break;
+            return new KfrInterface(GetLogger());
 
         case FftEngineType::FFTW:
-            returnValue = new FftwInterface(GetLogger());
-            break;
+            return new FftwInterface(GetLogger());
 
         case FftEngineType::KISS_FFT:
-            returnValue = new KissFftInterface(GetLogger());
-            break;
+            return new KissFftInterface(GetLogger());
     }
 
-    return returnValue;
+    throw std::runtime_error("Invalid FFT Engine Type.");
 }
 
 FirGenerator* ServiceLocator::GetFirGenerator() {
