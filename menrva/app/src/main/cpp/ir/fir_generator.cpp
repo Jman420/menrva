@@ -109,7 +109,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Calculating FIR Signal from Interpolated Frequency Components...", LOG_SENDER, __func__);
     size_t fftCalcSize = fftFrequencyLength - 2;
     _FftEngine->Initialize(fftCalcSize, fftFrequencyLength);
-    _FftEngine->ComponentsToSignal(&fftFrequencies, &fftOutputSignal);
+    _FftEngine->ComponentsToSignal(fftFrequencies, fftOutputSignal);
 
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
     sample hammingIncrement = (sample)filterLength - ONE,

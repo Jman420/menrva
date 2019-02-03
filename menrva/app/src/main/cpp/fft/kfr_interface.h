@@ -32,8 +32,8 @@ public:
     ~KfrInterface();
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
-    void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) override;
-    void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) override;
+    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
+    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
 
 private:
     dft_plan_real_ptr<sample> _Plan;

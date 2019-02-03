@@ -26,14 +26,15 @@
 class FftInterfaceBase {
 public:
     explicit FftInterfaceBase();
+    virtual ~FftInterfaceBase() = default;
 
     size_t Initialize(size_t signalSize);
     size_t GetSignalSize();
     size_t GetComponentSize();
 
     virtual size_t Initialize(size_t signalSize, size_t componentSize);
-    virtual void SignalToComponents(AudioBuffer* signal, AudioComponentsBuffer* components) = 0;
-    virtual void ComponentsToSignal(AudioComponentsBuffer* components, AudioBuffer* signal) = 0;
+    virtual void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) = 0;
+    virtual void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) = 0;
     virtual sample* Allocate(size_t size);
     virtual void Deallocate(sample* data);
 

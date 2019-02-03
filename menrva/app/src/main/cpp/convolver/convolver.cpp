@@ -134,7 +134,7 @@ bool Convolver::Initialize(size_t audioFrameLength, AudioBuffer* filterImpulseRe
         memcpy(impulseSignalSegment->GetData(), &(*filterImpulseResponse)[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
         _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
-        _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
+        _FftEngine->SignalToComponents(*impulseSignalSegment, *(_FilterSegments[segmentCounter]));
     }
 
     _Logger->WriteLog("Allocating AutoConvolution Buffers...", LOG_SENDER, __func__);
@@ -189,7 +189,7 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     memset(&_WorkingSignal->GetData()[_FrameLength], 0, _FrameSize);
 
     _Logger->WriteLog("Calculating Audio Frame's Components...", LOG_SENDER, __func__);
-    _FftEngine->SignalToComponents(_WorkingSignal, _InputComponents);
+    _FftEngine->SignalToComponents(*_WorkingSignal, *_InputComponents);
 
     _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
     for (size_t bufferCounter = 0; bufferCounter < _OperationsPerConvolution; bufferCounter++) {
@@ -200,7 +200,7 @@ void Convolver::Process(AudioBuffer* input, AudioBuffer* output) {
     }
 
     _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
-    _FftEngine->ComponentsToSignal(_MixedComponents[_MixCounter], _WorkingSignal);
+    _FftEngine->ComponentsToSignal(*(_MixedComponents[_MixCounter]), *_WorkingSignal);
     _MixedComponents[_MixCounter]->ResetData();
     _MixCounter = (_MixCounter + 1) % _MixedComponentsLength;
 
