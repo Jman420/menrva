@@ -195,7 +195,7 @@ void* AudioInputBuffer::GetData() {
 
 sample AudioInputBuffer::operator[](size_t index) const {
     _Logger->WriteLog("Retrieving Normalized Value of Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, index);
-    sample normalizedValue = 0.0f;
+    sample normalizedValue;
 
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
@@ -229,22 +229,17 @@ sample AudioInputBuffer::operator[](size_t index) const {
 template<class TInputType>
 sample AudioInputBuffer::Normalize(TInputType data) const {
     _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _AudioFormat);
-    const sample maxRangeValue = PCM_FLOAT_MAX_VALUE,
-                 minRangeValue = PCM_FLOAT_MIN_VALUE,
-                 dataValue = (sample)data;
+    const auto dataValue = (sample)data;
 
-    sample maxDataValue = 0.0f,
-           minDataValue = 0.0f;
+    sample conversionScalar;
 
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
-            maxDataValue = PCM16_MAX_VALUE;
-            minDataValue = PCM16_MIN_VALUE;
+            conversionScalar = PCM16_FLOAT_SCALAR;
             break;
 
         case AudioFormat::PCM_32:
-            maxDataValue = PCM32_MAX_VALUE;
-            minDataValue = PCM32_MIN_VALUE;
+            conversionScalar = PCM32_FLOAT_SCALAR;
             break;
 
         case AudioFormat::PCM_Float:
@@ -257,7 +252,7 @@ sample AudioInputBuffer::Normalize(TInputType data) const {
             throw std::runtime_error(msg);
     }
 
-    sample normalizedValue = (maxRangeValue - minRangeValue) * ((dataValue - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue;
+    sample normalizedValue = dataValue / conversionScalar;
     _Logger->WriteLog("Successfully normalized value to (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }

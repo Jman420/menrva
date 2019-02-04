@@ -250,21 +250,15 @@ void* AudioOutputBuffer::operator[](size_t index) const {
 template<class TOutputType>
 TOutputType AudioOutputBuffer::Normalize(sample data) {
     _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _AudioFormat);
-    const sample maxDataValue = PCM_FLOAT_MAX_VALUE,
-                 minDataValue = PCM_FLOAT_MIN_VALUE;
-
-    sample maxRangeValue = 0.0f,
-           minRangeValue = 0.0f;
+    sample conversionScalar;
 
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
-            maxRangeValue = PCM16_MAX_VALUE;
-            minRangeValue = PCM16_MIN_VALUE;
+            conversionScalar = PCM16_FLOAT_SCALAR;
             break;
 
         case AudioFormat::PCM_32:
-            maxRangeValue = PCM32_MAX_VALUE;
-            minRangeValue = PCM32_MIN_VALUE;
+            conversionScalar = PCM32_FLOAT_SCALAR;
             break;
 
         case AudioFormat::PCM_Float:
@@ -277,7 +271,7 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             throw std::runtime_error(msg);
     }
 
-    auto normalizedValue = (TOutputType)((maxRangeValue - minRangeValue) * ((data - minDataValue) / (maxDataValue - minDataValue)) + minRangeValue);
+    auto normalizedValue = (TOutputType)(data * conversionScalar);
     _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }

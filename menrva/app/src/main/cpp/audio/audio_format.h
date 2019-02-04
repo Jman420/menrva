@@ -28,11 +28,8 @@ enum AudioFormat {
     Sample,
 };
 
-const sample PCM16_MAX_VALUE = 32767.0f,
-             PCM16_MIN_VALUE = -32767.0f,
-             PCM32_MAX_VALUE = 2147483647.0f,
-             PCM32_MIN_VALUE = -2147483647.0f,
-             PCM_FLOAT_MAX_VALUE = 1.0f,
-             PCM_FLOAT_MIN_VALUE = -1.0f;
+const sample PCM16_FLOAT_SCALAR = 32767.0f,
+             PCM32_FLOAT_SCALAR = 2147483647.0f,
+             PCM_FLOAT_SCALAR = 1.0f;
 
 #endif //MENRVA_AUDIO_FORMAT_H
