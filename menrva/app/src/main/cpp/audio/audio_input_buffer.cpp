@@ -253,6 +253,7 @@ sample AudioInputBuffer::Normalize(TInputType data) const {
     }
 
     sample normalizedValue = dataValue / conversionScalar;
+    normalizedValue = std::max(std::min(normalizedValue, conversionScalar), -conversionScalar);
     _Logger->WriteLog("Successfully normalized value to (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }
