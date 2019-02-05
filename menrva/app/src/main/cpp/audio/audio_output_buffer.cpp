@@ -272,7 +272,13 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
     }
 
     auto normalizedValue = (TOutputType)(data * conversionScalar);
-    normalizedValue = std::max(std::min(normalizedValue, conversionScalar), -conversionScalar);
+    if (normalizedValue > conversionScalar) {
+        normalizedValue = (TOutputType)conversionScalar;
+    }
+    else if (normalizedValue < -conversionScalar) {
+        normalizedValue = (TOutputType)(-conversionScalar);
+    }
+
     _Logger->WriteLog("Successfully normalized value to (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue);
     return normalizedValue;
 }
