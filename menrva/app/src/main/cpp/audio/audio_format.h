@@ -28,7 +28,7 @@ enum AudioFormat {
     Sample,
 };
 
-const sample PCM16_FLOAT_SCALAR = 32767.0f,
+const sample PCM16_FLOAT_SCALAR = 32768.0f,
              PCM32_FLOAT_SCALAR = 2147483647.0f,
              PCM_FLOAT_SCALAR = 1.0f;
 
