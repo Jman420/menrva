@@ -54,6 +54,7 @@ private:
     EffectBase* _MenrvaEffects[EFFECTS_LENGTH];
     AudioBuffer* _InputAudioFrame;
     AudioBuffer* _OutputAudioFrame;
+    uint32_t _ChannelLength;
 
     void ProcessInputAudioFrame();
     size_t ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer);

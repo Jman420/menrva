@@ -53,6 +53,7 @@ add_library( # Sets the name of the library.
         abstracts/fft_interface_base.cpp
         abstracts/effect_base.cpp
         abstracts/convolution_operations_base.cpp
+        abstracts/audio_io_buffer_base.cpp
 
         tools/android_logger.cpp
         tools/service_locator.cpp

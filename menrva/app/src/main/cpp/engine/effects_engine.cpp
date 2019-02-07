@@ -60,12 +60,15 @@ void MenrvaEffectsEngine::ResetBuffers(effect_config_t &bufferConfig) {
 }
 
 int MenrvaEffectsEngine::SetBufferConfig(effect_config_t& bufferConfig) {
-    // TODO : Implement Logic to Configure Effects
+    _ChannelLength = bufferConfig.inputCfg.channels;
+
+    // TODO : Setup Input & Output Buffers based on Channel Length
+
     return 0;
 }
 
 int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {
-    _Logger->WriteLog("Processing Input Audio Buffer of length (%d)...", LOG_SENDER, __func__, inputBuffer.GetLength());
+    _Logger->WriteLog("Processing Input Audio Buffer of length (%d) and channels (%d)...", LOG_SENDER, __func__, inputBuffer.GetSampleLength());
     AudioBuffer& inputFrame = *_InputAudioFrame;
     size_t inputFrameIndex = 0,
            outputBufferIndex = 0,
@@ -73,8 +76,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
            lastFrameIndex = inputFrameLength - 1;
 
     _Logger->WriteLog("Processing Audio Frames of size (%d)...", LOG_SENDER, __func__, inputFrameLength);
-    inputFrame[inputFrameIndex] = inputBuffer[inputFrameIndex];
-    for (size_t sampleCounter = 1; sampleCounter < inputBuffer.GetLength(); sampleCounter++) {
+    for (size_t sampleCounter = 0; sampleCounter < inputBuffer.GetSampleLength(); sampleCounter++) {
         inputFrameIndex = sampleCounter % inputFrameLength;
         _Logger->WriteLog("Loading Input Buffer Index (%d) into Audio Frame Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleCounter, inputFrameIndex);
 
@@ -100,7 +102,8 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
         _Logger->WriteLog("Successfully processed Final Incomplete Audio Frame!", LOG_SENDER, __func__);
     }
 
-    _Logger->WriteLog("Successfully processed Input Audio Buffer of length (%d)!", LOG_SENDER, __func__, inputBuffer.GetLength());
+    _Logger->WriteLog("Successfully processed Input Audio Buffer of length (%d)!", LOG_SENDER, __func__,
+                      inputBuffer.GetSampleLength());
     return 0;
 }
 
@@ -147,7 +150,8 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
 size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog("Processing Output Audio Frame...", LOG_SENDER, __func__);
     AudioBuffer& outputFrame = *_OutputAudioFrame;
-    size_t outputFrameLength = std::min(outputFrame.GetLength(), outputBuffer.GetLength() - startOutputIndex);
+    size_t outputFrameLength = std::min(outputFrame.GetLength(),
+                                        outputBuffer.GetSampleLength() - startOutputIndex);
 
     for (size_t outputCounter = 0; outputCounter < outputFrameLength; outputCounter++) {
         sample value = outputFrame[outputCounter];

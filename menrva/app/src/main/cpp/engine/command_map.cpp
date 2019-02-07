@@ -130,7 +130,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    int result = MenrvaCommandMap::ResetBuffers(context, (uint32_t) NULL, nullptr, nullptr, nullptr);
+    int result = context.EffectsEngine->SetBufferConfig(context.config);
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);

@@ -25,6 +25,7 @@
 #include "audio_format.h"
 #include "../tools/conversion_buffer.h"
 #include "../abstracts/logging_base.h"
+#include "../abstracts/audio_io_buffer_base.h"
 
 union audio_output_buffer_u {
     Buffer<int16_t>* PCM_16;
@@ -32,13 +33,13 @@ union audio_output_buffer_u {
     Buffer<float>* PCM_Float;
 };
 
-class AudioOutputBuffer : public LoggingBase {
+class AudioOutputBuffer : public LoggingBase,
+                                 AudioIOBufferBase {
 public:
     explicit AudioOutputBuffer(LoggerBase* logger);
     AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
-    size_t GetLength();
     void ResetData();
     void Free();
 

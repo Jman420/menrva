@@ -39,23 +39,25 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         return 0;
     }
 
+    uint32_t inputChannelLength = context->config.inputCfg.channels,
+             outputChannelLength = context->config.outputCfg.channels;
     _Logger->WriteLog("Input Buffer Frame Count (%d).", LOG_SENDER, __func__, in->frameCount);
     _Logger->WriteLog("Output Buffer Frame Count (%d).", LOG_SENDER, __func__, out->frameCount);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
-            context->InputBuffer->SetData(in->s16, in->frameCount);
-            context->OutputBuffer->SetData(out->s16, out->frameCount);
+            context->InputBuffer->SetData(in->s16, inputChannelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->s16, outputChannelLength, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_32_BIT:
-            context->InputBuffer->SetData(in->s32, in->frameCount);
-            context->OutputBuffer->SetData(out->s32, out->frameCount);
+            context->InputBuffer->SetData(in->s32, inputChannelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->s32, outputChannelLength, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_FLOAT:
-            context->InputBuffer->SetData(in->f32, in->frameCount);
-            context->OutputBuffer->SetData(out->f32, out->frameCount);
+            context->InputBuffer->SetData(in->f32, inputChannelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->f32, outputChannelLength, out->frameCount);
             break;
 
         default:

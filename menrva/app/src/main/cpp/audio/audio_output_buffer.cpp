@@ -55,24 +55,6 @@ AudioOutputBuffer::~AudioOutputBuffer() {
     _Logger->WriteLog("Successfully disposed of Audio Output Buffer!", LOG_SENDER, __func__);
 }
 
-size_t AudioOutputBuffer::GetLength() {
-    switch (_AudioFormat) {
-        case AudioFormat::PCM_16:
-            return _BufferWrapper->PCM_16->GetLength();
-
-        case AudioFormat::PCM_32:
-            return _BufferWrapper->PCM_32->GetLength();
-
-        case AudioFormat::PCM_Float:
-            return _BufferWrapper->PCM_Float->GetLength();
-
-        default:
-            std::string msg = "Unable to retrieve length.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
-            throw std::runtime_error(msg);
-    }
-}
-
 void AudioOutputBuffer::ResetData() {
     switch (_AudioFormat) {
         case AudioFormat::PCM_16:
