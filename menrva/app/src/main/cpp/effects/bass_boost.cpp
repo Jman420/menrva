@@ -40,7 +40,7 @@ void BassBoost::Process(AudioBuffer& input, AudioBuffer& output) {
     _Convolver->Process(input, output);
 }
 
-void BassBoost::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
+void BassBoost::ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) {
     // BEGIN DEBUG
     sample sampleRate = bufferConfig.inputCfg.samplingRate,
            centerFreq = 60.0,
@@ -56,6 +56,8 @@ void BassBoost::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLeng
     _Convolver->Initialize(audioFrameLength, *impulseFilter);
     Enabled = true;
     // END DEBUG
+
+    _Convolver->ResetBuffers();
 }
 
 void BassBoost::ConfigureSetting(char* settingName, void* value) {

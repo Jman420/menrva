@@ -50,8 +50,8 @@ private:
                           uint32_t* replySize, void* pReplyData);
     static int SetConfig(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,
                          uint32_t* replySize, void* pReplyData);
-    static int ResetEngine(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,
-                           uint32_t* replySize, void* pReplyData);
+    static int ResetBuffers(menrva_module_context &context, uint32_t cmdSize, void* pCmdData,
+                            uint32_t* replySize, void* pReplyData);
     static int EnableEngine(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,
                             uint32_t* replySize, void* pReplyData);
     static int DisableEngine(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,

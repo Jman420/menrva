@@ -48,12 +48,24 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
 }
 
 Convolver::~Convolver() {
-    Reset();
+    ResetConfig();
 
     delete _ConvolutionOperations;
 }
 
-void Convolver::Reset() {
+void Convolver::ResetBuffers() {
+    _Logger->WriteLog("Resetting Convolution Buffers...", LOG_SENDER, __func__);
+    _WorkingSignal->ResetData();
+    _InputComponents->ResetData();
+    _OverlapSignal->ResetData();
+
+    for (int mixCounter = 0; mixCounter < _MixedComponentsLength; mixCounter++) {
+        _MixedComponents[mixCounter]->ResetData();
+    }
+    _Logger->WriteLog("Successfully reset Convolution Buffers!", LOG_SENDER, __func__);
+}
+
+void Convolver::ResetConfig() {
     _Logger->WriteLog("Resetting Convolver Configuration...", LOG_SENDER, __func__);
     if (!_Initialized) {
         _Logger->WriteLog("Skipping resetting Convolver Configuration.  Convolver is Uninitialized.", LOG_SENDER, __func__);
@@ -88,7 +100,7 @@ void Convolver::Reset() {
 void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames) {
     _Logger->WriteLog("Initializing Convolver Configuration...", LOG_SENDER, __func__);
     if (_Initialized) {
-        Reset();
+        ResetConfig();
     }
 
     _Logger->WriteLog("Validating Audio Frame Length and Impulse Response...", LOG_SENDER, __func__);

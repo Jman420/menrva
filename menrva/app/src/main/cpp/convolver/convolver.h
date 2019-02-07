@@ -30,7 +30,8 @@ public:
     Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();
 
-    void Reset();
+    void ResetBuffers();
+    void ResetConfig();
     void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames);
     void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, bool fullAutoConvolveFilter);
     void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse);

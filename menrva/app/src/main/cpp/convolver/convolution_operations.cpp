@@ -25,8 +25,8 @@ ConvolutionOperations::ConvolutionOperations(LoggerBase* logger)
 void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);
     if (destination.GetLength() < source.GetLength()) {
-        _Logger->WriteLog("Unable to Reset and Clone Audio Buffers.  Destination Buffer (%d) smaller than Source Buffer (%d).", LOG_SENDER, __func__, LogLevel::FATAL, destination.GetLength(), source.GetLength());
-        throw std::runtime_error("Unable to Reset and Clone Audio Buffers.  Destination Buffer smaller than Source Buffer.");
+        _Logger->WriteLog("Unable to ResetConfig and Clone Audio Buffers.  Destination Buffer (%d) smaller than Source Buffer (%d).", LOG_SENDER, __func__, LogLevel::FATAL, destination.GetLength(), source.GetLength());
+        throw std::runtime_error("Unable to ResetConfig and Clone Audio Buffers.  Destination Buffer smaller than Source Buffer.");
     }
 
     _Logger->WriteLog("Calculating Clone Length and Memory Size...", LOG_SENDER, __func__);

@@ -25,13 +25,13 @@ LoggerBase* MenrvaCommandMap::_Logger = _ServiceLocator->GetLogger();
 
 const function_map MenrvaCommandMap::_CommandMap = {
     { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
+    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetBuffers },
+    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
     { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
-    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetEngine },
+    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
+    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
     { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
     { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
-    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
-    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
-    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
 };
 
 int MenrvaCommandMap::Process(menrva_module_context& context, uint32_t cmdCode, uint32_t cmdSize,
@@ -130,26 +130,26 @@ int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    int result = MenrvaCommandMap::ResetEngine(context, (uint32_t)NULL, nullptr, nullptr, nullptr);
+    int result = MenrvaCommandMap::ResetBuffers(context, (uint32_t) NULL, nullptr, nullptr, nullptr);
     *(int*)pReplyData = result;
 
-    _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i).", LOG_SENDER, __func__, result);
+    _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);
     return 0;
 }
 
-int MenrvaCommandMap::ResetEngine(menrva_module_context& context, uint32_t cmdSize __unused,
-                                  void* pCmdData __unused, uint32_t* replySize __unused,
-                                  void* pReplyData __unused) {
-    _Logger->WriteLog("Received ResetEngine Command...", LOG_SENDER, __func__);
+int MenrvaCommandMap::ResetBuffers(menrva_module_context &context, uint32_t cmdSize __unused,
+                                   void* pCmdData __unused, uint32_t* replySize __unused,
+                                   void* pReplyData __unused) {
+    _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
     if (context.EffectsEngine == nullptr) {
-        _Logger->WriteLog("Skipping ResetEngine Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping ResetBuffers Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
 
-    _Logger->WriteLog("Resetting Effects Engine...", LOG_SENDER, __func__);
-    context.EffectsEngine->ResetEffects(context.config);
+    _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
+    context.EffectsEngine->ResetBuffers(context.config);
 
-    _Logger->WriteLog("Successfully Reset Effects Engine.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
     return 0;
 }
 
@@ -166,7 +166,7 @@ int MenrvaCommandMap::EnableEngine(menrva_module_context& context, uint32_t cmdS
     context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_ENABLED;
     *(int*)pReplyData = 0;
 
-    _Logger->WriteLog("Successfully Enabled Effects Engine.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Enabled Effects Engine!", LOG_SENDER, __func__);
     return 0;
 }
 
@@ -183,7 +183,7 @@ int MenrvaCommandMap::DisableEngine(menrva_module_context& context, uint32_t cmd
     context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
     *(int*)pReplyData = 0;
 
-    _Logger->WriteLog("Successfully Disabled Effects Engine.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Disabled Effects Engine!", LOG_SENDER, __func__);
     return 0;
 }
 
@@ -301,8 +301,8 @@ uint32_t MenrvaCommandMap::ComputeParamVOffset(const effect_param_t& p) {
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t& bufferConfig) {
-    _Logger->WriteLog("Buffer Format (%u)", LOG_SENDER, __func__, bufferConfig.format);
-    _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, bufferConfig.samplingRate);
-    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, bufferConfig.channels);
-    _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, bufferConfig.accessMode);
+    _Logger->WriteLog("Buffer Format (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.format);
+    _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.samplingRate);
+    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.channels);
+    _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.accessMode);
 }

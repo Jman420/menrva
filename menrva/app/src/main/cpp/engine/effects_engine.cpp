@@ -48,15 +48,15 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-void MenrvaEffectsEngine::ResetEffects(effect_config_t& bufferConfig) {
+void MenrvaEffectsEngine::ResetBuffers(effect_config_t &bufferConfig) {
     _Logger->WriteLog("Resetting Effects...", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_INITIALIZING;
 
     for (EffectBase* effect : _MenrvaEffects) {
         _Logger->WriteLog("Resetting Effect : %s", LOG_SENDER, __func__, effect->NAME.c_str());
-        effect->ResetConfig(bufferConfig, MENRVA_DSP_FRAME_LENGTH);
+        effect->ResetBuffers(bufferConfig, MENRVA_DSP_FRAME_LENGTH);
     }
-    _Logger->WriteLog("Successfully Reset Effects!", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully ResetConfig Effects!", LOG_SENDER, __func__);
 }
 
 int MenrvaEffectsEngine::SetBufferConfig(effect_config_t& bufferConfig) {
