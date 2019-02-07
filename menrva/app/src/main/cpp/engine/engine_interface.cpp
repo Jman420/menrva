@@ -42,7 +42,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
     _Logger->WriteLog("Input Buffer Frame Count (%d).", LOG_SENDER, __func__, in->frameCount);
     _Logger->WriteLog("Output Buffer Frame Count (%d).", LOG_SENDER, __func__, out->frameCount);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
-    switch (context->config->inputCfg.format) {
+    switch (context->config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
             context->InputBuffer->SetData(in->s16, in->frameCount);
             context->OutputBuffer->SetData(out->s16, out->frameCount);
@@ -59,7 +59,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
             break;
 
         default:
-            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::ERROR, context->config->inputCfg.format);
+            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::ERROR, context->config.inputCfg.format);
             return -EINVAL;
     }
 

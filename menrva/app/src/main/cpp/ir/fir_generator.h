@@ -42,7 +42,6 @@ public:
     AudioBuffer* Calculate(size_t filterLength, sample* frequencySamples, sample* amplitudeSamples, size_t sampleLength);
 
 private:
-    static const std::string LOG_SENDER;
     static constexpr sample PI = (sample)M_PI,
                             PI2 = (sample)M_PI * (sample)2.0,
                             ONE = (sample)1.0,

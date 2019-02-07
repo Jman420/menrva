@@ -129,7 +129,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize
     context.OutputBuffer->SetFormat((AudioFormat)config->outputCfg.format);
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
-    context.config = config;
+    context.config = *config;
     int result = MenrvaCommandMap::ResetEngine(context, (uint32_t)NULL, nullptr, nullptr, nullptr);
     *(int*)pReplyData = result;
 
@@ -147,7 +147,7 @@ int MenrvaCommandMap::ResetEngine(menrva_module_context& context, uint32_t cmdSi
     }
 
     _Logger->WriteLog("Resetting Effects Engine...", LOG_SENDER, __func__);
-    context.EffectsEngine->ResetEffects(*context.config);
+    context.EffectsEngine->ResetEffects(context.config);
 
     _Logger->WriteLog("Successfully Reset Effects Engine.", LOG_SENDER, __func__);
     return 0;
@@ -275,7 +275,7 @@ int MenrvaCommandMap::GetConfig(menrva_module_context& context, uint32_t cmdSize
     }
 
     _Logger->WriteLog("Successfully Retrieved Engine Config.", LOG_SENDER, __func__);
-    pReplyData = context.config;
+    pReplyData = &context.config;
     return 0;
 }
 
@@ -301,8 +301,8 @@ uint32_t MenrvaCommandMap::ComputeParamVOffset(const effect_param_t& p) {
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t& bufferConfig) {
-    _Logger->WriteLog("Buffer Format (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.format);
-    _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.samplingRate);
-    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.channels);
-    _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.accessMode);
+    _Logger->WriteLog("Buffer Format (%u)", LOG_SENDER, __func__, bufferConfig.format);
+    _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, bufferConfig.samplingRate);
+    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, bufferConfig.channels);
+    _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, bufferConfig.accessMode);
 }

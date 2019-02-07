@@ -37,6 +37,7 @@ void AndroidLogger::Initialize() {
 
     // BEGIN DEBUG
     AppLogLevel = LogLevel::DEBUG;
+    _Whitelist.insert(logger_whitelist_entry("MenrvaEngineInterface", true));
     _WhitelistActive = false;
     // END DEBUG
 

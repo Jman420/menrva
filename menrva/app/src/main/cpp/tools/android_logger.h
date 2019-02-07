@@ -23,6 +23,7 @@
 #include "../abstracts/logger_base.h"
 
 typedef std::map<std::string, bool> logger_whitelist;
+typedef std::pair<std::string, bool> logger_whitelist_entry;
 
 class AndroidLogger : public LoggerBase {
 public:
