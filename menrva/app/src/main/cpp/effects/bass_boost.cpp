@@ -20,11 +20,11 @@
 
 const std::string BassBoost::EFFECT_NAME = "BassBoost";
 
-BassBoost::BassBoost(LoggerBase* logger, ServiceLocator* serviceLocator)
+BassBoost::BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver)
         : EffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
-    _FirGenerator = serviceLocator->GetFirGenerator();
-    _Convolver = serviceLocator->GetConvolver();
+    _FirGenerator = firGenerator;
+    _Convolver = convolver;
 }
 
 BassBoost::~BassBoost() {

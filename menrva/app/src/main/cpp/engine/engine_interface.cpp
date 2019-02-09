@@ -28,7 +28,7 @@ LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
-    auto context = (menrva_module_context*)handle;
+    auto context = (MenrvaModuleContext*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -75,7 +75,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
                                    void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
-    auto context = (menrva_module_context*)self;
+    auto context = (MenrvaModuleContext*)self;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {

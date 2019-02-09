@@ -73,7 +73,7 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     }
 
     _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
-    auto context = new menrva_module_context();
+    auto context = new MenrvaModuleContext();
     context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
     InitModule(*context);
 
@@ -82,7 +82,7 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     return 0;
 }
 
-int MenrvaModuleInterface::InitModule(menrva_module_context& context) {
+int MenrvaModuleInterface::InitModule(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
     if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
@@ -104,7 +104,7 @@ int MenrvaModuleInterface::InitModule(menrva_module_context& context) {
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     _Logger->WriteLog("Releasing Menrva Module...", LOG_SENDER, __func__);
-    auto module = (menrva_module_context*)moduleHandle;
+    auto module = (MenrvaModuleContext*)moduleHandle;
 
     if (module == nullptr) {
         _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -146,7 +146,7 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
 int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
                                                    effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
-    auto module = (menrva_module_context*)self;
+    auto module = (MenrvaModuleContext*)self;
     if (module == nullptr || pDescriptor == nullptr) {
         _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;

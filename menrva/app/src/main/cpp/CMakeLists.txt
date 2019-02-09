@@ -79,6 +79,7 @@ add_library( # Sets the name of the library.
         effects/equalizer.cpp
         effects/stereo_widener.cpp
 
+        engine/effects_bundle.cpp
         engine/engine_interface.cpp
         engine/effects_engine.cpp
         engine/command_map.cpp

@@ -34,7 +34,7 @@ const function_map MenrvaCommandMap::_CommandMap = {
     { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
 };
 
-int MenrvaCommandMap::Process(menrva_module_context& context, uint32_t cmdCode, uint32_t cmdSize,
+int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
     if (context.ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
@@ -55,7 +55,7 @@ int MenrvaCommandMap::Process(menrva_module_context& context, uint32_t cmdCode, 
     return result;
 }
 
-int MenrvaCommandMap::InitModule(menrva_module_context& context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::InitModule(MenrvaModuleContext& context, uint32_t cmdSize __unused,
                                  void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received InitModule Command...", LOG_SENDER, __func__);
     if (pReplyData == nullptr || *replySize != sizeof(int)) {
@@ -71,7 +71,7 @@ int MenrvaCommandMap::InitModule(menrva_module_context& context, uint32_t cmdSiz
     return 0;
 }
 
-int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,
+int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
                                 uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || cmdSize != sizeof(effect_config_t) || pReplyData == nullptr ||
@@ -118,7 +118,6 @@ int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize
         _Logger->WriteLog("Creating Audio Input Buffer Wrapper...", LOG_SENDER, __func__);
         context.InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger());
     }
-
     if (!context.OutputBuffer) {
         _Logger->WriteLog("Creating Audio Output Buffer Wrapper...", LOG_SENDER, __func__);
         context.OutputBuffer = new AudioOutputBuffer(_ServiceLocator->GetLogger());
@@ -137,7 +136,7 @@ int MenrvaCommandMap::SetConfig(menrva_module_context& context, uint32_t cmdSize
     return 0;
 }
 
-int MenrvaCommandMap::ResetBuffers(menrva_module_context &context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize __unused,
                                    void* pCmdData __unused, uint32_t* replySize __unused,
                                    void* pReplyData __unused) {
     _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
@@ -153,7 +152,7 @@ int MenrvaCommandMap::ResetBuffers(menrva_module_context &context, uint32_t cmdS
     return 0;
 }
 
-int MenrvaCommandMap::EnableEngine(menrva_module_context& context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused,
                                    void* pCmdData __unused, uint32_t* replySize __unused,
                                    void* pReplyData __unused) {
     _Logger->WriteLog("Received EnableEngine Command...", LOG_SENDER, __func__);
@@ -170,7 +169,7 @@ int MenrvaCommandMap::EnableEngine(menrva_module_context& context, uint32_t cmdS
     return 0;
 }
 
-int MenrvaCommandMap::DisableEngine(menrva_module_context& context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused,
                                     void* pCmdData __unused, uint32_t* replySize __unused,
                                     void* pReplyData __unused) {
     _Logger->WriteLog("Received DisableEngine Command...", LOG_SENDER, __func__);
@@ -187,7 +186,7 @@ int MenrvaCommandMap::DisableEngine(menrva_module_context& context, uint32_t cmd
     return 0;
 }
 
-int MenrvaCommandMap::SetParam(menrva_module_context& context, uint32_t cmdSize, void* pCmdData,
+int MenrvaCommandMap::SetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
                                uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received SetParam Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || cmdSize < (sizeof(effect_param_t) + sizeof(int32_t) + sizeof(int32_t))
@@ -225,7 +224,7 @@ int MenrvaCommandMap::SetParam(menrva_module_context& context, uint32_t cmdSize,
     return 0;
 }
 
-int MenrvaCommandMap::GetParam(menrva_module_context& context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::GetParam(MenrvaModuleContext& context, uint32_t cmdSize __unused,
                                void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetParam Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || pReplyData == nullptr || replySize == nullptr) {
@@ -266,7 +265,7 @@ int MenrvaCommandMap::GetParam(menrva_module_context& context, uint32_t cmdSize 
     return 0;
 }
 
-int MenrvaCommandMap::GetConfig(menrva_module_context& context, uint32_t cmdSize __unused,
+int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize __unused,
                                 void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetConfig Command...", LOG_SENDER, __func__);
     if (pReplyData == nullptr || *replySize != sizeof(effect_config_t)) {
