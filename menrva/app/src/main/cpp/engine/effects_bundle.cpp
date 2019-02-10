@@ -18,7 +18,8 @@
 
 #include "effects_bundle.h"
 
-EffectsBundle::EffectsBundle(ServiceLocator& serviceLocator) {
+EffectsBundle::EffectsBundle() {
+    ServiceLocator serviceLocator = *new ServiceLocator();
     _BassBoost = new BassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
     _Equalizer = new Equalizer(serviceLocator.GetLogger());
     _StereoWidener = new StereoWidener(serviceLocator.GetLogger());
@@ -49,10 +50,10 @@ StereoWidener* EffectsBundle::GetStereoWidener() {
     return _StereoWidener;
 }
 
-EffectBase EffectsBundle::operator[](uint8_t index) const {
+EffectBase* EffectsBundle::operator[](uint8_t index) const {
     if (index > LENGTH) {
         throw std::runtime_error("Index out of bounds.");
     }
 
-    return *_Effects[index];
+    return _Effects[index];
 }

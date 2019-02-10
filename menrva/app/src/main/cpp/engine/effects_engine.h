@@ -20,13 +20,10 @@
 #define MENRVA_EFFECTS_ENGINE_H
 
 #include "../abstracts/logging_base.h"
-#include "../abstracts/effect_base.h"
 #include "../audio/audio_input_buffer.h"
 #include "../audio/audio_output_buffer.h"
 #include "../tools/service_locator.h"
-#include "../effects/bass_boost.h"
-#include "../effects/equalizer.h"
-#include "../effects/stereo_widener.h"
+#include "effects_bundle.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNCONFIGURED,
@@ -48,16 +45,13 @@ public:
     void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
 
 private:
-    const static int EFFECTS_LENGTH = 3;
-
     ServiceLocator* _ServiceLocator;
     FftInterfaceBase* _FftEngine;
 
+    uint32_t _ChannelLength;
     EffectsBundle* _MenrvaEffects;
     AudioBuffer* _InputAudioFrame;
     AudioBuffer* _OutputAudioFrame;
-
-    uint32_t _ChannelLength;
 
     void ProcessInputAudioFrame();
     size_t ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer);

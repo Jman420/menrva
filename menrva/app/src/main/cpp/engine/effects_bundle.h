@@ -32,16 +32,16 @@ enum EffectIndexes {
 
 class EffectsBundle {
 public:
-    const uint8_t LENGTH = 3;
+    static const uint8_t LENGTH = 3;
 
-    explicit EffectsBundle(ServiceLocator& serviceLocator);
+    EffectsBundle();
     ~EffectsBundle();
 
     BassBoost* GetBassBoost();
     Equalizer* GetEqualizer();
     StereoWidener* GetStereoWidener();
 
-    EffectBase operator[](uint8_t index) const;
+    EffectBase* operator[](uint8_t index) const;
 
 private:
     BassBoost* _BassBoost;

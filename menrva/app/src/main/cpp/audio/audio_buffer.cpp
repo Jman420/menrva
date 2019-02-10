@@ -23,30 +23,41 @@
 AudioBuffer::AudioBuffer() {
     _FftEngine = nullptr;
     _DisposeData = false;
+    _Length = 0;
 }
 
 AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
-    _FftEngine = fftEngine;
-    _Length = length;
-    SetData(_FftEngine->Allocate(_Length), _Length);
-    _DisposeData = true;
+    CreateData(fftEngine, length);
 }
 
 AudioBuffer::AudioBuffer(sample* data, size_t length) {
     _FftEngine = nullptr;
-    _Length = length;
     SetData(data, _Length);
 }
 
 AudioBuffer::~AudioBuffer() {
+    DisposeData();
+}
+
+void AudioBuffer::SetData(sample* data, size_t length) {
+    DisposeData();
+
+    Buffer::SetData(data, length);
+    _DisposeData = false;
+}
+
+void AudioBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
+    DisposeData();
+
+    _FftEngine = fftEngine;
+    SetData(_FftEngine->Allocate(length), length);
+    _DisposeData = true;
+}
+
+void AudioBuffer::DisposeData() {
     if (!_DisposeData) {
         return;
     }
 
     _FftEngine->Deallocate(_Data);
-}
-
-void AudioBuffer::SetData(sample* data, size_t length) {
-    Buffer::SetData(data, length);
-    _DisposeData = false;
 }
