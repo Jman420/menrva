@@ -25,7 +25,7 @@ KissFftInterface::KissFftInterface(LoggerBase* logger)
     : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 KissFftInterface::~KissFftInterface() {
-    delete _ComponentsBuffer;
+    delete[] _ComponentsBuffer;
 }
 
 size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
@@ -56,7 +56,7 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     }
     
     _Logger->WriteLog("Allocating KissFFT Components Buffer...", LOG_SENDER, __func__);
-    _ComponentsBuffer = (kiss_fft_cpx*)malloc(sizeof(kiss_fft_cpx) * componentSize);
+    _ComponentsBuffer = new kiss_fft_cpx[componentSize];
 
     _Logger->WriteLog("Successfully initialized KissFFT Interface!", LOG_SENDER, __func__);
     return componentSize;

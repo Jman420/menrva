@@ -55,11 +55,11 @@ private:
            _MixCounter,
            _OperationsPerConvolution;
     sample _SignalScalar;
-    AudioComponentsBuffer** _FilterSegments;
+    AudioComponentsBuffer* _FilterSegments;
     AudioBuffer* _WorkingSignal;
     AudioBuffer* _OverlapSignal;
     AudioComponentsBuffer* _InputComponents;
-    AudioComponentsBuffer** _MixedComponents;
+    AudioComponentsBuffer* _MixedComponents;
 
     void LogSegmentConfig();
 };

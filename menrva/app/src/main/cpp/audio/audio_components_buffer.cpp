@@ -18,27 +18,35 @@
 
 #include "audio_components_buffer.h"
 
+AudioComponentsBuffer::AudioComponentsBuffer() {
+    _Length = 0;
+    _RealBuffer = new AudioBuffer();
+    _ImagBuffer = new AudioBuffer();
+}
+
 AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length) {
     _Length = length;
-    _RealBuffer = new AudioBuffer(fftEngine, length);
-    _ImagBuffer = new AudioBuffer(fftEngine, length);
+    _RealBuffer = new AudioBuffer();
+    _ImagBuffer = new AudioBuffer();
+
+    if (length > 0) {
+        CreateData(fftEngine, length);
+    }
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
-    Free();
-
     delete _RealBuffer;
     delete _ImagBuffer;
-}
-
-void AudioComponentsBuffer::Free() {
-    _RealBuffer->Free();
-    _ImagBuffer->Free();
 }
 
 void AudioComponentsBuffer::ResetData() {
     _RealBuffer->ResetData();
     _ImagBuffer->ResetData();
+}
+
+void AudioComponentsBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
+    _RealBuffer->CreateData(fftEngine, length);
+    _ImagBuffer->CreateData(fftEngine, length);
 }
 
 size_t AudioComponentsBuffer::GetLength() {

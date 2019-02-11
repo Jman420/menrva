@@ -17,7 +17,6 @@
  */
 
 #include <cstring>
-#include <malloc.h>
 #include "fft_interface_base.h"
 
 FftInterfaceBase::FftInterfaceBase() {
@@ -49,11 +48,11 @@ size_t FftInterfaceBase::Initialize(size_t signalSize) {
 }
 
 sample* FftInterfaceBase::Allocate(size_t size) {
-    auto buffer = (sample*)malloc(sizeof(sample) * size);
+    auto buffer = new sample[size];
     memset(buffer, 0, size);
     return buffer;
 }
 
 void FftInterfaceBase::Deallocate(sample* data) {
-    delete data;
+    delete[] data;
 }
