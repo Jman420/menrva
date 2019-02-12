@@ -153,8 +153,7 @@ void AudioInputBuffer::SetData(void* data, uint32_t channelLength, size_t sample
             throw std::runtime_error(msg);
     }
 
-    _ChannelLength = channelLength;
-    _SampleLength = sampleLength;
+    AudioIOBufferBase::SetData(channelLength, sampleLength);
 }
 
 void AudioInputBuffer::SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength) {

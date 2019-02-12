@@ -74,6 +74,8 @@ void AudioOutputBuffer::ResetData() {
             _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
             throw std::runtime_error(msg);
     }
+
+    AudioIOBufferBase::SetData(0, 0);
 }
 
 void AudioOutputBuffer::Free() {
@@ -151,8 +153,7 @@ void AudioOutputBuffer::SetData(void* data, uint32_t channelLength, size_t sampl
             throw std::runtime_error(msg);
     }
 
-    _ChannelLength = channelLength;
-    _SampleLength = sampleLength;
+    AudioIOBufferBase::SetData(channelLength, sampleLength);
 }
 
 void AudioOutputBuffer::SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength) {

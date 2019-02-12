@@ -38,6 +38,7 @@ struct MenrvaModuleContext {
     __unused const effect_interface_s* itfe;
     effect_config_t config;
 
+    uint32_t ChannelLength;
     MenrvaModuleStatus ModuleStatus;
     MenrvaEffectsEngine* EffectsEngine;
     AudioInputBuffer* InputBuffer;

@@ -128,8 +128,8 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    uint32_t channelCount = audio_channel_count_from_out_mask(context.config.outputCfg.channels);
-    int result = context.EffectsEngine->SetBufferConfig(channelCount);
+    context.ChannelLength = audio_channel_count_from_out_mask(context.config.outputCfg.channels);
+    int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength);
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);

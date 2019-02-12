@@ -38,7 +38,7 @@ void AndroidLogger::Initialize() {
     // BEGIN DEBUG
     AppLogLevel = LogLevel::DEBUG;
 
-    _WhitelistActive = true;
+    _WhitelistActive = false;
     logger_whitelist_entry entry = *new logger_whitelist_entry();
     entry.Name = "MenrvaEffectsEngine";
     entry.Enabled = true;
