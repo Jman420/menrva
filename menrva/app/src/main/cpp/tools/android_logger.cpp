@@ -37,8 +37,13 @@ void AndroidLogger::Initialize() {
 
     // BEGIN DEBUG
     AppLogLevel = LogLevel::DEBUG;
-    _Whitelist.insert(logger_whitelist_entry("MenrvaEngineInterface", true));
-    _WhitelistActive = false;
+
+    _WhitelistActive = true;
+    logger_whitelist_entry entry = *new logger_whitelist_entry();
+    entry.Name = "MenrvaEffectsEngine";
+    entry.Enabled = true;
+    entry.ComponentLogLevel = LogLevel::VERBOSE;
+    _Whitelist.insert(logger_whitelist_element(entry.Name, entry));
     // END DEBUG
 
     // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings
@@ -51,20 +56,23 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         Initialize();
     }
 
-    // Check if Log Level is Disabled
-    if (logLevel < AppLogLevel || logLevel == LogLevel::DISABLED) {
-        return;
-    }
-
     // Check Whitelist for Class Disabled
     if (_WhitelistActive) {
         logger_whitelist whitelist = AndroidLogger::_Whitelist;
         auto whitelistEntry = whitelist.find(senderClass);
-        if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
+        if (whitelistEntry != whitelist.end() && whitelistEntry->second.Enabled && logLevel >= whitelistEntry->second.ComponentLogLevel) {
+            WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
             return;
         }
     }
 
+    // Check if Log Level is Disabled
+    if (logLevel >= AppLogLevel) {
+        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
+    }
+}
+
+void AndroidLogger::WriteLogCatMsg(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
     // Format Log Tag
     std::string prefix = APP_NAME;
     if (!senderClass.empty()) {

@@ -44,9 +44,9 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-int MenrvaEffectsEngine::SetBufferConfig(effect_config_t& bufferConfig) {
+int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength) {
     _Logger->WriteLog("Setting up Buffer Configs...", LOG_SENDER, __func__);
-    _ChannelLength = bufferConfig.inputCfg.channels;
+    _ChannelLength = channelLength;
 
     _Logger->WriteLog("Instantiating Buffers for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
     _InputAudioFrame = new AudioBuffer[_ChannelLength];

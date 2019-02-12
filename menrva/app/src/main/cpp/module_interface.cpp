@@ -55,8 +55,7 @@ const effect_interface_s MenrvaModuleInterface::EngineInterface =
 const char* MenrvaModuleInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
 const char* MenrvaModuleInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
 
-int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused,
-                                        int32_t ioId __unused, effect_handle_t* pHandle) {
+int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused, int32_t ioId __unused, effect_handle_t* pHandle) {
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
 
     if (pHandle == nullptr) {
@@ -122,8 +121,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     return 0;
 }
 
-int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
-                                                 effect_descriptor_t* pDescriptor) {
+int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
     if (pDescriptor == nullptr) {
         _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -143,8 +141,7 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid,
     return 0;
 }
 
-int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self,
-                                                   effect_descriptor_t* pDescriptor) {
+int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
     auto module = (MenrvaModuleContext*)self;
     if (module == nullptr || pDescriptor == nullptr) {

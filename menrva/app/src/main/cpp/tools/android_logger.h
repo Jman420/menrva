@@ -22,8 +22,13 @@
 #include <map>
 #include "../abstracts/logger_base.h"
 
-typedef std::map<std::string, bool> logger_whitelist;
-typedef std::pair<std::string, bool> logger_whitelist_entry;
+struct logger_whitelist_entry {
+    std::string Name;
+    bool Enabled;
+    LogLevel ComponentLogLevel;
+};
+typedef std::map<std::string, logger_whitelist_entry> logger_whitelist;
+typedef std::pair<std::string, logger_whitelist_entry> logger_whitelist_element;
 
 class AndroidLogger : public LoggerBase {
 public:
@@ -40,6 +45,8 @@ private:
     static logger_whitelist _Whitelist;
 
     static void Initialize();
+
+    void WriteLogCatMsg(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args);
 };
 
 #endif //MENRVA_ANDROID_LOGGER_H

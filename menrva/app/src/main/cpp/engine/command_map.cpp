@@ -71,8 +71,7 @@ int MenrvaCommandMap::InitModule(MenrvaModuleContext& context, uint32_t cmdSize 
     return 0;
 }
 
-int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                                uint32_t* replySize, void* pReplyData) {
+int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || cmdSize != sizeof(effect_config_t) || pReplyData == nullptr ||
         replySize == nullptr || *replySize != sizeof(int)) {
@@ -92,7 +91,7 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Sample Rate does not match Output Sample Rate.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
-    if (config->inputCfg.channels != config->outputCfg.channels) {
+    if (config->inputCfg.channels != config->outputCfg.channels && audio_channel_mask_in_to_out(config->inputCfg.channels) != config->outputCfg.channels) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Channels do not match Output Channels.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
@@ -129,7 +128,8 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    int result = context.EffectsEngine->SetBufferConfig(context.config);
+    uint32_t channelCount = audio_channel_count_from_out_mask(context.config.outputCfg.channels);
+    int result = context.EffectsEngine->SetBufferConfig(channelCount);
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);
@@ -300,8 +300,9 @@ uint32_t MenrvaCommandMap::ComputeParamVOffset(const effect_param_t& p) {
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t& bufferConfig) {
-    _Logger->WriteLog("Buffer Format (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.format);
+    _Logger->WriteLog("Buffer Format (0x%07x)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.format);
     _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.samplingRate);
-    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.channels);
+    _Logger->WriteLog("Buffer Channel Mask (0x%07x)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.channels);
+    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, audio_channel_count_from_out_mask(bufferConfig.channels));
     _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.accessMode);
 }

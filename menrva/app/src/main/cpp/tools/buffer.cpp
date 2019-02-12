@@ -20,6 +20,7 @@
 #include <cassert>
 #include <stdexcept>
 #include "buffer.h"
+#include "../audio/sample.h"
 
 template<class TInputType>
 Buffer<TInputType>::Buffer() {

@@ -41,5 +41,4 @@ private:
     void DisposeData();
 };
 
-
 #endif //MENRVA_AUDIO_BUFFER_H
