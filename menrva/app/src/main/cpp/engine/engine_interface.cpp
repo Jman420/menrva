@@ -38,6 +38,10 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
+    if (in->frameCount != out->frameCount) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", LOG_SENDER, __func__, LogLevel::ERROR, in->frameCount, out->frameCount);
+        return -EINVAL;
+    }
 
     uint32_t channelLength = context->ChannelLength;
     _Logger->WriteLog("Input Buffer Frame Length (%u) and Channel Length (%u).", LOG_SENDER, __func__, in->frameCount, channelLength);
