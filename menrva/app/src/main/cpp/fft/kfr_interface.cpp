@@ -23,11 +23,6 @@ using namespace kfr;
 KfrInterface::KfrInterface(LoggerBase* logger)
     : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
-KfrInterface::~KfrInterface() {
-    delete _ComponentsBuffer;
-    delete _TempBuffer;
-}
-
 size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KFR Interface...", LOG_SENDER, __func__);
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);

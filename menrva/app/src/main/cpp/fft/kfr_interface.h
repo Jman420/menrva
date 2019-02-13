@@ -29,7 +29,6 @@ class KfrInterface : public FftInterfaceBase,
                      public LoggingBase {
 public:
     explicit KfrInterface(LoggerBase* logger);
-    ~KfrInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
