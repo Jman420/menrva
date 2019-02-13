@@ -23,8 +23,6 @@ const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
 const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
 
 bool AndroidLogger::_Initialized = false;
-bool AndroidLogger::_WhitelistActive = true;
-logger_whitelist AndroidLogger::_Whitelist = *new logger_whitelist();
 
 AndroidLogger::AndroidLogger() : LoggerBase() {
     Initialize();
@@ -38,12 +36,8 @@ void AndroidLogger::Initialize() {
     // BEGIN DEBUG
     AppLogLevel = LogLevel::DEBUG;
 
-    _WhitelistActive = false;
-    logger_whitelist_entry entry = *new logger_whitelist_entry();
-    entry.Name = "MenrvaEffectsEngine";
-    entry.Enabled = true;
-    entry.ComponentLogLevel = LogLevel::VERBOSE;
-    _Whitelist.insert(logger_whitelist_element(entry.Name, entry));
+    SetOverrideListEnabled(false);
+    UpsertOverrideListEntry("MenrvaEffectsEngine", true, LogLevel::VERBOSE);
     // END DEBUG
 
     // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings
@@ -52,21 +46,11 @@ void AndroidLogger::Initialize() {
 }
 
 void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
-    if (!_Initialized) {
-        Initialize();
+    if (_WhitelistEnabled && CheckOverrideList(senderClass, logLevel)) {
+        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
+        return;
     }
 
-    // Check Whitelist for Class Disabled
-    if (_WhitelistActive) {
-        logger_whitelist whitelist = AndroidLogger::_Whitelist;
-        auto whitelistEntry = whitelist.find(senderClass);
-        if (whitelistEntry != whitelist.end() && whitelistEntry->second.Enabled && logLevel >= whitelistEntry->second.ComponentLogLevel) {
-            WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
-            return;
-        }
-    }
-
-    // Check if Log Level is Disabled
     if (logLevel >= AppLogLevel) {
         WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
     }

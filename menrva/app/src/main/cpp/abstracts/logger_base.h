@@ -20,6 +20,7 @@
 #define MENRVA_LOGGER_BASE_H
 
 #include <string>
+#include <map>
 
 enum LogLevel {
     VERBOSE = 2,
@@ -29,6 +30,14 @@ enum LogLevel {
     ERROR = 6,
     FATAL = 7,
 };
+
+struct logger_whitelist_entry {
+    std::string ClassName;
+    bool Enabled;
+    LogLevel ComponentLogLevel;
+};
+typedef std::map<std::string, logger_whitelist_entry> logger_whitelist;
+typedef std::pair<std::string, logger_whitelist_entry> logger_whitelist_element;
 
 class LoggerBase {
 public:
@@ -43,9 +52,23 @@ public:
     void WriteLog(std::string message, std::string senderClass, ...);
     void WriteLog(std::string message, ...);
 
+    void SetOverrideListEnabled(bool enabled);
+
+    void UpsertOverrideListEntry(std::string className, bool enabled);
+    void UpsertOverrideListEntry(std::string className, LogLevel logLevel);
+    void UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel);
+
+    void RemoveOverrideListEntry(std::string className);
+
+    bool CheckOverrideList(std::string className, LogLevel logLevel);
+
 protected:
-    virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction,
-                          LogLevel logLevel, va_list args) = 0;
+    static bool _WhitelistEnabled;
+    static logger_whitelist _Whitelist;
+
+    virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
+
+    logger_whitelist_entry GetAddWhitelistElement(std::string className);
 
 private:
     const static LogLevel DEFAULT_LOG_LEVEL;
