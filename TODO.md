@@ -41,8 +41,10 @@
   - ~~Full Code Review & Clean Up (adhere to best practices; replace pointers with references where appropriate; etc)~~
   - ~~Add Detailed Exceptions at failure points~~
   - ~~Test & Debug Backend Module Stack~~
-  - Debug Sample Conversion Issues? (distorted output; consider implementing a no-op effect for testing)
+  - ~~Debug Sample Conversion Issues (distorted output; consider implementing a no-op effect for testing)~~
+  - ~~Add Multi-Channel Support~~
   - Compare Bass Boost Effect to JamesDSP
+  - Compare Engine Pipeline Output to JamesDSP
   - Draft UI Frontend
   - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
