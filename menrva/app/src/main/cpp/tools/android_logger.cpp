@@ -46,7 +46,7 @@ void AndroidLogger::Initialize() {
 }
 
 void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
-    if (GetOverrideListEnabled() && CheckOverrideList(senderClass, logLevel)) {
+    if (GetOverrideListEnabled() && CheckOverrideList(senderClass, senderFunction, logLevel)) {
         WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
         return;
     }

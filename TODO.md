@@ -43,7 +43,7 @@
   - ~~Test & Debug Backend Module Stack~~
   - ~~Debug Sample Conversion Issues (distorted output; consider implementing a no-op effect for testing)~~
   - ~~Add Multi-Channel Support~~
-  - Add Function Logging Override Functionality
+  - ~~Add Function Level Logging Override Functionality~~
   - Compare Bass Boost Effect to JamesDSP
   - Compare Engine Pipeline Output to JamesDSP
   - Draft UI Frontend

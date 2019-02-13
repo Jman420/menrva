@@ -32,7 +32,8 @@ enum LogLevel {
 };
 
 struct logger_override_entry {
-    std::string ClassName;
+    std::string ClassName,
+                FunctionName;
     bool Enabled;
     LogLevel ComponentLogLevel;
 };
@@ -58,10 +59,14 @@ public:
     void UpsertOverrideListEntry(std::string className, bool enabled);
     void UpsertOverrideListEntry(std::string className, LogLevel logLevel);
     void UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel);
+    void UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled);
+    void UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel);
+    void UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel);
 
     void RemoveOverrideListEntry(std::string className);
+    void RemoveOverrideListEntry(std::string className, std::string functionName);
 
-    bool CheckOverrideList(std::string className, LogLevel logLevel);
+    bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel);
 
 protected:
     const static std::string APP_NAME;
@@ -73,8 +78,12 @@ protected:
     virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
 
     logger_override_entry GetAddOverrideListElement(std::string className);
+    logger_override_entry GetAddOverrideListElement(std::string className, std::string functionName);
+
+    std::string GetOverrideListKey(std::string className, std::string functionName);
 
 private:
+    const static std::string OVERRIDE_LIST_KEY_DELIMITER;
     const static LogLevel DEFAULT_LOG_LEVEL;
     const static LogLevel DEFAULT_APP_LOG_LEVEL;
 };
