@@ -82,22 +82,22 @@ bool LoggerBase::GetOverrideListEnabled() {
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled) {
-    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
-    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddOverrideListElement(std::move(className));
     entry.ComponentLogLevel = logLevel;
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
-    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
-logger_override_entry LoggerBase::GetAddWhitelistElement(std::string className) {
+logger_override_entry LoggerBase::GetAddOverrideListElement(std::string className) {
     auto element = _OverrideList.find(className);
     if (element == _OverrideList.end()) {
         logger_override_entry newEntry = *new logger_override_entry();

@@ -72,7 +72,7 @@ protected:
 
     virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
 
-    logger_override_entry GetAddWhitelistElement(std::string className);
+    logger_override_entry GetAddOverrideListElement(std::string className);
 
 private:
     const static LogLevel DEFAULT_LOG_LEVEL;
