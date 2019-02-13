@@ -31,18 +31,18 @@ enum LogLevel {
     FATAL = 7,
 };
 
-struct logger_whitelist_entry {
+struct logger_override_entry {
     std::string ClassName;
     bool Enabled;
     LogLevel ComponentLogLevel;
 };
-typedef std::map<std::string, logger_whitelist_entry> logger_whitelist;
-typedef std::pair<std::string, logger_whitelist_entry> logger_whitelist_element;
+typedef std::map<std::string, logger_override_entry> logger_override_list;
+typedef std::pair<std::string, logger_override_entry> logger_override_list_element;
 
 class LoggerBase {
 public:
-    const static std::string APP_NAME;
-    static LogLevel AppLogLevel;
+    void SetAppLogLevel(LogLevel logLevel);
+    LogLevel GetAppLogLevel();
 
     void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...);
     void WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...);
@@ -53,6 +53,7 @@ public:
     void WriteLog(std::string message, ...);
 
     void SetOverrideListEnabled(bool enabled);
+    bool GetOverrideListEnabled();
 
     void UpsertOverrideListEntry(std::string className, bool enabled);
     void UpsertOverrideListEntry(std::string className, LogLevel logLevel);
@@ -63,12 +64,15 @@ public:
     bool CheckOverrideList(std::string className, LogLevel logLevel);
 
 protected:
-    static bool _WhitelistEnabled;
-    static logger_whitelist _Whitelist;
+    const static std::string APP_NAME;
+
+    static LogLevel _AppLogLevel;
+    static bool _OverrideListEnabled;
+    static logger_override_list _OverrideList;
 
     virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
 
-    logger_whitelist_entry GetAddWhitelistElement(std::string className);
+    logger_override_entry GetAddWhitelistElement(std::string className);
 
 private:
     const static LogLevel DEFAULT_LOG_LEVEL;

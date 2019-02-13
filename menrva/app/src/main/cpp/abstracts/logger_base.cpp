@@ -23,10 +23,18 @@ const std::string LoggerBase::APP_NAME = "Menrva";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
 const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
 
-LogLevel LoggerBase::AppLogLevel = DEFAULT_APP_LOG_LEVEL;
+LogLevel LoggerBase::_AppLogLevel = DEFAULT_APP_LOG_LEVEL;
 
-bool LoggerBase::_WhitelistEnabled = false;
-logger_whitelist LoggerBase::_Whitelist = *new logger_whitelist();
+bool LoggerBase::_OverrideListEnabled = false;
+logger_override_list LoggerBase::_OverrideList = *new logger_override_list();
+
+void LoggerBase::SetAppLogLevel(LogLevel logLevel) {
+    _AppLogLevel = logLevel;
+}
+
+LogLevel LoggerBase::GetAppLogLevel() {
+    return _AppLogLevel;
+}
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,
                           LogLevel logLevel, ...) {
@@ -66,43 +74,47 @@ void LoggerBase::WriteLog(std::string message, ...) {
 }
 
 void LoggerBase::SetOverrideListEnabled(bool enabled) {
-    _WhitelistEnabled = enabled;
+    _OverrideListEnabled = enabled;
+}
+
+bool LoggerBase::GetOverrideListEnabled() {
+    return _OverrideListEnabled;
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled) {
-    logger_whitelist_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
     entry.Enabled = enabled;
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
-    logger_whitelist_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
     entry.ComponentLogLevel = logLevel;
 }
 
 void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
-    logger_whitelist_entry entry = GetAddWhitelistElement(std::move(className));
+    logger_override_entry entry = GetAddWhitelistElement(std::move(className));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
-logger_whitelist_entry LoggerBase::GetAddWhitelistElement(std::string className) {
-    auto element = _Whitelist.find(className);
-    if (element == _Whitelist.end()) {
-        logger_whitelist_entry newEntry = *new logger_whitelist_entry();
+logger_override_entry LoggerBase::GetAddWhitelistElement(std::string className) {
+    auto element = _OverrideList.find(className);
+    if (element == _OverrideList.end()) {
+        logger_override_entry newEntry = *new logger_override_entry();
         newEntry.ClassName = className;
-        element = _Whitelist.insert(logger_whitelist_element(className, newEntry)).first;
+        element = _OverrideList.insert(logger_override_list_element(className, newEntry)).first;
     }
 
     return element->second;
 }
 
 void LoggerBase::RemoveOverrideListEntry(std::string className) {
-    _Whitelist.erase(className);
+    _OverrideList.erase(className);
 }
 
 bool LoggerBase::CheckOverrideList(std::string className, LogLevel logLevel) {
-    auto element = _Whitelist.find(className);
-    if (element == _Whitelist.end()) {
+    auto element = _OverrideList.find(className);
+    if (element == _OverrideList.end()) {
         return false;
     }
 
