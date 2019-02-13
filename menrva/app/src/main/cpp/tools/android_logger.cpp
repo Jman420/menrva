@@ -36,8 +36,8 @@ void AndroidLogger::Initialize() {
     // BEGIN DEBUG
     SetAppLogLevel(LogLevel::DEBUG);
 
-    SetOverrideListEnabled(false);
-    UpsertOverrideListEntry("MenrvaEffectsEngine", true, LogLevel::VERBOSE);
+    SetOverrideListEnabled(true);
+    UpsertOverrideListEntry("AudioOutputBuffer", true, LogLevel::VERBOSE);
     // END DEBUG
 
     // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings

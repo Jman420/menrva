@@ -37,8 +37,8 @@ struct logger_override_entry {
     bool Enabled;
     LogLevel ComponentLogLevel;
 };
-typedef std::map<std::string, logger_override_entry> logger_override_list;
-typedef std::pair<std::string, logger_override_entry> logger_override_list_element;
+typedef std::map<std::string, logger_override_entry*> logger_override_list;
+typedef std::pair<std::string, logger_override_entry*> logger_override_list_element;
 
 class LoggerBase {
 public:
@@ -77,8 +77,8 @@ protected:
 
     virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
 
-    logger_override_entry GetAddOverrideListElement(std::string className);
-    logger_override_entry GetAddOverrideListElement(std::string className, std::string functionName);
+    logger_override_entry* GetAddOverrideListElement(std::string className);
+    logger_override_entry* GetAddOverrideListElement(std::string className, std::string functionName);
 
     std::string GetOverrideListKey(std::string className, std::string functionName);
 

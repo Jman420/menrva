@@ -173,7 +173,7 @@ void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, samp
     _Logger->WriteLog("Calculating Buffer Index for Sample Index (%d) for Channel (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleIndex, channelIndex);
     size_t bufferIndex = sampleIndex + channelIndex;
 
-    _Logger->WriteLog("Setting Normalized Value to Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex);
+    _Logger->WriteLog("Setting Normalized Value to Index (%d) from Original Value (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex, value);
     switch (_AudioFormat) {
         case AudioFormat::PCM_16: {
             auto normalizedValue = Normalize<int16_t>(value);

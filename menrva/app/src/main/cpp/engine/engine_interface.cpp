@@ -49,6 +49,12 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
+            // BEGIN DEBUG
+            _Logger->WriteLog("1st Input Audio Value (%d)", LOG_SENDER, __func__, in->s16[0]);
+            _Logger->WriteLog("2nd Input Audio Value (%d)", LOG_SENDER, __func__, in->s16[1]);
+            _Logger->WriteLog("3rd Input Audio Value (%d)", LOG_SENDER, __func__, in->s16[2]);
+            // END DEBUG
+
             context->InputBuffer->SetData(in->s16, channelLength, in->frameCount);
             context->OutputBuffer->SetData(out->s16, channelLength, out->frameCount);
             break;
