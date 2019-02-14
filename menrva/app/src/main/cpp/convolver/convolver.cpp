@@ -130,7 +130,7 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _Logger->WriteLog("Instantiating and Calculating Filter Segments & Components...", LOG_SENDER, __func__);
     _FilterSegments = new AudioComponentsBuffer[_FilterSegmentsLength];
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    auto impulseSignalSegment = *new AudioBuffer(_FftEngine, segmentSignalLength);
+    AudioBuffer impulseSignalSegment(_FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         _Logger->WriteLog("Initializing Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         _FilterSegments[segmentCounter].CreateData(_FftEngine, segmentComponentsLength);

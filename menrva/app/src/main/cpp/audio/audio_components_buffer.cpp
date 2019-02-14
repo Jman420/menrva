@@ -47,6 +47,7 @@ void AudioComponentsBuffer::ResetData() {
 void AudioComponentsBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
     _RealBuffer->CreateData(fftEngine, length);
     _ImagBuffer->CreateData(fftEngine, length);
+    _Length = length;
 }
 
 size_t AudioComponentsBuffer::GetLength() {
@@ -67,4 +68,12 @@ sample* AudioComponentsBuffer::GetImagData() {
 
 AudioBuffer* AudioComponentsBuffer::GetImagBuffer() {
     return _ImagBuffer;
+}
+
+void AudioComponentsBuffer::SetRealValue(size_t index, sample value) {
+    (*_RealBuffer)[index] = value;
+}
+
+void AudioComponentsBuffer::SetImagValue(size_t index, sample value) {
+    (*_ImagBuffer)[index] = value;
 }

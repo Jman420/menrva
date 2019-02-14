@@ -132,12 +132,6 @@ void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
 }
 
 void AudioInputBuffer::SetData(void* data, uint32_t channelLength, size_t sampleLength) {
-    // BEGIN DEBUG
-    _Logger->WriteLog("1st Input Audio Value (%d)", LOG_SENDER, __func__, ((int16_t*)data)[0]);
-    _Logger->WriteLog("2nd Input Audio Value (%d)", LOG_SENDER, __func__, ((int16_t*)data)[1]);
-    _Logger->WriteLog("3rd Input Audio Value (%d)", LOG_SENDER, __func__, ((int16_t*)data)[2]);
-    // END DEBUG
-
     size_t bufferLength = sampleLength * channelLength;
 
     switch (_AudioFormat) {

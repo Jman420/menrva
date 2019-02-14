@@ -63,9 +63,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     size_t fftFrequencyLength = (size_t)interpolationLength * 2;
 
     AudioComponentsBuffer fftFrequencies(_FftEngine, fftFrequencyLength);
-    AudioBuffer fftFrequenciesReal = *fftFrequencies.GetRealBuffer(),
-                fftFrequenciesImag = *fftFrequencies.GetImagBuffer(),
-                fftOutputSignal(_FftEngine, fftFrequencyLength);
+    AudioBuffer fftOutputSignal(_FftEngine, fftFrequencyLength);
 
     _Logger->WriteLog("Interpolating Frequencies & Amplitudes for Inverse FFT Processing...", LOG_SENDER, __func__);
     for (size_t sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
@@ -79,7 +77,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
         }
 
         _Logger->WriteLog("Calculating Frequency Components for Element Indexes (%g) to (%g)...", LOG_SENDER, __func__, LogLevel::VERBOSE, beginSegmentIndex, endSegmentIndex);
-        for (int elementCounter = (int)beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
+        for (auto elementCounter = (size_t)beginSegmentIndex; elementCounter <= endSegmentIndex; elementCounter++) {
             auto elementIndex = (sample)elementCounter;
             amplitudeIncrement = (elementIndex - beginSegmentIndex) / (endSegmentIndex - beginSegmentIndex);
             interpolatedAmplitude = amplitudeIncrement * amplitudeSamples[sampleCounter + 1] + (ONE - amplitudeIncrement) * amplitudeSamples[sampleCounter];
@@ -91,12 +89,12 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Real Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, realFreqData);
             _Logger->WriteLog("Imaginary Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, imaginaryFreqData);
 
-            fftFrequenciesReal[elementCounter] = realFreqData;
-            fftFrequenciesImag[elementCounter] = imaginaryFreqData * -ONE;
+            fftFrequencies.SetRealValue(elementCounter, realFreqData);
+            fftFrequencies.SetImagValue(elementCounter, imaginaryFreqData * -ONE);
 
             size_t reverseElementCounter = fftFrequencyLength - elementCounter - 1;
-            fftFrequenciesReal[reverseElementCounter] = realFreqData;
-            fftFrequenciesImag[reverseElementCounter] = imaginaryFreqData;
+            fftFrequencies.SetRealValue(reverseElementCounter, realFreqData);
+            fftFrequencies.SetImagValue(reverseElementCounter, imaginaryFreqData);
             _Logger->WriteLog("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, reverseElementCounter);
         }
 

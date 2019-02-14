@@ -18,7 +18,6 @@
 
 #include <utility>
 #include "logger_base.h"
-#include "../aosp/liblog/android/log.h"
 
 const std::string LoggerBase::APP_NAME = "Menrva";
 const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";

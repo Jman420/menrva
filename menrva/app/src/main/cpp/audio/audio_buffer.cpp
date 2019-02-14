@@ -55,7 +55,7 @@ void AudioBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
 }
 
 void AudioBuffer::DisposeData() {
-    if (!_DisposeData) {
+    if (!_DisposeData || !_Data) {
         return;
     }
 

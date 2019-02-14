@@ -36,6 +36,9 @@ public:
     AudioBuffer* GetRealBuffer();
     AudioBuffer* GetImagBuffer();
 
+    void SetRealValue(size_t index, sample value);
+    void SetImagValue(size_t index, sample value);
+
     void ResetData();
 
 private:
