@@ -149,6 +149,7 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _MixedComponents = new AudioComponentsBuffer[_MixedComponentsLength];
     for (int bufferCounter = 0; bufferCounter < _MixedComponentsLength; bufferCounter++) {
         _MixedComponents[bufferCounter].CreateData(_FftEngine, segmentComponentsLength);
+        _MixedComponents[bufferCounter].ResetData();
     }
     _MixCounter = 0;
     _OperationsPerConvolution = std::min(_FilterSegmentsLength, _MixedComponentsLength);

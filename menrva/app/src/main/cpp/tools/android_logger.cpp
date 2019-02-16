@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     // BEGIN DEBUG
     SetAppLogLevel(LogLevel::DEBUG);
 
-    SetOverrideListEnabled(true);
+    SetOverrideListEnabled(false);
     UpsertOverrideListEntry("AudioOutputBuffer", true, LogLevel::VERBOSE);
     // END DEBUG
 
