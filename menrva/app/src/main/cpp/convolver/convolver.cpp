@@ -48,12 +48,25 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
 }
 
 Convolver::~Convolver() {
-    Reset();
+    ResetConfig();
 
+    delete _FftEngine;
     delete _ConvolutionOperations;
 }
 
-void Convolver::Reset() {
+void Convolver::ResetBuffers() {
+    _Logger->WriteLog("Resetting Convolution Buffers...", LOG_SENDER, __func__);
+    _WorkingSignal->ResetData();
+    _InputComponents->ResetData();
+    _OverlapSignal->ResetData();
+
+    for (int mixCounter = 0; mixCounter < _MixedComponentsLength; mixCounter++) {
+        _MixedComponents[mixCounter].ResetData();
+    }
+    _Logger->WriteLog("Successfully reset Convolution Buffers!", LOG_SENDER, __func__);
+}
+
+void Convolver::ResetConfig() {
     _Logger->WriteLog("Resetting Convolver Configuration...", LOG_SENDER, __func__);
     if (!_Initialized) {
         _Logger->WriteLog("Skipping resetting Convolver Configuration.  Convolver is Uninitialized.", LOG_SENDER, __func__);
@@ -61,15 +74,8 @@ void Convolver::Reset() {
     }
 
     _Initialized = false;
-    for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
-        delete _FilterSegments[segmentCounter];
-    }
-    delete _FilterSegments;
-
-    for (int mixCounter = 0; mixCounter < _MixedComponentsLength; mixCounter++) {
-        delete _MixedComponents[mixCounter];
-    }
-    delete _MixedComponents;
+    delete[] _FilterSegments;
+    delete[] _MixedComponents;
 
     delete _WorkingSignal;
     delete _InputComponents;
@@ -88,7 +94,7 @@ void Convolver::Reset() {
 void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse, size_t autoConvolveFrames) {
     _Logger->WriteLog("Initializing Convolver Configuration...", LOG_SENDER, __func__);
     if (_Initialized) {
-        Reset();
+        ResetConfig();
     }
 
     _Logger->WriteLog("Validating Audio Frame Length and Impulse Response...", LOG_SENDER, __func__);
@@ -122,31 +128,29 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
         throw std::runtime_error(msg);
     }
 
-    _Logger->WriteLog("Allocating and Calculating Filter Segments and Components...", LOG_SENDER, __func__);
-    _FilterSegments = static_cast<AudioComponentsBuffer**>(malloc(sizeof(AudioComponentsBuffer*) * _FilterSegmentsLength));
+    _Logger->WriteLog("Instantiating and Calculating Filter Segments & Components...", LOG_SENDER, __func__);
+    _FilterSegments = new AudioComponentsBuffer[_FilterSegmentsLength];
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    auto* impulseSignalSegment = new AudioBuffer(_FftEngine, segmentSignalLength);
+    AudioBuffer impulseSignalSegment(_FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
-        _Logger->WriteLog("Allocating Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
-        _FilterSegments[segmentCounter] = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
+        _Logger->WriteLog("Initializing Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
+        _FilterSegments[segmentCounter].CreateData(_FftEngine, segmentComponentsLength);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
         _Logger->WriteLog("Preparing Filter Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
         size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentLength : validFilterLength - (lastSegmentIndex * segmentLength);
-        memcpy(impulseSignalSegment->GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
+        memcpy(impulseSignalSegment.GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
         _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
-        _FftEngine->SignalToComponents(*impulseSignalSegment, *(_FilterSegments[segmentCounter]));
+        _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
     }
 
-    _Logger->WriteLog("Allocating AutoConvolution Buffers...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Instantiating AutoConvolution Buffers...", LOG_SENDER, __func__);
     _MixedComponentsLength = autoConvolveFrames + 1;
-    _MixedComponents = static_cast<AudioComponentsBuffer**>(malloc(sizeof(AudioComponentsBuffer*) * _MixedComponentsLength));
-    AudioComponentsBuffer* mixedBuffer;
+    _MixedComponents = new AudioComponentsBuffer[_MixedComponentsLength];
     for (int bufferCounter = 0; bufferCounter < _MixedComponentsLength; bufferCounter++) {
-        mixedBuffer = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
-        mixedBuffer->ResetData();
-        _MixedComponents[bufferCounter] = mixedBuffer;
+        _MixedComponents[bufferCounter].CreateData(_FftEngine, segmentComponentsLength);
+        _MixedComponents[bufferCounter].ResetData();
     }
     _MixCounter = 0;
     _OperationsPerConvolution = std::min(_FilterSegmentsLength, _MixedComponentsLength);
@@ -155,7 +159,6 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _InputComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
     _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
     _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
-    _OverlapSignal->ResetData();
     
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);
@@ -194,14 +197,12 @@ void Convolver::Process(AudioBuffer& input, AudioBuffer& output) {
     _Logger->WriteLog("MultiplyAccumulate Audio Frame's Components with Filter...", LOG_SENDER, __func__);
     for (size_t bufferCounter = 0; bufferCounter < _OperationsPerConvolution; bufferCounter++) {
         size_t mixBufferIndex = (bufferCounter + _MixCounter) % _MixedComponentsLength;
-
-        AudioComponentsBuffer* filterSegment = _FilterSegments[bufferCounter];
-        _ConvolutionOperations->ComplexMultiplyAccumulate(*_InputComponents, *filterSegment, *(_MixedComponents[mixBufferIndex]));
+        _ConvolutionOperations->ComplexMultiplyAccumulate(*_InputComponents, _FilterSegments[bufferCounter], _MixedComponents[mixBufferIndex]);
     }
 
     _Logger->WriteLog("Calculating Convolved Frame's Signal...", LOG_SENDER, __func__);
-    _FftEngine->ComponentsToSignal(*(_MixedComponents[_MixCounter]), *_WorkingSignal);
-    _MixedComponents[_MixCounter]->ResetData();
+    _FftEngine->ComponentsToSignal(_MixedComponents[_MixCounter], *_WorkingSignal);
+    _MixedComponents[_MixCounter].ResetData();
     _MixCounter = (_MixCounter + 1) % _MixedComponentsLength;
 
     _Logger->WriteLog("Summing Convolved Signal with Overlap Signal and Scaling...", LOG_SENDER, __func__);

@@ -24,6 +24,7 @@
 #include "sample.h"
 #include "../tools/conversion_buffer.h"
 #include "../abstracts/logging_base.h"
+#include "../abstracts/audio_io_buffer_base.h"
 
 union audio_input_buffer_u {
     ConversionBuffer<int16_t, sample>* PCM_16;
@@ -31,21 +32,21 @@ union audio_input_buffer_u {
     ConversionBuffer<float, sample>* PCM_Float;
 };
 
-class AudioInputBuffer : public LoggingBase {
+class AudioInputBuffer : public LoggingBase,
+                         public AudioIOBufferBase {
 public:
     explicit AudioInputBuffer(LoggerBase* logger);
     AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioInputBuffer();
 
-    size_t GetLength();
     void ResetData();
     void Free();
 
     void SetFormat(AudioFormat audioFormat);
-    void SetData(void* data, size_t length);
-    void SetData(AudioFormat audioFormat, void* data, size_t length);
+    void SetData(void* data, uint32_t channelLength, size_t sampleLength);
+    void SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength);
     void* GetData();
-    sample operator[](size_t index) const;  // Read-Only Subscript Operator
+    sample operator()(uint32_t channelIndex, size_t sampleIndex) const;  // Read-Only Subscript Operator
 
 private:
     AudioFormat _AudioFormat;

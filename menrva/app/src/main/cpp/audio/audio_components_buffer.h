@@ -24,17 +24,22 @@
 
 class AudioComponentsBuffer {
 public:
-    explicit AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length = 0);
+    AudioComponentsBuffer();
+    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length);
     ~AudioComponentsBuffer();
 
-    void Free();
-    void ResetData();
+    void CreateData(FftInterfaceBase* fftEngine, size_t length);
 
     size_t GetLength();
     sample* GetRealData();
     sample* GetImagData();
     AudioBuffer* GetRealBuffer();
     AudioBuffer* GetImagBuffer();
+
+    void SetRealValue(size_t index, sample value);
+    void SetImagValue(size_t index, sample value);
+
+    void ResetData();
 
 private:
     size_t _Length;

@@ -19,18 +19,14 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-
 #include "../abstracts/logging_base.h"
-#include "../abstracts/effect_base.h"
 #include "../audio/audio_input_buffer.h"
 #include "../audio/audio_output_buffer.h"
 #include "../tools/service_locator.h"
+#include "effects_bundle.h"
 
 enum MenrvaEngineStatus {
-    MENRVA_ENGINE_UNINITIALIZED,
-    MENRVA_ENGINE_INITIALIZING,
     MENRVA_ENGINE_UNCONFIGURED,
-    MENRVA_ENGINE_READY,
     MENRVA_ENGINE_DISABLED,
     MENRVA_ENGINE_ENABLED,
 };
@@ -42,16 +38,18 @@ public:
     MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
-    void ResetEffects(effect_config_t& bufferConfig);
-    int SetBufferConfig(effect_config_t& bufferConfig);
+    int SetBufferConfig(uint32_t channelLength);
     int Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer);
+    void ResetBuffers(effect_config_t &bufferConfig);
     void SetEffectEnabled(uint8_t effectIndex, bool enabled);
     void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
 
 private:
-    const static int EFFECTS_LENGTH = 3;
+    ServiceLocator* _ServiceLocator;
+    FftInterfaceBase* _FftEngine;
 
-    EffectBase* _MenrvaEffects[EFFECTS_LENGTH];
+    uint32_t _ChannelLength;
+    EffectsBundle* _MenrvaEffects;
     AudioBuffer* _InputAudioFrame;
     AudioBuffer* _OutputAudioFrame;
 

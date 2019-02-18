@@ -21,15 +21,14 @@
 
 #include "../abstracts/effect_base.h"
 #include "../abstracts/logging_base.h"
-#include "../tools/service_locator.h"
 
 class Equalizer : public EffectBase,
                   public LoggingBase {
 public:
-    Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator);
+    Equalizer(LoggerBase* logger);
 
     void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) override;
+    void ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) override;
     void ConfigureSetting(char* settingName, void* value) override;
 
 private:

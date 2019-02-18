@@ -32,11 +32,13 @@ public:
     ~AudioBuffer() override;
 
     void SetData(sample* data, size_t length) override;
+    void CreateData(FftInterfaceBase* fftEngine, size_t length);
 
 private:
     FftInterfaceBase* _FftEngine;
     bool _DisposeData;
-};
 
+    void DisposeData();
+};
 
 #endif //MENRVA_AUDIO_BUFFER_H

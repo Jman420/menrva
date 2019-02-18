@@ -20,10 +20,22 @@
 #include "logger_base.h"
 
 const std::string LoggerBase::APP_NAME = "Menrva";
+const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
 const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
 
-LogLevel LoggerBase::AppLogLevel = DEFAULT_APP_LOG_LEVEL;
+LogLevel LoggerBase::_AppLogLevel = DEFAULT_APP_LOG_LEVEL;
+
+bool LoggerBase::_OverrideListEnabled = false;
+logger_override_list LoggerBase::_OverrideList = *new logger_override_list();
+
+void LoggerBase::SetAppLogLevel(LogLevel logLevel) {
+    _AppLogLevel = logLevel;
+}
+
+LogLevel LoggerBase::GetAppLogLevel() {
+    return _AppLogLevel;
+}
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,
                           LogLevel logLevel, ...) {
@@ -60,4 +72,97 @@ void LoggerBase::WriteLog(std::string message, ...) {
     va_list args;
     va_start(args, message);
     WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL, args);
+}
+
+void LoggerBase::SetOverrideListEnabled(bool enabled) {
+    _OverrideListEnabled = enabled;
+}
+
+bool LoggerBase::GetOverrideListEnabled() {
+    return _OverrideListEnabled;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    entry.Enabled = enabled;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    entry.ComponentLogLevel = logLevel;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    entry.Enabled = enabled;
+    entry.ComponentLogLevel = logLevel;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    entry.Enabled = enabled;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    entry.ComponentLogLevel = logLevel;
+}
+
+void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
+    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    entry.Enabled = enabled;
+    entry.ComponentLogLevel = logLevel;
+}
+
+void LoggerBase::RemoveOverrideListEntry(std::string className) {
+    _OverrideList.erase(className);
+}
+
+void LoggerBase::RemoveOverrideListEntry(std::string className, std::string functionName) {
+    _OverrideList.erase(GetOverrideListKey(std::move(className), std::move(functionName)));
+}
+
+bool LoggerBase::CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel) {
+    // Check for Function Override Entry
+    auto element = _OverrideList.find(GetOverrideListKey(className, functionName));
+    if (element == _OverrideList.end()) {
+        // Check for Class Override Entry
+        element = _OverrideList.find(className);
+        if (element == _OverrideList.end()) {
+            // No Entries found
+            return false;
+        }
+    }
+
+    auto entry = *element->second;
+    return entry.Enabled && logLevel >= entry.ComponentLogLevel;
+}
+
+logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string className) {
+    const std::string &key = className;
+    auto element = _OverrideList.find(key);
+    if (element == _OverrideList.end()) {
+        auto newEntry = new logger_override_entry();
+        newEntry->ClassName = className;
+        element = _OverrideList.insert(logger_override_list_element(key, newEntry)).first;
+    }
+
+    return element->second;
+}
+
+logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string className, std::string functionName) {
+    std::string key = GetOverrideListKey(className, functionName);
+    auto element = _OverrideList.find(key);
+    if (element == _OverrideList.end()) {
+        auto newEntry = new logger_override_entry();
+        newEntry->ClassName = className;
+        newEntry->FunctionName = functionName;
+        element = _OverrideList.insert(logger_override_list_element(key, newEntry)).first;
+    }
+
+    return element->second;
+}
+
+std::string LoggerBase::GetOverrideListKey(std::string className, std::string functionName) {
+    return className + OVERRIDE_LIST_KEY_DELIMITER + functionName;
 }

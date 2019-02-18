@@ -25,6 +25,7 @@
 #include "audio_format.h"
 #include "../tools/conversion_buffer.h"
 #include "../abstracts/logging_base.h"
+#include "../abstracts/audio_io_buffer_base.h"
 
 union audio_output_buffer_u {
     Buffer<int16_t>* PCM_16;
@@ -32,26 +33,28 @@ union audio_output_buffer_u {
     Buffer<float>* PCM_Float;
 };
 
-class AudioOutputBuffer : public LoggingBase {
+class AudioOutputBuffer : public LoggingBase,
+                          public AudioIOBufferBase {
 public:
     explicit AudioOutputBuffer(LoggerBase* logger);
     AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
-    size_t GetLength();
     void ResetData();
     void Free();
 
     void SetFormat(AudioFormat audioFormat);
-    void SetData(void* data, size_t length);
-    void SetData(AudioFormat audioFormat, void* data, size_t length);
-    void SetValue(size_t index, sample value);
+    void SetData(void* data, uint32_t channelLength, size_t sampleLength);
+    void SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength);
+    void SetValue(uint32_t channelIndex, size_t sampleIndex, sample value);
     void* GetData();
-    void* operator[](size_t index) const;
+    void* operator()(uint32_t channelIndex, size_t sampleIndex) const;  // Read-Only Subscript Operator
 
 private:
     AudioFormat _AudioFormat;
     audio_output_buffer_u* _BufferWrapper;
+    uint32_t _ChannelLength;
+    size_t _SampleLength;
 
     template<class TOutputType>
     TOutputType Normalize(sample data);

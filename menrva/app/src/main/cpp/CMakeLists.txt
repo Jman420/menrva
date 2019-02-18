@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../..)
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
 set(FFTW_OUTPUT_DIR ${REPO_ROOT_DIR}/fftw/out)
 set(KISSFFT_OUTPUT_DIR ${REPO_ROOT_DIR}/kissfft/out)
 set(KFR_SOURCE_DIR ${REPO_ROOT_DIR}/kfr)
@@ -53,6 +53,7 @@ add_library( # Sets the name of the library.
         abstracts/fft_interface_base.cpp
         abstracts/effect_base.cpp
         abstracts/convolution_operations_base.cpp
+        abstracts/audio_io_buffer_base.cpp
 
         tools/android_logger.cpp
         tools/service_locator.cpp
@@ -78,6 +79,7 @@ add_library( # Sets the name of the library.
         effects/equalizer.cpp
         effects/stereo_widener.cpp
 
+        engine/effects_bundle.cpp
         engine/engine_interface.cpp
         engine/effects_engine.cpp
         engine/command_map.cpp

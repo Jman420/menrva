@@ -16,29 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BASS_BOOST_H
-#define MENRVA_BASS_BOOST_H
+#ifndef MENRVA_AUDIO_IO_BUFFER_BASE_H
+#define MENRVA_AUDIO_IO_BUFFER_BASE_H
 
-#include "../abstracts/effect_base.h"
-#include "../abstracts/logging_base.h"
-#include "../ir/fir_generator.h"
-#include "../convolver/convolver.h"
+#include <cstddef>
+#include <cstdint>
 
-class BassBoost : public EffectBase,
-                  public LoggingBase {
+class AudioIOBufferBase {
 public:
-    BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
-    ~BassBoost() override;
+    void SetData(uint32_t channelLength, size_t sampleLength);
 
-    void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) override;
-    void ConfigureSetting(char* settingName, void* value) override;
+    uint32_t GetChannelLength();
+    size_t GetSampleLength();
+    size_t GetBufferLength();
 
-private:
-    static const std::string EFFECT_NAME;
-
-    FirGenerator* _FirGenerator;
-    Convolver* _Convolver;
+protected:
+    uint32_t _ChannelLength;
+    size_t _SampleLength;
 };
 
-#endif //MENRVA_BASS_BOOST_H
+#endif //MENRVA_AUDIO_IO_BUFFER_BASE_H

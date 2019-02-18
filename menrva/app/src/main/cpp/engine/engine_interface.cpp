@@ -28,7 +28,7 @@ LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
-    auto context = (menrva_module_context*)handle;
+    auto context = (MenrvaModuleContext*)handle;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -38,24 +38,29 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
+    if (in->frameCount != out->frameCount) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", LOG_SENDER, __func__, LogLevel::ERROR, in->frameCount, out->frameCount);
+        return -EINVAL;
+    }
 
-    _Logger->WriteLog("Input Buffer Frame Count (%d).", LOG_SENDER, __func__, in->frameCount);
-    _Logger->WriteLog("Output Buffer Frame Count (%d).", LOG_SENDER, __func__, out->frameCount);
+    uint32_t channelLength = context->ChannelLength;
+    _Logger->WriteLog("Input Buffer Frame Length (%u) and Channel Length (%u).", LOG_SENDER, __func__, in->frameCount, channelLength);
+    _Logger->WriteLog("Output Buffer Frame Length (%u and Channel Length (%u).", LOG_SENDER, __func__, out->frameCount, channelLength);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
-            context->InputBuffer->SetData(in->s16, in->frameCount);
-            context->OutputBuffer->SetData(out->s16, out->frameCount);
+            context->InputBuffer->SetData(in->s16, channelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->s16, channelLength, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_32_BIT:
-            context->InputBuffer->SetData(in->s32, in->frameCount);
-            context->OutputBuffer->SetData(out->s32, out->frameCount);
+            context->InputBuffer->SetData(in->s32, channelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->s32, channelLength, out->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_FLOAT:
-            context->InputBuffer->SetData(in->f32, in->frameCount);
-            context->OutputBuffer->SetData(out->f32, out->frameCount);
+            context->InputBuffer->SetData(in->f32, channelLength, in->frameCount);
+            context->OutputBuffer->SetData(out->f32, channelLength, out->frameCount);
             break;
 
         default:
@@ -73,7 +78,7 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize,
                                    void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
-    auto context = (menrva_module_context*)self;
+    auto context = (MenrvaModuleContext*)self;
 
     if (context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
         context->ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {

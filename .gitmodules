@@ -1,12 +1,12 @@
-[submodule "fftw"]
-	path = fftw
-	url = git@github.com:Jman420/fftw_for_android.git
+[submodule "libs/fftw"]
+	path = libs/fftw
+	url = https://github.com/Jman420/fftw_for_android.git
 	branch = master
-[submodule "kissfft"]
-	path = kissfft
-	url = git@github.com:Jman420/kissfft_for_android.git
+[submodule "libs/kissfft"]
+	path = libs/kissfft
+	url = https://github.com/Jman420/kissfft_for_android.git
 	branch = master
-[submodule "kfr"]
-	path = kfr
-	url = git@github.com:kfrlib/kfr.git
+[submodule "libs/kfr"]
+	path = libs/kfr
+	url = https://github.com/kfrlib/kfr.git
 	branch = master

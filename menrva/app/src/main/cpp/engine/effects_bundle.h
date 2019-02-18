@@ -16,29 +16,38 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BASS_BOOST_H
-#define MENRVA_BASS_BOOST_H
+#ifndef MENRVA_EFFECTS_BUNDLE_H
+#define MENRVA_EFFECTS_BUNDLE_H
 
-#include "../abstracts/effect_base.h"
-#include "../abstracts/logging_base.h"
-#include "../ir/fir_generator.h"
-#include "../convolver/convolver.h"
+#include "../tools/service_locator.h"
+#include "../effects/bass_boost.h"
+#include "../effects/equalizer.h"
+#include "../effects/stereo_widener.h"
 
-class BassBoost : public EffectBase,
-                  public LoggingBase {
-public:
-    BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
-    ~BassBoost() override;
-
-    void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) override;
-    void ConfigureSetting(char* settingName, void* value) override;
-
-private:
-    static const std::string EFFECT_NAME;
-
-    FirGenerator* _FirGenerator;
-    Convolver* _Convolver;
+enum EffectIndexes {
+    BASS_BOOST,
+    EQUALIZER,
+    STEREO_WIDENER,
 };
 
-#endif //MENRVA_BASS_BOOST_H
+class EffectsBundle {
+public:
+    static const uint8_t LENGTH = 3;
+
+    EffectsBundle();
+    ~EffectsBundle();
+
+    BassBoost* GetBassBoost();
+    Equalizer* GetEqualizer();
+    StereoWidener* GetStereoWidener();
+
+    EffectBase* operator[](uint8_t index) const;
+
+private:
+    BassBoost* _BassBoost;
+    Equalizer* _Equalizer;
+    StereoWidener* _StereoWidener;
+    EffectBase** _Effects;
+};
+
+#endif //MENRVA_EFFECTS_BUNDLE_H

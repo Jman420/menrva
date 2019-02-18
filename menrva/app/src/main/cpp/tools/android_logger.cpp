@@ -23,8 +23,6 @@ const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
 const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
 
 bool AndroidLogger::_Initialized = false;
-bool AndroidLogger::_WhitelistActive = true;
-logger_whitelist AndroidLogger::_Whitelist = *new logger_whitelist();
 
 AndroidLogger::AndroidLogger() : LoggerBase() {
     Initialize();
@@ -36,9 +34,10 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    AppLogLevel = LogLevel::DEBUG;
-    _Whitelist.insert(logger_whitelist_entry("MenrvaEngineInterface", true));
-    _WhitelistActive = false;
+    SetAppLogLevel(LogLevel::DEBUG);
+
+    SetOverrideListEnabled(false);
+    UpsertOverrideListEntry("AudioOutputBuffer", true, LogLevel::VERBOSE);
     // END DEBUG
 
     // TODO : Get AppLogLevel & Whitelist Settings from Shared Settings
@@ -47,24 +46,17 @@ void AndroidLogger::Initialize() {
 }
 
 void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
-    if (!_Initialized) {
-        Initialize();
-    }
-
-    // Check if Log Level is Disabled
-    if (logLevel < AppLogLevel || logLevel == LogLevel::DISABLED) {
+    if (GetOverrideListEnabled() && CheckOverrideList(senderClass, senderFunction, logLevel)) {
+        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
         return;
     }
 
-    // Check Whitelist for Class Disabled
-    if (_WhitelistActive) {
-        logger_whitelist whitelist = AndroidLogger::_Whitelist;
-        auto whitelistEntry = whitelist.find(senderClass);
-        if (whitelistEntry == whitelist.end() || !whitelistEntry->second) {
-            return;
-        }
+    if (logLevel >= GetAppLogLevel()) {
+        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
     }
+}
 
+void AndroidLogger::WriteLogCatMsg(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
     // Format Log Tag
     std::string prefix = APP_NAME;
     if (!senderClass.empty()) {

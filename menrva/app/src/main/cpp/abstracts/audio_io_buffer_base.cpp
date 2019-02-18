@@ -16,29 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BASS_BOOST_H
-#define MENRVA_BASS_BOOST_H
+#include "audio_io_buffer_base.h"
 
-#include "../abstracts/effect_base.h"
-#include "../abstracts/logging_base.h"
-#include "../ir/fir_generator.h"
-#include "../convolver/convolver.h"
+uint32_t AudioIOBufferBase::GetChannelLength() {
+    return _ChannelLength;
+}
 
-class BassBoost : public EffectBase,
-                  public LoggingBase {
-public:
-    BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
-    ~BassBoost() override;
+size_t AudioIOBufferBase::GetSampleLength() {
+    return _SampleLength;
+}
 
-    void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) override;
-    void ConfigureSetting(char* settingName, void* value) override;
+size_t AudioIOBufferBase::GetBufferLength() {
+    return _SampleLength * _ChannelLength;
+}
 
-private:
-    static const std::string EFFECT_NAME;
-
-    FirGenerator* _FirGenerator;
-    Convolver* _Convolver;
-};
-
-#endif //MENRVA_BASS_BOOST_H
+void AudioIOBufferBase::SetData(uint32_t channelLength, size_t sampleLength) {
+    _ChannelLength = channelLength;
+    _SampleLength = sampleLength;
+}

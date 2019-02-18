@@ -6,6 +6,24 @@
 #include <cstdint>
 
 /*
+ * ------------------- DEFINITIONS FROM cutils/bitops.h -------------------
+ */
+
+__BEGIN_DECLS
+static inline int popcount(unsigned int x) {
+    return __builtin_popcount(x);
+}
+static inline int popcountl(unsigned long x) {
+    return __builtin_popcountl(x);
+}
+static inline int popcountll(unsigned long long x) {
+    return __builtin_popcountll(x);
+}
+__END_DECLS
+
+/*
+ * ----------------- END DEFINITIONS FROM cutils/bitops.h -----------------
+ *
  * ------------------- DEFINITIONS FROM system/audio-base.h -------------------
  */
 typedef enum {
@@ -117,11 +135,163 @@ typedef enum {
     AUDIO_FORMAT_MAT_2_1               = 0x24000003u, // (MAT | MAT_SUB_2_1)
 } audio_format_t;
 
+enum {
+    AUDIO_CHANNEL_REPRESENTATION_POSITION   = 0x0u,
+    AUDIO_CHANNEL_REPRESENTATION_INDEX      = 0x2u,
+    AUDIO_CHANNEL_NONE                      = 0x0u,
+    AUDIO_CHANNEL_INVALID                   = 0xC0000000u,
+    AUDIO_CHANNEL_OUT_FRONT_LEFT            = 0x1u,
+    AUDIO_CHANNEL_OUT_FRONT_RIGHT           = 0x2u,
+    AUDIO_CHANNEL_OUT_FRONT_CENTER          = 0x4u,
+    AUDIO_CHANNEL_OUT_LOW_FREQUENCY         = 0x8u,
+    AUDIO_CHANNEL_OUT_BACK_LEFT             = 0x10u,
+    AUDIO_CHANNEL_OUT_BACK_RIGHT            = 0x20u,
+    AUDIO_CHANNEL_OUT_FRONT_LEFT_OF_CENTER  = 0x40u,
+    AUDIO_CHANNEL_OUT_FRONT_RIGHT_OF_CENTER = 0x80u,
+    AUDIO_CHANNEL_OUT_BACK_CENTER           = 0x100u,
+    AUDIO_CHANNEL_OUT_SIDE_LEFT             = 0x200u,
+    AUDIO_CHANNEL_OUT_SIDE_RIGHT            = 0x400u,
+    AUDIO_CHANNEL_OUT_TOP_CENTER            = 0x800u,
+    AUDIO_CHANNEL_OUT_TOP_FRONT_LEFT        = 0x1000u,
+    AUDIO_CHANNEL_OUT_TOP_FRONT_CENTER      = 0x2000u,
+    AUDIO_CHANNEL_OUT_TOP_FRONT_RIGHT       = 0x4000u,
+    AUDIO_CHANNEL_OUT_TOP_BACK_LEFT         = 0x8000u,
+    AUDIO_CHANNEL_OUT_TOP_BACK_CENTER       = 0x10000u,
+    AUDIO_CHANNEL_OUT_TOP_BACK_RIGHT        = 0x20000u,
+    AUDIO_CHANNEL_OUT_TOP_SIDE_LEFT         = 0x40000u,
+    AUDIO_CHANNEL_OUT_TOP_SIDE_RIGHT        = 0x80000u,
+    AUDIO_CHANNEL_OUT_MONO                  = 0x1u,     // OUT_FRONT_LEFT
+    AUDIO_CHANNEL_OUT_STEREO                = 0x3u,     // OUT_FRONT_LEFT | OUT_FRONT_RIGHT
+    AUDIO_CHANNEL_OUT_2POINT1               = 0xBu,     // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_LOW_FREQUENCY
+    AUDIO_CHANNEL_OUT_2POINT0POINT2         = 0xC0003u, // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_2POINT1POINT2         = 0xC000Bu, // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT | OUT_LOW_FREQUENCY
+    AUDIO_CHANNEL_OUT_3POINT0POINT2         = 0xC0007u, // OUT_FRONT_LEFT | OUT_FRONT_CENTER | OUT_FRONT_RIGHT | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_3POINT1POINT2         = 0xC000Fu, // OUT_FRONT_LEFT | OUT_FRONT_CENTER | OUT_FRONT_RIGHT | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT | OUT_LOW_FREQUENCY
+    AUDIO_CHANNEL_OUT_QUAD                  = 0x33u,    // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_BACK_LEFT | OUT_BACK_RIGHT
+    AUDIO_CHANNEL_OUT_QUAD_BACK             = 0x33u,    // OUT_QUAD
+    AUDIO_CHANNEL_OUT_QUAD_SIDE             = 0x603u,   // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_SIDE_LEFT | OUT_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_SURROUND              = 0x107u,   // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_FRONT_CENTER | OUT_BACK_CENTER
+    AUDIO_CHANNEL_OUT_PENTA                 = 0x37u,    // OUT_QUAD | OUT_FRONT_CENTER
+    AUDIO_CHANNEL_OUT_5POINT1               = 0x3Fu,    // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_FRONT_CENTER | OUT_LOW_FREQUENCY | OUT_BACK_LEFT | OUT_BACK_RIGHT
+    AUDIO_CHANNEL_OUT_5POINT1_BACK          = 0x3Fu,    // OUT_5POINT1
+    AUDIO_CHANNEL_OUT_5POINT1_SIDE          = 0x60Fu,   // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_FRONT_CENTER | OUT_LOW_FREQUENCY | OUT_SIDE_LEFT | OUT_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_5POINT1POINT2         = 0xC003Fu, // OUT_5POINT1 | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_5POINT1POINT4         = 0x2D03Fu, // OUT_5POINT1 | OUT_TOP_FRONT_LEFT | OUT_TOP_FRONT_RIGHT | OUT_TOP_BACK_LEFT | OUT_TOP_BACK_RIGHT
+    AUDIO_CHANNEL_OUT_6POINT1               = 0x13Fu,   // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_FRONT_CENTER | OUT_LOW_FREQUENCY | OUT_BACK_LEFT | OUT_BACK_RIGHT | OUT_BACK_CENTER
+    AUDIO_CHANNEL_OUT_7POINT1               = 0x63Fu,   // OUT_FRONT_LEFT | OUT_FRONT_RIGHT | OUT_FRONT_CENTER | OUT_LOW_FREQUENCY | OUT_BACK_LEFT | OUT_BACK_RIGHT | OUT_SIDE_LEFT | OUT_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_7POINT1POINT2         = 0xC063Fu, // OUT_7POINT1 | OUT_TOP_SIDE_LEFT | OUT_TOP_SIDE_RIGHT
+    AUDIO_CHANNEL_OUT_7POINT1POINT4         = 0x2D63Fu, // OUT_7POINT1 | OUT_TOP_FRONT_LEFT | OUT_TOP_FRONT_RIGHT | OUT_TOP_BACK_LEFT | OUT_TOP_BACK_RIGHT
+    AUDIO_CHANNEL_IN_LEFT                   = 0x4u,
+    AUDIO_CHANNEL_IN_RIGHT                  = 0x8u,
+    AUDIO_CHANNEL_IN_FRONT                  = 0x10u,
+    AUDIO_CHANNEL_IN_BACK                   = 0x20u,
+    AUDIO_CHANNEL_IN_LEFT_PROCESSED         = 0x40u,
+    AUDIO_CHANNEL_IN_RIGHT_PROCESSED        = 0x80u,
+    AUDIO_CHANNEL_IN_FRONT_PROCESSED        = 0x100u,
+    AUDIO_CHANNEL_IN_BACK_PROCESSED         = 0x200u,
+    AUDIO_CHANNEL_IN_PRESSURE               = 0x400u,
+    AUDIO_CHANNEL_IN_X_AXIS                 = 0x800u,
+    AUDIO_CHANNEL_IN_Y_AXIS                 = 0x1000u,
+    AUDIO_CHANNEL_IN_Z_AXIS                 = 0x2000u,
+    AUDIO_CHANNEL_IN_BACK_LEFT              = 0x10000u,
+    AUDIO_CHANNEL_IN_BACK_RIGHT             = 0x20000u,
+    AUDIO_CHANNEL_IN_CENTER                 = 0x40000u,
+    AUDIO_CHANNEL_IN_LOW_FREQUENCY          = 0x100000u,
+    AUDIO_CHANNEL_IN_TOP_LEFT               = 0x200000u,
+    AUDIO_CHANNEL_IN_TOP_RIGHT              = 0x400000u,
+    AUDIO_CHANNEL_IN_VOICE_UPLINK           = 0x4000u,
+    AUDIO_CHANNEL_IN_VOICE_DNLINK           = 0x8000u,
+    AUDIO_CHANNEL_IN_MONO                   = 0x10u,     // IN_FRONT
+    AUDIO_CHANNEL_IN_STEREO                 = 0xCu,      // IN_LEFT | IN_RIGHT
+    AUDIO_CHANNEL_IN_FRONT_BACK             = 0x30u,     // IN_FRONT | IN_BACK
+    AUDIO_CHANNEL_IN_6                      = 0xFCu,     // IN_LEFT | IN_RIGHT | IN_FRONT | IN_BACK | IN_LEFT_PROCESSED | IN_RIGHT_PROCESSED
+    AUDIO_CHANNEL_IN_2POINT0POINT2          = 0x60000Cu, // IN_LEFT | IN_RIGHT | IN_TOP_LEFT | IN_TOP_RIGHT
+    AUDIO_CHANNEL_IN_2POINT1POINT2          = 0x70000Cu, // IN_LEFT | IN_RIGHT | IN_TOP_LEFT | IN_TOP_RIGHT | IN_LOW_FREQUENCY
+    AUDIO_CHANNEL_IN_3POINT0POINT2          = 0x64000Cu, // IN_LEFT | IN_CENTER | IN_RIGHT | IN_TOP_LEFT | IN_TOP_RIGHT
+    AUDIO_CHANNEL_IN_3POINT1POINT2          = 0x74000Cu, // IN_LEFT | IN_CENTER | IN_RIGHT | IN_TOP_LEFT | IN_TOP_RIGHT | IN_LOW_FREQUENCY
+    AUDIO_CHANNEL_IN_5POINT1                = 0x17000Cu, // IN_LEFT | IN_CENTER | IN_RIGHT | IN_BACK_LEFT | IN_BACK_RIGHT | IN_LOW_FREQUENCY
+    AUDIO_CHANNEL_IN_VOICE_UPLINK_MONO      = 0x4010u,   // IN_VOICE_UPLINK | IN_MONO
+    AUDIO_CHANNEL_IN_VOICE_DNLINK_MONO      = 0x8010u,   // IN_VOICE_DNLINK | IN_MONO
+    AUDIO_CHANNEL_IN_VOICE_CALL_MONO        = 0xC010u,   // IN_VOICE_UPLINK_MONO | IN_VOICE_DNLINK_MONO
+    AUDIO_CHANNEL_COUNT_MAX                 = 30u,
+    AUDIO_CHANNEL_INDEX_HDR                 = 0x80000000u, // REPRESENTATION_INDEX << COUNT_MAX
+    AUDIO_CHANNEL_INDEX_MASK_1              = 0x80000001u, // INDEX_HDR | (1 << 1) - 1
+    AUDIO_CHANNEL_INDEX_MASK_2              = 0x80000003u, // INDEX_HDR | (1 << 2) - 1
+    AUDIO_CHANNEL_INDEX_MASK_3              = 0x80000007u, // INDEX_HDR | (1 << 3) - 1
+    AUDIO_CHANNEL_INDEX_MASK_4              = 0x8000000Fu, // INDEX_HDR | (1 << 4) - 1
+    AUDIO_CHANNEL_INDEX_MASK_5              = 0x8000001Fu, // INDEX_HDR | (1 << 5) - 1
+    AUDIO_CHANNEL_INDEX_MASK_6              = 0x8000003Fu, // INDEX_HDR | (1 << 6) - 1
+    AUDIO_CHANNEL_INDEX_MASK_7              = 0x8000007Fu, // INDEX_HDR | (1 << 7) - 1
+    AUDIO_CHANNEL_INDEX_MASK_8              = 0x800000FFu, // INDEX_HDR | (1 << 8) - 1
+};
+
 /*
  * ----------------- END DEFINITIONS FROM system/audio-base.h -----------------
  *
+ * ---------------- DEFINITIONS FROM system/audio-base-utils.h ----------------
+ */
+
+enum {
+    AUDIO_CHANNEL_OUT_ALL     = AUDIO_CHANNEL_OUT_FRONT_LEFT |
+                                AUDIO_CHANNEL_OUT_FRONT_RIGHT |
+                                AUDIO_CHANNEL_OUT_FRONT_CENTER |
+                                AUDIO_CHANNEL_OUT_LOW_FREQUENCY |
+                                AUDIO_CHANNEL_OUT_BACK_LEFT |
+                                AUDIO_CHANNEL_OUT_BACK_RIGHT |
+                                AUDIO_CHANNEL_OUT_FRONT_LEFT_OF_CENTER |
+                                AUDIO_CHANNEL_OUT_FRONT_RIGHT_OF_CENTER |
+                                AUDIO_CHANNEL_OUT_BACK_CENTER |
+                                AUDIO_CHANNEL_OUT_SIDE_LEFT |
+                                AUDIO_CHANNEL_OUT_SIDE_RIGHT |
+                                AUDIO_CHANNEL_OUT_TOP_CENTER |
+                                AUDIO_CHANNEL_OUT_TOP_FRONT_LEFT |
+                                AUDIO_CHANNEL_OUT_TOP_FRONT_CENTER |
+                                AUDIO_CHANNEL_OUT_TOP_FRONT_RIGHT |
+                                AUDIO_CHANNEL_OUT_TOP_BACK_LEFT |
+                                AUDIO_CHANNEL_OUT_TOP_BACK_CENTER |
+                                AUDIO_CHANNEL_OUT_TOP_BACK_RIGHT |
+                                AUDIO_CHANNEL_OUT_TOP_SIDE_LEFT |
+                                AUDIO_CHANNEL_OUT_TOP_SIDE_RIGHT,
+    AUDIO_CHANNEL_IN_ALL      = AUDIO_CHANNEL_IN_LEFT |
+                                AUDIO_CHANNEL_IN_RIGHT |
+                                AUDIO_CHANNEL_IN_FRONT |
+                                AUDIO_CHANNEL_IN_BACK|
+                                AUDIO_CHANNEL_IN_LEFT_PROCESSED |
+                                AUDIO_CHANNEL_IN_RIGHT_PROCESSED |
+                                AUDIO_CHANNEL_IN_FRONT_PROCESSED |
+                                AUDIO_CHANNEL_IN_BACK_PROCESSED|
+                                AUDIO_CHANNEL_IN_PRESSURE |
+                                AUDIO_CHANNEL_IN_X_AXIS |
+                                AUDIO_CHANNEL_IN_Y_AXIS |
+                                AUDIO_CHANNEL_IN_Z_AXIS |
+                                AUDIO_CHANNEL_IN_VOICE_UPLINK |
+                                AUDIO_CHANNEL_IN_VOICE_DNLINK |
+                                AUDIO_CHANNEL_IN_BACK_LEFT |
+                                AUDIO_CHANNEL_IN_BACK_RIGHT |
+                                AUDIO_CHANNEL_IN_CENTER |
+                                AUDIO_CHANNEL_IN_LOW_FREQUENCY |
+                                AUDIO_CHANNEL_IN_TOP_LEFT |
+                                AUDIO_CHANNEL_IN_TOP_RIGHT,
+}; // enum
+
+/*
+ * -------------- END DEFINITIONS FROM system/audio-base-utils.h --------------
+ *
  * ------------------- DEFINITIONS FROM system/audio.h -------------------
  */
+
+/*
+ * Annotation to tell clang that we intend to fall through from one case to
+ * another in a switch (for c++ files). Sourced from android-base/macros.h.
+ * TODO: See also C++17 [[fallthough]].
+ */
+#ifndef FALLTHROUGH_INTENDED
+#if defined(__clang__) && defined(__cplusplus)
+#define FALLTHROUGH_INTENDED [[clang::fallthrough]]
+#else
+#define FALLTHROUGH_INTENDED
+#endif // __clang__ && __cplusplus
+#endif // FALLTHROUGH_INTENDED
 
 // Unique effect ID (can be generated from the following site:
 //  http://www.itu.int/ITU-T/asn1/uuid.html)
@@ -133,6 +303,123 @@ typedef struct audio_uuid_s {
     uint16_t clockSeq;
     uint8_t node[6];
 } audio_uuid_t;
+
+/* A channel mask per se only defines the presence or absence of a channel, not the order.
+ * But see AUDIO_INTERLEAVE_* below for the platform convention of order.
+ *
+ * audio_channel_mask_t is an opaque type and its internal layout should not
+ * be assumed as it may change in the future.
+ * Instead, always use the functions declared in this header to examine.
+ *
+ * These are the current representations:
+ *
+ *   AUDIO_CHANNEL_REPRESENTATION_POSITION
+ *     is a channel mask representation for position assignment.
+ *     Each low-order bit corresponds to the spatial position of a transducer (output),
+ *     or interpretation of channel (input).
+ *     The user of a channel mask needs to know the context of whether it is for output or input.
+ *     The constants AUDIO_CHANNEL_OUT_* or AUDIO_CHANNEL_IN_* apply to the bits portion.
+ *     It is not permitted for no bits to be set.
+ *
+ *   AUDIO_CHANNEL_REPRESENTATION_INDEX
+ *     is a channel mask representation for index assignment.
+ *     Each low-order bit corresponds to a selected channel.
+ *     There is no platform interpretation of the various bits.
+ *     There is no concept of output or input.
+ *     It is not permitted for no bits to be set.
+ *
+ * All other representations are reserved for future use.
+ *
+ * Warning: current representation distinguishes between input and output, but this will not the be
+ * case in future revisions of the platform. Wherever there is an ambiguity between input and output
+ * that is currently resolved by checking the channel mask, the implementer should look for ways to
+ * fix it with additional information outside of the mask.
+ */
+typedef uint32_t audio_channel_mask_t;
+
+/* The return value is undefined if the channel mask is invalid. */
+static inline uint32_t audio_channel_mask_get_bits(audio_channel_mask_t channel)
+{
+    return channel & ((1 << AUDIO_CHANNEL_COUNT_MAX) - 1);
+}
+
+typedef uint32_t audio_channel_representation_t;
+
+/* log(2) of maximum number of representations, not part of public API */
+#define AUDIO_CHANNEL_REPRESENTATION_LOG2   2
+
+/* The return value is undefined if the channel mask is invalid. */
+static inline audio_channel_representation_t audio_channel_mask_get_representation(
+        audio_channel_mask_t channel)
+{
+    // The right shift should be sufficient, but also "and" for safety in case mask is not 32 bits
+    return (audio_channel_representation_t)
+            ((channel >> AUDIO_CHANNEL_COUNT_MAX) & ((1 << AUDIO_CHANNEL_REPRESENTATION_LOG2) - 1));
+}
+
+/* Returns the number of channels from an input channel mask,
+ * used in the context of audio input or recording.
+ * If a channel bit is set which could _not_ correspond to an input channel,
+ * it is excluded from the count.
+ * Returns zero if the representation is invalid.
+ */
+static inline uint32_t audio_channel_count_from_in_mask(audio_channel_mask_t channel)
+{
+    uint32_t bits = audio_channel_mask_get_bits(channel);
+    switch (audio_channel_mask_get_representation(channel)) {
+        case AUDIO_CHANNEL_REPRESENTATION_POSITION:
+            // TODO: We can now merge with from_out_mask and remove anding
+            bits &= AUDIO_CHANNEL_IN_ALL;
+            FALLTHROUGH_INTENDED;
+        case AUDIO_CHANNEL_REPRESENTATION_INDEX:
+            return popcount(bits);
+        default:
+            return 0;
+    }
+}
+
+/* Returns the number of channels from an output channel mask,
+ * used in the context of audio output or playback.
+ * If a channel bit is set which could _not_ correspond to an output channel,
+ * it is excluded from the count.
+ * Returns zero if the representation is invalid.
+ */
+static inline uint32_t audio_channel_count_from_out_mask(audio_channel_mask_t channel)
+{
+    uint32_t bits = audio_channel_mask_get_bits(channel);
+    switch (audio_channel_mask_get_representation(channel)) {
+        case AUDIO_CHANNEL_REPRESENTATION_POSITION:
+            // TODO: We can now merge with from_in_mask and remove anding
+            bits &= AUDIO_CHANNEL_OUT_ALL;
+            FALLTHROUGH_INTENDED;
+        case AUDIO_CHANNEL_REPRESENTATION_INDEX:
+            return popcount(bits);
+        default:
+            return 0;
+    }
+}
+
+static inline audio_channel_mask_t audio_channel_mask_in_to_out(audio_channel_mask_t in)
+{
+    switch (in) {
+        case AUDIO_CHANNEL_IN_MONO:
+            return AUDIO_CHANNEL_OUT_MONO;
+        case AUDIO_CHANNEL_IN_STEREO:
+            return AUDIO_CHANNEL_OUT_STEREO;
+        case AUDIO_CHANNEL_IN_5POINT1:
+            return AUDIO_CHANNEL_OUT_5POINT1;
+        case AUDIO_CHANNEL_IN_3POINT1POINT2:
+            return AUDIO_CHANNEL_OUT_3POINT1POINT2;
+        case AUDIO_CHANNEL_IN_3POINT0POINT2:
+            return AUDIO_CHANNEL_OUT_3POINT0POINT2;
+        case AUDIO_CHANNEL_IN_2POINT1POINT2:
+            return AUDIO_CHANNEL_OUT_2POINT1POINT2;
+        case AUDIO_CHANNEL_IN_2POINT0POINT2:
+            return AUDIO_CHANNEL_OUT_2POINT0POINT2;
+        default:
+            return AUDIO_CHANNEL_INVALID;
+    }
+}
 
 /*
  * ----------------- END DEFINITIONS FROM system/audio.h -----------------

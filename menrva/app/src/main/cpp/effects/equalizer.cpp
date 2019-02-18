@@ -20,7 +20,7 @@
 
 const std::string Equalizer::EFFECT_NAME = "Equalizer";
 
-Equalizer::Equalizer(LoggerBase* logger, ServiceLocator* serviceLocator)
+Equalizer::Equalizer(LoggerBase* logger)
         : EffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
 
@@ -30,7 +30,7 @@ void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
     // TODO : Implement Equalizer Effect
 }
 
-void Equalizer::ResetConfig(effect_config_t& bufferConfig, size_t audioFrameLength) {
+void Equalizer::ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) {
     // TODO : Implement Default Configuration for Equalizer Effect
 }
 
