@@ -19,7 +19,7 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
   - See instructions in [KissFFT Build Readme](https://github.com/Jman420/kissfft_for_android/blob/master/README.md)
 
 ## Configuring Calculation Precision
-See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
+See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.
 
 ### Enabling Double Precision
   - Compile FFTW with Double Precision (see [FFTW Precision](https://github.com/Jman420/fftw_for_android/blob/master/README.md#fftw-precision) for details)
