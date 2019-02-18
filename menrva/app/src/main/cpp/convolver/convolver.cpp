@@ -50,6 +50,7 @@ Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, Convolutio
 Convolver::~Convolver() {
     ResetConfig();
 
+    delete _FftEngine;
     delete _ConvolutionOperations;
 }
 

@@ -13,17 +13,17 @@
 Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
 
 ## Compiling FFTW for Android
-  - See instructions in [FFTW Build Readme](fftw/README.md)
+  - See instructions in [FFTW Build Readme](libs/fftw/README.md)
   
 ## Compiling KissFFT for Android
-  - See instructions in [KissFFT Build Readme](kissfft/README.md)
+  - See instructions in [KissFFT Build Readme](libs/kissfft/README.md)
 
 ## Configuring Calculation Precision
 See (Calculation Precision)[README.md#calculation-precision] for details about Calculation Precision.
 
 ### Enabling Double Precision
-  - Compile FFTW with Double Precision (see [FFTW Precision](fftw/README.md#fftw-precision) for details)
-  - Compile KissFFT with Double Precision (see [KissFFT Precision](kissfft/README#kissfft-precision) for details)
+  - Compile FFTW with Double Precision (see [FFTW Precision](libs/fftw/README.md#fftw-precision) for details)
+  - Compile KissFFT with Double Precision (see [KissFFT Precision](libs/kissfft/README#kissfft-precision) for details)
   - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
   - Recompile Menrva
   - Follow Installation Instructions of your choice

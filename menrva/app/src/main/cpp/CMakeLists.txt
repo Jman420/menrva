@@ -5,7 +5,7 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../..)
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
 set(FFTW_OUTPUT_DIR ${REPO_ROOT_DIR}/fftw/out)
 set(KISSFFT_OUTPUT_DIR ${REPO_ROOT_DIR}/kissfft/out)
 set(KFR_SOURCE_DIR ${REPO_ROOT_DIR}/kfr)
