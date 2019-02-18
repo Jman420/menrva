@@ -2,3 +2,11 @@
 	path = libs/fftw
 	url = https://github.com/Jman420/fftw_for_android.git
 	branch = master
+[submodule "libs/kissfft"]
+	path = libs/kissfft
+	url = https://github.com/Jman420/kissfft_for_android.git
+	branch = master
+[submodule "libs/kfr"]
+	path = libs/kfr
+	url = https://github.com/kfrlib/kfr.git
+	branch = master
