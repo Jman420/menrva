@@ -44,8 +44,10 @@
   - ~~Debug Sample Conversion Issues (distorted output; consider implementing a no-op effect for testing)~~
   - ~~Add Multi-Channel Support~~
   - ~~Add Function Level Logging Override Functionality~~
-  - Compare Bass Boost Effect to JamesDSP
+  - ~~Compare Bass Boost Effect to JamesDSP~~
+  - Implement Master Limiter
   - Compare Engine Pipeline Output to JamesDSP
+  - CPU & Memory Profiling?
   - Draft UI Frontend
   - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
