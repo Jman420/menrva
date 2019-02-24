@@ -33,6 +33,10 @@ import static org.junit.Assert.*;
  */
 @RunWith(AndroidJUnit4.class)
 public class EngineDebugging {
+    static {
+        System.loadLibrary("MenrvaEngineTest");
+    }
+
     @Test
     public native void debug1FirGenerator();
 

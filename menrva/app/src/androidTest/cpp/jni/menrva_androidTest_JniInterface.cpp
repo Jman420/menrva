@@ -38,7 +38,7 @@ Java_com_monkeystable_menrva_EngineDebugging_debug1FirGenerator(JNIEnv* env, job
 
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
-    AudioBuffer* firFilter = firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
+    AudioBuffer firFilter = *firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
 
     int debug = 0;
 }
@@ -59,7 +59,7 @@ Java_com_monkeystable_menrva_EngineDebugging_debug2ConvolverOneFrame(JNIEnv* env
 
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
-    AudioBuffer& firFilter = *firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
+    AudioBuffer firFilter = *firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
     convolver.Initialize(audioFrameLength, firFilter);
 
@@ -95,25 +95,29 @@ Java_com_monkeystable_menrva_EngineDebugging_debug3ConvolverFullFilter(JNIEnv* e
 
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
-    AudioBuffer& firFilter = *firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
+    AudioBuffer firFilter = *firGenerator.Calculate(interpolationSize, frequencySamples, amplitudeSamples, sampleSize);
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
     convolver.Initialize(audioFrameLength, firFilter);
 
     sample angle = 0.0,
            amplitude = 1.0,
            offset = 0.0;
-    AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
     size_t audioWaveLength = audioFrameLength * convolver.GetFilterSegmentsLength();
+    AudioBuffer sineInputBuffer(serviceLocator.GetFftEngine(), audioWaveLength);
     for (int sampleCounter = 0; sampleCounter < audioWaveLength; sampleCounter++)
     {
-        inputBuffer[sampleCounter] = amplitude * sin(angle) + offset;
+        sineInputBuffer[sampleCounter] = amplitude * sin(angle) + offset;
         angle += (2 * M_PI) / audioFrameLength;
     }
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
-    convolver.Process(inputBuffer, outputBuffer);
+    AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
+    for (int frameCounter = 0; frameCounter < convolver.GetFilterSegmentsLength(); frameCounter++) {
+        memcpy(inputBuffer.GetData(), &sineInputBuffer[frameCounter * audioFrameLength], sizeof(sample) * audioFrameLength);
+        convolver.Process(inputBuffer, outputBuffer);
 
-    int debug = 0;
+        int debug = 0;
+    }
 }
 
 extern "C"

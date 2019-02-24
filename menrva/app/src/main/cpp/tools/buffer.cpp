@@ -95,3 +95,8 @@ void Buffer<TInputType>::Swap(Buffer* itemA, Buffer* itemB) {
     itemA = itemB;
     itemB = temp;
 }
+
+template class Buffer<int16_t>;
+template class Buffer<int32_t>;
+template class Buffer<float>;
+template class Buffer<double>;

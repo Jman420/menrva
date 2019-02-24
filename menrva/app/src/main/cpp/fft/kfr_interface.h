@@ -29,7 +29,7 @@ class KfrInterface : public FftInterfaceBase,
                      public LoggingBase {
 public:
     explicit KfrInterface(LoggerBase* logger);
-    ~KfrInterface();
+    ~KfrInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
@@ -37,8 +37,8 @@ public:
 
 private:
     dft_plan_real_ptr<sample> _Plan;
-    complex<sample>* _ComponentsBuffer;
-    u8* _TempBuffer;
+    univector<complex<sample>>* _ComponentsBuffer;
+    univector<u8>* _TempBuffer;
 };
 
 #endif //MENRVA_KFR_INTERFACE_H
