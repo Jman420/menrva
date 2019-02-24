@@ -26,6 +26,7 @@
 class FftInterfaceBase {
 public:
     explicit FftInterfaceBase();
+    virtual ~FftInterfaceBase() = default;
 
     size_t Initialize(size_t signalSize);
     size_t GetSignalSize();

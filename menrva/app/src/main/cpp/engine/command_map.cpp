@@ -129,7 +129,7 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
     context.ChannelLength = audio_channel_count_from_out_mask(context.config.outputCfg.channels);
-    int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength);
+    int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength, config->inputCfg.samplingRate);
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);
@@ -146,7 +146,7 @@ int MenrvaCommandMap::ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSiz
     }
 
     _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
-    context.EffectsEngine->ResetBuffers(context.config);
+    context.EffectsEngine->ResetBuffers(context.config.inputCfg.samplingRate);
 
     _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
     return 0;

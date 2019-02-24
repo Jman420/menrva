@@ -46,7 +46,7 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength) {
+int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate) {
     _Logger->WriteLog("Setting up Buffer Configs...", LOG_SENDER, __func__);
     _ChannelLength = channelLength;
 
@@ -60,6 +60,11 @@ int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength) {
 
     _Logger->WriteLog("Instantiating Audio Effects for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
     _MenrvaEffects = new EffectsBundle[_ChannelLength];
+    for (int channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
+        for (int effectCounter = 0; effectCounter < EffectsBundle::LENGTH; effectCounter++) {
+            _MenrvaEffects[channelCounter][effectCounter]->ResetBuffers(sampleRate, MENRVA_DSP_FRAME_LENGTH);
+        }
+    }
 
     _Logger->WriteLog("Successfully setup Buffer Configs!", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
@@ -117,7 +122,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
     return (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_DISABLED) ? -ENODATA : 0;
 }
 
-void MenrvaEffectsEngine::ResetBuffers(effect_config_t &bufferConfig) {
+void MenrvaEffectsEngine::ResetBuffers(sample sampleRate) {
     _Logger->WriteLog("Resetting Effects Buffers...", LOG_SENDER, __func__);
     for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
         EffectsBundle& effectsBundle = _MenrvaEffects[channelCounter];
@@ -125,7 +130,7 @@ void MenrvaEffectsEngine::ResetBuffers(effect_config_t &bufferConfig) {
 
         for (int8_t effectCounter = 0; effectCounter < EffectsBundle::LENGTH; effectCounter++) {
             EffectBase& effect = *effectsBundle[effectCounter];
-            effect.ResetBuffers(bufferConfig, MENRVA_DSP_FRAME_LENGTH);
+            effect.ResetBuffers(sampleRate, MENRVA_DSP_FRAME_LENGTH);
         }
     }
     _Logger->WriteLog("Successfully Reset Effects Buffers!", LOG_SENDER, __func__);
@@ -170,11 +175,11 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
         for (uint8_t effectCounter = 0; effectCounter < EffectsBundle::LENGTH; effectCounter++) {
             EffectBase& effect = *effectsBundle[effectCounter];
             if (effect.Enabled) {
-                _Logger->WriteLog("Processing Effect (%s) for Channel (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, effect.NAME.c_str(), channelCounter);
+                _Logger->WriteLog("Processing Effect (%s) for Channel (%d)...", LOG_SENDER, __func__, effect.NAME.c_str(), channelCounter);
                 effect.Process(*_InputAudioFrame, *_OutputAudioFrame);
             }
             else {
-                _Logger->WriteLog("Skipping Effect (%s) for Channel (%d).  Effect Disabled.", LOG_SENDER, __func__, LogLevel::VERBOSE, effect.NAME.c_str(), channelCounter);
+                _Logger->WriteLog("Skipping Effect (%s) for Channel (%d).  Effect Disabled.", LOG_SENDER, __func__, effect.NAME.c_str(), channelCounter);
             }
         }
     }

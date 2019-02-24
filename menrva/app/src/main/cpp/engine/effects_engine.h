@@ -38,9 +38,9 @@ public:
     MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
-    int SetBufferConfig(uint32_t channelLength);
+    int SetBufferConfig(uint32_t channelLength, sample sampleRate);
     int Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer);
-    void ResetBuffers(effect_config_t &bufferConfig);
+    void ResetBuffers(sample sampleRate);
     void SetEffectEnabled(uint8_t effectIndex, bool enabled);
     void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
 

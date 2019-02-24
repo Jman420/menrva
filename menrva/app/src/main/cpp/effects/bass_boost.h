@@ -31,7 +31,7 @@ public:
     ~BassBoost() override;
 
     void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) override;
+    void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;
     void ConfigureSetting(char* settingName, void* value) override;
 
 private:
