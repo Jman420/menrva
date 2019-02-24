@@ -37,6 +37,8 @@ public:
     void Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseResponse);
     void Process(AudioBuffer& input, AudioBuffer& output);
 
+    size_t GetFilterSegmentsLength();
+
 private:
     static constexpr sample ONE_HALF = (sample)0.5;
     static const float SIGNAL_THRESHOLD;

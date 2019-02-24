@@ -36,4 +36,15 @@ public class EngineDebugging {
     @Test
     public native void debug1FirGenerator();
 
+    @Test
+    public native void debug2ConvolverOneFrame();
+
+    @Test
+    public native void debug3ConvolverFullFilter();
+
+    @Test
+    public native void debug4BassBoost();
+
+    @Test
+    public native void debug5EnginePipeline();
 }
