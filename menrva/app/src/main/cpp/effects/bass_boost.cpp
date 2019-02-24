@@ -40,14 +40,13 @@ void BassBoost::Process(AudioBuffer& input, AudioBuffer& output) {
     _Convolver->Process(input, output);
 }
 
-void BassBoost::ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) {
+void BassBoost::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
     // BEGIN DEBUG
-    sample sampleRate = bufferConfig.inputCfg.samplingRate,
-           centerFreq = 60.0,
+    sample centerFreq = 60.0,
            freqTransition = 80.0,
            strength = 6.0;
 
-    size_t filterSize = 4096,
+    size_t filterSize = 4097,
            sampleSize = 4;
     sample frequencySamples[] = { 0, (sample)((centerFreq * 2.0) / sampleRate), (sample)((centerFreq * 2.0 + freqTransition) / sampleRate), 1.0 },
            amplitudeSamples[] = { (sample)(pow(10.0, strength / 20.0)), (sample)(pow(10.0, strength / 20.0)), 1.0, 1.0 };

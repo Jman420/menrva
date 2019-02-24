@@ -31,10 +31,6 @@ EffectsBundle::EffectsBundle() {
 }
 
 EffectsBundle::~EffectsBundle() {
-    delete _BassBoost;
-    delete _Equalizer;
-    delete _StereoWidener;
-
     delete[] _Effects;
 }
 

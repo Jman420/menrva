@@ -30,7 +30,7 @@ void StereoWidener::Process(AudioBuffer& input, AudioBuffer& output) {
     // TODO : Implement Stereo Widener Effect
 }
 
-void StereoWidener::ResetBuffers(effect_config_t &bufferConfig, size_t audioFrameLength) {
+void StereoWidener::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
     // TODO : Implement Default Configuration for StereoWidener Effect
 }
 
