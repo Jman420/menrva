@@ -127,8 +127,8 @@ Java_com_monkeystable_menrva_EngineDebugging_debug4BassBoost(JNIEnv* env, jobjec
     jmanBassBoost.ResetBuffers(sampleRate, audioFrameLength);
 
     sample angle = 0.0,
-            amplitude = 1.0,
-            offset = 0.0;
+           amplitude = 1.0,
+           offset = 0.0;
     AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
     for (int sampleCounter = 0; sampleCounter < audioFrameLength; sampleCounter++)
     {

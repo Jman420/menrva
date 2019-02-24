@@ -7,10 +7,10 @@ This project is an Android Audio Effect Module which contains various tunable au
 ## Effect Lists
 
 ### Implemented Effects
-  - N/A
+  - Bass Boost
 
 ### Effects In Progress
-  - Bass Boost
+  - N/A (See [TODO List](TODO.md))
 
 ### Planned Effects
   - Stereo Widening
