@@ -31,10 +31,8 @@ public:
     FirGenerator(LoggerBase* logger, FftInterfaceBase* fftEngine);
     ~FirGenerator();
 
-    /*
-     * Calculate() - Returns a Finite Impulse Response of size 'filterSize' based on the provided
-     *   Frequency Samples & Amplitudes.
-     * filterSize - Size of resulting FIR Filter (number of elements in the filter; 2048 or 4096 or other power of 2)
+    /* Calculate() - Returns a Finite Impulse Response of size 'filterLength' based on the provided Frequency Samples & Amplitudes.
+     * filterLength - Length of resulting FIR Filter (number of elements in the filter; 2048 or 4096 or other power of 2)
      * frequencySamples - Array of Frequency values to interpolate
      * amplitudeSamples - Array of Amplitude values to interpolate
      * sampleSize - Length of Frequency & Amplitude Arrays
@@ -42,13 +40,6 @@ public:
     AudioBuffer* Calculate(size_t filterLength, sample* frequencySamples, sample* amplitudeSamples, size_t sampleLength);
 
 private:
-    static constexpr sample PI = (sample)M_PI,
-                            PI2 = (sample)M_PI * (sample)2.0,
-                            ONE = (sample)1.0,
-                            ONE_HALF = (sample)0.5,
-                            HAMMING_054 = (sample)0.54,
-                            HAMMING_046 = (sample)0.46;
-
     FftInterfaceBase* _FftEngine;
 };
 

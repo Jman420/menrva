@@ -17,11 +17,11 @@
  */
 
 #include <jni.h>
-#include <cmath>
 #include "../../../main/cpp/audio/sample.h"
 #include "../../../main/cpp/tools/service_locator.h"
 #include "../../../main/cpp/ir/fir_generator.h"
 #include "../../../main/cpp/effects/bass_boost.h"
+#include "../tools/wave_generator.h"
 
 extern "C"
 JNIEXPORT void JNICALL
@@ -63,15 +63,11 @@ Java_com_monkeystable_menrva_EngineDebugging_debug2ConvolverOneFrame(JNIEnv* env
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
     convolver.Initialize(audioFrameLength, firFilter);
 
-    sample angle = 0.0,
-           amplitude = 1.0,
+    WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
+    sample amplitude = 1.0,
+           frequency = 1.0,
            offset = 0.0;
-    AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
-    for (int sampleCounter = 0; sampleCounter < audioFrameLength; sampleCounter++)
-    {
-        inputBuffer[sampleCounter] = amplitude * sin(angle) + offset;
-        angle += (2 * M_PI) / audioFrameLength;
-    }
+    AudioBuffer& inputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, audioFrameLength);
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
     convolver.Process(inputBuffer, outputBuffer);
@@ -99,16 +95,12 @@ Java_com_monkeystable_menrva_EngineDebugging_debug3ConvolverFullFilter(JNIEnv* e
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
     convolver.Initialize(audioFrameLength, firFilter);
 
-    sample angle = 0.0,
-           amplitude = 1.0,
+    WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
+    sample amplitude = 1.0,
+           frequency = 1.0,
            offset = 0.0;
     size_t audioWaveLength = audioFrameLength * convolver.GetFilterSegmentsLength();
-    AudioBuffer sineInputBuffer(serviceLocator.GetFftEngine(), audioWaveLength);
-    for (int sampleCounter = 0; sampleCounter < audioWaveLength; sampleCounter++)
-    {
-        sineInputBuffer[sampleCounter] = amplitude * sin(angle) + offset;
-        angle += (2 * M_PI) / audioFrameLength;
-    }
+    AudioBuffer& sineInputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, audioWaveLength);
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
     AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
@@ -130,15 +122,11 @@ Java_com_monkeystable_menrva_EngineDebugging_debug4BassBoost(JNIEnv* env, jobjec
     BassBoost jmanBassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
     jmanBassBoost.ResetBuffers(sampleRate, audioFrameLength);
 
-    sample angle = 0.0,
-           amplitude = 1.0,
+    WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
+    sample amplitude = 1.0,
+           frequency = 1.0,
            offset = 0.0;
-    AudioBuffer inputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
-    for (int sampleCounter = 0; sampleCounter < audioFrameLength; sampleCounter++)
-    {
-        inputBuffer[sampleCounter] = amplitude * sin(angle) + offset;
-        angle += (2 * M_PI) / audioFrameLength;
-    }
+    AudioBuffer& inputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, audioFrameLength);
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), audioFrameLength);
     jmanBassBoost.Process(inputBuffer, outputBuffer);
