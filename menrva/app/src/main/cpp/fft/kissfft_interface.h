@@ -30,7 +30,7 @@ class KissFftInterface : public FftInterfaceBase,
                          public LoggingBase {
 public:
     explicit KissFftInterface(LoggerBase* logger);
-    ~KissFftInterface();
+    ~KissFftInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
