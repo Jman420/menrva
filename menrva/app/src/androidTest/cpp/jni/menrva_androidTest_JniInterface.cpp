@@ -16,13 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.activities;
+#include <jni.h>
 
-public class JniInterface {
-    static {
-        System.loadLibrary("MenrvaEngine");
-    }
+extern "C"
+JNIEXPORT void JNICALL
+Java_com_monkeystable_menrva_EngineDebugging_debug1FirGenerator(JNIEnv* env, jobject instance) {
 
-    public static native String getMenrvaEffectTypeUUID();
-    public static native String getMenrvaEffectEngineUUID();
+    // TODO
+
 }
