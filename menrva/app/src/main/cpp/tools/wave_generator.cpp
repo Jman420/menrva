@@ -16,13 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.activities;
+#include "wave_generator.h"
+#include "../ir/wave_generator_constants.h"
 
-public class JniInterface {
-    static {
-        System.loadLibrary("MenrvaEngine");
+WaveGenerator::WaveGenerator(FftInterfaceBase* fftEngine) {
+    _FftEngine = fftEngine;
+}
+
+WaveGenerator::~WaveGenerator() {
+    delete _FftEngine;
+}
+
+AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
+    AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
+    sample angularFrequency = WaveGeneratorConstants::PI2 * frequency;
+    for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
+        sineWaveBuffer[sampleCounter] = amplitude * sin(angularFrequency * sampleCounter + offset);
     }
 
-    public static native String getMenrvaEffectTypeUUID();
-    public static native String getMenrvaEffectEngineUUID();
+    return &sineWaveBuffer;
 }

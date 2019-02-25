@@ -152,9 +152,7 @@ int MenrvaCommandMap::ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSiz
     return 0;
 }
 
-int MenrvaCommandMap::EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused,
-                                   void* pCmdData __unused, uint32_t* replySize __unused,
-                                   void* pReplyData __unused) {
+int MenrvaCommandMap::EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize __unused, void* pReplyData __unused) {
     _Logger->WriteLog("Received EnableEngine Command...", LOG_SENDER, __func__);
     if (pReplyData == nullptr || replySize == nullptr || *replySize != sizeof(int)) {
         _Logger->WriteLog("Skipping EnableEngine Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);

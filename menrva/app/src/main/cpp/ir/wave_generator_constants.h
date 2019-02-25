@@ -16,32 +16,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_KFR_INTERFACE_H
-#define MENRVA_KFR_INTERFACE_H
+#ifndef MENRVA_WAVE_GENERATOR_CONSTANTS_H
+#define MENRVA_WAVE_GENERATOR_CONSTANTS_H
 
-#include <kfr/dft.hpp>
-#include "../abstracts/fft_interface_base.h"
-#include "../abstracts/logging_base.h"
+#include <cmath>
+#include "../audio/sample.h"
 
-using namespace kfr;
-
-class KfrInterface : public FftInterfaceBase,
-                     public LoggingBase {
+class WaveGeneratorConstants {
 public:
-    explicit KfrInterface(LoggerBase* logger);
-    ~KfrInterface() override;
-
-    size_t Initialize(size_t signalSize, size_t componentSize) override;
-    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
-    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
-
-private:
-    bool _Initialized;
-    dft_plan_real_ptr<sample> _Plan;
-    univector<complex<sample>>* _ComponentsBuffer;
-    univector<u8>* _TempBuffer;
-
-    void Dispose();
+    static constexpr sample PI = (sample)M_PI,
+                            PI2 = PI * (sample)2.0,
+                            ONE = (sample)1.0,
+                            ONE_HALF = (sample)0.5,
+                            HAMMING_054 = (sample)0.54,
+                            HAMMING_046 = (sample)0.46;
 };
 
-#endif //MENRVA_KFR_INTERFACE_H
+#endif //MENRVA_WAVE_GENERATOR_CONSTANTS_H

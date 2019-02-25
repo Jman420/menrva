@@ -212,6 +212,10 @@ void Convolver::Process(AudioBuffer& input, AudioBuffer& output) {
     memcpy(_OverlapSignal->GetData(), &(*_WorkingSignal)[_FrameLength], _FrameSize);
 }
 
+size_t Convolver::GetFilterSegmentsLength() {
+    return _FilterSegmentsLength;
+}
+
 void Convolver::LogSegmentConfig() {
     _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameLength);
     _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameSize);

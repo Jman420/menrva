@@ -16,13 +16,39 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.activities;
+package com.monkeystable.menrva;
 
-public class JniInterface {
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+import android.support.test.runner.AndroidJUnit4;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import static org.junit.Assert.*;
+
+/* Instrumented test, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+@RunWith(AndroidJUnit4.class)
+public class EngineDebugging {
     static {
-        System.loadLibrary("MenrvaEngine");
+        System.loadLibrary("MenrvaEngineTest");
     }
 
-    public static native String getMenrvaEffectTypeUUID();
-    public static native String getMenrvaEffectEngineUUID();
+    @Test
+    public native void debug1FirGenerator();
+
+    @Test
+    public native void debug2ConvolverOneFrame();
+
+    @Test
+    public native void debug3ConvolverFullFilter();
+
+    @Test
+    public native void debug4BassBoost();
+
+    @Test
+    public native void debug5FullPipeline();
 }

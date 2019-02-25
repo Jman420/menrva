@@ -28,7 +28,7 @@ android {
     }
     sourceSets {
         main {
-            jni.srcDirs = ['src/main/cpp/jni/']
+            jni.srcDirs = ['src/main/cpp/jni/', 'src/androidTest/cpp/jni/']
             jniLibs.srcDirs = ['../../libs/fftw/out/', '../../libs/kissfft/out/']
         }
     }

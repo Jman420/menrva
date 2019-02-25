@@ -16,32 +16,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_KFR_INTERFACE_H
-#define MENRVA_KFR_INTERFACE_H
+#ifndef MENRVA_WAVE_GENERATOR_H
+#define MENRVA_WAVE_GENERATOR_H
 
-#include <kfr/dft.hpp>
-#include "../abstracts/fft_interface_base.h"
-#include "../abstracts/logging_base.h"
+#include "../audio/audio_buffer.h"
 
-using namespace kfr;
-
-class KfrInterface : public FftInterfaceBase,
-                     public LoggingBase {
+class WaveGenerator {
 public:
-    explicit KfrInterface(LoggerBase* logger);
-    ~KfrInterface() override;
+    explicit WaveGenerator(FftInterfaceBase* fftEngine);
+    ~WaveGenerator();
 
-    size_t Initialize(size_t signalSize, size_t componentSize) override;
-    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
-    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
+    AudioBuffer* CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length);
 
 private:
-    bool _Initialized;
-    dft_plan_real_ptr<sample> _Plan;
-    univector<complex<sample>>* _ComponentsBuffer;
-    univector<u8>* _TempBuffer;
-
-    void Dispose();
+    FftInterfaceBase* _FftEngine;
 };
 
-#endif //MENRVA_KFR_INTERFACE_H
+#endif //MENRVA_WAVE_GENERATOR_H

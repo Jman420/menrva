@@ -7,12 +7,13 @@ This project is an Android Audio Effect Module which contains various tunable au
 ## Effect Lists
 
 ### Implemented Effects
-  - N/A
-
-### Effects In Progress
   - Bass Boost
 
+### Effects In Progress
+  - N/A (See [TODO List](TODO.md))
+
 ### Planned Effects
+  - Master Limiter
   - Stereo Widening
   - 15+ Band Equalizer
 

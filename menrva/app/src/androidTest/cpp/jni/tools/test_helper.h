@@ -16,32 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_KFR_INTERFACE_H
-#define MENRVA_KFR_INTERFACE_H
+#ifndef DSP_COMPARE_TEST_HELPER_H
+#define DSP_COMPARE_TEST_HELPER_H
 
-#include <kfr/dft.hpp>
-#include "../abstracts/fft_interface_base.h"
-#include "../abstracts/logging_base.h"
+#include <vector>
+#include <cmath>
+#include "../../../../main/cpp/audio/sample.h"
 
-using namespace kfr;
-
-class KfrInterface : public FftInterfaceBase,
-                     public LoggingBase {
-public:
-    explicit KfrInterface(LoggerBase* logger);
-    ~KfrInterface() override;
-
-    size_t Initialize(size_t signalSize, size_t componentSize) override;
-    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
-    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
-
-private:
-    bool _Initialized;
-    dft_plan_real_ptr<sample> _Plan;
-    univector<complex<sample>>* _ComponentsBuffer;
-    univector<u8>* _TempBuffer;
-
-    void Dispose();
+struct test_params {
+    sample SampleRate = 44100.0,
+           FirCenterFreq = 60.0,
+           FirFreqTransition = 80.0,
+           FirStrength = 6.0;
+    size_t AndroidAudioFrameLength = 1152,
+           MenrvaAudioFrameLength = 1024,
+           FirInterpolationLength = 4096,
+           FirSamplesLength = 4;
+    sample FirFrequencySamples[4] = { 0, (FirCenterFreq * 2.0f) / SampleRate, (FirCenterFreq * 2.0f + FirFreqTransition) / SampleRate, 1.0 },
+           FirAmplitudeSamples[4] = { pow(10.0f, FirStrength / 20.0f), pow(10.0f, FirStrength / 20.0f), 1.0, 1.0 };
 };
 
-#endif //MENRVA_KFR_INTERFACE_H
+#endif //DSP_COMPARE_TEST_HELPER_H
