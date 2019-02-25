@@ -53,8 +53,6 @@ public:
 private:
     AudioFormat _AudioFormat;
     audio_output_buffer_u* _BufferWrapper;
-    uint32_t _ChannelLength;
-    size_t _SampleLength;
 
     template<class TOutputType>
     TOutputType Normalize(sample data);

@@ -16,39 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva;
+#ifndef DSP_COMPARE_TEST_HELPER_H
+#define DSP_COMPARE_TEST_HELPER_H
 
-import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
+#include <vector>
+#include <cmath>
+#include "../../../../main/cpp/audio/sample.h"
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+struct test_params {
+    sample SampleRate = 44100.0,
+           FirCenterFreq = 60.0,
+           FirFreqTransition = 80.0,
+           FirStrength = 6.0;
+    size_t AndroidAudioFrameLength = 1152,
+           MenrvaAudioFrameLength = 1024,
+           FirInterpolationLength = 4096,
+           FirSamplesLength = 4;
+    sample FirFrequencySamples[4] = { 0, (FirCenterFreq * 2.0f) / SampleRate, (FirCenterFreq * 2.0f + FirFreqTransition) / SampleRate, 1.0 },
+           FirAmplitudeSamples[4] = { pow(10.0f, FirStrength / 20.0f), pow(10.0f, FirStrength / 20.0f), 1.0, 1.0 };
+};
 
-import static org.junit.Assert.*;
-
-/* Instrumented test, which will execute on an Android device.
- *
- * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
- */
-@RunWith(AndroidJUnit4.class)
-public class EngineDebugging {
-    static {
-        System.loadLibrary("MenrvaEngineTest");
-    }
-
-    @Test
-    public native void debug1FirGenerator();
-
-    @Test
-    public native void debug2ConvolverOneFrame();
-
-    @Test
-    public native void debug3ConvolverFullFilter();
-
-    @Test
-    public native void debug4BassBoost();
-
-    @Test
-    public native void debug5FullPipeline();
-}
+#endif //DSP_COMPARE_TEST_HELPER_H
