@@ -21,7 +21,7 @@
 #include "../../../main/cpp/tools/service_locator.h"
 #include "../../../main/cpp/ir/fir_generator.h"
 #include "../../../main/cpp/effects/bass_boost.h"
-#include "../tools/wave_generator.h"
+#include "../../../main/cpp/tools/wave_generator.h"
 
 extern "C"
 JNIEXPORT void JNICALL

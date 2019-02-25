@@ -17,7 +17,7 @@
  */
 
 #include "wave_generator.h"
-#include "../../../main/cpp/ir/wave_generator_constants.h"
+#include "../ir/wave_generator_constants.h"
 
 WaveGenerator::WaveGenerator(FftInterfaceBase* fftEngine) {
     _FftEngine = fftEngine;

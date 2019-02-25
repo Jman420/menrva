@@ -36,9 +36,12 @@ public:
     void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
 
 private:
+    bool _Initialized;
     dft_plan_real_ptr<sample> _Plan;
     univector<complex<sample>>* _ComponentsBuffer;
     univector<u8>* _TempBuffer;
+
+    void Dispose();
 };
 
 #endif //MENRVA_KFR_INTERFACE_H

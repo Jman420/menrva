@@ -25,11 +25,13 @@ KissFftInterface::KissFftInterface(LoggerBase* logger)
     : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 KissFftInterface::~KissFftInterface() {
-    delete[] _ComponentsBuffer;
+    Dispose();
 }
 
 size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KissFFT Interface...", LOG_SENDER, __func__);
+    Dispose();
+
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
         std::string msg = "Invalid Signal and Component Sizes provided!";
@@ -58,6 +60,7 @@ size_t KissFftInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Allocating KissFFT Components Buffer...", LOG_SENDER, __func__);
     _ComponentsBuffer = new kiss_fft_cpx[componentSize];
 
+    _Initialized = true;
     _Logger->WriteLog("Successfully initialized KissFFT Interface!", LOG_SENDER, __func__);
     return componentSize;
 }
@@ -82,4 +85,12 @@ void KissFftInterface::ComponentsToSignal(AudioComponentsBuffer& components, Aud
     }
 
     KissFftComplexToReal(_Plans.ComplexToRealPlan, _ComponentsBuffer, signal.GetData());
+}
+
+void KissFftInterface::Dispose() {
+    if (!_Initialized) {
+        return;
+    }
+
+    delete[] _ComponentsBuffer;
 }

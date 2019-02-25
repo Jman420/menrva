@@ -48,8 +48,8 @@ void BassBoost::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
 
     size_t filterSize = 4097,
            sampleSize = 4;
-    sample frequencySamples[] = { 0, (sample)((centerFreq * 2.0) / sampleRate), (sample)((centerFreq * 2.0 + freqTransition) / sampleRate), 1.0 },
-           amplitudeSamples[] = { (sample)(pow(10.0, strength / 20.0)), (sample)(pow(10.0, strength / 20.0)), 1.0, 1.0 };
+    sample frequencySamples[] = { 0, ((centerFreq * 2.0f) / sampleRate), ((centerFreq * 2.0f + freqTransition) / sampleRate), 1.0f },
+           amplitudeSamples[] = { (pow(10.0f, strength / 20.0f)), (pow(10.0f, strength / 20.0f)), 1.0f, 1.0f };
 
     AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
     _Convolver->Initialize(audioFrameLength, *impulseFilter);

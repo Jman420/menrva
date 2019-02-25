@@ -24,12 +24,13 @@ KfrInterface::KfrInterface(LoggerBase* logger)
     : LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 KfrInterface::~KfrInterface() {
-    delete _ComponentsBuffer;
-    delete _TempBuffer;
+    Dispose();
 }
 
 size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing KFR Interface...", LOG_SENDER, __func__);
+    Dispose();
+
     componentSize = FftInterfaceBase::Initialize(signalSize, componentSize);
     if (signalSize < 1 && componentSize < 1) {
         std::string msg = "Invalid Signal and Component Sizes provided!";
@@ -44,6 +45,7 @@ size_t KfrInterface::Initialize(size_t signalSize, size_t componentSize) {
     _ComponentsBuffer = new univector<complex<sample>>(componentSize);
     _TempBuffer = new univector<u8>((u8)_Plan->temp_size);
 
+    _Initialized = true;
     _Logger->WriteLog("Successfully initialized KFR Interface!", LOG_SENDER, __func__);
     return componentSize;
 }
@@ -70,4 +72,13 @@ void KfrInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBu
     }
 
     _Plan->execute(signal.GetData(), componentsData, _TempBuffer->data());
+}
+
+void KfrInterface::Dispose() {
+    if (!_Initialized) {
+        return;
+    }
+
+    delete _ComponentsBuffer;
+    delete _TempBuffer;
 }

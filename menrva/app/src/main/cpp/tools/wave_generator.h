@@ -19,7 +19,7 @@
 #ifndef MENRVA_WAVE_GENERATOR_H
 #define MENRVA_WAVE_GENERATOR_H
 
-#include "../../../main/cpp/audio/audio_buffer.h"
+#include "../audio/audio_buffer.h"
 
 class WaveGenerator {
 public:
