@@ -26,7 +26,7 @@ const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 ServiceLocator* MenrvaEngineInterface::_ServiceLocator = new ServiceLocator();
 LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
-int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, audio_buffer_t* out) {
+int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBuffer, audio_buffer_t* outBuffer) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
     auto context = (MenrvaModuleContext*)handle;
 
@@ -38,29 +38,29 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* in, a
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
-    if (in->frameCount != out->frameCount) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", LOG_SENDER, __func__, LogLevel::ERROR, in->frameCount, out->frameCount);
+    if (inBuffer->frameCount != outBuffer->frameCount) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", LOG_SENDER, __func__, LogLevel::ERROR, inBuffer->frameCount, outBuffer->frameCount);
         return -EINVAL;
     }
 
     uint32_t channelLength = context->ChannelLength;
-    _Logger->WriteLog("Input Buffer Frame Length (%u) and Channel Length (%u).", LOG_SENDER, __func__, in->frameCount, channelLength);
-    _Logger->WriteLog("Output Buffer Frame Length (%u and Channel Length (%u).", LOG_SENDER, __func__, out->frameCount, channelLength);
+    _Logger->WriteLog("Input Buffer Frame Length (%u) and Channel Length (%u).", LOG_SENDER, __func__, inBuffer->frameCount, channelLength);
+    _Logger->WriteLog("Output Buffer Frame Length (%u and Channel Length (%u).", LOG_SENDER, __func__, outBuffer->frameCount, channelLength);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context->config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
-            context->InputBuffer->SetData(in->s16, channelLength, in->frameCount);
-            context->OutputBuffer->SetData(out->s16, channelLength, out->frameCount);
+            context->InputBuffer->SetData(inBuffer->s16, channelLength, inBuffer->frameCount);
+            context->OutputBuffer->SetData(outBuffer->s16, channelLength, outBuffer->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_32_BIT:
-            context->InputBuffer->SetData(in->s32, channelLength, in->frameCount);
-            context->OutputBuffer->SetData(out->s32, channelLength, out->frameCount);
+            context->InputBuffer->SetData(inBuffer->s32, channelLength, inBuffer->frameCount);
+            context->OutputBuffer->SetData(outBuffer->s32, channelLength, outBuffer->frameCount);
             break;
 
         case AUDIO_FORMAT_PCM_FLOAT:
-            context->InputBuffer->SetData(in->f32, channelLength, in->frameCount);
-            context->OutputBuffer->SetData(out->f32, channelLength, out->frameCount);
+            context->InputBuffer->SetData(inBuffer->f32, channelLength, inBuffer->frameCount);
+            context->OutputBuffer->SetData(outBuffer->f32, channelLength, outBuffer->frameCount);
             break;
 
         default:

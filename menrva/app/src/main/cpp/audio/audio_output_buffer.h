@@ -43,15 +43,15 @@ public:
     void ResetData();
     void Free();
 
-    void SetFormat(AudioFormat audioFormat);
+    void SetFormat(AudioFormat outputAudioFormat);
     void SetData(void* data, uint32_t channelLength, size_t sampleLength);
-    void SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength);
+    void SetData(AudioFormat outputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength);
     void SetValue(uint32_t channelIndex, size_t sampleIndex, sample value);
     void* GetData();
     void* operator()(uint32_t channelIndex, size_t sampleIndex) const;  // Read-Only Subscript Operator
 
 private:
-    AudioFormat _AudioFormat;
+    AudioFormat _OutputAudioFormat;
     audio_output_buffer_u* _BufferWrapper;
 
     template<class TOutputType>

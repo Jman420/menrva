@@ -22,19 +22,19 @@
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
-    _AudioFormat = AudioFormat::Sample;
+    _InputAudioFormat = AudioFormat::Sample;
 }
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _BufferWrapper = new audio_input_buffer_u();
-    _AudioFormat = AudioFormat::Sample;
+    _InputAudioFormat = AudioFormat::Sample;
     SetFormat(audioFormat);
 }
 
 AudioInputBuffer::~AudioInputBuffer() {
     _Logger->WriteLog("Disposing of Audio Input Buffer...", LOG_SENDER, __func__);
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
             delete _BufferWrapper->PCM_16;
             break;
@@ -56,7 +56,7 @@ AudioInputBuffer::~AudioInputBuffer() {
 }
 
 void AudioInputBuffer::ResetData() {
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16->ResetData();
             break;
@@ -77,7 +77,7 @@ void AudioInputBuffer::ResetData() {
 }
 
 void AudioInputBuffer::Free() {
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16->Free();
             break;
@@ -97,15 +97,15 @@ void AudioInputBuffer::Free() {
     }
 }
 
-void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
-    _Logger->WriteLog("Setting Audio Format to (%d)...", LOG_SENDER, __func__, audioFormat);
-    if (_AudioFormat == audioFormat) {
+void AudioInputBuffer::SetFormat(AudioFormat inputAudioFormat) {
+    _Logger->WriteLog("Setting Audio Format to (%d)...", LOG_SENDER, __func__, inputAudioFormat);
+    if (_InputAudioFormat == inputAudioFormat) {
         _Logger->WriteLog("Audio Format already set.", LOG_SENDER, __func__);
         return;
     }
 
-    _Logger->WriteLog("Instantiating Conversion Buffer for Audio Format (%d)...", LOG_SENDER, __func__, audioFormat);
-    switch (audioFormat) {
+    _Logger->WriteLog("Instantiating Conversion Buffer for Audio Format (%d)...", LOG_SENDER, __func__, inputAudioFormat);
+    switch (inputAudioFormat) {
         case AudioFormat::PCM_16:
             _BufferWrapper->PCM_16 = new ConversionBuffer<int16_t, sample>();
             _Logger->WriteLog("Successfully instantiated PCM16 Conversion Buffer!", LOG_SENDER, __func__);
@@ -127,24 +127,24 @@ void AudioInputBuffer::SetFormat(AudioFormat audioFormat) {
             throw std::runtime_error(msg);
     }
 
-    _AudioFormat = audioFormat;
+    _InputAudioFormat = inputAudioFormat;
     _Logger->WriteLog("Successfully set Audio Format!", LOG_SENDER, __func__);
 }
 
 void AudioInputBuffer::SetData(void* data, uint32_t channelLength, size_t sampleLength) {
     size_t bufferLength = sampleLength * channelLength;
 
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16->SetData((int16_t*)data, bufferLength);
+            _BufferWrapper->PCM_16->SetData(static_cast<int16_t*>(data), bufferLength);
             break;
 
         case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32->SetData((int32_t*)data, bufferLength);
+            _BufferWrapper->PCM_32->SetData(static_cast<int32_t*>(data), bufferLength);
             break;
 
         case AudioFormat::PCM_Float:
-            _BufferWrapper->PCM_Float->SetData((float*)data, bufferLength);
+            _BufferWrapper->PCM_Float->SetData(static_cast<float*>(data), bufferLength);
             break;
 
         default:
@@ -156,13 +156,13 @@ void AudioInputBuffer::SetData(void* data, uint32_t channelLength, size_t sample
     AudioIOBufferBase::SetData(channelLength, sampleLength);
 }
 
-void AudioInputBuffer::SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength) {
-    SetFormat(audioFormat);
+void AudioInputBuffer::SetData(AudioFormat inputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength) {
+    SetFormat(inputAudioFormat);
     SetData(data, channelLength, sampleLength);
 }
 
 void* AudioInputBuffer::GetData() {
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
             return _BufferWrapper->PCM_16->GetData();
 
@@ -194,24 +194,24 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
     _Logger->WriteLog("Retrieving Normalized Value for Buffer Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex);
     sample normalizedValue;
 
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16: {
             int16_t value = (*_BufferWrapper->PCM_16)[bufferIndex];
-            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _AudioFormat);
+            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
             normalizedValue = Normalize<int16_t>(value);
             break;
         }
 
         case AudioFormat::PCM_32: {
             int32_t value = (*_BufferWrapper->PCM_32)[bufferIndex];
-            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _AudioFormat);
+            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
             normalizedValue = Normalize<int32_t>(value);
             break;
         }
 
         case AudioFormat::PCM_Float: {
             float value = (*_BufferWrapper->PCM_Float)[bufferIndex];
-            _Logger->WriteLog("Normalizing value (%f) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _AudioFormat);
+            _Logger->WriteLog("Normalizing value (%f) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
             normalizedValue = (sample)value;
             break;
         }
@@ -228,12 +228,12 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
 
 template<class TInputType>
 sample AudioInputBuffer::Normalize(TInputType data) const {
-    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _AudioFormat);
+    _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _InputAudioFormat);
     const auto dataValue = (sample)data;
 
     sample conversionScalar;
 
-    switch (_AudioFormat) {
+    switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
             conversionScalar = PCM16_FLOAT_SCALAR;
             break;

@@ -42,14 +42,14 @@ public:
     void ResetData();
     void Free();
 
-    void SetFormat(AudioFormat audioFormat);
+    void SetFormat(AudioFormat inputAudioFormat);
     void SetData(void* data, uint32_t channelLength, size_t sampleLength);
-    void SetData(AudioFormat audioFormat, void* data, uint32_t channelLength, size_t sampleLength);
+    void SetData(AudioFormat inputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength);
     void* GetData();
     sample operator()(uint32_t channelIndex, size_t sampleIndex) const;  // Read-Only Subscript Operator
 
 private:
-    AudioFormat _AudioFormat;
+    AudioFormat _InputAudioFormat;
     audio_input_buffer_u* _BufferWrapper;
 
     template<class TInputType>

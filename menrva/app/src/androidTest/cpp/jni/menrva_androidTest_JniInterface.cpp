@@ -123,6 +123,8 @@ Java_com_monkeystable_menrva_EngineDebugging_debug5FullPipeline(JNIEnv* env, job
     menrvaEffectConfig.outputCfg.channels = menrvaEffectConfig.inputCfg.channels;
     menrvaEffectConfig.outputCfg.accessMode = EFFECT_BUFFER_ACCESS_WRITE;
 
+    uint32_t channelLength = audio_channel_count_from_out_mask(menrvaEffectConfig.inputCfg.channels);
+
     ServiceLocator serviceLocator;
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
     sample amplitude = 1.0,
@@ -132,14 +134,12 @@ Java_com_monkeystable_menrva_EngineDebugging_debug5FullPipeline(JNIEnv* env, job
 
     audio_buffer_t inputBuffer = *new audio_buffer_t();
     inputBuffer.frameCount = params.AndroidAudioFrameLength;
-    inputBuffer.s16 = new int16_t[params.AndroidAudioFrameLength];
-    uint32_t channelLength = audio_channel_count_from_out_mask(menrvaEffectConfig.inputCfg.channels);
+    inputBuffer.s16 = new int16_t[channelLength * params.AndroidAudioFrameLength];
     AudioOutputBuffer outputConverter = *new AudioOutputBuffer(serviceLocator.GetLogger(), AudioFormat::PCM_16);
-    outputConverter.SetData(inputSineBuffer.GetData(), channelLength, params.AndroidAudioFrameLength);
+    outputConverter.SetData(inputBuffer.s16, channelLength, params.AndroidAudioFrameLength);
     for (uint32_t channelCounter = 0; channelCounter < channelLength; channelCounter++){
         for (size_t sampleCounter = 0; sampleCounter < params.AndroidAudioFrameLength; sampleCounter++) {
-            size_t interleavedIndex = channelCounter + (sampleCounter * channelLength);
-            inputBuffer.s16[interleavedIndex] = *static_cast<int16_t*>(outputConverter(channelCounter, sampleCounter));
+            outputConverter.SetValue(channelCounter, sampleCounter, inputSineBuffer[sampleCounter]);
         }
     }
 
