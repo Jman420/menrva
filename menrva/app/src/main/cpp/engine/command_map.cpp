@@ -113,6 +113,12 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
         return -EINVAL;
     }
 
+    _Logger->WriteLog("Calculating Channels Length...", LOG_SENDER, __func__);
+    context.ChannelLength = audio_channel_count_from_out_mask(config->outputCfg.channels);
+    if (context.ChannelLength < 1) {
+        _Logger->WriteLog("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", LOG_SENDER, __func__, LogLevel::ERROR, context.ChannelLength);
+    }
+
     if (!context.InputBuffer) {
         _Logger->WriteLog("Creating Audio Input Buffer Wrapper...", LOG_SENDER, __func__);
         context.InputBuffer = new AudioInputBuffer(_ServiceLocator->GetLogger());
@@ -128,7 +134,6 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    context.ChannelLength = audio_channel_count_from_out_mask(context.config.outputCfg.channels);
     int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength, config->inputCfg.samplingRate);
     *(int*)pReplyData = result;
 
