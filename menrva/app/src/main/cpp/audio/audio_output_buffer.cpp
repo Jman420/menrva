@@ -171,7 +171,7 @@ void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, samp
     }
 
     _Logger->WriteLog("Calculating Buffer Index for Sample Index (%d) for Channel (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleIndex, channelIndex);
-    size_t bufferIndex = sampleIndex + channelIndex;
+    size_t bufferIndex = AudioIOBufferBase::CalculateBufferIndex(_ChannelLength, channelIndex, sampleIndex);
 
     _Logger->WriteLog("Setting Normalized Value to Index (%d) from Original Value (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex, value);
     switch (_OutputAudioFormat) {
@@ -260,7 +260,7 @@ void* AudioOutputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
 template<class TOutputType>
 TOutputType AudioOutputBuffer::Normalize(sample data) {
     _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _OutputAudioFormat);
-    sample conversionScalar;
+    sample conversionScalar = 0;
 
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16:
@@ -281,7 +281,8 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             throw std::runtime_error(msg);
     }
 
-    auto normalizedValue = (TOutputType)(data * conversionScalar);
+    sample convertedData = data * conversionScalar;
+    auto normalizedValue = (TOutputType)convertedData;
     if (normalizedValue > conversionScalar) {
         normalizedValue = (TOutputType)conversionScalar;
     }

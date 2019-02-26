@@ -25,7 +25,7 @@
 class WaveGeneratorConstants {
 public:
     static constexpr sample PI = (sample)M_PI,
-                            PI2 = PI * (sample)2.0,
+                            PI2 = (sample)(M_PI * 2.0),
                             ONE = (sample)1.0,
                             ONE_HALF = (sample)0.5,
                             HAMMING_054 = (sample)0.54,

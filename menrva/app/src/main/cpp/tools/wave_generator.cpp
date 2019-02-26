@@ -29,9 +29,8 @@ WaveGenerator::~WaveGenerator() {
 
 AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
     AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
-    sample angularFrequency = WaveGeneratorConstants::PI2 * frequency;
     for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
-        sineWaveBuffer[sampleCounter] = amplitude * sin(angularFrequency * sampleCounter + offset);
+        sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((M_PI * 2.0 / length) * frequency * sampleCounter + offset));
     }
 
     return &sineWaveBuffer;

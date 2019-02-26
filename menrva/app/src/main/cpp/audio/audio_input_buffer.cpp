@@ -189,7 +189,7 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
     }
 
     _Logger->WriteLog("Calculating Buffer Index for Sample Index (%d) for Channel (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleIndex, channelIndex);
-    size_t bufferIndex = sampleIndex + channelIndex;
+    size_t bufferIndex = AudioIOBufferBase::CalculateBufferIndex(_ChannelLength, channelIndex, sampleIndex);
 
     _Logger->WriteLog("Retrieving Normalized Value for Buffer Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex);
     sample normalizedValue;
