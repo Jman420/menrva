@@ -19,10 +19,10 @@
 #ifndef MENRVA_EQUALIZER_H
 #define MENRVA_EQUALIZER_H
 
-#include "../abstracts/effect_base.h"
+#include "../abstracts/single_channel_effect_base.h"
 #include "../abstracts/logging_base.h"
 
-class Equalizer : public EffectBase,
+class Equalizer : public SingleChannelEffectBase,
                   public LoggingBase {
 public:
     explicit Equalizer(LoggerBase* logger);

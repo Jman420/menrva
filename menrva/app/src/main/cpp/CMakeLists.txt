@@ -52,6 +52,8 @@ add_library(
     abstracts/effect_base.cpp
     abstracts/convolution_operations_base.cpp
     abstracts/audio_io_buffer_base.cpp
+    abstracts/single_channel_effect_base.cpp
+    abstracts/multi_channel_effect_base.cpp
 
     tools/android_logger.cpp
     tools/service_locator.cpp
@@ -78,8 +80,9 @@ add_library(
     effects/bass_boost.cpp
     effects/equalizer.cpp
     effects/stereo_widener.cpp
+    effects/single_channel_effects_bundle.cpp
+    effects/multi_channel_effects_bundle.cpp
 
-    engine/effects_bundle.cpp
     engine/engine_interface.cpp
     engine/effects_engine.cpp
     engine/command_map.cpp

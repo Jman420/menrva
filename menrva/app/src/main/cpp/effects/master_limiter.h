@@ -19,15 +19,15 @@
 #ifndef MENRVA_MASTER_LIMITER_H
 #define MENRVA_MASTER_LIMITER_H
 
+#include "../abstracts/multi_channel_effect_base.h"
 #include "../abstracts/logging_base.h"
-#include "../abstracts/effect_base.h"
 
-class MasterLimiter : public EffectBase,
+class MasterLimiter : public MultiChannelEffectBase,
                       public LoggingBase {
 public:
-    MasterLimiter(LoggerBase* logger);
+    explicit MasterLimiter(LoggerBase* logger);
 
-    void Process(AudioBuffer& input, AudioBuffer& output) override;
+    void Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) override;
     void ConfigureSetting(char* settingName, void* value) override;
 
 private:

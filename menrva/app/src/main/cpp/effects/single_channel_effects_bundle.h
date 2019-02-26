@@ -20,34 +20,33 @@
 #define MENRVA_EFFECTS_BUNDLE_H
 
 #include "../tools/service_locator.h"
-#include "../effects/bass_boost.h"
-#include "../effects/equalizer.h"
-#include "../effects/stereo_widener.h"
+#include "bass_boost.h"
+#include "equalizer.h"
 
-enum EffectIndexes {
-    BASS_BOOST,
+enum class SingleChannelEffectIndexes : uint8_t {
+    BASS_BOOST = 0,
     EQUALIZER,
-    STEREO_WIDENER,
+
+    // NOTE : Unused Enum State to provide Enum Length; must be Final Enum Entry
+    Length
 };
 
-class EffectsBundle {
+class SingleChannelEffectsBundle {
 public:
-    static const uint8_t LENGTH = 3;
+    static const uint8_t LENGTH = static_cast<const uint8_t>(SingleChannelEffectIndexes::Length);
 
-    EffectsBundle();
-    ~EffectsBundle();
+    SingleChannelEffectsBundle();
+    ~SingleChannelEffectsBundle();
 
     BassBoost* GetBassBoost();
     Equalizer* GetEqualizer();
-    StereoWidener* GetStereoWidener();
 
-    EffectBase* operator[](uint8_t index) const;
+    SingleChannelEffectBase* operator[](uint8_t index) const;
 
 private:
     BassBoost* _BassBoost;
     Equalizer* _Equalizer;
-    StereoWidener* _StereoWidener;
-    EffectBase** _Effects;
+    SingleChannelEffectBase** _Effects;
 };
 
 #endif //MENRVA_EFFECTS_BUNDLE_H

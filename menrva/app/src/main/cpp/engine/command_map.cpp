@@ -34,8 +34,7 @@ const function_map MenrvaCommandMap::_CommandMap = {
     { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
 };
 
-int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
-                              void* pCmdData, uint32_t* replySize, void* pReplyData) {
+int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
     if (context.ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
         _Logger->WriteLog("Skipping Processing Command Id (%u).  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR, cmdCode);
@@ -134,16 +133,14 @@ int MenrvaCommandMap::SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, 
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = *config;
-    int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength, config->inputCfg.samplingRate);
+    int result = context.EffectsEngine->SetBufferConfig(context.ChannelLength, config->inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Reconfigured Effect Engine with Result (%i)!", LOG_SENDER, __func__, result);
     return 0;
 }
 
-int MenrvaCommandMap::ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize __unused,
-                                   void* pCmdData __unused, uint32_t* replySize __unused,
-                                   void* pReplyData __unused) {
+int MenrvaCommandMap::ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize __unused, void* pReplyData __unused) {
     _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
     if (context.EffectsEngine == nullptr) {
         _Logger->WriteLog("Skipping ResetBuffers Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::WARN);
@@ -172,9 +169,7 @@ int MenrvaCommandMap::EnableEngine(MenrvaModuleContext& context, uint32_t cmdSiz
     return 0;
 }
 
-int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused,
-                                    void* pCmdData __unused, uint32_t* replySize __unused,
-                                    void* pReplyData __unused) {
+int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize __unused, void* pReplyData __unused) {
     _Logger->WriteLog("Received DisableEngine Command...", LOG_SENDER, __func__);
     if (pReplyData == nullptr || replySize == nullptr || *replySize != sizeof(int)) {
         _Logger->WriteLog("Skipping DisableEngine Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -189,8 +184,7 @@ int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSi
     return 0;
 }
 
-int MenrvaCommandMap::SetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                               uint32_t* replySize, void* pReplyData) {
+int MenrvaCommandMap::SetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received SetParam Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || cmdSize < (sizeof(effect_param_t) + sizeof(int32_t) + sizeof(int32_t))
         || pReplyData == nullptr || replySize == nullptr || *replySize != sizeof(int32_t)) {
@@ -227,8 +221,7 @@ int MenrvaCommandMap::SetParam(MenrvaModuleContext& context, uint32_t cmdSize, v
     return 0;
 }
 
-int MenrvaCommandMap::GetParam(MenrvaModuleContext& context, uint32_t cmdSize __unused,
-                               void* pCmdData, uint32_t* replySize, void* pReplyData) {
+int MenrvaCommandMap::GetParam(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetParam Command...", LOG_SENDER, __func__);
     if (pCmdData == nullptr || pReplyData == nullptr || replySize == nullptr) {
         _Logger->WriteLog("Skipping GetParam Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -268,8 +261,7 @@ int MenrvaCommandMap::GetParam(MenrvaModuleContext& context, uint32_t cmdSize __
     return 0;
 }
 
-int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize __unused,
-                                void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
+int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetConfig Command...", LOG_SENDER, __func__);
     if (pReplyData == nullptr || *replySize != sizeof(effect_config_t)) {
         _Logger->WriteLog("Skipping GetConfig Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);

@@ -23,7 +23,8 @@
 #include "../audio/audio_input_buffer.h"
 #include "../audio/audio_output_buffer.h"
 #include "../tools/service_locator.h"
-#include "effects_bundle.h"
+#include "../effects/single_channel_effects_bundle.h"
+#include "../effects/multi_channel_effects_bundle.h"
 
 enum MenrvaEngineStatus {
     MENRVA_ENGINE_UNCONFIGURED,
@@ -38,7 +39,7 @@ public:
     MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
-    int SetBufferConfig(uint32_t channelLength, sample sampleRate);
+    int SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength);
     int Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer);
     void ResetBuffers(sample sampleRate);
     void SetEffectEnabled(uint8_t effectIndex, bool enabled);
@@ -49,7 +50,8 @@ private:
     FftInterfaceBase* _FftEngine;
 
     uint32_t _ChannelLength;
-    EffectsBundle* _MenrvaEffects;
+    SingleChannelEffectsBundle* _SingleChannelEffects;
+    MultiChannelEffectsBundle* _MultiChannelEffects;
     AudioBuffer* _InputAudioFrame;
     AudioBuffer* _OutputAudioFrame;
 

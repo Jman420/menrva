@@ -16,37 +16,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "effects_bundle.h"
+#include "multi_channel_effects_bundle.h"
 
-EffectsBundle::EffectsBundle() {
-    ServiceLocator serviceLocator = *new ServiceLocator();
-    _BassBoost = new BassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
-    _Equalizer = new Equalizer(serviceLocator.GetLogger());
+MultiChannelEffectsBundle::MultiChannelEffectsBundle(ServiceLocator& serviceLocator) {
     _StereoWidener = new StereoWidener(serviceLocator.GetLogger());
+    _MasterLimiter = new MasterLimiter(serviceLocator.GetLogger());
 
-    _Effects = new EffectBase*[LENGTH];
-    _Effects[EffectIndexes::BASS_BOOST] = _BassBoost;
-    _Effects[EffectIndexes::EQUALIZER] = _Equalizer;
-    _Effects[EffectIndexes::STEREO_WIDENER] = _StereoWidener;
+    _Effects = new MultiChannelEffectBase*[LENGTH];
+    _Effects[static_cast<uint8_t>(MultiChannelEffectIndexes::STEREO_WIDENER)] = _StereoWidener;
+    _Effects[static_cast<uint8_t>(MultiChannelEffectIndexes::MASTER_LIMITER)] = _MasterLimiter;
 }
 
-EffectsBundle::~EffectsBundle() {
+MultiChannelEffectsBundle::~MultiChannelEffectsBundle() {
     delete[] _Effects;
 }
 
-BassBoost* EffectsBundle::GetBassBoost() {
-    return _BassBoost;
-}
-
-Equalizer* EffectsBundle::GetEqualizer() {
-    return _Equalizer;
-}
-
-StereoWidener* EffectsBundle::GetStereoWidener() {
+StereoWidener* MultiChannelEffectsBundle::GetStereoWidener() {
     return _StereoWidener;
 }
 
-EffectBase* EffectsBundle::operator[](uint8_t index) const {
+MasterLimiter* MultiChannelEffectsBundle::GetMasterLimiter() {
+    return _MasterLimiter;
+}
+
+MultiChannelEffectBase* MultiChannelEffectsBundle::operator[](uint8_t index) const {
     if (index > LENGTH) {
         throw std::runtime_error("Index out of bounds.");
     }

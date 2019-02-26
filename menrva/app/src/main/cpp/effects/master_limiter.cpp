@@ -21,10 +21,10 @@
 const std::string MasterLimiter::EFFECT_NAME = "MasterLimiter";
 
 MasterLimiter::MasterLimiter(LoggerBase* logger)
-        : EffectBase(EFFECT_NAME),
+        : MultiChannelEffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) { }
 
-void MasterLimiter::Process(AudioBuffer &input, AudioBuffer &output) {
+void MasterLimiter::Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) {
     // TODO : Implement Master Limiter (floor & ceiling limiters; pan control; gain control)
 }
 
