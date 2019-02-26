@@ -176,7 +176,7 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
             EffectBase& effect = *effectsBundle[effectCounter];
             if (effect.Enabled) {
                 _Logger->WriteLog("Processing Effect (%s) for Channel (%d)...", LOG_SENDER, __func__, effect.NAME.c_str(), channelCounter);
-                effect.Process(*_InputAudioFrame, *_OutputAudioFrame);
+                effect.Process(_InputAudioFrame[channelCounter], _OutputAudioFrame[channelCounter]);
             }
             else {
                 _Logger->WriteLog("Skipping Effect (%s) for Channel (%d).  Effect Disabled.", LOG_SENDER, __func__, effect.NAME.c_str(), channelCounter);

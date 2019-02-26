@@ -212,7 +212,7 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
         case AudioFormat::PCM_Float: {
             float value = (*_BufferWrapper->PCM_Float)[bufferIndex];
             _Logger->WriteLog("Normalizing value (%f) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
-            normalizedValue = (sample)value;
+            normalizedValue = static_cast<sample>(value);
             break;
         }
 
@@ -223,7 +223,7 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
     }
 
     _Logger->WriteLog("Successfully retrieved Normalized Value (%f) for Buffer Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue, bufferIndex);
-    return 0;
+    return normalizedValue;
 }
 
 template<class TInputType>
