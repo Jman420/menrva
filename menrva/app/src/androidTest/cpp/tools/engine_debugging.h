@@ -16,24 +16,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef DSP_COMPARE_TEST_HELPER_H
-#define DSP_COMPARE_TEST_HELPER_H
+#ifndef MENRVA_ENGINE_DEBUGGING_H
+#define MENRVA_ENGINE_DEBUGGING_H
 
-#include <vector>
-#include <cmath>
-#include "../../../../main/cpp/audio/sample.h"
+#include <cstdint>
 
-struct test_params {
-    sample SampleRate = 44100.0,
-           FirCenterFreq = 60.0,
-           FirFreqTransition = 80.0,
-           FirStrength = 6.0;
-    size_t AndroidAudioFrameLength = 1152,
-           MenrvaAudioFrameLength = 1024,
-           FirInterpolationLength = 4096,
-           FirSamplesLength = 4;
-    sample FirFrequencySamples[4] = { 0, (FirCenterFreq * 2.0f) / SampleRate, (FirCenterFreq * 2.0f + FirFreqTransition) / SampleRate, 1.0 },
-           FirAmplitudeSamples[4] = { pow(10.0f, FirStrength / 20.0f), pow(10.0f, FirStrength / 20.0f), 1.0, 1.0 };
+class EngineDebugging {
+public:
+    static void ProcessPipeline(uint32_t channelMask);
 };
 
-#endif //DSP_COMPARE_TEST_HELPER_H
+#endif //MENRVA_ENGINE_DEBUGGING_H
