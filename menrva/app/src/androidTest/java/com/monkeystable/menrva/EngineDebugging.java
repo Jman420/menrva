@@ -50,5 +50,8 @@ public class EngineDebugging {
     public native void debug4BassBoost();
 
     @Test
-    public native void debug5FullPipeline();
+    public native void debug5FullPipelineMono();
+
+    @Test
+    public native void debug6FullPipelineStereo();
 }
