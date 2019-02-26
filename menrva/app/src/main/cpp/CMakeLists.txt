@@ -74,6 +74,7 @@ add_library(
     convolver/convolution_operations.cpp
     convolver/convolver.cpp
 
+    effects/master_limiter.cpp
     effects/bass_boost.cpp
     effects/equalizer.cpp
     effects/stereo_widener.cpp

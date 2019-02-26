@@ -46,7 +46,7 @@
   - ~~Add Function Level Logging Override Functionality~~
   - ~~Compare Bass Boost Effect to JamesDSP~~
   - ~~Implement Debugging Methods~~
-  - Debug Engine Process Pipeline
+  - ~~Debug Engine Process Pipeline~~
   - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)
   - Compare Engine Pipeline Output to JamesDSP
   - ? Engine CPU & Memory Profiling ?

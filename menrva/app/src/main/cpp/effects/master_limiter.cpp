@@ -16,12 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <utility>
-#include "effect_base.h"
+#include "master_limiter.h"
 
-EffectBase::EffectBase(std::string name)
-    : NAME(std::move(name)) {
-    Enabled = false;
+const std::string MasterLimiter::EFFECT_NAME = "MasterLimiter";
+
+MasterLimiter::MasterLimiter(LoggerBase* logger)
+        : EffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) { }
+
+void MasterLimiter::Process(AudioBuffer &input, AudioBuffer &output) {
+    // TODO : Implement Master Limiter (floor & ceiling limiters; pan control; gain control)
 }
 
-void EffectBase::ResetBuffers(sample sampleRate, size_t audioFrameLength) { }
+void MasterLimiter::ConfigureSetting(char* settingName, void* value) {
+    // TODO : Implement Logic for Configuring the MasterLimiter Effect
+}

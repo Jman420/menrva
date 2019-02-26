@@ -16,12 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <utility>
-#include "effect_base.h"
+#ifndef MENRVA_MASTER_LIMITER_H
+#define MENRVA_MASTER_LIMITER_H
 
-EffectBase::EffectBase(std::string name)
-    : NAME(std::move(name)) {
-    Enabled = false;
-}
+#include "../abstracts/logging_base.h"
+#include "../abstracts/effect_base.h"
 
-void EffectBase::ResetBuffers(sample sampleRate, size_t audioFrameLength) { }
+class MasterLimiter : public EffectBase,
+                      public LoggingBase {
+public:
+    MasterLimiter(LoggerBase* logger);
+
+    void Process(AudioBuffer& input, AudioBuffer& output) override;
+    void ConfigureSetting(char* settingName, void* value) override;
+
+private:
+    static const std::string EFFECT_NAME;
+};
+
+#endif //MENRVA_MASTER_LIMITER_H
