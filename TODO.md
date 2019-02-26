@@ -45,14 +45,15 @@
   - ~~Add Multi-Channel Support~~
   - ~~Add Function Level Logging Override Functionality~~
   - ~~Compare Bass Boost Effect to JamesDSP~~
-  - Implement Debugging Methods
-  - ? Draft Unit Tests ?
-  - Implement Master Limiter
+  - ~~Implement Debugging Methods~~
+  - Debug Engine Process Pipeline
+  - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)
   - Compare Engine Pipeline Output to JamesDSP
-  - CPU & Memory Profiling?
+  - ? Engine CPU & Memory Profiling ?
   - Draft UI Frontend
   - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
   - Whole bunch of testing
+  - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI) ?
   - Release

@@ -32,7 +32,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class EngineDebugging {
+public class EngineDebugger {
     static {
         System.loadLibrary("MenrvaEngineTest");
     }
@@ -50,5 +50,8 @@ public class EngineDebugging {
     public native void debug4BassBoost();
 
     @Test
-    public native void debug5FullPipeline();
+    public native void debug5ProcessPipelineMono();
+
+    @Test
+    public native void debug6ProcessPipelineStereo();
 }

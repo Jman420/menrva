@@ -16,20 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_FORMAT_H
-#define MENRVA_AUDIO_FORMAT_H
+#ifndef DSP_COMPARE_TEST_HELPER_H
+#define DSP_COMPARE_TEST_HELPER_H
 
-#include "sample.h"
+#include <vector>
+#include <cmath>
+#include "../../../main/cpp/audio/sample.h"
 
-enum AudioFormat {
-    PCM_16 = 0x1u,
-    PCM_32 = 0x3u,
-    PCM_Float = 0x5u,
-    Sample,
+struct test_params {
+    sample SampleRate = 44100.0,
+           FirCenterFreq = 60.0,
+           FirFreqTransition = 80.0,
+           FirStrength = 6.0;
+    size_t AndroidAudioFrameLength = 1152,
+           MenrvaAudioFrameLength = 1024,
+           FirInterpolationLength = 4096,
+           FirSamplesLength = 4;
+    sample FirFrequencySamples[4] = { 0, (FirCenterFreq * 2.0f) / SampleRate, (FirCenterFreq * 2.0f + FirFreqTransition) / SampleRate, 1.0 },
+           FirAmplitudeSamples[4] = { pow(10.0f, FirStrength / 20.0f), pow(10.0f, FirStrength / 20.0f), 1.0, 1.0 };
 };
 
-const sample PCM16_FLOAT_SCALAR = 32767.0f,
-             PCM32_FLOAT_SCALAR = 2147483647.0f,
-             PCM_FLOAT_SCALAR = 1.0f;
-
-#endif //MENRVA_AUDIO_FORMAT_H
+#endif //DSP_COMPARE_TEST_HELPER_H

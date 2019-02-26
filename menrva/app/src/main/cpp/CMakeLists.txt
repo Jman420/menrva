@@ -109,6 +109,7 @@ add_library(
     SHARED
 
     ${TEST_SRC_DIR}/jni/menrva_androidTest_JniInterface.cpp
+    ${TEST_SRC_DIR}/tools/engine_debugging.cpp
 )
 target_link_libraries(
     MenrvaEngineTest

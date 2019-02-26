@@ -33,6 +33,8 @@ public:
 protected:
     uint32_t _ChannelLength;
     size_t _SampleLength;
+
+    static size_t CalculateBufferIndex(uint32_t channelLength, uint32_t channelIndex, size_t sampleIndex);
 };
 
 #endif //MENRVA_AUDIO_IO_BUFFER_BASE_H
