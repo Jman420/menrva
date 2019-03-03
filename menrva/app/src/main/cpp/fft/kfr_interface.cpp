@@ -81,4 +81,5 @@ void KfrInterface::Dispose() {
 
     delete _ComponentsBuffer;
     delete _TempBuffer;
+    _Initialized = false;
 }
