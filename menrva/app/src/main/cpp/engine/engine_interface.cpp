@@ -28,8 +28,7 @@ LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
 
 int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
-    auto contextPtr = (MenrvaModuleContext*)handle;
-    MenrvaModuleContext& context = *contextPtr;
+    MenrvaModuleContext& context = *(MenrvaModuleContext*)handle;
     audio_buffer_t& inBuffer = *inBufferPtr;
     audio_buffer_t& outBuffer = *outBufferPtr;
 
