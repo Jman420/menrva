@@ -174,6 +174,14 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* sett
     _Logger->WriteLog("Successfully set Effect Configuration (%s) on Effect Index (%d)!", LOG_SENDER, __func__, settingName, effectIndex);
 }
 
+SingleChannelEffectsBundle* MenrvaEffectsEngine::GetSingleChannelEffectsBundle() {
+    return _SingleChannelEffects;
+}
+
+MultiChannelEffectsBundle* MenrvaEffectsEngine::GetMultiChannelEffectsBundle() {
+    return _MultiChannelEffects;
+}
+
 void MenrvaEffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Processing Input Audio Frame...", LOG_SENDER, __func__);
 

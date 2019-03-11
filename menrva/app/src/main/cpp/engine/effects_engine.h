@@ -44,6 +44,8 @@ public:
     void ResetBuffers(sample sampleRate);
     void SetEffectEnabled(uint8_t effectIndex, bool enabled);
     void ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value);
+    SingleChannelEffectsBundle* GetSingleChannelEffectsBundle();
+    MultiChannelEffectsBundle* GetMultiChannelEffectsBundle();
 
 private:
     ServiceLocator* _ServiceLocator;
