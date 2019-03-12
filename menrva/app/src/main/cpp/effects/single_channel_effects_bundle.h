@@ -38,6 +38,8 @@ public:
     SingleChannelEffectsBundle();
     ~SingleChannelEffectsBundle();
 
+    void ResetBuffers(sample sampleRate, size_t audioFrameLength);
+
     BassBoost* GetBassBoost();
     Equalizer* GetEqualizer();
 

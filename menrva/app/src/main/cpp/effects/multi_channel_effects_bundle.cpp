@@ -31,6 +31,13 @@ MultiChannelEffectsBundle::~MultiChannelEffectsBundle() {
     delete[] _Effects;
 }
 
+void MultiChannelEffectsBundle::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
+    for (int effectCounter = 0; effectCounter < LENGTH; effectCounter++) {
+        EffectBase& effect = *_Effects[effectCounter];
+        effect.ResetBuffers(sampleRate, audioFrameLength);
+    }
+}
+
 StereoWidener* MultiChannelEffectsBundle::GetStereoWidener() {
     return _StereoWidener;
 }

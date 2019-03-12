@@ -39,6 +39,7 @@ public:
     explicit MultiChannelEffectsBundle(ServiceLocator& serviceLocator);
     ~MultiChannelEffectsBundle();
 
+    void ResetBuffers(sample sampleRate, size_t audioFrameLength);
     StereoWidener* GetStereoWidener();
     MasterLimiter* GetMasterLimiter();
 

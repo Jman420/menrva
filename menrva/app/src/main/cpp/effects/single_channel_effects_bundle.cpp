@@ -32,6 +32,13 @@ SingleChannelEffectsBundle::~SingleChannelEffectsBundle() {
     delete[] _Effects;
 }
 
+void SingleChannelEffectsBundle::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
+    for (int effectCounter = 0; effectCounter < LENGTH; effectCounter++) {
+        EffectBase& effect = *_Effects[effectCounter];
+        effect.ResetBuffers(sampleRate, audioFrameLength);
+    }
+}
+
 BassBoost* SingleChannelEffectsBundle::GetBassBoost() {
     return _BassBoost;
 }

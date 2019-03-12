@@ -62,17 +62,12 @@ int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRa
     _Logger->WriteLog("Instantiating Single Channel Audio Effects for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
     _SingleChannelEffects = new SingleChannelEffectsBundle[_ChannelLength];
     for (int channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
-        for (int effectCounter = 0; effectCounter < SingleChannelEffectsBundle::LENGTH; effectCounter++) {
-            _SingleChannelEffects[channelCounter][effectCounter]->ResetBuffers(sampleRate, frameLength);
-        }
+        _SingleChannelEffects[channelCounter].ResetBuffers(sampleRate, frameLength);
     }
 
     _Logger->WriteLog("Instantiating Multi Channel Audio Effects...", LOG_SENDER, __func__);
     _MultiChannelEffects = new MultiChannelEffectsBundle(*_ServiceLocator);
-    MultiChannelEffectsBundle& multiChannelEffects = *_MultiChannelEffects;
-    for (int effectCounter = 0; effectCounter < MultiChannelEffectsBundle::LENGTH; effectCounter++) {
-        multiChannelEffects[effectCounter]->ResetBuffers(sampleRate, frameLength);
-    }
+    _MultiChannelEffects->ResetBuffers(sampleRate, frameLength);
 
     _Logger->WriteLog("Successfully setup Buffer Configs!", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
