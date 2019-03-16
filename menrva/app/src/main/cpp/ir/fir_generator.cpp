@@ -42,8 +42,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
         throw std::runtime_error(msg);
     }
     for (int sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
-        sample currentFreq = frequencySamples[sampleCounter],
-               nextFreq = frequencySamples[sampleCounter + 1];
+        sample currentFreq = frequencySamples[sampleCounter];
+        sample nextFreq = frequencySamples[sampleCounter + 1];
 
         _Logger->WriteLog("Frequency Index (%d) has value (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, sampleCounter, currentFreq);
         if (currentFreq >= nextFreq) {
@@ -54,13 +54,13 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Frequency Index (%d) has value (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, lastSampleIndex, frequencySamples[lastSampleIndex]);
 
     _Logger->WriteLog("Initializing Interpolation & FFT Variables...", LOG_SENDER, __func__);
-    sample amplitudeIncrement = 0,
-           interpolatedAmplitude = 0,
-           fftRadianScalar = (filterLength - WaveGeneratorConstants::ONE) * WaveGeneratorConstants::ONE_HALF * WaveGeneratorConstants::PI,
-           fftRadians = 0,
-           interpolationLength = MathOperations::RoundToNextPowerOf2(filterLength) + 1,
-           beginSegmentIndex = 0,
-           endSegmentIndex = 0;
+    sample amplitudeIncrement = 0;
+    sample interpolatedAmplitude = 0;
+    sample fftRadianScalar = (filterLength - WaveGeneratorConstants::ONE) * WaveGeneratorConstants::ONE_HALF * WaveGeneratorConstants::PI;
+    sample fftRadians = 0;
+    sample interpolationLength = MathOperations::RoundToNextPowerOf2(filterLength) + 1;
+    sample beginSegmentIndex = 0;
+    sample endSegmentIndex = 0;
     size_t fftFrequencyLength = (size_t)interpolationLength * 2;
 
     AudioComponentsBuffer fftFrequencies(_FftEngine, fftFrequencyLength);
@@ -85,8 +85,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Interpolated Amplitude for Element Index (%d) is (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, interpolatedAmplitude);
 
             fftRadians = fftRadianScalar * elementIndex / (interpolationLength - WaveGeneratorConstants::ONE);
-            sample realFreqData = interpolatedAmplitude * cos(fftRadians),
-                   imaginaryFreqData = (interpolatedAmplitude * sin(fftRadians));
+            sample realFreqData = interpolatedAmplitude * cos(fftRadians);
+            sample imaginaryFreqData = (interpolatedAmplitude * sin(fftRadians));
             _Logger->WriteLog("Real Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, realFreqData);
             _Logger->WriteLog("Imaginary Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, imaginaryFreqData);
 
@@ -109,13 +109,13 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _FftEngine->ComponentsToSignal(fftFrequencies, fftOutputSignal);
 
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
-    sample hammingIncrement = (sample)filterLength - WaveGeneratorConstants::ONE,
-           fftReductionScalar = WaveGeneratorConstants::ONE / fftCalcSize;
+    sample hammingIncrement = (sample) filterLength - WaveGeneratorConstants::ONE;
+    sample fftReductionScalar = WaveGeneratorConstants::ONE / fftCalcSize;
     auto firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
     sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterLength; elementCounter++) {
-        sample originalValue = fftOutputSignal[elementCounter],
-               smoothedValue = (WaveGeneratorConstants::HAMMING_054 - WaveGeneratorConstants::HAMMING_046 * cos(WaveGeneratorConstants::PI2 * (sample)elementCounter / hammingIncrement)) * originalValue * fftReductionScalar;
+        sample originalValue = fftOutputSignal[elementCounter];
+        sample smoothedValue = (WaveGeneratorConstants::HAMMING_054 - WaveGeneratorConstants::HAMMING_046 * cos(WaveGeneratorConstants::PI2 * (sample) elementCounter / hammingIncrement)) * originalValue * fftReductionScalar;
         firBuffer[elementCounter] = smoothedValue;
         _Logger->WriteLog("Smoothed FIR Signal Value at Index (%d) from (%f) to (%f).", LOG_SENDER, __func__, LogLevel::VERBOSE, elementCounter, originalValue, smoothedValue);
     }
