@@ -20,7 +20,7 @@
 #include "convolver.h"
 #include "../tools/math_operations.h"
 
-const float Convolver::SIGNAL_THRESHOLD = 0.000001f;
+const float Convolver::SIGNAL_THRESHOLD = 0.000001F;
 
 size_t Convolver::FindImpulseResponseLength(AudioBuffer& impulseResponse) {
     size_t sampleCounter = impulseResponse.GetLength() - 1;
@@ -113,9 +113,9 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _Logger->WriteLog("Calculating Segment Count and Memory Size...", LOG_SENDER, __func__);
     _FrameLength = audioFrameLength;
     _FrameSize = sizeof(sample) * _FrameLength;
-    size_t segmentLength = MathOperations::RoundToNextPowerOf2(_FrameLength),
-           segmentComponentsLength = segmentLength + 1,
-           segmentSignalLength = segmentLength * 2;
+    size_t segmentLength = MathOperations::RoundToNextPowerOf2(_FrameLength);
+    size_t segmentComponentsLength = segmentLength + 1;
+    size_t segmentSignalLength = segmentLength * 2;
     _FilterSegmentsLength = CalculateSegmentsCount(segmentLength, validFilterLength);
     _FftEngine->Initialize(segmentSignalLength, segmentComponentsLength);
     _SignalScalar = ONE_HALF / _FrameLength;
@@ -168,8 +168,8 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     size_t autoConvolveFrames = 0;
 
     if (fullAutoConvolveFilter) {
-        size_t validFilterLength = FindImpulseResponseLength(filterImpulseResponse),
-                segmentLength = MathOperations::RoundToNextPowerOf2(audioFrameLength);
+        size_t validFilterLength = FindImpulseResponseLength(filterImpulseResponse);
+        size_t segmentLength = MathOperations::RoundToNextPowerOf2(audioFrameLength);
         autoConvolveFrames = CalculateSegmentsCount(segmentLength, validFilterLength);
     }
 

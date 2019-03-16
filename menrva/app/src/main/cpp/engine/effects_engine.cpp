@@ -85,11 +85,11 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
         return -ENODATA;
     }
 
-    const size_t inputFrameLength = _InputAudioFrame->GetLength(),
-                 lastFrameIndex = inputFrameLength - 1;
-    size_t inputFrameIndex = 0,
-           outputBufferIndex = 0,
-           inputBufferLength = inputBuffer.GetSampleLength();
+    const size_t inputFrameLength = _InputAudioFrame->GetLength();
+    const size_t lastFrameIndex = inputFrameLength - 1;
+    size_t inputFrameIndex = 0;
+    size_t outputBufferIndex = 0;
+    size_t inputBufferLength = inputBuffer.GetSampleLength();
     _Logger->WriteLog("Processing Input Buffer of length (%d) into Audio Frames of length (%d)...", LOG_SENDER, __func__, inputBufferLength, inputFrameLength);
     for (size_t sampleCounter = 0; sampleCounter < inputBufferLength; sampleCounter++) {
         inputFrameIndex = sampleCounter % inputFrameLength;

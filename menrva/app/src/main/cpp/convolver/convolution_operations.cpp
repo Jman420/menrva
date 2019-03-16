@@ -54,8 +54,8 @@ void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& buffe
     }
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
-        sample valueA = bufferA[sampleCounter],
-               valueB = bufferB[sampleCounter];
+        sample valueA = bufferA[sampleCounter];
+        sample valueB = bufferB[sampleCounter];
 
         _Logger->WriteLog("Summing and Scaling values (%f) and (%f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, valueA, valueB);
         sample result = (valueA + valueB) * scalar;
@@ -86,14 +86,14 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
     sample* outputImag = output.GetImagBuffer()->GetData();
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
-        sample valueAReal = bufferAReal[sampleCounter],
-               valueAImag = bufferAImag[sampleCounter],
-               valueBReal = bufferBReal[sampleCounter],
-               valueBImag = bufferBImag[sampleCounter];
+        sample valueAReal = bufferAReal[sampleCounter];
+        sample valueAImag = bufferAImag[sampleCounter];
+        sample valueBReal = bufferBReal[sampleCounter];
+        sample valueBImag = bufferBImag[sampleCounter];
 
         _Logger->WriteLog("Multiplying Value A (real %f, imaginary %f) and Value B (real %f, imaginary %f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, valueAReal, valueAImag, valueBReal, valueBImag);
-        sample realResult = bufferAReal[sampleCounter] * bufferBReal[sampleCounter] - bufferAImag[sampleCounter] * bufferBImag[sampleCounter],
-               imaginaryResult = bufferAReal[sampleCounter] * bufferBImag[sampleCounter] + bufferAImag[sampleCounter] * bufferBReal[sampleCounter];
+        sample realResult = bufferAReal[sampleCounter] * bufferBReal[sampleCounter] - bufferAImag[sampleCounter] * bufferBImag[sampleCounter];
+        sample imaginaryResult = bufferAReal[sampleCounter] * bufferBImag[sampleCounter] + bufferAImag[sampleCounter] * bufferBReal[sampleCounter];
         _Logger->WriteLog("Successfully Multiplied Values into (real %f, imaginary %f).", LOG_SENDER, __func__, LogLevel::VERBOSE, realResult, imaginaryResult);
 
         _Logger->WriteLog("Accumulating Values with Output Values (real %f, imaginary %f)...", LOG_SENDER, __func__, LogLevel::VERBOSE, outputReal[sampleCounter], outputImag[sampleCounter]);
