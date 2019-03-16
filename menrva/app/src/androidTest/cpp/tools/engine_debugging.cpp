@@ -39,12 +39,12 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     ServiceLocator serviceLocator;
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
-    sample amplitude = 1.0,
-            frequency = 1.0,
-            offset = 0.0;
+    sample amplitude = 1.0;
+    sample frequency = 1.0;
+    sample offset = 0.0;
     AudioBuffer& inputSineBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, params.AndroidAudioFrameLength);
 
-    audio_buffer_t inputBuffer = *new audio_buffer_t();
+    audio_buffer_t inputBuffer;
     inputBuffer.frameCount = params.AndroidAudioFrameLength;
     inputBuffer.s16 = new int16_t[channelLength * params.AndroidAudioFrameLength];
     AudioOutputBuffer outputConverter = *new AudioOutputBuffer(serviceLocator.GetLogger(), AudioFormat::PCM_16);
@@ -59,15 +59,13 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
-    int setConfigCmdReply = *new int(),
-            enableCmdReply = *new int();
+    int setConfigCmdReply = *new int();
+    int enableCmdReply = *new int();
     menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
     menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
 
-    audio_buffer_t outputBuffer = *new audio_buffer_t();
+    audio_buffer_t outputBuffer;
     outputBuffer.frameCount = params.AndroidAudioFrameLength;
     outputBuffer.s16 = new int16_t[params.AndroidAudioFrameLength];
     menrvaEngineContext.itfe->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
-
-    int debug = 0;
 }
