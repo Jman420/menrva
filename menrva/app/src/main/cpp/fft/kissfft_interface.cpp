@@ -22,7 +22,9 @@
 KissFftPlanCache* KissFftInterface::_PlansCache = new KissFftPlanCache();
 
 KissFftInterface::KissFftInterface(LoggerBase* logger)
-    : LoggingBase(logger, __PRETTY_FUNCTION__) {}
+    : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _Initialized = false;
+}
 
 KissFftInterface::~KissFftInterface() {
     Dispose();
@@ -93,4 +95,5 @@ void KissFftInterface::Dispose() {
     }
 
     delete[] _ComponentsBuffer;
+    _Initialized = false;
 }

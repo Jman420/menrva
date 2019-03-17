@@ -26,6 +26,17 @@ MasterLimiter::MasterLimiter(LoggerBase* logger)
 
 void MasterLimiter::Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) {
     // TODO : Implement Master Limiter (floor & ceiling limiters; pan control; gain control)
+    
+    // BEGIN DEBUG
+    for (int channelCounter = 0; channelCounter < channelLength; channelCounter++) {
+        AudioBuffer& channelInput = inputBuffers[channelCounter];
+        AudioBuffer& channelOutput = outputBuffers[channelCounter];
+
+        for (int sampleCounter = 0; sampleCounter < channelInput.GetLength(); sampleCounter++) {
+            channelOutput[sampleCounter] = channelInput[sampleCounter];
+        }
+    }
+    // END DEBUG
 }
 
 void MasterLimiter::ConfigureSetting(char* settingName, void* value) {

@@ -52,7 +52,7 @@ void BassBoost::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
     sample amplitudeSamples[] = {(pow(10.0F, strength / 20.0F)), (pow(10.0F, strength / 20.0F)), 1.0F, 1.0F};
 
     AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
-    _Convolver->Initialize(audioFrameLength, *impulseFilter);
+    _Convolver->Initialize(audioFrameLength, *impulseFilter, true);
     Enabled = true;
     // END DEBUG
 

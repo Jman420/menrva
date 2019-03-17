@@ -109,7 +109,8 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
         }
     }
 
-    if (inputFrameIndex != lastFrameIndex) {
+    inputFrameIndex++;
+    if (inputFrameIndex < lastFrameIndex) {
         _Logger->WriteLog("Padding Incomplete Audio Frame with zeros from Index (%d)...", LOG_SENDER, __func__, inputFrameIndex);
         for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
             _InputAudioFrame[channelCounter].ResetData(inputFrameIndex);
