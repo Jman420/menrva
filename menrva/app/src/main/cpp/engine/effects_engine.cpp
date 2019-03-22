@@ -38,8 +38,8 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     delete[] _OutputAudioFrame;
 
     _Logger->WriteLog("Disposing of Effects...", LOG_SENDER, __func__);
-    delete[] _SingleChannelEffects;
-    delete[] _MultiChannelEffects;
+    delete _SingleChannelEffects;
+    delete _MultiChannelEffects;
 
     _Logger->WriteLog("Disposing of FFT Engine...", LOG_SENDER, __func__);
     delete _FftEngine;
