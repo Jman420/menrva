@@ -47,7 +47,7 @@
   - ~~Compare Bass Boost Effect to JamesDSP~~
   - ~~Implement Debugging Methods~~
   - ~~Debug Engine Process Pipeline~~
-  - Compare Engine Pipeline Output to JamesDSP
+  - ~~Compare Engine Pipeline Output to JamesDSP~~
   - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)
   - ? Engine CPU & Memory Profiling ?
   - Draft UI Frontend
