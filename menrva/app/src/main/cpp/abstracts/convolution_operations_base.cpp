@@ -18,7 +18,6 @@
 
 #include "convolution_operations_base.h"
 
-void ConvolutionOperationsBase::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB,
-                                            AudioBuffer& output) {
+void ConvolutionOperationsBase::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
     SumAndScale(bufferA, bufferB, output, 1.0);
 }

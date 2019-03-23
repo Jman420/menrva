@@ -16,24 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "equalizer.h"
+#include "single_channel_effect_base.h"
+#include <utility>
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
-
-Equalizer::Equalizer(LoggerBase* logger)
-        : SingleChannelEffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
-
-}
-
-void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
-    // TODO : Implement Equalizer Effect
-}
-
-void Equalizer::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
-
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
-}
+SingleChannelEffectBase::SingleChannelEffectBase(std::string name)
+    : EffectBase(std::move(name)) { }

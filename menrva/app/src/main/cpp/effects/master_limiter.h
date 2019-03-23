@@ -16,38 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_EFFECTS_BUNDLE_H
-#define MENRVA_EFFECTS_BUNDLE_H
+#ifndef MENRVA_MASTER_LIMITER_H
+#define MENRVA_MASTER_LIMITER_H
 
-#include "../tools/service_locator.h"
-#include "../effects/bass_boost.h"
-#include "../effects/equalizer.h"
-#include "../effects/stereo_widener.h"
+#include "../abstracts/multi_channel_effect_base.h"
+#include "../abstracts/logging_base.h"
 
-enum EffectIndexes {
-    BASS_BOOST,
-    EQUALIZER,
-    STEREO_WIDENER,
-};
-
-class EffectsBundle {
+class MasterLimiter : public MultiChannelEffectBase,
+                      public LoggingBase {
 public:
-    static const uint8_t LENGTH = 3;
+    explicit MasterLimiter(LoggerBase* logger);
 
-    EffectsBundle();
-    ~EffectsBundle();
-
-    BassBoost* GetBassBoost();
-    Equalizer* GetEqualizer();
-    StereoWidener* GetStereoWidener();
-
-    EffectBase* operator[](uint8_t index) const;
+    void Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) override;
+    void ConfigureSetting(char* settingName, void* value) override;
 
 private:
-    BassBoost* _BassBoost;
-    Equalizer* _Equalizer;
-    StereoWidener* _StereoWidener;
-    EffectBase** _Effects;
+    static const std::string EFFECT_NAME;
 };
 
-#endif //MENRVA_EFFECTS_BUNDLE_H
+#endif //MENRVA_MASTER_LIMITER_H

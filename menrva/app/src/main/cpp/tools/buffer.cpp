@@ -41,7 +41,7 @@ template<class TInputType>
 void Buffer<TInputType>::Free() {
     _Length = 0;
     _MemorySize = 0;
-    _Data = 0;
+    _Data = nullptr;
 }
 
 template<class TInputType>

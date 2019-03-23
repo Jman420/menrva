@@ -19,12 +19,12 @@
 #ifndef MENRVA_BASS_BOOST_H
 #define MENRVA_BASS_BOOST_H
 
-#include "../abstracts/effect_base.h"
+#include "../abstracts/single_channel_effect_base.h"
 #include "../abstracts/logging_base.h"
 #include "../ir/fir_generator.h"
 #include "../convolver/convolver.h"
 
-class BassBoost : public EffectBase,
+class BassBoost : public SingleChannelEffectBase,
                   public LoggingBase {
 public:
     BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);

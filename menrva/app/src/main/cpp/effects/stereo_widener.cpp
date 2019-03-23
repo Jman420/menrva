@@ -21,12 +21,12 @@
 const std::string StereoWidener::EFFECT_NAME = "StereoWidener";
 
 StereoWidener::StereoWidener(LoggerBase* logger)
-        : LoggingBase(logger, __PRETTY_FUNCTION__),
-          EffectBase(EFFECT_NAME) {
+        : MultiChannelEffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
 
 }
 
-void StereoWidener::Process(AudioBuffer& input, AudioBuffer& output) {
+void StereoWidener::Process(AudioBuffer* input, AudioBuffer* output, uint32_t channelLength) {
     // TODO : Implement Stereo Widener Effect
 }
 

@@ -21,7 +21,7 @@
 const std::string BassBoost::EFFECT_NAME = "BassBoost";
 
 BassBoost::BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver)
-        : EffectBase(EFFECT_NAME),
+        : SingleChannelEffectBase(EFFECT_NAME),
           LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FirGenerator = firGenerator;
     _Convolver = convolver;
@@ -42,17 +42,17 @@ void BassBoost::Process(AudioBuffer& input, AudioBuffer& output) {
 
 void BassBoost::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
     // BEGIN DEBUG
-    sample centerFreq = 60.0,
-           freqTransition = 80.0,
-           strength = 6.0;
+    sample centerFreq = 60.0;
+    sample freqTransition = 80.0;
+    sample strength = 6.0;
 
-    size_t filterSize = 4097,
-           sampleSize = 4;
-    sample frequencySamples[] = { 0, ((centerFreq * 2.0f) / sampleRate), ((centerFreq * 2.0f + freqTransition) / sampleRate), 1.0f },
-           amplitudeSamples[] = { (pow(10.0f, strength / 20.0f)), (pow(10.0f, strength / 20.0f)), 1.0f, 1.0f };
+    size_t filterSize = 4097;
+    size_t sampleSize = 4;
+    sample frequencySamples[] = {0, ((centerFreq * 2.0F) / sampleRate), ((centerFreq * 2.0F + freqTransition) / sampleRate), 1.0F};
+    sample amplitudeSamples[] = {(pow(10.0F, strength / 20.0F)), (pow(10.0F, strength / 20.0F)), 1.0F, 1.0F};
 
     AudioBuffer* impulseFilter = _FirGenerator->Calculate(filterSize, frequencySamples, amplitudeSamples, sampleSize);
-    _Convolver->Initialize(audioFrameLength, *impulseFilter);
+    _Convolver->Initialize(audioFrameLength, *impulseFilter, true);
     Enabled = true;
     // END DEBUG
 

@@ -21,7 +21,9 @@
 using namespace kfr;
 
 KfrInterface::KfrInterface(LoggerBase* logger)
-    : LoggingBase(logger, __PRETTY_FUNCTION__) {}
+    : LoggingBase(logger, __PRETTY_FUNCTION__) {
+    _Initialized = false;
+}
 
 KfrInterface::~KfrInterface() {
     Dispose();
@@ -81,4 +83,5 @@ void KfrInterface::Dispose() {
 
     delete _ComponentsBuffer;
     delete _TempBuffer;
+    _Initialized = false;
 }

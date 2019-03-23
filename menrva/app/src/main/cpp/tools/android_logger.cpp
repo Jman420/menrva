@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <android/log.h>
 #include "android_logger.h"
-#include "../aosp/liblog/android/log.h"
 
 const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
 const std::string AndroidLogger::FUNCTION_SUFFIX = "()";

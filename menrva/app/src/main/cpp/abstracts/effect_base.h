@@ -31,8 +31,7 @@ public:
     explicit EffectBase(std::string name);
     virtual ~EffectBase() = default;
 
-    virtual void Process(AudioBuffer& input, AudioBuffer& output) = 0;
-    virtual void ResetBuffers(sample sampleRate, size_t audioFrameLength) = 0;
+    virtual void ResetBuffers(sample sampleRate, size_t audioFrameLength);
     virtual void ConfigureSetting(char* settingName, void* value) = 0;
 };
 

@@ -16,24 +16,39 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#ifndef MENRVA_EFFECTS_BUNDLE_H
+#define MENRVA_EFFECTS_BUNDLE_H
+
+#include "../tools/service_locator.h"
+#include "bass_boost.h"
 #include "equalizer.h"
 
-const std::string Equalizer::EFFECT_NAME = "Equalizer";
+enum class SingleChannelEffectIndexes : uint8_t {
+    BASS_BOOST = 0,
+    EQUALIZER,
 
-Equalizer::Equalizer(LoggerBase* logger)
-        : SingleChannelEffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
+    // NOTE : Unused Enum State to provide Enum Length; must be Final Enum Entry
+    Length
+};
 
-}
+class SingleChannelEffectsBundle {
+public:
+    static const uint8_t LENGTH = static_cast<const uint8_t>(SingleChannelEffectIndexes::Length);
 
-void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
-    // TODO : Implement Equalizer Effect
-}
+    SingleChannelEffectsBundle();
+    ~SingleChannelEffectsBundle();
 
-void Equalizer::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
-    // TODO : Implement Default Configuration for Equalizer Effect
-}
+    void ResetBuffers(sample sampleRate, size_t audioFrameLength);
 
-void Equalizer::ConfigureSetting(char* settingName, void* value) {
-    // TODO : Implement Logic for Configuring the Equalizer Effect
-}
+    BassBoost* GetBassBoost();
+    Equalizer* GetEqualizer();
+
+    SingleChannelEffectBase* operator[](uint8_t index) const;
+
+private:
+    BassBoost* _BassBoost;
+    Equalizer* _Equalizer;
+    SingleChannelEffectBase** _Effects;
+};
+
+#endif //MENRVA_EFFECTS_BUNDLE_H

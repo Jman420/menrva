@@ -23,3 +23,5 @@ EffectBase::EffectBase(std::string name)
     : NAME(std::move(name)) {
     Enabled = false;
 }
+
+void EffectBase::ResetBuffers(sample sampleRate __unused, size_t audioFrameLength __unused) { }

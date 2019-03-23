@@ -16,37 +16,38 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "effects_bundle.h"
+#include "single_channel_effects_bundle.h"
 
-EffectsBundle::EffectsBundle() {
+SingleChannelEffectsBundle::SingleChannelEffectsBundle() {
     ServiceLocator serviceLocator = *new ServiceLocator();
     _BassBoost = new BassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
     _Equalizer = new Equalizer(serviceLocator.GetLogger());
-    _StereoWidener = new StereoWidener(serviceLocator.GetLogger());
 
-    _Effects = new EffectBase*[LENGTH];
-    _Effects[EffectIndexes::BASS_BOOST] = _BassBoost;
-    _Effects[EffectIndexes::EQUALIZER] = _Equalizer;
-    _Effects[EffectIndexes::STEREO_WIDENER] = _StereoWidener;
+    _Effects = new SingleChannelEffectBase*[LENGTH];
+    _Effects[static_cast<uint8_t>(SingleChannelEffectIndexes::BASS_BOOST)] = _BassBoost;
+    _Effects[static_cast<uint8_t>(SingleChannelEffectIndexes::EQUALIZER)] = _Equalizer;
 }
 
-EffectsBundle::~EffectsBundle() {
+SingleChannelEffectsBundle::~SingleChannelEffectsBundle() {
     delete[] _Effects;
 }
 
-BassBoost* EffectsBundle::GetBassBoost() {
+void SingleChannelEffectsBundle::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
+    for (int effectCounter = 0; effectCounter < LENGTH; effectCounter++) {
+        EffectBase& effect = *_Effects[effectCounter];
+        effect.ResetBuffers(sampleRate, audioFrameLength);
+    }
+}
+
+BassBoost* SingleChannelEffectsBundle::GetBassBoost() {
     return _BassBoost;
 }
 
-Equalizer* EffectsBundle::GetEqualizer() {
+Equalizer* SingleChannelEffectsBundle::GetEqualizer() {
     return _Equalizer;
 }
 
-StereoWidener* EffectsBundle::GetStereoWidener() {
-    return _StereoWidener;
-}
-
-EffectBase* EffectsBundle::operator[](uint8_t index) const {
+SingleChannelEffectBase* SingleChannelEffectsBundle::operator[](uint8_t index) const {
     if (index > LENGTH) {
         throw std::runtime_error("Index out of bounds.");
     }

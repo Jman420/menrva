@@ -20,13 +20,15 @@
 #include "../tools/conversion_buffer.cpp"
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+        : LoggingBase(logger, __PRETTY_FUNCTION__),
+          AudioIOBufferBase() {
     _BufferWrapper = new audio_input_buffer_u();
     _InputAudioFormat = AudioFormat::Sample;
 }
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+        : LoggingBase(logger, __PRETTY_FUNCTION__),
+          AudioIOBufferBase() {
     _BufferWrapper = new audio_input_buffer_u();
     _InputAudioFormat = AudioFormat::Sample;
     SetFormat(audioFormat);

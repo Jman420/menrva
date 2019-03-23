@@ -28,19 +28,17 @@
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug1FirGenerator(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug1FirGenerator(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
-
-    int debug = 0;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug2ConvolverOneFrame(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug2ConvolverOneFrame(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
     ServiceLocator serviceLocator;
@@ -50,20 +48,18 @@ Java_com_monkeystable_menrva_EngineDebugger_debug2ConvolverOneFrame(JNIEnv* env,
     convolver.Initialize(params.MenrvaAudioFrameLength, firFilter);
 
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
-    sample amplitude = 1.0,
-           frequency = 1.0,
-           offset = 0.0;
+    sample amplitude = 1.0;
+    sample frequency = 1.0;
+    sample offset = 0.0;
     AudioBuffer& inputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, params.MenrvaAudioFrameLength);
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), params.MenrvaAudioFrameLength);
     convolver.Process(inputBuffer, outputBuffer);
-
-    int debug = 0;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
     ServiceLocator serviceLocator;
@@ -73,9 +69,9 @@ Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* en
     convolver.Initialize(params.MenrvaAudioFrameLength, firFilter);
 
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
-    sample amplitude = 1.0,
-           frequency = 1.0,
-           offset = 0.0;
+    sample amplitude = 1.0;
+    sample frequency = 1.0;
+    sample offset = 0.0;
     size_t audioWaveLength = params.MenrvaAudioFrameLength * convolver.GetFilterSegmentsLength();
     AudioBuffer& sineInputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, audioWaveLength);
 
@@ -84,14 +80,12 @@ Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* en
     for (int frameCounter = 0; frameCounter < convolver.GetFilterSegmentsLength(); frameCounter++) {
         memcpy(inputBuffer.GetData(), &sineInputBuffer[frameCounter * params.MenrvaAudioFrameLength], sizeof(sample) * params.MenrvaAudioFrameLength);
         convolver.Process(inputBuffer, outputBuffer);
-
-        int debug = 0;
     }
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug4BassBoost(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug4BassBoost(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
     ServiceLocator serviceLocator;
@@ -99,25 +93,23 @@ Java_com_monkeystable_menrva_EngineDebugger_debug4BassBoost(JNIEnv* env, jobject
     jmanBassBoost.ResetBuffers(params.SampleRate, params.MenrvaAudioFrameLength);
 
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
-    sample amplitude = 1.0,
-           frequency = 1.0,
-           offset = 0.0;
+    sample amplitude = 1.0;
+    sample frequency = 1.0;
+    sample offset = 0.0;
     AudioBuffer& inputBuffer = *waveGenerator.CalculateSineWave(amplitude, frequency, offset, params.MenrvaAudioFrameLength);
 
     AudioBuffer outputBuffer(serviceLocator.GetFftEngine(), params.MenrvaAudioFrameLength);
     jmanBassBoost.Process(inputBuffer, outputBuffer);
-
-    int debug = 0;
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug5ProcessPipelineMono(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug5ProcessPipelineMono(JNIEnv* __unused env, jobject __unused instance) {
     EngineDebugging::ProcessPipeline(AUDIO_CHANNEL_OUT_MONO);
 }
 
 extern "C"
 JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_EngineDebugger_debug6ProcessPipelineStereo(JNIEnv* env, jobject instance) {
+Java_com_monkeystable_menrva_EngineDebugger_debug6ProcessPipelineStereo(JNIEnv* __unused env, jobject __unused instance) {
     EngineDebugging::ProcessPipeline(AUDIO_CHANNEL_OUT_STEREO);
 }

@@ -504,6 +504,18 @@ typedef struct buffer_config_s {
     uint16_t   mask;            // indicates which of the above fields is valid
 } buffer_config_t;
 
+// Values for bit field "mask" in buffer_config_t. If a bit is set, the corresponding field
+// in buffer_config_t must be taken into account when executing the EFFECT_CMD_SET_CONFIG command
+#define EFFECT_CONFIG_BUFFER    0x0001  // buffer field must be taken into account
+#define EFFECT_CONFIG_SMP_RATE  0x0002  // samplingRate field must be taken into account
+#define EFFECT_CONFIG_CHANNELS  0x0004  // channels field must be taken into account
+#define EFFECT_CONFIG_FORMAT    0x0008  // format field must be taken into account
+#define EFFECT_CONFIG_ACC_MODE  0x0010  // accessMode field must be taken into account
+#define EFFECT_CONFIG_PROVIDER  0x0020  // bufferProvider field must be taken into account
+#define EFFECT_CONFIG_ALL (EFFECT_CONFIG_BUFFER | EFFECT_CONFIG_SMP_RATE | \
+                           EFFECT_CONFIG_CHANNELS | EFFECT_CONFIG_FORMAT | \
+                           EFFECT_CONFIG_ACC_MODE | EFFECT_CONFIG_PROVIDER)
+
 // effect_config_s structure is used to configure audio parameters and buffers for effect engine
 // input and output.
 typedef struct effect_config_s {

@@ -32,7 +32,7 @@ AudioBuffer::AudioBuffer(FftInterfaceBase* fftEngine, size_t length) {
 
 AudioBuffer::AudioBuffer(sample* data, size_t length) {
     _FftEngine = nullptr;
-    SetData(data, _Length);
+    SetData(data, length);
 }
 
 AudioBuffer::~AudioBuffer() {
