@@ -22,15 +22,17 @@ import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.AudioEffectInterface;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.SparseArray;
 import android.view.View;
 import android.widget.TextView;
 
 import com.monkeystable.menrva.R;
+import com.xw.repo.BubbleSeekBar;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
@@ -44,6 +46,7 @@ public class DebugActivity extends AppCompatActivity {
     private final String TAB = "    ";
 
     private TextView _Console;
+    private BubbleSeekBar _LogLevelSlider;
 
     private MediaPlayer _TestSong;
     private AudioEffect _AudioEffect;
@@ -52,6 +55,24 @@ public class DebugActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_activity);
+
+        _LogLevelSlider = findViewById(R.id.logLevelSlider);
+        final String[] logLevels = JniInterface.getLogLevelsForUI();
+        _LogLevelSlider.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
+            @NonNull
+            @Override
+            public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                array.clear();
+
+                for (int logLevelCounter = 0; logLevelCounter < logLevels.length; logLevelCounter++) {
+                    array.put(logLevelCounter, logLevels[logLevelCounter]);
+                }
+
+                return array;
+            }
+        });
+        int appLogLevel = JniInterface.getAppLogLevelForUI();
+        _LogLevelSlider.setProgress(appLogLevel);
 
         _Console = findViewById(R.id.consoleOut);
         _Console.setMovementMethod(new ScrollingMovementMethod());

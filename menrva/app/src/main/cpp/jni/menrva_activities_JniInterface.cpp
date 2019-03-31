@@ -36,3 +36,18 @@ JNIEXPORT jstring
 JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngineUUID(JNIEnv* env, jclass caller __unused) {
     return env->NewStringUTF(MenrvaModuleInterface::EngineUUID);
 }
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_activities_JniInterface_getLogLevelsLength(JNIEnv *env, jclass type) {
+    auto result = LoggerBase::LOG_LEVEL_MAP.size();
+    return static_cast<jint>(result);
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_activities_JniInterface_getAppLogLevel(JNIEnv *env, jclass type) {
+    auto serviceLocator = *new ServiceLocator();
+    int result = serviceLocator.GetLogger()->GetAppLogLevel();
+    return result;
+}
