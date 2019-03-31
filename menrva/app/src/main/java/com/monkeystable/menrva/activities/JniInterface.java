@@ -23,6 +23,7 @@ public class JniInterface {
         System.loadLibrary("MenrvaEngine");
     }
 
+    public static native String getMenrvaEffectName();
     public static native String getMenrvaEffectTypeUUID();
     public static native String getMenrvaEffectEngineUUID();
 }

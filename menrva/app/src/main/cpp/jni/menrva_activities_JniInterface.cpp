@@ -20,6 +20,12 @@
 #include "../module_interface.h"
 
 extern "C"
+JNIEXPORT jstring JNICALL
+Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectName(JNIEnv *env, jclass type) {
+    return env->NewStringUTF(MenrvaModuleInterface::EffectDescriptor.name);
+}
+
+extern "C"
 JNIEXPORT jstring
 JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectTypeUUID(JNIEnv* env, jclass caller __unused) {
     return env->NewStringUTF(MenrvaModuleInterface::EffectTypeUUID);

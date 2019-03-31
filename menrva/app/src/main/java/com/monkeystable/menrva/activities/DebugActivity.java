@@ -18,6 +18,7 @@
 
 package com.monkeystable.menrva.activities;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 import android.media.audiofx.AudioEffectInterface;
@@ -29,7 +30,10 @@ import android.widget.TextView;
 
 import com.monkeystable.menrva.R;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,31 +58,29 @@ public class DebugActivity extends AppCompatActivity {
         _Console.setHorizontallyScrolling(true);
         writeToConsole("-----Console Output-----");
 
-        String effectName = "MenrvaEngine";
+        writeToConsole("***Menrva Engine Details***");
         UUID effectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
         UUID engineUUID = UUID.fromString(JniInterface.getMenrvaEffectEngineUUID());
-        writeToConsole("***Details from JNI Interface***");
-        writeToConsole(TAB + "Effect Name : " + effectName);
+        writeToConsole(TAB + "Effect Name : " + JniInterface.getMenrvaEffectName());
         writeToConsole(TAB + "Effect Type UUID : " + effectTypeUUID);
         writeToConsole(TAB + "Engine UUID : " + engineUUID);
 
         AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
-        int effectIndex = effects.length - 1;
-        effectName = effects[effectIndex].name;
-        effectTypeUUID = effects[effectIndex].type;
-        engineUUID = effects[effectIndex].uuid;
-        writeToConsole("***Details from Effects List***");
-        writeToConsole(TAB + "Effect Name : " + effectName);
-        writeToConsole(TAB + "Effect Type UUID : " + effectTypeUUID);
-        writeToConsole(TAB + "Engine UUID : " + engineUUID);
+        writeToConsole("***Effects List***");
+        for (AudioEffect.Descriptor audioEffect : effects) {
+            writeToConsole(TAB + "Effect Name : " + audioEffect.name);
+            writeToConsole(TAB + "Effect Type UUID : " + audioEffect.type);
+            writeToConsole(TAB + "Engine UUID : " + audioEffect.uuid);
+            writeToConsole("--------------------");
+        }
 
         _TestSong = MediaPlayer.create(DebugActivity.this, R.raw.test_song);
         _AudioEffect = AudioEffectInterface.CreateAudioEffect(effectTypeUUID, engineUUID, 0, _TestSong.getAudioSessionId());
 
-        AudioEffect.Descriptor menrvaDesc = _AudioEffect.getDescriptor();
         writeToConsole("***Instantiated Effect Details***");
-        writeToConsole(TAB + "Effect Name : " + menrvaDesc.name);
-        writeToConsole(TAB + "Implementor : " + menrvaDesc.implementor);
+        AudioEffect.Descriptor effectDesc = _AudioEffect.getDescriptor();
+        writeToConsole(TAB + "Effect Name : " + effectDesc.name);
+        writeToConsole(TAB + "Implementor : " + effectDesc.implementor);
         writeToConsole(TAB + "Audio Session Id : " + _TestSong.getAudioSessionId());
         writeToConsole(TAB + "Effect Enabled : " + _AudioEffect.getEnabled());
     }
@@ -116,5 +118,15 @@ public class DebugActivity extends AppCompatActivity {
             _AudioEffect.setEnabled(true);
             writeToConsole(TAB + "Enabled Audio Effect!");
         }
+    }
+
+    public void dumpConsoleButton_Click(View view) throws IOException {
+        final String CONSOLE_DUMP_FILE_NAME = "consoleDump.txt";
+
+        FileOutputStream outputStream = openFileOutput(CONSOLE_DUMP_FILE_NAME, Context.MODE_PRIVATE);
+        OutputStreamWriter streamWriter = new OutputStreamWriter(outputStream);
+
+        streamWriter.write(_Console.getText().toString());
+        streamWriter.close();
     }
 }
