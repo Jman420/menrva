@@ -48,6 +48,9 @@
   - ~~Implement Debugging Methods~~
   - ~~Debug Engine Process Pipeline~~
   - ~~Compare Engine Pipeline Output to JamesDSP~~
+  - Draft Engine Debug UI
+  - Use Overlap-Discard Method for Convolution
+  - Convolver should only return non-corrupted output indexes
   - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)
   - ? Engine CPU & Memory Profiling ?
   - Draft UI Frontend
@@ -55,5 +58,5 @@
   - Draft JNI Interface to Menrva Module Backend
   - Whole bunch of testing
   - ? Draft Unit Tests ?
-  - ? CI Integration (TravisCI) ?
+  - ? CI Integration (TravisCI, CircleCI) ?
   - Release
