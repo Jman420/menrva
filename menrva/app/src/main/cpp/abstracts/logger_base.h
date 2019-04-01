@@ -46,6 +46,7 @@ typedef std::pair<std::string, LogLevel> log_level_map_element;
 class LoggerBase {
 public:
     static const log_level_map LOG_LEVEL_MAP;
+    static const int MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
     void SetAppLogLevel(LogLevel logLevel);
     LogLevel GetAppLogLevel();

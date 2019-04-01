@@ -51,3 +51,11 @@ Java_com_monkeystable_menrva_activities_JniInterface_getAppLogLevel(JNIEnv *env,
     int result = serviceLocator.GetLogger()->GetAppLogLevel();
     return result;
 }
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_activities_JniInterface_getMaxLogLevel(JNIEnv *env, jclass type) {
+    auto serviceLocator = *new ServiceLocator();
+    int result = serviceLocator.GetLogger()->MAX_LOG_LEVEL_VALUE;
+    return result;
+}
