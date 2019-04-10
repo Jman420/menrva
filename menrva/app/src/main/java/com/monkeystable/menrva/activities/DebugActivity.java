@@ -21,7 +21,7 @@ package com.monkeystable.menrva.activities;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
-import android.media.audiofx.AudioEffectInterface;
+import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +36,7 @@ import com.xw.repo.BubbleSeekBar;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.lang.reflect.InvocationTargetException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,10 +50,12 @@ public class DebugActivity extends AppCompatActivity {
     private BubbleSeekBar _LogLevelSlider;
 
     private MediaPlayer _TestSong;
-    private AudioEffect _AudioEffect;
+    private AudioEffectInterface _AudioEffect;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+            throws RuntimeException {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_activity);
 
@@ -96,7 +99,17 @@ public class DebugActivity extends AppCompatActivity {
         }
 
         _TestSong = MediaPlayer.create(DebugActivity.this, R.raw.test_song);
-        _AudioEffect = AudioEffectInterface.CreateAudioEffect(effectTypeUUID, engineUUID, 0, _TestSong.getAudioSessionId());
+        try {
+            _AudioEffect = new AudioEffectInterface(effectTypeUUID, engineUUID, 0, _TestSong.getAudioSessionId());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
 
         writeToConsole("***Instantiated Effect Details***");
         AudioEffect.Descriptor effectDesc = _AudioEffect.getDescriptor();
