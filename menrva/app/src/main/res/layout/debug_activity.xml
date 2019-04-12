@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.DebugActivity">
+
+    <TextView
+        android:id="@+id/consoleOut"
+        android:layout_width="383dp"
+        android:layout_height="390dp"
+        android:gravity="bottom"
+        android:scrollbarAlwaysDrawHorizontalTrack="true"
+        android:scrollbarAlwaysDrawVerticalTrack="true"
+        android:scrollbars="horizontal|vertical"
+        android:scrollHorizontally="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.428"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.046" />
+
+    <Button
+        android:id="@+id/toggleSongButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="30dp"
+        android:onClick="toggleSongButton_Click"
+        android:text="Toggle Song"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/consoleOut" />
+
+    <Button
+        android:id="@+id/toggleAudioEffectButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="16dp"
+        android:onClick="toggleAudioEffectButton_Click"
+        android:text="Toggle Audio Effect"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/consoleOut" />
+
+    <com.xw.repo.BubbleSeekBar
+        android:id="@+id/logLevelSlider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:bsb_anim_duration="50"
+        app:bsb_auto_adjust_section_mark="true"
+        app:bsb_hide_bubble="true"
+        app:bsb_is_float_type="false"
+        app:bsb_min="0"
+        app:bsb_max="5"
+        app:bsb_rtl="false"
+        app:bsb_section_count="5"
+        app:bsb_section_text_position="below_section_mark"
+        app:bsb_touch_to_seek="true"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:onClick="dumpConsoleButton_Click"
+        android:text="Dump Console"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

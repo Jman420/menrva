@@ -23,15 +23,15 @@ const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
 ServiceLocator* MenrvaCommandMap::_ServiceLocator = new ServiceLocator();
 LoggerBase* MenrvaCommandMap::_Logger = _ServiceLocator->GetLogger();
 
-const function_map MenrvaCommandMap::_CommandMap = {
-    { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
-    { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetBuffers },
-    { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
-    { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
-    { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
-    { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
-    { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
-    { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
+const function_map MenrvaCommandMap::COMMAND_MAP = {
+        { EFFECT_CMD_INIT, &MenrvaCommandMap::InitModule },
+        { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetBuffers },
+        { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
+        { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
+        { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
+        { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
+        { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
+        { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
 };
 
 int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
@@ -42,8 +42,8 @@ int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, ui
     }
 
     _Logger->WriteLog("Looking up Function for Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
-    auto cmdFunction = MenrvaCommandMap::_CommandMap.find(cmdCode);
-    if (cmdFunction == MenrvaCommandMap::_CommandMap.end()) {
+    auto cmdFunction = MenrvaCommandMap::COMMAND_MAP.find(cmdCode);
+    if (cmdFunction == MenrvaCommandMap::COMMAND_MAP.end()) {
         _Logger->WriteLog("Unable to Process Command Id (%u).  No Function found.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
         return 0;
     }

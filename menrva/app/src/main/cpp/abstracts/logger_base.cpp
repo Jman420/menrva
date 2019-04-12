@@ -19,6 +19,15 @@
 #include <utility>
 #include "logger_base.h"
 
+const log_level_map LoggerBase::LOG_LEVEL_MAP = {
+        { "Fatal", LogLevel::FATAL },
+        { "Error", LogLevel::ERROR },
+        { "Warn", LogLevel::WARN },
+        { "Info", LogLevel::INFO },
+        { "Debug", LogLevel::DEBUG },
+        { "Verbose", LogLevel::VERBOSE },
+};
+
 const std::string LoggerBase::APP_NAME = "Menrva";
 const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;

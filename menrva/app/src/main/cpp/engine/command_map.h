@@ -41,7 +41,7 @@ public:
 
 private:
     static const std::string LOG_SENDER;
-    static const function_map _CommandMap;
+    static const function_map COMMAND_MAP;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;

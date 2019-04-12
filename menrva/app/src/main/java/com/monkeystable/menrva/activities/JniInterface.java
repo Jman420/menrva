@@ -23,6 +23,31 @@ public class JniInterface {
         System.loadLibrary("MenrvaEngine");
     }
 
+    public static native String getMenrvaEffectName();
     public static native String getMenrvaEffectTypeUUID();
     public static native String getMenrvaEffectEngineUUID();
+
+    static String[] getLogLevelsForUI() {
+        int logLevelsLength = getLogLevelsLength();
+        String[] result = new String[logLevelsLength];
+
+        result[0] = "Fatal";
+        result[1] = "Error";
+        result[2] = "Warn";
+        result[3] = "Info";
+        result[4] = "Debug";
+        result[5] = "Verbose";
+
+        return result;
+    }
+
+    static int getAppLogLevelForUI() {
+        int appLogLevel = getAppLogLevel();
+        int maxLogLevelValue = getMaxLogLevel();
+        return maxLogLevelValue - appLogLevel;
+    }
+
+    private static native int getLogLevelsLength();
+    private static native int getMaxLogLevel();
+    private static native int getAppLogLevel();
 }
