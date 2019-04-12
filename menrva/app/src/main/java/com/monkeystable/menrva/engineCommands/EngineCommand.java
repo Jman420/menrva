@@ -13,7 +13,7 @@ public abstract class EngineCommand {
         int bufferSize = getBufferSize();
         _ValueBuffer = ByteBuffer.allocate(bufferSize);
 
-        addHeader();
+        writeHeader();
     }
 
     public byte[] getBytes() {
@@ -57,7 +57,7 @@ public abstract class EngineCommand {
 
     protected abstract int getBufferSize();
 
-    protected abstract void addHeader();
+    protected abstract void writeHeader();
 
     protected abstract boolean validate();
 

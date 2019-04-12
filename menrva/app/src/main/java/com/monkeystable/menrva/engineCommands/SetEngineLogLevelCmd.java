@@ -1,29 +1,28 @@
 package com.monkeystable.menrva.engineCommands;
 
 public class SetEngineLogLevelCmd extends EngineCommand {
-    private int _EngineLogLevel;
+    private static final short COMMAND_ID = 0;
+    private static final int BUFFER_SIZE = (Short.SIZE / Byte.SIZE) * 2;
 
-    public SetEngineLogLevelCmd() {
-        super();
-    }
+    private short _EngineLogLevel;
 
-    public void setEngineLogLevel(int value) {
+    public void setEngineLogLevel(short value) {
         _EngineLogLevel = value;
     }
 
-    public int getEngineLogLevel() {
+    public short getEngineLogLevel() {
         return _EngineLogLevel;
     }
 
     @Override
     protected int getBufferSize() {
         // Command includes Standard Header (short) and Log Level (short)
-        return (Short.SIZE / Byte.SIZE) * 2;
+        return BUFFER_SIZE;
     }
 
     @Override
-    protected void addHeader() {
-        // TODO : Add Standard Command Header (short which represents the command)
+    protected void writeHeader() {
+        addParameter(COMMAND_ID);
     }
 
     @Override

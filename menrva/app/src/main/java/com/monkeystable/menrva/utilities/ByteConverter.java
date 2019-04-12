@@ -68,34 +68,6 @@ public class ByteConverter {
         return value.getBytes(StandardCharsets.US_ASCII);
     }
 
-    public short convertShortFromBytes(byte[] value) {
-
-    }
-
-    public short[] convertShortArrayFromBytes(byte[] value) {
-
-    }
-
-    public int convertIntFromBytes(byte[] value) {
-
-    }
-
-    public int[] convertIntArrayFromBytes(byte[] value) {
-
-    }
-
-    public float convertFloatFromBytes(byte[] value) {
-
-    }
-
-    public float[] convertFloatArrayFromBytes(byte[] value) {
-
-    }
-
-    public String convertStringFromBytes(byte[] value) {
-
-    }
-
     private int getSizeInBytes(int typeSize) {
         return getSizeInBytes(typeSize, 1);
     }

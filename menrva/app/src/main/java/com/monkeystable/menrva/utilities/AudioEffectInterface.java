@@ -143,12 +143,6 @@ public class AudioEffectInterface {
         invokeSetParameter(parameter, valueBytes);
     }
 
-    public <ParamType> ParamType getParameter(int parameter) {
-        ParamType result = new ParamType();
-
-        return result;
-    }
-
     public AudioEffect.Descriptor getDescriptor() {
         return _Effect.getDescriptor();
     }
