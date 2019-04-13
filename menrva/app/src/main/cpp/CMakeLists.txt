@@ -108,6 +108,7 @@ target_include_directories(
         PRIVATE
         ${FFTW_OUTPUT_DIR}/include
         ${KISSFFT_OUTPUT_DIR}/include
+        ${PROTOBUF_OUTPUT_DIR}/include
 )
 target_link_libraries(
         MenrvaEngine
@@ -117,6 +118,7 @@ target_link_libraries(
         libkissfft
         kfr
         kfr_dft
+        libprotobuf-lite
 )
 
 add_library(
