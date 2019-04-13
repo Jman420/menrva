@@ -6,17 +6,21 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
-set(FFTW_OUTPUT_DIR ${LIBS_ROOT_DIR}/fftw/out)
-set(KISSFFT_OUTPUT_DIR ${LIBS_ROOT_DIR}/kissfft/out)
 set(KFR_SOURCE_DIR ${LIBS_ROOT_DIR}/kfr)
 set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
-set(PROTOBUF_SOURCE_DIR ${LIBS_ROOT_DIR}/protobuf)
-set(PROTOBUF_BINARY_DIR ${PROTOBUF_SOURCE_DIR}/out)
+set(FFTW_OUTPUT_DIR ${LIBS_ROOT_DIR}/fftw/out)
+set(KISSFFT_OUTPUT_DIR ${LIBS_ROOT_DIR}/kissfft/out)
+set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
 
 find_library(
         log-lib
         log
+)
+
+add_subdirectory(
+        ${KFR_SOURCE_DIR}
+        ${KFR_BINARY_DIR}
 )
 
 add_library(
@@ -39,9 +43,14 @@ set_target_properties(
         ${KISSFFT_OUTPUT_DIR}/${ANDROID_ABI}/libkissfft.so
 )
 
-add_subdirectory(
-        ${KFR_SOURCE_DIR}
-        ${KFR_BINARY_DIR}
+add_library(
+        libprotobuf-lite
+        STATIC IMPORTED
+)
+set_target_properties(
+        libprotobuf-lite
+        PROPERTIES IMPORTED_LOCATION
+        ${PROTOBUF_OUTPUT_DIR}/${ANDROID_ABI}/libprotobuf-lite.a
 )
 
 add_library(
