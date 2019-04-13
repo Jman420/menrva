@@ -5,11 +5,13 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
-set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
-set(FFTW_OUTPUT_DIR ${REPO_ROOT_DIR}/fftw/out)
-set(KISSFFT_OUTPUT_DIR ${REPO_ROOT_DIR}/kissfft/out)
-set(KFR_SOURCE_DIR ${REPO_ROOT_DIR}/kfr)
+set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
+set(FFTW_OUTPUT_DIR ${LIBS_ROOT_DIR}/fftw/out)
+set(KISSFFT_OUTPUT_DIR ${LIBS_ROOT_DIR}/kissfft/out)
+set(KFR_SOURCE_DIR ${LIBS_ROOT_DIR}/kfr)
 set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
+set(PROTOBUF_SOURCE_DIR ${LIBS_ROOT_DIR}/protobuf)
+set(PROTOBUF_BINARY_DIR ${PROTOBUF_SOURCE_DIR}/out)
 set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
 
 find_library(

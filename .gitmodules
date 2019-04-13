@@ -10,3 +10,7 @@
 	path = libs/kfr
 url=https://github.com/kfrlib/kfr.git
 	branch = master
+[submodule "libs/protobuf"]
+	path = libs/protobuf
+	url = git@github.com:Jman420/protobuf_for_android.git
+	branch = master
