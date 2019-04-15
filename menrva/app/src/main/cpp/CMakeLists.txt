@@ -53,6 +53,10 @@ set_target_properties(
         ${PROTOBUF_OUTPUT_DIR}/${ANDROID_ABI}/libprotobuf-lite.a
 )
 
+aux_source_directory(
+        messages
+        MESSAGES_SOURCES
+)
 add_library(
         MenrvaEngine
         SHARED
@@ -102,13 +106,15 @@ add_library(
 
         jni/menrva_activities_JniInterface.cpp
         jni/menrva_service_JniInterface.cpp
+
+        ${MESSAGES_SOURCES}
 )
 target_include_directories(
         MenrvaEngine
         PRIVATE
         ${FFTW_OUTPUT_DIR}/include
         ${KISSFFT_OUTPUT_DIR}/include
-        ${PROTOBUF_OUTPUT_DIR}/include
+        ${PROTOBUF_OUTPUT_DIR}/../jni/src
 )
 target_link_libraries(
         MenrvaEngine

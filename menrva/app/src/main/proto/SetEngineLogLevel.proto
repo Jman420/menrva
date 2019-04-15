@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message SetEngineLogLevelRequest {
+    int32 LogLevel = 1;
+}
+
+// No Response Message Necessary
