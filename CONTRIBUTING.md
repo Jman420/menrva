@@ -21,6 +21,11 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
 
 ## Compiling Protobuf for Android
   - See instruction in [Protobuf Build Readme](https://github.com/Jman420/protobuf_for_android/blob/develop/README.md)
+  
+## Generating Protobuf Message Source Files
+  - Follow above instructions for Compiling Protobuf for Android
+  - Execute the [compile_protobuf_messages.ps1](compile_protobuf_messages.ps1) script to generate the Protobuf Message Source Files
+  **Note:** These files are not included under source control because the generated source code versions on both sides (Java App and C++ Engine) must be the same.
 
 ## Configuring Calculation Precision
 See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.
