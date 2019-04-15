@@ -1,9 +1,12 @@
 syntax = "proto3";
 
+package messages;
+
 option java_package = "com.monkeystable.menrva.messages";
+option java_outer_classname = "Engine_SetLogLevel";
 
 message Engine_SetLogLevel_Request {
     int32 LogLevel = 1;
 }
 
-// No Response Message Necessary
+message Engine_SetLogLevel_Response { }
