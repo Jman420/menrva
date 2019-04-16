@@ -18,5 +18,34 @@
 
 package com.monkeystable.menrva;
 
+import android.support.test.runner.AndroidJUnit4;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+/* Instrumented test, which will execute on an Android device.
+ *
+ * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
+ */
+@RunWith(AndroidJUnit4.class)
 public class CommandMapDebugger {
+    static {
+        System.loadLibrary("MenrvaEngineTest");
+    }
+
+    @Test
+    public void debug1Engine_GetVersion()
+            throws InvalidProtocolBufferException {
+        Engine_GetVersion.Engine_GetVersion_Request request = Engine_GetVersion.Engine_GetVersion_Request.newBuilder().build();
+        byte[] requestBytes = request.toByteArray();
+        byte[] responseBytes = submitEngine_GetVersion(requestBytes, request.getSerializedSize());
+
+        Engine_GetVersion.Engine_GetVersion_Response response = Engine_GetVersion.Engine_GetVersion_Response.parseFrom(responseBytes);
+        int debug = 0;
+    }
+
+    public native byte[] submitEngine_GetVersion(byte[] requestBytes, int requestSize);
 }

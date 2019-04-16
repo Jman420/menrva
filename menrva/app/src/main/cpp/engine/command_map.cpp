@@ -18,7 +18,7 @@
 
 #include <cerrno>
 #include "command_map.h"
-#include "../commands/EngineCommands.h"
+#include "../commands/engine_commands.h"
 #include "../commands/messages/Engine_GetVersion.pb.h"
 
 const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
@@ -283,16 +283,9 @@ int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused
 
     _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
     int responseSize = response.ByteSize();
-    _Logger->WriteLog("Got Response Size : %u", LOG_SENDER, __func__, responseSize);
-    char* responseBytes = new char[responseSize];
-    _Logger->WriteLog("Created Response Array...", LOG_SENDER, __func__);
-    response.SerializeToArray(responseBytes, responseSize);
-    std::string debug = response.SerializeAsString();
-    messages::Engine_GetVersion_Response test = messages::Engine_GetVersion_Response();
-    test.ParseFromString(debug);
-    _Logger->WriteLog("Serialized response! - " + debug, LOG_SENDER, __func__);
+    *(char*)pReplyData = *new char[responseSize];
+    response.SerializeToArray(static_cast<char*>(pReplyData), responseSize);
     *replySize = static_cast<uint32_t>(responseSize);
-    pReplyData = responseBytes;
 
     _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);
     return 0;
