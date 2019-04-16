@@ -19,6 +19,7 @@
 #include <cerrno>
 #include "command_map.h"
 #include "../commands/EngineCommands.h"
+#include "../commands/messages/Engine_GetVersion.pb.h"
 
 const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
 ServiceLocator* MenrvaCommandMap::_ServiceLocator = new ServiceLocator();
@@ -33,7 +34,7 @@ const function_map MenrvaCommandMap::COMMAND_MAP = {
         { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
         { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
         { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
-        { EngineCommands::GET_VERSION, nullptr }
+        { EngineCommands::GET_VERSION, &MenrvaCommandMap::GetVersion },
 };
 
 int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
@@ -273,8 +274,27 @@ int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize _
     return 0;
 }
 
-int MenrvaCommandMap::GetVersion(MenrvaModuleContext &context, uint32_t cmdSize, void *pCmdData,
-                                 uint32_t *replySize, void *pReplyData) {
+int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused cmdSize, void* __unused pCmdData, uint32_t* replySize, void* pReplyData) {
+    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
+    messages::Engine_GetVersion_Response response = messages::Engine_GetVersion_Response();
+    response.set_major(MENRVA_ENGINE_MAJOR);
+    response.set_minor(MENRVA_ENGINE_MINOR);
+    response.set_patch(MENRVA_ENGINE_PATCH);
+
+    _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
+    int responseSize = response.ByteSize();
+    _Logger->WriteLog("Got Response Size : %u", LOG_SENDER, __func__, responseSize);
+    char* responseBytes = new char[responseSize];
+    _Logger->WriteLog("Created Response Array...", LOG_SENDER, __func__);
+    response.SerializeToArray(responseBytes, responseSize);
+    std::string debug = response.SerializeAsString();
+    messages::Engine_GetVersion_Response test = messages::Engine_GetVersion_Response();
+    test.ParseFromString(debug);
+    _Logger->WriteLog("Serialized response! - " + debug, LOG_SENDER, __func__);
+    *replySize = static_cast<uint32_t>(responseSize);
+    pReplyData = responseBytes;
+
+    _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);
     return 0;
 }
 

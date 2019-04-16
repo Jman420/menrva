@@ -24,6 +24,7 @@ import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.monkeystable.menrva.commands.Engine_GetVersion;
+import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Response;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -88,6 +89,8 @@ public class DebugActivity extends AppCompatActivity {
         } catch (InvalidProtocolBufferException e) {
             e.printStackTrace();
         }
+        Engine_GetVersion_Response engineVersionResponse = getEngineVersionCmd.getResponse();
+        String engineVersion = engineVersionResponse.getMajor() + "." + engineVersionResponse.getMinor() + "." + engineVersionResponse.getPatch();
 
         _LogLevelSlider = findViewById(R.id.logLevelSlider);
         final String[] logLevels = JniInterface.getLogLevelsForUI();
@@ -132,7 +135,7 @@ public class DebugActivity extends AppCompatActivity {
         writeToConsole(TAB + "Effect Name : " + JniInterface.getMenrvaEffectName());
         writeToConsole(TAB + "Effect Type UUID : " + effectTypeUUID);
         writeToConsole(TAB + "Engine UUID : " + engineUUID);
-        // TODO : Add Engine Version here
+        writeToConsole(TAB + "Engine version : " + engineVersion);
 
         AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
         writeToConsole("***Effects List***");

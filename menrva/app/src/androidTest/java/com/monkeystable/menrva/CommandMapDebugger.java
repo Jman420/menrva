@@ -16,8 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.commands;
+package com.monkeystable.menrva;
 
-public enum EngineCommands {
-    GET_VERSION,
+public class CommandMapDebugger {
 }
