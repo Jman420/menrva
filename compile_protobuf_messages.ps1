@@ -1,8 +1,8 @@
 $ProtocExe = "./libs/protobuf/out/compiler/protoc.exe"
 $ProtobufSourceDir = "./menrva/app/src/main/protobuf"
-$CppOutputDir = "./menrva/app/src/main/cpp/messages"
+$CppOutputDir = "./menrva/app/src/main/cpp/commands/messages"
 $JavaOutputDir = "./menrva/app/src/main/java"
-$FullJavaOutputDir = "$JavaOutputDir/com/monkeystable/menrva/messages"
+$FullJavaOutputDir = "$JavaOutputDir/com/monkeystable/menrva/commands/messages/"
 
 $ProtobufFilePattern = "*.proto"
 

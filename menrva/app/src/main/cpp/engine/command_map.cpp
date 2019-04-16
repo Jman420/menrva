@@ -18,6 +18,7 @@
 
 #include <cerrno>
 #include "command_map.h"
+#include "../commands/EngineCommands.h"
 
 const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
 ServiceLocator* MenrvaCommandMap::_ServiceLocator = new ServiceLocator();
@@ -32,6 +33,7 @@ const function_map MenrvaCommandMap::COMMAND_MAP = {
         { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
         { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
         { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
+        { EngineCommands::GET_VERSION, nullptr }
 };
 
 int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
@@ -268,6 +270,11 @@ int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize _
 
     _Logger->WriteLog("Successfully Retrieved Engine Config.", LOG_SENDER, __func__);
     pReplyData = &context.config;
+    return 0;
+}
+
+int MenrvaCommandMap::GetVersion(MenrvaModuleContext &context, uint32_t cmdSize, void *pCmdData,
+                                 uint32_t *replySize, void *pReplyData) {
     return 0;
 }
 

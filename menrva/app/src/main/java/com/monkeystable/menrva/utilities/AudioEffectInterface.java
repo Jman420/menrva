@@ -20,24 +20,21 @@ package com.monkeystable.menrva.utilities;
 
 import android.media.audiofx.AudioEffect;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MessageLite;
+import com.monkeystable.menrva.commands.MenrvaCommand;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class AudioEffectInterface {
     private static boolean _Initialized = false;
     private static Constructor _Constructor;
-    private static Method _GetParameter;
-    private static Method _SetParameter;
+    private static Method _SendCommand;
 
     private AudioEffect _Effect;
-    private ByteConverter _ByteConverter;
 
     private static void initialize() throws NoSuchMethodException {
         try {
@@ -48,14 +45,7 @@ public class AudioEffectInterface {
         }
 
         try {
-            _GetParameter = AudioEffect.class.getMethod("getParameter", int.class, byte[].class);
-        } catch (NoSuchMethodException e) {
-            // TODO : Log Exception
-            throw e;
-        }
-
-        try {
-            _SetParameter = AudioEffect.class.getMethod("setParameter", int.class, byte[].class);
+            _SendCommand = AudioEffect.class.getMethod("command", int.class, byte[].class, byte[].class);
         } catch (NoSuchMethodException e) {
             // TODO : Log Exception
             throw e;
@@ -83,8 +73,10 @@ public class AudioEffectInterface {
             // TODO : Log Exception
             throw e;
         }
+    }
 
-        _ByteConverter = new ByteConverter();
+    public AudioEffect.Descriptor getDescriptor() {
+        return _Effect.getDescriptor();
     }
 
     public boolean getEnabled() {
@@ -95,62 +87,20 @@ public class AudioEffectInterface {
         _Effect.setEnabled(enabled);
     }
 
-    public void setParameter(int parameter, boolean value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
+    public MessageLite sendCommand(MenrvaCommand message)
+            throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
+        byte[] requestBytes = message.getRequest().toByteArray();
+        byte[] responseBytes = new byte[message.getResponse().getSerializedSize()];
+        invokeCommand(message.getCommand(), requestBytes, responseBytes);
+
+        message.setResponse(message.getResponse().getParserForType().parseFrom(responseBytes));
+        return message.getResponse();
     }
 
-    public void setParameter(int parameter, short value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, short[] value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, int value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, int[] value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, float value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, float[] value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, String value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public AudioEffect.Descriptor getDescriptor() {
-        return _Effect.getDescriptor();
-    }
-
-    private void invokeSetParameter(int parameter, byte[] value)
+    private void invokeCommand(int command, byte[] value, byte[] result)
             throws IllegalAccessException, InvocationTargetException {
         try {
-            _SetParameter.invoke(_Effect, parameter, value);
+            _SendCommand.invoke(_Effect, command, value, result);
         } catch (IllegalAccessException e) {
             // TODO : Log Exception
             throw e;

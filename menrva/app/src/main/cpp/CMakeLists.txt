@@ -54,7 +54,7 @@ set_target_properties(
 )
 
 aux_source_directory(
-        messages
+        commands/messages
         MESSAGES_SOURCES
 )
 add_library(
@@ -114,7 +114,7 @@ target_include_directories(
         PRIVATE
         ${FFTW_OUTPUT_DIR}/include
         ${KISSFFT_OUTPUT_DIR}/include
-        ${PROTOBUF_OUTPUT_DIR}/../jni/src
+        ${PROTOBUF_OUTPUT_DIR}/include
 )
 target_link_libraries(
         MenrvaEngine

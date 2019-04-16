@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package messages;
 
-option java_package = "com.monkeystable.menrva.messages";
+option java_package = "com.monkeystable.menrva.commands.messages";
 option java_outer_classname = "Engine_GetVersion";
 
 message Engine_GetVersion_Request { }
