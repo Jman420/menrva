@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@ import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite;
-import com.monkeystable.menrva.commands.MenrvaCommand;
+import com.monkeystable.menrva.commands.base.MenrvaCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -96,9 +96,9 @@ public class AudioEffectInterface {
         byte[] requestBytes = message.getRequest().toByteArray();
         byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
         int responseLength = invokeCommand(message.getCommand(), requestBytes, responseBuffer);
-        if (responseLength >= MAX_RESPONSE_SIZE) {
+        if (responseLength > responseBuffer.length) {
             String exceptionMsg = String.format(Locale.US,"Response Buffer Overflow.  Response Length %d exceeds Max Length %d.",
-                    responseLength, MAX_RESPONSE_SIZE);
+                    responseLength, responseBuffer.length);
             // TODO : Log Exception
             throw new InvalidProtocolBufferException(exceptionMsg);
         }

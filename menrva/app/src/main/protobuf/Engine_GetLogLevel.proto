@@ -21,12 +21,10 @@ syntax = "proto3";
 package messages;
 
 option java_package = "com.monkeystable.menrva.commands.messages";
-option java_outer_classname = "Engine_GetVersion";
+option java_outer_classname = "Engine_GetLogLevel";
 
-message Engine_GetVersion_Request { }
+message Engine_GetLogLevel_Request { }
 
-message Engine_GetVersion_Response {
-    int32 major = 1;
-    int32 minor = 2;
-    int32 patch = 3;
+message Engine_GetLogLevel_Response {
+    int32 LogLevel = 1;
 }

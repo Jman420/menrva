@@ -18,6 +18,7 @@
 
 package com.monkeystable.menrva.commands;
 
+import com.monkeystable.menrva.commands.base.MenrvaCommand;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Request;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Response;
 
