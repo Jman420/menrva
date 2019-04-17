@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,6 +18,13 @@
 
 package com.monkeystable.menrva.commands;
 
-public enum EngineCommands {
-    GET_VERSION,
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Request;
+import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Response;
+
+public class <CommandName>
+        extends MenrvaCommand<<CommandName>_Request, <CommandName>_Response> {
+    public <CommandName>() {
+        super(MenrvaCommands.<CommandName>.ordinal(), <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
+    }
 }

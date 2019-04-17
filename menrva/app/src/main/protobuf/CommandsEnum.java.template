@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,13 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ENGINECOMMANDS_H
-#define MENRVA_ENGINECOMMANDS_H
+package com.monkeystable.menrva.commands;
 
-#import "../aosp/aosp_audio_effect_defs.h"
-
-enum EngineCommands {
-    GET_VERSION = EFFECT_CMD_FIRST_PROPRIETARY,
-};
-
-#endif //MENRVA_ENGINECOMMANDS_H
+public enum MenrvaCommands {
+    <CommandName>
+}
