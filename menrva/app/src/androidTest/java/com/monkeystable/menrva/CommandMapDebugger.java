@@ -40,12 +40,15 @@ public class CommandMapDebugger {
     public void debug1Engine_GetVersion()
             throws InvalidProtocolBufferException {
         Engine_GetVersion.Engine_GetVersion_Request request = Engine_GetVersion.Engine_GetVersion_Request.newBuilder().build();
+        Engine_GetVersion.Engine_GetVersion_Response response = Engine_GetVersion.Engine_GetVersion_Response.newBuilder().build();
         byte[] requestBytes = request.toByteArray();
-        byte[] responseBytes = submitEngine_GetVersion(requestBytes, request.getSerializedSize());
+        byte[] responseBytes = new byte[2];
+        int responseLength = 0;
+        submitEngine_GetVersion(requestBytes, requestBytes.length, responseBytes, responseLength);
 
-        Engine_GetVersion.Engine_GetVersion_Response response = Engine_GetVersion.Engine_GetVersion_Response.parseFrom(responseBytes);
+        response = Engine_GetVersion.Engine_GetVersion_Response.parseFrom(responseBytes);
         int debug = 0;
     }
 
-    public native byte[] submitEngine_GetVersion(byte[] requestBytes, int requestSize);
+    public native void submitEngine_GetVersion(byte[] requestBytes, int requestLength, byte[] responseBytes, int responseLength);
 }

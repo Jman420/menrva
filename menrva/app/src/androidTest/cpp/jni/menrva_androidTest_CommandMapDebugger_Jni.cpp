@@ -23,20 +23,17 @@
 #include "../../../main/cpp/commands/engine_commands.h"
 
 extern "C"
-JNIEXPORT jbyteArray JNICALL
-Java_com_monkeystable_menrva_CommandMapDebugger_submitEngine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray request_, jint requestSize) {
+JNIEXPORT void JNICALL
+Java_com_monkeystable_menrva_CommandMapDebugger_submitEngine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBytes_, jint responseLength_) {
     effect_handle_t menrvaEffectHandle = nullptr;
     MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
 
-    uint32_t responseSize = 0;
+    jbyte *requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
+
     char* responseBytes = new char();
-    jbyte *request = env->GetByteArrayElements(request_, NULL);
-    MenrvaCommandMap::Process(menrvaEngineContext, EngineCommands::GET_VERSION, static_cast<uint32_t>(requestSize), request, &responseSize, responseBytes);
+    auto responseLength = static_cast<uint32_t>(responseLength_);
+    MenrvaCommandMap::Process(menrvaEngineContext, EngineCommands::GET_VERSION, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBytes);
 
-    jbyteArray responseArray = env->NewByteArray(responseSize);
-    env->SetByteArrayRegion(responseArray, 0, responseSize, reinterpret_cast<const jbyte *>(responseBytes));
-
-    env->ReleaseByteArrayElements(request_, request, 0);
-    return responseArray;
+    env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
 }

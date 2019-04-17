@@ -27,9 +27,13 @@ import com.monkeystable.menrva.commands.MenrvaCommand;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.UUID;
 
 public class AudioEffectInterface {
+    private static final int MAX_RESPONSE_SIZE = 128;
+
     private static boolean _Initialized = false;
     private static Constructor _Constructor;
     private static Method _SendCommand;
@@ -90,17 +94,25 @@ public class AudioEffectInterface {
     public MessageLite sendCommand(MenrvaCommand message)
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
         byte[] requestBytes = message.getRequest().toByteArray();
-        byte[] responseBytes = new byte[message.getResponse().getSerializedSize()];
-        invokeCommand(message.getCommand(), requestBytes, responseBytes);
+        byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
+        int responseLength = invokeCommand(message.getCommand(), requestBytes, responseBuffer);
+        if (responseLength >= MAX_RESPONSE_SIZE) {
+            String exceptionMsg = String.format(Locale.US,"Response Buffer Overflow.  Response Length %d exceeds Max Length %d.",
+                    responseLength, MAX_RESPONSE_SIZE);
+            // TODO : Log Exception
+            throw new InvalidProtocolBufferException(exceptionMsg);
+        }
 
+        byte[] responseBytes = Arrays.copyOfRange(responseBuffer, 0, responseLength);
         message.setResponse(message.getResponse().getParserForType().parseFrom(responseBytes));
+
         return message.getResponse();
     }
 
-    private void invokeCommand(int command, byte[] value, byte[] result)
+    private int invokeCommand(int command, byte[] value, byte[] result)
             throws IllegalAccessException, InvocationTargetException {
         try {
-            _SendCommand.invoke(_Effect, command, value, result);
+            return (int)_SendCommand.invoke(_Effect, command, value, result);
         } catch (IllegalAccessException e) {
             // TODO : Log Exception
             throw e;
