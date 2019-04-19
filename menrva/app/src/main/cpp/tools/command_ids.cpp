@@ -16,15 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.commands;
+#include "command_ids.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
-import com.monkeystable.menrva.abstracts.MenrvaCommand;
-import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Request;
-import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Response;
-
-public class <CommandName>_Command
-        extends MenrvaCommand<<CommandName>_Request, <CommandName>_Response> {
-    public <CommandName>_Command() {
-        super(MenrvaCommands.<CommandName>.ordinal(), <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
-    }
+uint32_t CommandIds::Calculate(MenrvaCommands command) {
+    return EFFECT_CMD_FIRST_PROPRIETARY + command;
 }

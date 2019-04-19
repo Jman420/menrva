@@ -20,20 +20,25 @@
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/module_interface.h"
 #include "../../../main/cpp/engine/command_map.h"
-#include "../../../main/cpp/commands/engine_commands.h"
+#include "../../../main/cpp/commands/menrva_commands_enum.h"
+#include "../../../main/cpp/tools/command_ids.h"
 
 extern "C"
-JNIEXPORT void JNICALL
-Java_com_monkeystable_menrva_CommandMapDebugger_submitEngine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBytes_, jint responseLength_) {
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_CommandMapDebugger_submitEngine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
     MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
 
-    jbyte *requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
+    jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
+    jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
-    char* responseBytes = new char();
-    auto responseLength = static_cast<uint32_t>(responseLength_);
-    MenrvaCommandMap::Process(menrvaEngineContext, EngineCommands::GET_VERSION, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBytes);
+    uint32_t responseLength = 0;
+    uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
+    MenrvaCommandMap::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
+    env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
+
+    return responseLength;
 }

@@ -26,18 +26,18 @@ $JavaCommandEnumFile = "$JavaOutputCommandDir/$CommandEnumFileName$JavaFileExten
 $CommandClassFileSuffix = "_Command"
 
 Write-Output "Removing Output Directories..."
-if (Test-Path $CppOutputCommandDir) {
-    Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
-    Remove-Item $CppOutputCommandDir -Force -Recurse
-}
+#if (Test-Path $CppOutputCommandDir) {
+#    Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
+#    Remove-Item $CppOutputCommandDir -Force -Recurse
+#}
 if (Test-Path $JavaOutputCommandDir) {
     Write-Output "Removing Java Output Directory : $JavaOutputCommandDir ..."
     Remove-Item $JavaOutputCommandDir -Force -Recurse
 }
 
-Write-Output "Creating C++ Output Directories..."
-New-Item -ItemType directory -Force -Path $CppOutputCommandDir
-New-Item -ItemType directory -Force -Path $CppOutputMessageDir
+#Write-Output "Creating C++ Output Directories..."
+#New-Item -ItemType directory -Force -Path $CppOutputCommandDir
+#New-Item -ItemType directory -Force -Path $CppOutputMessageDir
 Write-Output "Creating Java Output Directories..."
 New-Item -ItemType directory -Force -Path $JavaOutputCommandDir
 New-Item -ItemType directory -Force -Path $JavaOutputMessageDir
@@ -61,7 +61,7 @@ foreach ($protoFile in $protobufFiles) {
     --java_out="lite:$JavaSourceDir" `
     "$protoFile"
   
-  Write-Output "Compiling Java Command File : $JavaOutputCommandDir/$javaCommandFileName"
+  Write-Output "Generating Java Command File : $JavaOutputCommandDir/$javaCommandFileName"
   $javaCommandFile = $javaCommandClassTemplate.Replace($TemplateCommandNameField, $commandName)
   Out-File -Force -FilePath "$JavaOutputCommandDir/$javaCommandFileName" -InputObject $javaCommandFile -Encoding ASCII
   
@@ -73,8 +73,8 @@ $commandName,
   $javaCommandEnum = $javaCommandEnum.Replace($TemplateCommandNameField, $enumCommandNameReplacement)
 }
 
-Write-Output "Compiling Java Command Enum File : $JavaCommandEnumFile"
+Write-Output "Generating Java Command Enum File : $JavaCommandEnumFile"
 $javaCommandEnum = (($javaCommandEnum -Split "`n") | ? {$_ -NotMatch "$TemplateCommandNameField"}) -Join "`n"
 Out-File -Force -FilePath "$JavaCommandEnumFile" -InputObject $javaCommandEnum -Encoding ASCII
 
-Write-Output "Successfully Protobuf Message & Command Files!"
+Write-Output "Successfully Generated Protobuf Message & Command Files!"

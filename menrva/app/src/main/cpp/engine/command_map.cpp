@@ -18,8 +18,10 @@
 
 #include <cerrno>
 #include "command_map.h"
-#include "../commands/engine_commands.h"
+#include "../commands/menrva_commands_enum.h"
 #include "../commands/messages/Engine_GetVersion.pb.h"
+#include "../commands/Engine_GetVersion_Command.h"
+#include "../tools/command_ids.h"
 
 const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
 ServiceLocator* MenrvaCommandMap::_ServiceLocator = new ServiceLocator();
@@ -34,7 +36,7 @@ const function_map MenrvaCommandMap::COMMAND_MAP = {
         { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
         { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
         { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
-        { EngineCommands::GET_VERSION, &MenrvaCommandMap::GetVersion },
+        { CommandIds::Calculate(MenrvaCommands::Engine_GetVersion), &MenrvaCommandMap::GetVersion },
 };
 
 int MenrvaCommandMap::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
@@ -276,15 +278,15 @@ int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize _
 
 int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused cmdSize, void* __unused pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response response = messages::Engine_GetVersion_Response();
+    Engine_GetVersion_Command command;
+    messages::Engine_GetVersion_Response& response = *command.GetResponse();
     response.set_major(MENRVA_ENGINE_MAJOR);
     response.set_minor(MENRVA_ENGINE_MINOR);
     response.set_patch(MENRVA_ENGINE_PATCH);
 
     _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
-    int responseSize = response.ByteSize();
-    *(char*)pReplyData = *new char[responseSize];
-    response.SerializeToArray(static_cast<char*>(pReplyData), responseSize);
+    int responseSize = 0;
+    *(int8_t*)pReplyData = *command.SerializeResponse(&responseSize);
     *replySize = static_cast<uint32_t>(responseSize);
 
     _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);

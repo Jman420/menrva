@@ -57,6 +57,10 @@ aux_source_directory(
         commands/messages
         MESSAGES_SOURCES
 )
+aux_source_directory(
+        commands
+        COMMANDS_SOURCES
+)
 add_library(
         MenrvaEngine
         SHARED
@@ -76,6 +80,7 @@ add_library(
         tools/buffer.cpp
         tools/conversion_buffer.cpp
         tools/wave_generator.cpp
+        tools/command_ids.cpp
 
         audio/audio_buffer.cpp
         audio/audio_input_buffer.cpp
@@ -108,6 +113,7 @@ add_library(
         jni/menrva_service_JniInterface.cpp
 
         ${MESSAGES_SOURCES}
+        ${COMMANDS_SOURCES}
 )
 target_include_directories(
         MenrvaEngine
@@ -135,8 +141,14 @@ add_library(
         ${TEST_SRC_DIR}/jni/menrva_androidTest_CommandMapDebugger_Jni.cpp
         ${TEST_SRC_DIR}/tools/engine_debugging.cpp
 )
+target_include_directories(
+        MenrvaEngineTest
+        PRIVATE
+        ${PROTOBUF_OUTPUT_DIR}/include
+)
 target_link_libraries(
         MenrvaEngineTest
 
         MenrvaEngine
+        libprotobuf-lite
 )

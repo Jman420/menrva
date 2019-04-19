@@ -22,7 +22,7 @@ import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite;
-import com.monkeystable.menrva.commands.base.MenrvaCommand;
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

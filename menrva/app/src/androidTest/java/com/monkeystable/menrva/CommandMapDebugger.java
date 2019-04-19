@@ -43,12 +43,12 @@ public class CommandMapDebugger {
         Engine_GetVersion.Engine_GetVersion_Response response = Engine_GetVersion.Engine_GetVersion_Response.newBuilder().build();
         byte[] requestBytes = request.toByteArray();
         byte[] responseBytes = new byte[2];
-        int responseLength = 0;
-        submitEngine_GetVersion(requestBytes, requestBytes.length, responseBytes, responseLength);
 
-        response = Engine_GetVersion.Engine_GetVersion_Response.parseFrom(responseBytes);
+        int responseLength = submitEngine_GetVersion(requestBytes, requestBytes.length, responseBytes);
+        response = response.getParserForType().parseFrom(responseBytes);
+
         int debug = 0;
     }
 
-    public native void submitEngine_GetVersion(byte[] requestBytes, int requestLength, byte[] responseBytes, int responseLength);
+    public native int submitEngine_GetVersion(byte[] requestBytes, int requestLength, byte[] responseBuffer);
 }

@@ -16,15 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.commands;
+#ifndef MENRVA_COMMAND_IDS_H
+#define MENRVA_COMMAND_IDS_H
 
-import com.monkeystable.menrva.abstracts.MenrvaCommand;
-import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Request;
-import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Response;
+#include <cstdint>
+#include "../commands/menrva_commands_enum.h"
 
-public class <CommandName>_Command
-        extends MenrvaCommand<<CommandName>_Request, <CommandName>_Response> {
-    public <CommandName>_Command() {
-        super(MenrvaCommands.<CommandName>.ordinal(), <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
-    }
-}
+class CommandIds {
+public:
+    static uint32_t Calculate(MenrvaCommands command);
+};
+
+#endif //MENRVA_COMMAND_IDS_H

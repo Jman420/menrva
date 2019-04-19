@@ -23,7 +23,7 @@ import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.monkeystable.menrva.commands.Engine_GetVersion;
+import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Response;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
@@ -79,7 +79,7 @@ public class DebugActivity extends AppCompatActivity {
             e.printStackTrace();
         }
 
-        Engine_GetVersion getEngineVersionCmd = new Engine_GetVersion();
+        Engine_GetVersion_Command getEngineVersionCmd = new Engine_GetVersion_Command();
         try {
             _AudioEffect.sendCommand(getEngineVersionCmd);
         } catch (InvocationTargetException e) {
