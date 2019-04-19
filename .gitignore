@@ -69,5 +69,5 @@ artifacts/*
 *.mp3
 
 # Ignore Protobuf Generated Source Files
-menrva/app/src/main/cpp/commands/*
-menrva/app/src/main/java/com/monkeystable/menrva/commands/*
+menrva/app/src/main/cpp/commands/
+menrva/app/src/main/java/com/monkeystable/menrva/commands/
