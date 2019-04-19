@@ -23,6 +23,7 @@ $JavaCommandEnumTemplateFile = "$ProtobufSourceDir/CommandsEnum.java.template"
 $JavaFileExtension = ".java"
 $CommandEnumFileName = "MenrvaCommands"
 $JavaCommandEnumFile = "$JavaOutputCommandDir/$CommandEnumFileName$JavaFileExtension"
+$CommandClassFileSuffix = "_Command"
 
 Write-Output "Removing Output Directories..."
 if (Test-Path $CppOutputCommandDir) {
@@ -51,7 +52,7 @@ $protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern" 
 foreach ($protoFile in $protobufFiles) {
   Write-Output "Initializing for Protobuf File : $protoFile"
   $commandName = (Split-Path $protoFile -Leaf).Replace($ProtobufFileExtension, "")
-  $javaCommandFileName = $commandName + $JavaFileExtension
+  $javaCommandFileName = $commandName + $CommandClassFileSuffix + $JavaFileExtension
 
   Write-Output "Compiling Protobuf File : $protoFile"
   . $ProtocExe `
@@ -62,7 +63,7 @@ foreach ($protoFile in $protobufFiles) {
   
   Write-Output "Compiling Java Command File : $JavaOutputCommandDir/$javaCommandFileName"
   $javaCommandFile = $javaCommandClassTemplate.Replace($TemplateCommandNameField, $commandName)
-  Out-File -Force -FilePath "$JavaOutputCommandDir/$javaCommandFileName" -InputObject $javaCommandFile
+  Out-File -Force -FilePath "$JavaOutputCommandDir/$javaCommandFileName" -InputObject $javaCommandFile -Encoding ASCII
   
   Write-Output "Adding Entry to Java Command Enum for : $commandName"
   $enumCommandNameReplacement = @"
@@ -74,7 +75,6 @@ $commandName,
 
 Write-Output "Compiling Java Command Enum File : $JavaCommandEnumFile"
 $javaCommandEnum = (($javaCommandEnum -Split "`n") | ? {$_ -NotMatch "$TemplateCommandNameField"}) -Join "`n"
-Out-File -Force -FilePath "$JavaCommandEnumFile" -InputObject $javaCommandEnum
+Out-File -Force -FilePath "$JavaCommandEnumFile" -InputObject $javaCommandEnum -Encoding ASCII
 
 Write-Output "Successfully Protobuf Message & Command Files!"
-
