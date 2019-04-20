@@ -24,18 +24,18 @@ import com.monkeystable.menrva.commands.MenrvaCommands;
 public abstract class MenrvaCommand<TRequest extends MessageLite, TResponse extends MessageLite> {
     static private final int FIRST_PROPRIETARY_CMD = 0x10000;
 
-    private int _Command;
+    private int _CommandId;
     private TRequest _Request;
     private TResponse _Response;
 
     public MenrvaCommand(MenrvaCommands command, TRequest request, TResponse response) {
-        _Command = FIRST_PROPRIETARY_CMD + command.ordinal() - 1;  // ordinal() is 1 indexed
+        _CommandId = FIRST_PROPRIETARY_CMD + command.ordinal();
         _Request = request;
         _Response = response;
     }
 
-    public int getCommand() {
-        return _Command;
+    public int getCommandId() {
+        return _CommandId;
     }
 
     public TRequest getRequest() {

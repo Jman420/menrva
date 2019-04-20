@@ -95,7 +95,7 @@ public class AudioEffectInterface {
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
         byte[] requestBytes = message.getRequest().toByteArray();
         byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
-        int responseLength = invokeCommand(message.getCommand(), requestBytes, responseBuffer);
+        int responseLength = invokeCommand(message.getCommandId(), requestBytes, responseBuffer);
         if (responseLength > responseBuffer.length) {
             String exceptionMsg = String.format(Locale.US,"Response Buffer Overflow.  Response Length %d exceeds Max Length %d.",
                     responseLength, responseBuffer.length);
