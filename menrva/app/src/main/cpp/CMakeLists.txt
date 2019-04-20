@@ -139,6 +139,7 @@ add_library(
 
         ${TEST_SRC_DIR}/jni/menrva_androidTest_EngineDebugger_Jni.cpp
         ${TEST_SRC_DIR}/jni/menrva_androidTest_CommandMapDebugger_Jni.cpp
+        ${TEST_SRC_DIR}/jni/menrva_androidTest_EngineInterface_Jni.cpp
         ${TEST_SRC_DIR}/tools/engine_debugging.cpp
 )
 target_include_directories(

@@ -21,10 +21,16 @@ package com.monkeystable.menrva;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
+import com.monkeystable.menrva.utilities.AudioEffectInterface;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.Arrays;
+import java.util.Locale;
 
 /* Instrumented test, which will execute on an Android device.
  *
@@ -39,16 +45,33 @@ public class CommandMapDebugger {
     @Test
     public void debug1Engine_GetVersion()
             throws InvalidProtocolBufferException {
-        Engine_GetVersion.Engine_GetVersion_Request request = Engine_GetVersion.Engine_GetVersion_Request.newBuilder().build();
-        Engine_GetVersion.Engine_GetVersion_Response response = Engine_GetVersion.Engine_GetVersion_Response.newBuilder().build();
-        byte[] requestBytes = request.toByteArray();
-        byte[] responseBytes = new byte[2];
+        Engine_GetVersion_Command command = new Engine_GetVersion_Command();
+        byte[] requestBytes = command.getRequest().toByteArray();
+        byte[] responseBuffer = new byte[AudioEffectInterface.MAX_RESPONSE_SIZE];
 
-        int responseLength = submitEngine_GetVersion(requestBytes, requestBytes.length, responseBytes);
-        response = response.getParserForType().parseFrom(responseBytes);
+        int responseLength = submitEngine_GetVersion(requestBytes, requestBytes.length, responseBuffer);
+        byte[] responseBytes = trimResponseBuffer(responseBuffer, responseLength);
+        Engine_GetVersion.Engine_GetVersion_Response response = command.getResponse().getParserForType().parseFrom(responseBytes);
 
-        int debug = 0;
+        int realMajor = EngineInterface.GetMajorVersion();
+        int realMinor = EngineInterface.GetMinorVersion();
+        int realPatch = EngineInterface.GetPatchVersion();
+
+        Assert.assertEquals(realMajor, response.getMajor());
+        Assert.assertEquals(realMinor, response.getMinor());
+        Assert.assertEquals(realPatch, response.getPatch());
     }
 
     public native int submitEngine_GetVersion(byte[] requestBytes, int requestLength, byte[] responseBuffer);
+
+    private byte[] trimResponseBuffer(byte[] buffer, int responseLength)
+            throws InvalidProtocolBufferException {
+        if (responseLength > buffer.length) {
+            String exceptionMsg = String.format(Locale.US,"Response Buffer Overflow.  Response Length %d exceeds Max Length %d.",
+                    responseLength, buffer.length);
+            throw new InvalidProtocolBufferException(exceptionMsg);
+        }
+
+        return Arrays.copyOfRange(buffer, 0, responseLength);
+    }
 }

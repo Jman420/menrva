@@ -31,7 +31,7 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class AudioEffectInterface {
-    private static final int MAX_RESPONSE_SIZE = 128;
+    public static final int MAX_RESPONSE_SIZE = 128;
 
     private static boolean _Initialized = false;
     private static Constructor _Constructor;
