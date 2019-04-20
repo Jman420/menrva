@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "convolution_operations_base.h"
+#include "MultiChannelEffectBase.h"
+#include <utility>
 
-void ConvolutionOperationsBase::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
-    SumAndScale(bufferA, bufferB, output, 1.0);
-}
+MultiChannelEffectBase::MultiChannelEffectBase(std::string name)
+    : EffectBase(std::move(name)) { }

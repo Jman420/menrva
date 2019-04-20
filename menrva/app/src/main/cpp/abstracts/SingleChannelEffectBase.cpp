@@ -16,35 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
-#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#include "SingleChannelEffectBase.h"
+#include <utility>
 
-#include "audio_buffer.h"
-#include "sample.h"
-
-class AudioComponentsBuffer {
-public:
-    AudioComponentsBuffer();
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length);
-    ~AudioComponentsBuffer();
-
-    void CreateData(FftInterfaceBase* fftEngine, size_t length);
-
-    size_t GetLength();
-    sample* GetRealData();
-    sample* GetImagData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
-
-    void SetRealValue(size_t index, sample value);
-    void SetImagValue(size_t index, sample value);
-
-    void ResetData();
-
-private:
-    size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
-};
-
-#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H
+SingleChannelEffectBase::SingleChannelEffectBase(std::string name)
+    : EffectBase(std::move(name)) { }

@@ -21,10 +21,10 @@
 
 #include <string>
 #include <cmath>
-#include "../abstracts/logging_base.h"
-#include "../abstracts/fft_interface_base.h"
-#include "../audio/sample.h"
-#include "../audio/audio_buffer.h"
+#include "../abstracts/LoggingBase.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../audio/Sample.h"
+#include "../audio/AudioBuffer.h"
 
 class FirGenerator : public LoggingBase {
 public:

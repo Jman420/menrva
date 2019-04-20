@@ -19,7 +19,7 @@
 #include <jni.h>
 #include "../tools/test_helper.h"
 #include "../tools/engine_debugging.h"
-#include "../../../main/cpp/audio/sample.h"
+#include "../../../main/cpp/audio/Sample.h"
 #include "../../../main/cpp/tools/service_locator.h"
 #include "../../../main/cpp/ir/fir_generator.h"
 #include "../../../main/cpp/effects/bass_boost.h"

@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audio_input_buffer.h"
+#include "AudioInputBuffer.h"
 #include "../tools/conversion_buffer.cpp"
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)

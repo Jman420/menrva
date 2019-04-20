@@ -16,23 +16,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_EFFECT_BASE_H
-#define MENRVA_EFFECT_BASE_H
+#ifndef MENRVA_FFT_INTERFACE_BASE_H
+#define MENRVA_FFT_INTERFACE_BASE_H
 
-#include <string>
-#include "../aosp/aosp_audio_effect_defs.h"
-#include "../audio/audio_buffer.h"
+#include "../audio/Sample.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
-class EffectBase {
+class FftInterfaceBase {
 public:
-    const std::string NAME;
-    bool Enabled;
+    explicit FftInterfaceBase();
+    virtual ~FftInterfaceBase() = default;
 
-    explicit EffectBase(std::string name);
-    virtual ~EffectBase() = default;
+    size_t Initialize(size_t signalSize);
+    size_t GetSignalSize();
+    size_t GetComponentSize();
 
-    virtual void ResetBuffers(sample sampleRate, size_t audioFrameLength);
-    virtual void ConfigureSetting(char* settingName, void* value) = 0;
+    virtual size_t Initialize(size_t signalSize, size_t componentSize);
+    virtual void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) = 0;
+    virtual void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) = 0;
+    virtual sample* Allocate(size_t size);
+    virtual void Deallocate(sample* data);
+
+protected:
+    size_t _SignalSize,
+           _ComponentSize;
 };
 
-#endif //MENRVA_EFFECT_BASE_H
+#endif //MENRVA_FFT_INTERFACE_BASE_H

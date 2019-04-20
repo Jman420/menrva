@@ -20,8 +20,8 @@
 #define MENRVA_KISSFFT_INTERFACE_H
 
 #include <map>
-#include "../abstracts/fft_interface_base.h"
-#include "../abstracts/logging_base.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../abstracts/LoggingBase.h"
 #include "kissfft_functions.h"
 
 typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;

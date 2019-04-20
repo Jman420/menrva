@@ -20,8 +20,8 @@
 #define MENRVA_KFR_INTERFACE_H
 
 #include <kfr/dft.hpp>
-#include "../abstracts/fft_interface_base.h"
-#include "../abstracts/logging_base.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../abstracts/LoggingBase.h"
 
 using namespace kfr;
 

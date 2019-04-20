@@ -17,7 +17,7 @@
  */
 
 #include <utility>
-#include "logging_base.h"
+#include "LoggingBase.h"
 
 const std::string LoggingBase::COLONS = "::";
 

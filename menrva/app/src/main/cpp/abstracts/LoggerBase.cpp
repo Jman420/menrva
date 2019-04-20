@@ -17,7 +17,7 @@
  */
 
 #include <utility>
-#include "logger_base.h"
+#include "LoggerBase.h"
 
 const log_level_map LoggerBase::LOG_LEVEL_MAP = {
         { "Fatal", LogLevel::FATAL },

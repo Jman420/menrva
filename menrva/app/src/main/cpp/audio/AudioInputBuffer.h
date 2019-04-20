@@ -20,11 +20,11 @@
 #define MENRVA_AUDIO_INPUT_BUFFER_H
 
 #include <cstdint>
-#include "audio_format.h"
-#include "sample.h"
+#include "AudioFormat.h"
+#include "Sample.h"
 #include "../tools/conversion_buffer.h"
-#include "../abstracts/logging_base.h"
-#include "../abstracts/audio_io_buffer_base.h"
+#include "../abstracts/LoggingBase.h"
+#include "../abstracts/AudioIOBufferBase.h"
 
 union audio_input_buffer_u {
     ConversionBuffer<int16_t, sample>* PCM_16;

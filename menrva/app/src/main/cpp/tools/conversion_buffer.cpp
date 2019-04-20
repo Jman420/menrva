@@ -18,7 +18,7 @@
 
 #include "conversion_buffer.h"
 #include "buffer.cpp"
-#include "../audio/sample.h"
+#include "../audio/Sample.h"
 
 template<class TInputType, class TOutputType>
 ConversionBuffer<TInputType, TOutputType>::ConversionBuffer(){

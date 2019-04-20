@@ -20,7 +20,7 @@
 #define MENRVA_WAVE_GENERATOR_CONSTANTS_H
 
 #include <cmath>
-#include "../audio/sample.h"
+#include "../audio/Sample.h"
 
 class WaveGeneratorConstants {
 public:

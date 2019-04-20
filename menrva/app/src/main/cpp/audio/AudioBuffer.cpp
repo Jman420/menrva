@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audio_buffer.h"
+#include "AudioBuffer.h"
 #include "../tools/buffer.cpp"
-#include "../abstracts/fft_interface_base.h"
+#include "../abstracts/FftInterfaceBase.h"
 
 AudioBuffer::AudioBuffer() {
     _FftEngine = nullptr;

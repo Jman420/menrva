@@ -19,7 +19,7 @@
 #ifndef MENRVA_AUDIO_BUFFER_H
 #define MENRVA_AUDIO_BUFFER_H
 
-#include "sample.h"
+#include "Sample.h"
 #include "../tools/buffer.h"
 
 class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h

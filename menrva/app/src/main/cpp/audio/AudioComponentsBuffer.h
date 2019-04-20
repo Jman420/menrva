@@ -16,31 +16,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_FFT_INTERFACE_BASE_H
-#define MENRVA_FFT_INTERFACE_BASE_H
+#ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
+#define MENRVA_AUDIO_COMPONENTS_BUFFER_H
 
-#include "../audio/sample.h"
-#include "../audio/audio_buffer.h"
-#include "../audio/audio_components_buffer.h"
+#include "AudioBuffer.h"
+#include "Sample.h"
 
-class FftInterfaceBase {
+class AudioComponentsBuffer {
 public:
-    explicit FftInterfaceBase();
-    virtual ~FftInterfaceBase() = default;
+    AudioComponentsBuffer();
+    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length);
+    ~AudioComponentsBuffer();
 
-    size_t Initialize(size_t signalSize);
-    size_t GetSignalSize();
-    size_t GetComponentSize();
+    void CreateData(FftInterfaceBase* fftEngine, size_t length);
 
-    virtual size_t Initialize(size_t signalSize, size_t componentSize);
-    virtual void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) = 0;
-    virtual void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) = 0;
-    virtual sample* Allocate(size_t size);
-    virtual void Deallocate(sample* data);
+    size_t GetLength();
+    sample* GetRealData();
+    sample* GetImagData();
+    AudioBuffer* GetRealBuffer();
+    AudioBuffer* GetImagBuffer();
 
-protected:
-    size_t _SignalSize,
-           _ComponentSize;
+    void SetRealValue(size_t index, sample value);
+    void SetImagValue(size_t index, sample value);
+
+    void ResetData();
+
+private:
+    size_t _Length;
+    AudioBuffer* _RealBuffer;
+    AudioBuffer* _ImagBuffer;
 };
 
-#endif //MENRVA_FFT_INTERFACE_BASE_H
+#endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H

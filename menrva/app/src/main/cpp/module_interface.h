@@ -21,10 +21,10 @@
 
 #include "aosp/aosp_audio_effect_defs.h"
 #include "tools/service_locator.h"
-#include "abstracts/logger_base.h"
+#include "abstracts/LoggerBase.h"
 #include "engine/effects_engine.h"
-#include "audio/audio_input_buffer.h"
-#include "audio/audio_output_buffer.h"
+#include "audio/AudioInputBuffer.h"
+#include "audio/AudioOutputBuffer.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,

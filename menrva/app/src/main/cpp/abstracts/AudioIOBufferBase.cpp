@@ -16,8 +16,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "multi_channel_effect_base.h"
-#include <utility>
+#include "AudioIOBufferBase.h"
 
-MultiChannelEffectBase::MultiChannelEffectBase(std::string name)
-    : EffectBase(std::move(name)) { }
+uint32_t AudioIOBufferBase::GetChannelLength() {
+    return _ChannelLength;
+}
+
+size_t AudioIOBufferBase::GetSampleLength() {
+    return _SampleLength;
+}
+
+size_t AudioIOBufferBase::GetBufferLength() {
+    return _SampleLength * _ChannelLength;
+}
+
+void AudioIOBufferBase::SetData(uint32_t channelLength, size_t sampleLength) {
+    _ChannelLength = channelLength;
+    _SampleLength = sampleLength;
+}
+
+size_t AudioIOBufferBase::CalculateBufferIndex(uint32_t channelLength, uint32_t channelIndex, size_t sampleIndex) {
+    return (sampleIndex * channelLength) + channelIndex;
+}

@@ -19,7 +19,7 @@
 #ifndef MENRVA_SINGLE_CHANNEL_EFFECT_BASE_H
 #define MENRVA_SINGLE_CHANNEL_EFFECT_BASE_H
 
-#include "effect_base.h"
+#include "EffectBase.h"
 
 class SingleChannelEffectBase : public EffectBase {
 public:

@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audio_output_buffer.h"
+#include "AudioOutputBuffer.h"
 #include "../tools/buffer.cpp"
 
 AudioOutputBuffer::AudioOutputBuffer(LoggerBase* logger)

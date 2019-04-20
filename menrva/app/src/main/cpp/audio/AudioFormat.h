@@ -16,25 +16,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audio_io_buffer_base.h"
+#ifndef MENRVA_AUDIO_FORMAT_H
+#define MENRVA_AUDIO_FORMAT_H
 
-uint32_t AudioIOBufferBase::GetChannelLength() {
-    return _ChannelLength;
-}
+#include "Sample.h"
 
-size_t AudioIOBufferBase::GetSampleLength() {
-    return _SampleLength;
-}
+enum AudioFormat {
+    PCM_16 = 0x1u,
+    PCM_32 = 0x3u,
+    PCM_Float = 0x5u,
+    Sample,
+};
 
-size_t AudioIOBufferBase::GetBufferLength() {
-    return _SampleLength * _ChannelLength;
-}
+const sample PCM16_FLOAT_SCALAR = 32767.0f,
+             PCM32_FLOAT_SCALAR = 2147483647.0f,
+             PCM_FLOAT_SCALAR = 1.0f;
 
-void AudioIOBufferBase::SetData(uint32_t channelLength, size_t sampleLength) {
-    _ChannelLength = channelLength;
-    _SampleLength = sampleLength;
-}
-
-size_t AudioIOBufferBase::CalculateBufferIndex(uint32_t channelLength, uint32_t channelIndex, size_t sampleIndex) {
-    return (sampleIndex * channelLength) + channelIndex;
-}
+#endif //MENRVA_AUDIO_FORMAT_H

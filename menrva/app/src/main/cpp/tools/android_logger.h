@@ -20,7 +20,7 @@
 #define MENRVA_ANDROID_LOGGER_H
 
 #include <map>
-#include "../abstracts/logger_base.h"
+#include "../abstracts/LoggerBase.h"
 
 class AndroidLogger : public LoggerBase {
 public:

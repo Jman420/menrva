@@ -65,14 +65,14 @@ add_library(
         MenrvaEngine
         SHARED
 
-        abstracts/logger_base.cpp
-        abstracts/logging_base.cpp
-        abstracts/fft_interface_base.cpp
-        abstracts/effect_base.cpp
-        abstracts/convolution_operations_base.cpp
-        abstracts/audio_io_buffer_base.cpp
-        abstracts/single_channel_effect_base.cpp
-        abstracts/multi_channel_effect_base.cpp
+        abstracts/LoggerBase.cpp
+        abstracts/LoggingBase.cpp
+        abstracts/FftInterfaceBase.cpp
+        abstracts/EffectBase.cpp
+        abstracts/ConvolutionOperationsBase.cpp
+        abstracts/AudioIOBufferBase.cpp
+        abstracts/SingleChannelEffectBase.cpp
+        abstracts/MultiChannelEffectBase.cpp
 
         tools/android_logger.cpp
         tools/service_locator.cpp
@@ -82,10 +82,10 @@ add_library(
         tools/wave_generator.cpp
         tools/command_ids.cpp
 
-        audio/audio_buffer.cpp
-        audio/audio_input_buffer.cpp
-        audio/audio_output_buffer.cpp
-        audio/audio_components_buffer.cpp
+        audio/AudioBuffer.cpp
+        audio/AudioInputBuffer.cpp
+        audio/AudioOutputBuffer.cpp
+        audio/AudioComponentsBuffer.cpp
 
         ir/fir_generator.cpp
 

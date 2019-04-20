@@ -16,21 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONVOLUTION_OPERATIONS_BASE_H
-#define MENRVA_CONVOLUTION_OPERATIONS_BASE_H
+#ifndef MENRVA_LOGGING_BASE_H
+#define MENRVA_LOGGING_BASE_H
 
-#include "../audio/audio_buffer.h"
-#include "../audio/audio_components_buffer.h"
+#include <string>
+#include "LoggerBase.h"
 
-class ConvolutionOperationsBase {
+class LoggingBase {
 public:
-    virtual ~ConvolutionOperationsBase() = default;
+    LoggingBase(LoggerBase* logger, std::string prettyFunction);
 
-    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output);
+protected:
+    std::string LOG_SENDER;
+    LoggerBase* _Logger;
 
-    virtual void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) = 0;
-    virtual void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) = 0;
-    virtual void ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) = 0;
+    /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
+     *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();
+     *   Call this method from a Deriving Class Constructor to Initialize LOG_SENDER
+     * prettyFunction - The __PRETTY_FUNCTION__ Constant to parse
+     */
+    void InitializeLogSender(std::string prettyFunction);
+
+private:
+    static const std::string COLONS;
 };
 
-#endif //MENRVA_CONVOLUTION_OPERATIONS_BASE_H
+#endif //MENRVA_LOGGING_BASE_H

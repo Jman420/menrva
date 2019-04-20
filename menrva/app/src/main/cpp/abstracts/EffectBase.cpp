@@ -16,8 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "single_channel_effect_base.h"
 #include <utility>
+#include "EffectBase.h"
 
-SingleChannelEffectBase::SingleChannelEffectBase(std::string name)
-    : EffectBase(std::move(name)) { }
+EffectBase::EffectBase(std::string name)
+    : NAME(std::move(name)) {
+    Enabled = false;
+}
+
+void EffectBase::ResetBuffers(sample sampleRate __unused, size_t audioFrameLength __unused) { }

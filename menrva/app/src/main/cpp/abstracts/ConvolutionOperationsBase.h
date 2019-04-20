@@ -16,12 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <utility>
-#include "effect_base.h"
+#ifndef MENRVA_CONVOLUTION_OPERATIONS_BASE_H
+#define MENRVA_CONVOLUTION_OPERATIONS_BASE_H
 
-EffectBase::EffectBase(std::string name)
-    : NAME(std::move(name)) {
-    Enabled = false;
-}
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
-void EffectBase::ResetBuffers(sample sampleRate __unused, size_t audioFrameLength __unused) { }
+class ConvolutionOperationsBase {
+public:
+    virtual ~ConvolutionOperationsBase() = default;
+
+    void SumAndScale(AudioBuffer &bufferA, AudioBuffer &bufferB, AudioBuffer &output);
+
+    virtual void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) = 0;
+    virtual void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) = 0;
+    virtual void ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) = 0;
+};
+
+#endif //MENRVA_CONVOLUTION_OPERATIONS_BASE_H

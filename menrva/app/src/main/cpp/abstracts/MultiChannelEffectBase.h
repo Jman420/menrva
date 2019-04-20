@@ -16,20 +16,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_FORMAT_H
-#define MENRVA_AUDIO_FORMAT_H
+#ifndef MENRVA_MULTI_CHANNEL_EFFECT_BASE_H
+#define MENRVA_MULTI_CHANNEL_EFFECT_BASE_H
 
-#include "sample.h"
+#include "EffectBase.h"
 
-enum AudioFormat {
-    PCM_16 = 0x1u,
-    PCM_32 = 0x3u,
-    PCM_Float = 0x5u,
-    Sample,
+class MultiChannelEffectBase : public EffectBase {
+public:
+    explicit MultiChannelEffectBase(std::string name);
+
+    virtual void Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) = 0;
 };
 
-const sample PCM16_FLOAT_SCALAR = 32767.0f,
-             PCM32_FLOAT_SCALAR = 2147483647.0f,
-             PCM_FLOAT_SCALAR = 1.0f;
-
-#endif //MENRVA_AUDIO_FORMAT_H
+#endif //MENRVA_MULTI_CHANNEL_EFFECT_BASE_H

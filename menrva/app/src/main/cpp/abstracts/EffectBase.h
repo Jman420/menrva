@@ -16,16 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_MULTI_CHANNEL_EFFECT_BASE_H
-#define MENRVA_MULTI_CHANNEL_EFFECT_BASE_H
+#ifndef MENRVA_EFFECT_BASE_H
+#define MENRVA_EFFECT_BASE_H
 
-#include "effect_base.h"
+#include <string>
+#include "../aosp/aosp_audio_effect_defs.h"
+#include "../audio/AudioBuffer.h"
 
-class MultiChannelEffectBase : public EffectBase {
+class EffectBase {
 public:
-    explicit MultiChannelEffectBase(std::string name);
+    const std::string NAME;
+    bool Enabled;
 
-    virtual void Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) = 0;
+    explicit EffectBase(std::string name);
+    virtual ~EffectBase() = default;
+
+    virtual void ResetBuffers(sample sampleRate, size_t audioFrameLength);
+    virtual void ConfigureSetting(char* settingName, void* value) = 0;
 };
 
-#endif //MENRVA_MULTI_CHANNEL_EFFECT_BASE_H
+#endif //MENRVA_EFFECT_BASE_H

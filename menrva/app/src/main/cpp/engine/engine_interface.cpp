@@ -19,7 +19,7 @@
 #include <cerrno>
 #include "engine_interface.h"
 #include "command_map.h"
-#include "../audio/audio_format.h"
+#include "../audio/AudioFormat.h"
 
 const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 

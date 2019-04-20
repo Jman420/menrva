@@ -19,8 +19,8 @@
 #ifndef MENRVA_BASS_BOOST_H
 #define MENRVA_BASS_BOOST_H
 
-#include "../abstracts/single_channel_effect_base.h"
-#include "../abstracts/logging_base.h"
+#include "../abstracts/SingleChannelEffectBase.h"
+#include "../abstracts/LoggingBase.h"
 #include "../ir/fir_generator.h"
 #include "../convolver/convolver.h"
 

@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "audio_components_buffer.h"
+#include "AudioComponentsBuffer.h"
 
 AudioComponentsBuffer::AudioComponentsBuffer() {
     _Length = 0;

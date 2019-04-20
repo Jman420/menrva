@@ -17,7 +17,7 @@
  */
 
 #include <cstring>
-#include "fft_interface_base.h"
+#include "FftInterfaceBase.h"
 
 FftInterfaceBase::FftInterfaceBase() {
     _SignalSize = 0;

@@ -20,9 +20,9 @@
 #define MENRVA_CONVOLVER_H
 
 #include <cstddef>
-#include "../abstracts/logging_base.h"
-#include "../abstracts/fft_interface_base.h"
-#include "../audio/audio_buffer.h"
+#include "../abstracts/LoggingBase.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../audio/AudioBuffer.h"
 #include "convolution_operations.h"
 
 class Convolver : public LoggingBase {
