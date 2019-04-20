@@ -21,7 +21,6 @@ package com.monkeystable.menrva.utilities;
 import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.google.protobuf.MessageLite;
 import com.monkeystable.menrva.abstracts.MenrvaCommand;
 
 import java.lang.reflect.Constructor;
@@ -91,7 +90,7 @@ public class AudioEffectInterface {
         _Effect.setEnabled(enabled);
     }
 
-    public MessageLite sendCommand(MenrvaCommand message)
+    public void sendCommand(MenrvaCommand message)
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
         byte[] requestBytes = message.getRequest().toByteArray();
         byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
@@ -105,8 +104,6 @@ public class AudioEffectInterface {
 
         byte[] responseBytes = Arrays.copyOfRange(responseBuffer, 0, responseLength);
         message.setResponse(message.getResponse().getParserForType().parseFrom(responseBytes));
-
-        return message.getResponse();
     }
 
     private int invokeCommand(int command, byte[] value, byte[] result)
