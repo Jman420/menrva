@@ -1,0 +1,2 @@
+#include "messages/<CommandName>.pb.h"
+template class MenrvaCommandBase<messages::<CommandName>_Request, messages::<CommandName>_Response>;

@@ -18,7 +18,7 @@
 
 #include <cerrno>
 #include "command_map.h"
-#include "../commands/menrva_commands_enum.h"
+#include "../commands/MenrvaCommands.h"
 #include "../commands/messages/Engine_GetVersion.pb.h"
 #include "../commands/Engine_GetVersion_Command.h"
 #include "../tools/command_ids.h"

@@ -20,7 +20,7 @@
 #define MENRVA_COMMAND_IDS_H
 
 #include <cstdint>
-#include "../commands/menrva_commands_enum.h"
+#include "../commands/MenrvaCommands.h"
 
 class CommandIds {
 public:

@@ -21,8 +21,16 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-package com.monkeystable.menrva.commands;
+#ifndef MENRVA_<CommandName>_COMMAND_H
+#define MENRVA_<CommandName>_COMMAND_H
 
-public enum MenrvaCommands {
-    <CommandName>
-}
+#include "menrva_command_base.h"
+#include "messages/<CommandName>.pb.h"
+
+class <CommandName>_Command
+        : public MenrvaCommandBase<messages::<CommandName>_Request, messages::<CommandName>_Response> {
+public:
+    <CommandName>_Command();
+};
+
+#endif //MENRVA_<CommandName>_COMMAND_H

@@ -20,7 +20,7 @@
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/module_interface.h"
 #include "../../../main/cpp/engine/command_map.h"
-#include "../../../main/cpp/commands/menrva_commands_enum.h"
+#include "../../../main/cpp/commands/MenrvaCommands.h"
 #include "../../../main/cpp/tools/command_ids.h"
 #include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 

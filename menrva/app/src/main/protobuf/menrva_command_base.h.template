@@ -21,8 +21,29 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-package com.monkeystable.menrva.commands;
+#ifndef MENRVA_MENRVA_COMMAND_BASE_H
+#define MENRVA_MENRVA_COMMAND_BASE_H
 
-public enum MenrvaCommands {
-    <CommandName>
-}
+#include <google/protobuf/message_lite.h>
+
+using google::protobuf::MessageLite;
+
+template <class TRequest, class TResponse>
+class MenrvaCommandBase {
+public:
+    MenrvaCommandBase(int commandId, MessageLite* request, MessageLite* response);
+    virtual ~MenrvaCommandBase() = 0;
+
+    int GetCommandId();
+    TRequest* GetRequest();
+    TResponse* GetResponse();
+
+    int SerializeResponse(void* responseBuffer);
+
+private:
+    int _CommandId;
+    MessageLite* _Request;
+    MessageLite* _Response;
+};
+
+#endif //MENRVA_MENRVA_COMMAND_BASE_H

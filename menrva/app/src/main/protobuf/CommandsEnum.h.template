@@ -21,8 +21,11 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-package com.monkeystable.menrva.commands;
+#ifndef MENRVA_MENRVA_COMMANDS_ENUM_H
+#define MENRVA_MENRVA_COMMANDS_ENUM_H
 
-public enum MenrvaCommands {
+enum MenrvaCommands {
     <CommandName>
-}
+};
+
+#endif //MENRVA_MENRVA_COMMANDS_ENUM_H
