@@ -25,6 +25,6 @@ import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Res
 public class <CommandName>_Command
         extends MenrvaCommand<<CommandName>_Request, <CommandName>_Response> {
     public <CommandName>_Command() {
-        super(MenrvaCommands.<CommandName>.ordinal(), <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
+        super(MenrvaCommands.<CommandName>, <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
     }
 }
