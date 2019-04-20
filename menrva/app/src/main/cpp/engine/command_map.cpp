@@ -285,8 +285,7 @@ int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused
     response.set_patch(MENRVA_ENGINE_PATCH);
 
     _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
-    int responseSize = 0;
-    *(int8_t*)pReplyData = *command.SerializeResponse(&responseSize);
+    int responseSize = command.SerializeResponse(pReplyData);
     *replySize = static_cast<uint32_t>(responseSize);
 
     _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);

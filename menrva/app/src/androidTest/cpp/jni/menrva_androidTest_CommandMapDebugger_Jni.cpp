@@ -22,6 +22,7 @@
 #include "../../../main/cpp/engine/command_map.h"
 #include "../../../main/cpp/commands/menrva_commands_enum.h"
 #include "../../../main/cpp/tools/command_ids.h"
+#include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 
 extern "C"
 JNIEXPORT jint JNICALL
