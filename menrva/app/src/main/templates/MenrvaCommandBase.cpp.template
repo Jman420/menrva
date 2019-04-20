@@ -21,7 +21,7 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-#include "menrva_command_base.h"
+#include "MenrvaCommandBase.h"
 #include "../aosp/aosp_audio_effect_defs.h"
 
 template<class TRequest, class TResponse>

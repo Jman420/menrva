@@ -28,6 +28,8 @@
 
 using google::protobuf::MessageLite;
 
+typedef char byte;
+
 template <class TRequest, class TResponse>
 class MenrvaCommandBase {
 public:

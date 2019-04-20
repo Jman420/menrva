@@ -27,12 +27,6 @@
 typedef int (*CommandFunc)(MenrvaModuleContext&, uint32_t, void*, uint32_t*, void*);
 typedef std::map<uint32_t, CommandFunc> function_map;
 
-// union to hold command values
-using value_t = union {
-    int32_t integer;
-    float decimal;
-};
-
 // Represents the Commands supported by the Menrva Audio Effects Module & Engine
 class MenrvaCommandMap {
 public:
@@ -46,27 +40,15 @@ private:
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;
 
-    static int InitModule(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                          uint32_t* replySize, void* pReplyData);
-    static int SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                         uint32_t* replySize, void* pReplyData);
-    static int ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize, void* pCmdData,
-                            uint32_t* replySize, void* pReplyData);
-    static int EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                            uint32_t* replySize, void* pReplyData);
-    static int DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                             uint32_t* replySize, void* pReplyData);
-    static int SetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                        uint32_t* replySize, void* pReplyData);
-    static int GetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                        uint32_t* replySize, void* pReplyData);
-    static int GetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                         uint32_t* replySize, void* pReplyData);
-    static int GetVersion(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData,
-                          uint32_t* replySize, void* pReplyData);
+    static int InitModule(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int GetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
 
-    static inline uint32_t ComputeParamVOffset(const effect_param_t& p);
-    static uint32_t GetExpectedReplySize(uint32_t paramSize, void* pParam);
+    static int GetVersion(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+
     static void LogBufferConfig(buffer_config_t& bufferConfig);
 
     // Private Constructor to prevent instantiation of Static Class

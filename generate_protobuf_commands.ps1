@@ -28,11 +28,11 @@ $CppCommandHeaderTemplateFile = "$SourceTemplatesDir/CommandClass.h.template"
 $CppCommandClassTemplateFile = "$SourceTemplatesDir/CommandClass.cpp.template"
 $CppCommandEnumTemplateFile = "$SourceTemplatesDir/CommandsEnum.h.template"
 $CppCommandEnumFile = "$CppOutputCommandDir/$CommandEnumFileName$CppHeaderFileExtension"
-$CppCommandBaseTypeDefTemplateFile = "$SourceTemplatesDir/menrva_command_base_types.template"
-$CppCommandBaseHeaderTemplateFile = "$SourceTemplatesDir/menrva_command_base.h.template"
-$CppCommandBaseClassTemplateFile = "$SourceTemplatesDir/menrva_command_base.cpp.template"
-$CppCommandBaseHeaderFile = "$CppOutputCommandDir/menrva_command_base.h"
-$CppCommandBaseClassFile = "$CppOutputCommandDir/menrva_command_base.cpp"
+$CppCommandBaseTypeDefTemplateFile = "$SourceTemplatesDir/MenrvaCommandBaseTypes.template"
+$CppCommandBaseHeaderTemplateFile = "$SourceTemplatesDir/MenrvaCommandBase.h.template"
+$CppCommandBaseClassTemplateFile = "$SourceTemplatesDir/MenrvaCommandBase.cpp.template"
+$CppCommandBaseHeaderFile = "$CppOutputCommandDir/MenrvaCommandBase.h"
+$CppCommandBaseClassFile = "$CppOutputCommandDir/MenrvaCommandBase.cpp"
 
 Write-Output "Removing Output Directories..."
 if (Test-Path $CppOutputCommandDir) {
@@ -86,10 +86,8 @@ foreach ($protoFile in $protobufFiles) {
   Out-File -Force -FilePath "$JavaOutputCommandDir/$javaCommandFileName" -InputObject $javaCommandFile -Encoding ASCII
   
   Write-Output "Adding Entry to Java Command Enum for : $commandName"
-  $enumCommandNameReplacement = @"
-$commandName,
-    $TemplateCommandNameField
-"@
+  $enumCommandNameReplacement = "$commandName,`n" + `
+                                "$TemplateCommandNameField"
   $javaCommandEnum = $javaCommandEnum.Replace($TemplateCommandNameField, $enumCommandNameReplacement)
   
   Write-Output "Generating C++ Command Header File : $CppOutputCommandDir/$cppCommandHeaderFileName"
@@ -105,11 +103,9 @@ $commandName,
   
   Write-Output "Adding Entry to C++ Command Base TypeDef for : $commandName"
   $typeDefEntry = $cppCommandBaseTypeDefTemplate.Replace($TemplateCommandNameField, $commandName)
-  $cppCommandBaseTypeDefReplacement = @"
-$typeDefEntry
-
-$TemplateCommandBaseTypeDefField
-"@
+  $cppCommandBaseTypeDefReplacement = "$typeDefEntry`n" + `
+                                      "`n" + `
+                                      "$TemplateCommandBaseTypeDefField"
   $cppCommandBaseTypeDef = $cppCommandBaseTypeDef.Replace($TemplateCommandBaseTypeDefField, $cppCommandBaseTypeDefReplacement)
 }
 
@@ -126,7 +122,7 @@ $cppCommandBaseHeader = $cppCommandBaseHeaderTemplate.Replace($TemplateCommandNa
 Out-File -Force -FilePath "$CppCommandBaseHeaderFile" -InputObject $cppCommandBaseHeader -Encoding ASCII
 
 Write-Output "Generating C++ Command Base Class File : $CppCommandBaseClassFile"
-$cppCommandBaseTypeDef = $cppCommandBaseTypeDef.Replace("`n$TemplateCommandBaseTypeDefField", "")
+$cppCommandBaseTypeDef = $cppCommandBaseTypeDef.Replace("`n`n$TemplateCommandBaseTypeDefField", "")
 $cppCommandBaseClass = $cppCommandBaseClassTemplate.Replace($TemplateCommandBaseTypeDefField, $cppCommandBaseTypeDef)
 Out-File -Force -FilePath "$CppCommandBaseClassFile" -InputObject $cppCommandBaseClass -Encoding ASCII
 

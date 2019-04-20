@@ -32,8 +32,6 @@ const function_map MenrvaCommandMap::COMMAND_MAP = {
         { EFFECT_CMD_RESET, &MenrvaCommandMap::ResetBuffers },
         { EFFECT_CMD_GET_CONFIG, &MenrvaCommandMap::GetConfig },
         { EFFECT_CMD_SET_CONFIG, &MenrvaCommandMap::SetConfig },
-        { EFFECT_CMD_GET_PARAM, &MenrvaCommandMap::GetParam },
-        { EFFECT_CMD_SET_PARAM, &MenrvaCommandMap::SetParam },
         { EFFECT_CMD_ENABLE, &MenrvaCommandMap::EnableEngine },
         { EFFECT_CMD_DISABLE, &MenrvaCommandMap::DisableEngine },
         { CommandIds::Calculate(MenrvaCommands::Engine_GetVersion), &MenrvaCommandMap::GetVersion },
@@ -71,6 +69,18 @@ int MenrvaCommandMap::InitModule(MenrvaModuleContext& context, uint32_t cmdSize 
     *(int*)pReplyData = result;
 
     _Logger->WriteLog("Successfully Initialized Module with Result (%i).", LOG_SENDER, __func__, result);
+    return 0;
+}
+
+int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
+    _Logger->WriteLog("Received GetConfig Command...", LOG_SENDER, __func__);
+    if (pReplyData == nullptr || *replySize != sizeof(effect_config_t)) {
+        _Logger->WriteLog("Skipping GetConfig Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        return -EINVAL;
+    }
+
+    _Logger->WriteLog("Successfully Retrieved Engine Config.", LOG_SENDER, __func__);
+    pReplyData = &context.config;
     return 0;
 }
 
@@ -188,94 +198,6 @@ int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSi
     return 0;
 }
 
-int MenrvaCommandMap::SetParam(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    _Logger->WriteLog("Received SetParam Command...", LOG_SENDER, __func__);
-    if (pCmdData == nullptr || cmdSize < (sizeof(effect_param_t) + sizeof(int32_t) + sizeof(int32_t))
-        || pReplyData == nullptr || replySize == nullptr || *replySize != sizeof(int32_t)) {
-
-        _Logger->WriteLog("Skipping SetParam Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
-    }
-
-    _Logger->WriteLog("Calculating Parameter Value Offset...", LOG_SENDER, __func__);
-    effect_param_t& effectParam = *static_cast<effect_param_t*>(pCmdData);
-    if (effectParam.psize < sizeof(int)) {
-        _Logger->WriteLog("Skipping SetParam Command.  Invalid Parameter Size provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
-    }
-    uint32_t valueOffset = ComputeParamVOffset(effectParam);
-    _Logger->WriteLog("Successfully calculated Parameter Value Offset (%u).", LOG_SENDER, __func__, valueOffset);
-
-    _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
-    uint32_t command = *(uint32_t*)effectParam.data;
-    _Logger->WriteLog("Successfully extracted Parameter Command Id (%d).", LOG_SENDER, __func__, command);
-
-    _Logger->WriteLog("Extracting Parameter Value...", LOG_SENDER, __func__);
-    uint32_t valueSize = effectParam.vsize;
-    void* pValue = (void*)(effectParam.data + valueOffset);
-    auto value = (value_t*)pValue;
-    _Logger->WriteLog("Successfully calculated Parameter Value (%d).", LOG_SENDER, __func__, value);
-
-    switch (command) {
-        // TODO : Handle the expected engine parameter changes
-    }
-
-    _Logger->WriteLog("Successfully Processed Parameter Command Id (%u) with Parameter Value (%d)!", LOG_SENDER, __func__, command, value);
-    return 0;
-}
-
-int MenrvaCommandMap::GetParam(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    _Logger->WriteLog("Received GetParam Command...", LOG_SENDER, __func__);
-    if (pCmdData == nullptr || pReplyData == nullptr || replySize == nullptr) {
-        _Logger->WriteLog("Skipping GetParam Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
-    }
-
-    _Logger->WriteLog("Calculating Expected Reply Data Size...", LOG_SENDER, __func__);
-    effect_param_t& pEffectParam = *(effect_param_t*)pCmdData;
-    const uint32_t expectedReplySize = GetExpectedReplySize(pEffectParam.psize, (void*)pEffectParam.data);
-    _Logger->WriteLog("Successfully calculated Expected Reply Data Size (%u).", LOG_SENDER, __func__, expectedReplySize);
-
-    _Logger->WriteLog("Preparing Reply Data...", LOG_SENDER, __func__);
-    memcpy(pReplyData, pCmdData, expectedReplySize);
-    effect_param_t& replyData = *(effect_param_t*)pReplyData;
-    _Logger->WriteLog("Successfully prepared Reply Data.", LOG_SENDER, __func__);
-
-    _Logger->WriteLog("Extracting Parameter Command Id...", LOG_SENDER, __func__);
-    const uint32_t* param = (uint32_t*)replyData.data;
-    const uint32_t command = param[0];
-    _Logger->WriteLog("Successfully extracted Parameter Id (%u).", LOG_SENDER, __func__, command);
-
-    _Logger->WriteLog("Calculating Parameter Value Offset...", LOG_SENDER, __func__);
-    const uint32_t valueOffset = ComputeParamVOffset(replyData);
-    _Logger->WriteLog("Successfully calculated Parameter Value Offset (%u).", LOG_SENDER, __func__, valueOffset);
-
-    _Logger->WriteLog("Retrieving Parameter Value for Parameter Id (%u).", LOG_SENDER, __func__, command);
-    // TODO : Draft Structures to contain necessary Reply Data Types
-    void* pValue = replyData.data + valueOffset;
-    uint32_t valueSize = 0;
-    switch (command) {
-        // TODO : Handle retrieving expected engine parameter values
-    }
-    replyData.vsize = valueSize;
-    *replySize = sizeof(effect_param_t) + valueOffset + replyData.vsize;
-
-    _Logger->WriteLog("Successfully retrieved Parameter Value for Parameter Id (%u).", LOG_SENDER, __func__, command);
-    return 0;
-}
-
-int MenrvaCommandMap::GetConfig(MenrvaModuleContext& context, uint32_t cmdSize __unused, void* pCmdData __unused, uint32_t* replySize, void* pReplyData) {
-    _Logger->WriteLog("Received GetConfig Command...", LOG_SENDER, __func__);
-    if (pReplyData == nullptr || *replySize != sizeof(effect_config_t)) {
-        _Logger->WriteLog("Skipping GetConfig Command.  Invalid parameters provided.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
-    }
-
-    _Logger->WriteLog("Successfully Retrieved Engine Config.", LOG_SENDER, __func__);
-    pReplyData = &context.config;
-    return 0;
-}
-
 int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused cmdSize, void* __unused pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
     Engine_GetVersion_Command command;
@@ -285,32 +207,11 @@ int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused
     response.set_patch(MENRVA_ENGINE_PATCH);
 
     _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
-    int responseSize = command.SerializeResponse(pReplyData);
+    int responseSize = command.SerializeResponse(static_cast<byte*>(pReplyData));
     *replySize = static_cast<uint32_t>(responseSize);
 
     _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);
     return 0;
-}
-
-uint32_t MenrvaCommandMap::GetExpectedReplySize(uint32_t paramSize, void* pParam) {
-    if (paramSize < sizeof(int32_t)) {
-        return 0;
-    }
-
-    int32_t param = *(int32_t*)pParam;
-
-    switch (param) {
-        // TODO : Add logic to return an expected parameter size
-    }
-
-    return 0;
-}
-
-// The value offset of an effect parameter is computed by rounding up
-// the parameter size to the next 32 bit alignment.
-// This method was taken from https://android.googlesource.com/platform/frameworks/av/+/master/media/libeffects/dynamicsproc/EffectDynamicsProcessing.cpp#77
-uint32_t MenrvaCommandMap::ComputeParamVOffset(const effect_param_t& p) {
-    return ((p.psize + sizeof(int32_t) - 1) / sizeof(int32_t)) * sizeof(int32_t);
 }
 
 void MenrvaCommandMap::LogBufferConfig(buffer_config_t& bufferConfig) {

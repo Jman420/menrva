@@ -24,7 +24,7 @@
 #ifndef MENRVA_<CommandName>_COMMAND_H
 #define MENRVA_<CommandName>_COMMAND_H
 
-#include "menrva_command_base.h"
+#include "MenrvaCommandBase.h"
 #include "messages/<CommandName>.pb.h"
 
 class <CommandName>_Command

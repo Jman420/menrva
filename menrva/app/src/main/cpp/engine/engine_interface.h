@@ -26,8 +26,7 @@
 class MenrvaEngineInterface {
 public:
     static int Process(effect_handle_t handle, audio_buffer_t* inBuffer, audio_buffer_t* outBuffer);
-    static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData,
-                       uint32_t* replySize, void* pReplyData);
+    static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
     static const std::string LOG_SENDER;

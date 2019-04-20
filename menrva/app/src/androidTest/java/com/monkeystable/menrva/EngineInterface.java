@@ -1,5 +1,7 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
+/*
+ * Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
