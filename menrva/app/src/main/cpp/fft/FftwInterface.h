@@ -16,29 +16,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_AUDIO_BUFFER_H
-#define MENRVA_AUDIO_BUFFER_H
+#ifndef MENRVA_FFTW_INTERFACE_H
+#define MENRVA_FFTW_INTERFACE_H
 
-#include "Sample.h"
-#include "../tools/Buffer.h"
+#include <map>
+#include "FftwFunctions.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../abstracts/LoggingBase.h"
 
-class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/fft_interface_base.h
+typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
-class AudioBuffer : public Buffer<sample> {
+class FftwInterface : public FftInterfaceBase,
+                      public LoggingBase {
 public:
-    AudioBuffer();
-    AudioBuffer(FftInterfaceBase* fftEngine, size_t length);
-    AudioBuffer(sample* data, size_t length);
-    ~AudioBuffer() override;
+    explicit FftwInterface(LoggerBase* logger);
 
-    void SetData(sample* data, size_t length) override;
-    void CreateData(FftInterfaceBase* fftEngine, size_t length);
+    size_t Initialize(size_t signalSize, size_t componentSize) override;
+    void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;
+    void ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) override;
+    sample* Allocate(size_t size) override;
+    void Deallocate(sample* data) override;
 
-private:
-    FftInterfaceBase* _FftEngine;
-    bool _DisposeData;
+protected:
+    static FftwPlanCache* _PlansCache;
 
-    void DisposeData();
+    fftw_plan_pair _Plans;
 };
 
-#endif //MENRVA_AUDIO_BUFFER_H
+#endif //MENRVA_FFTW_INTERFACE_H

@@ -20,11 +20,11 @@
 #include "../tools/test_helper.h"
 #include "../tools/engine_debugging.h"
 #include "../../../main/cpp/audio/Sample.h"
-#include "../../../main/cpp/tools/service_locator.h"
-#include "../../../main/cpp/ir/fir_generator.h"
-#include "../../../main/cpp/effects/bass_boost.h"
-#include "../../../main/cpp/tools/wave_generator.h"
-#include "../../../main/cpp/module_interface.h"
+#include "../../../main/cpp/tools/ServiceLocator.h"
+#include "../../../main/cpp/ir/FirGenerator.h"
+#include "../../../main/cpp/effects/BassBoost.h"
+#include "../../../main/cpp/tools/WaveGenerator.h"
+#include "../../../main/cpp/ModuleInterface.h"
 
 extern "C"
 JNIEXPORT void JNICALL

@@ -16,15 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#include "Equalizer.h"
 
-#include "../Config.h"
+const std::string Equalizer::EFFECT_NAME = "Equalizer";
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+Equalizer::Equalizer(LoggerBase* logger)
+        : SingleChannelEffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
 
-#endif //MENRVA_SAMPLE_H
+}
+
+void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
+    // TODO : Implement Equalizer Effect
+}
+
+void Equalizer::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
+    // TODO : Implement Default Configuration for Equalizer Effect
+}
+
+void Equalizer::ConfigureSetting(char* settingName, void* value) {
+    // TODO : Implement Logic for Configuring the Equalizer Effect
+}

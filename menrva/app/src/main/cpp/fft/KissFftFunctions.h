@@ -16,15 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#ifndef MENRVA_KISSFFT_FUNCTIONS_H
+#define MENRVA_KISSFFT_FUNCTIONS_H
 
+#include <kiss_fftr.h>
 #include "../Config.h"
 
+typedef kiss_fftr_cfg KissFftPlan;
+typedef kiss_fftr_cfg (kissFftPlanFunc)(int, int, void*, size_t*);
+static kissFftPlanFunc* KissFftCreatePlan = kiss_fftr_alloc;
+
 #ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
+    typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const double*, kiss_fft_cpx*);
+    typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, double*);
+
 #else
-typedef float sample;
+    typedef void (kissFftExecuteForward)(kiss_fftr_cfg, const float*, kiss_fft_cpx*);
+    typedef void (kissFftExecuteInverse)(kiss_fftr_cfg, const kiss_fft_cpx*, float*);
+
 #endif
 
-#endif //MENRVA_SAMPLE_H
+static kissFftExecuteForward* KissFftRealToComplex = kiss_fftr;
+static kissFftExecuteInverse* KissFftComplexToReal = kiss_fftri;
+
+struct kissfft_plan_pair {
+    KissFftPlan RealToComplexPlan,
+                ComplexToRealPlan;
+};
+
+#endif //MENRVA_KISSFFT_FUNCTIONS_H

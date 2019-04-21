@@ -17,7 +17,7 @@
  */
 
 #include "AudioOutputBuffer.h"
-#include "../tools/buffer.cpp"
+#include "../tools/Buffer.cpp"
 
 AudioOutputBuffer::AudioOutputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__),

@@ -17,7 +17,7 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/config.h"
+#include "../../../main/cpp/Config.h"
 
 extern "C"
 JNIEXPORT jint JNICALL

@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#include "CommandIds.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
-#include "../Config.h"
-
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
-
-#endif //MENRVA_SAMPLE_H
+uint32_t CommandIds::Calculate(MenrvaCommands command) {
+    return EFFECT_CMD_FIRST_PROPRIETARY + command;
+}

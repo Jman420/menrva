@@ -17,7 +17,7 @@
  */
 
 #include "AudioInputBuffer.h"
-#include "../tools/conversion_buffer.cpp"
+#include "../tools/ConversionBuffer.cpp"
 
 AudioInputBuffer::AudioInputBuffer(LoggerBase* logger)
         : LoggingBase(logger, __PRETTY_FUNCTION__),

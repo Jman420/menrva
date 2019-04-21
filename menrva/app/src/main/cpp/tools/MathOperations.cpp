@@ -16,15 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#include "MathOperations.h"
 
-#include "../Config.h"
+// The following method is adapted from https://graphics.stanford.edu/~seander/bithacks.html#RoundUpPowerOf2
+size_t MathOperations::RoundToNextPowerOf2(size_t value) {
+    value--;
+    value |= value >> 1;
+    value |= value >> 2;
+    value |= value >> 4;
+    value |= value >> 8;
+    value |= value >> 16;
+    value++;
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
-
-#endif //MENRVA_SAMPLE_H
+    return value;
+}

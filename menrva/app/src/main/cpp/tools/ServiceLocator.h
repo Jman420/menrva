@@ -16,15 +16,34 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#ifndef MENRVA_SERVICE_LOCATOR_H
+#define MENRVA_SERVICE_LOCATOR_H
 
-#include "../Config.h"
+#include "../abstracts/LoggerBase.h"
+#include "../abstracts/FftInterfaceBase.h"
+#include "../ir/FirGenerator.h"
+#include "../convolver/Convolver.h"
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+enum FftEngineType {
+    KFR,
+    FFTW,
+    KISS_FFT,
+};
 
-#endif //MENRVA_SAMPLE_H
+class ServiceLocator {
+public:
+    FftEngineType _FftEngineType;
+
+    ServiceLocator();
+
+    LoggerBase* GetLogger();
+    FftInterfaceBase* GetFftEngine();
+    FirGenerator* GetFirGenerator();
+    ConvolutionOperationsBase* GetConvolutionOperations();
+    Convolver* GetConvolver();
+
+private:
+    static LoggerBase* _Logger;
+};
+
+#endif //MENRVA_SERVICE_LOCATOR_H

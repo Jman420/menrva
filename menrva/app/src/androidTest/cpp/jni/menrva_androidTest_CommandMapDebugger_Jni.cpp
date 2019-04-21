@@ -18,10 +18,10 @@
 
 #include <jni.h>
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/module_interface.h"
-#include "../../../main/cpp/engine/command_map.h"
+#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/engine/CommandMap.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
-#include "../../../main/cpp/tools/command_ids.h"
+#include "../../../main/cpp/tools/CommandIds.h"
 #include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 
 extern "C"

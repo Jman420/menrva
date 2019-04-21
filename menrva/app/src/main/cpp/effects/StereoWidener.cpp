@@ -16,15 +16,24 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#include "StereoWidener.h"
 
-#include "../Config.h"
+const std::string StereoWidener::EFFECT_NAME = "StereoWidener";
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+StereoWidener::StereoWidener(LoggerBase* logger)
+        : MultiChannelEffectBase(EFFECT_NAME),
+          LoggingBase(logger, __PRETTY_FUNCTION__) {
 
-#endif //MENRVA_SAMPLE_H
+}
+
+void StereoWidener::Process(AudioBuffer* input, AudioBuffer* output, uint32_t channelLength) {
+    // TODO : Implement Stereo Widener Effect
+}
+
+void StereoWidener::ResetBuffers(sample sampleRate, size_t audioFrameLength) {
+    // TODO : Implement Default Configuration for StereoWidener Effect
+}
+
+void StereoWidener::ConfigureSetting(char* settingName, void* value) {
+    // TODO : Implement Logic for Configuring the StereoWidener Effect
+}

@@ -16,15 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#ifndef MENRVA_CONVERSION_BUFFER_H
+#define MENRVA_CONVERSION_BUFFER_H
 
-#include "../Config.h"
+#include <cstddef>
+#include "Buffer.h"
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+template<class TInputType, class TOutputType>
+class ConversionBuffer {
+public:
+    ConversionBuffer();
+    ~ConversionBuffer();
 
-#endif //MENRVA_SAMPLE_H
+    size_t GetLength();
+    void ResetData();
+    void Free();
+
+    void SetData(TInputType* data, size_t length);
+    TOutputType operator[](size_t index) const;  // Read Operations
+    TInputType& operator[](size_t index);        // Write Operations
+    TInputType* GetData();
+
+private:
+    Buffer<TInputType>* _DataBuffer;
+};
+
+#endif //MENRVA_CONVERSION_BUFFER_H

@@ -20,7 +20,7 @@
 #ifndef MENRVA_COMMAND_HANDLER_BASE_H
 #define MENRVA_COMMAND_HANDLER_BASE_H
 
-#include "../../module_interface.h"
+#include "../../ModuleInterface.h"
 
 template <class TCommand>
 class CommandHandlerBase {

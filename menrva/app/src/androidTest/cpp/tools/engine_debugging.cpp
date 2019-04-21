@@ -19,9 +19,9 @@
 #include "engine_debugging.h"
 #include "test_helper.h"
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/tools/service_locator.h"
-#include "../../../main/cpp/tools/wave_generator.h"
-#include "../../../main/cpp/module_interface.h"
+#include "../../../main/cpp/tools/ServiceLocator.h"
+#include "../../../main/cpp/tools/WaveGenerator.h"
+#include "../../../main/cpp/ModuleInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;

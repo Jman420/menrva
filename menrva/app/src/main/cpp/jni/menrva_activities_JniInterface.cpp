@@ -17,7 +17,7 @@
  */
 
 #include <jni.h>
-#include "../module_interface.h"
+#include "../ModuleInterface.h"
 
 extern "C"
 JNIEXPORT jstring JNICALL

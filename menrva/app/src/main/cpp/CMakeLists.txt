@@ -74,40 +74,40 @@ add_library(
         abstracts/SingleChannelEffectBase.cpp
         abstracts/MultiChannelEffectBase.cpp
 
-        tools/android_logger.cpp
-        tools/service_locator.cpp
-        tools/math_operations.cpp
-        tools/buffer.cpp
-        tools/conversion_buffer.cpp
-        tools/wave_generator.cpp
-        tools/command_ids.cpp
+        tools/AndroidLogger.cpp
+        tools/ServiceLocator.cpp
+        tools/MathOperations.cpp
+        tools/Buffer.cpp
+        tools/ConversionBuffer.cpp
+        tools/WaveGenerator.cpp
+        tools/CommandIds.cpp
 
         audio/AudioBuffer.cpp
         audio/AudioInputBuffer.cpp
         audio/AudioOutputBuffer.cpp
         audio/AudioComponentsBuffer.cpp
 
-        ir/fir_generator.cpp
+        ir/FirGenerator.cpp
 
-        fft/fftw_interface.cpp
-        fft/kissfft_interface.cpp
-        fft/kfr_interface.cpp
+        fft/FftwInterface.cpp
+        fft/KissFftInterface.cpp
+        fft/KfrInterface.cpp
 
-        convolver/convolution_operations.cpp
-        convolver/convolver.cpp
+        convolver/ConvolutionOperations.cpp
+        convolver/Convolver.cpp
 
-        effects/master_limiter.cpp
-        effects/bass_boost.cpp
-        effects/equalizer.cpp
-        effects/stereo_widener.cpp
-        effects/single_channel_effects_bundle.cpp
-        effects/multi_channel_effects_bundle.cpp
+        effects/MasterLimiter.cpp
+        effects/BassBoost.cpp
+        effects/Equalizer.cpp
+        effects/StereoWidener.cpp
+        effects/SingleChannelEffectsBundle.cpp
+        effects/MultiChannelEffectsBundle.cpp
 
-        engine/engine_interface.cpp
-        engine/effects_engine.cpp
-        engine/command_map.cpp
+        engine/EngineInterface.cpp
+        engine/EffectsEngine.cpp
+        engine/CommandMap.cpp
 
-        module_interface.cpp
+        ModuleInterface.cpp
 
         jni/menrva_activities_JniInterface.cpp
         jni/menrva_service_JniInterface.cpp

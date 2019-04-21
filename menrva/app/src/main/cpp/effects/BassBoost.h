@@ -16,15 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#ifndef MENRVA_BASS_BOOST_H
+#define MENRVA_BASS_BOOST_H
 
-#include "../Config.h"
+#include "../abstracts/SingleChannelEffectBase.h"
+#include "../abstracts/LoggingBase.h"
+#include "../ir/FirGenerator.h"
+#include "../convolver/Convolver.h"
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+class BassBoost : public SingleChannelEffectBase,
+                  public LoggingBase {
+public:
+    BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
+    ~BassBoost() override;
 
-#endif //MENRVA_SAMPLE_H
+    void Process(AudioBuffer& input, AudioBuffer& output) override;
+    void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;
+    void ConfigureSetting(char* settingName, void* value) override;
+
+private:
+    static const std::string EFFECT_NAME;
+
+    FirGenerator* _FirGenerator;
+    Convolver* _Convolver;
+};
+
+#endif //MENRVA_BASS_BOOST_H

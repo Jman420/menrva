@@ -17,7 +17,7 @@
  */
 
 #include "AudioBuffer.h"
-#include "../tools/buffer.cpp"
+#include "../tools/Buffer.cpp"
 #include "../abstracts/FftInterfaceBase.h"
 
 AudioBuffer::AudioBuffer() {

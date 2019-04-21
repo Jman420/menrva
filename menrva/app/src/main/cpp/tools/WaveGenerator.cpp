@@ -16,15 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#include "WaveGenerator.h"
+#include "../ir/WaveGeneratorConstants.h"
 
-#include "../Config.h"
+WaveGenerator::WaveGenerator(FftInterfaceBase* fftEngine) {
+    _FftEngine = fftEngine;
+}
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+WaveGenerator::~WaveGenerator() {
+    delete _FftEngine;
+}
 
-#endif //MENRVA_SAMPLE_H
+AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
+    AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
+    for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
+        sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((M_PI * 2.0 / length) * frequency * sampleCounter + offset));
+    }
+
+    return &sineWaveBuffer;
+}

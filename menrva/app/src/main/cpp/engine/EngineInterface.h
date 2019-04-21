@@ -16,15 +16,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SAMPLE_H
-#define MENRVA_SAMPLE_H
+#ifndef MENRVA_ENGINE_INTERFACE_H
+#define MENRVA_ENGINE_INTERFACE_H
 
-#include "../Config.h"
+#include "../aosp/aosp_audio_effect_defs.h"
+#include "../abstracts/LoggerBase.h"
+#include "../tools/ServiceLocator.h"
 
-#ifdef MENRVA_DOUBLE_PRECISION
-typedef double sample;
-#else
-typedef float sample;
-#endif
+class MenrvaEngineInterface {
+public:
+    static int Process(effect_handle_t handle, audio_buffer_t* inBuffer, audio_buffer_t* outBuffer);
+    static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
 
-#endif //MENRVA_SAMPLE_H
+private:
+    static const std::string LOG_SENDER;
+
+    static ServiceLocator* _ServiceLocator;
+    static LoggerBase* _Logger;
+
+    // Private Constructor to prevent instantiation of Static Class
+    MenrvaEngineInterface() = default;
+};
+
+#endif //MENRVA_ENGINE_INTERFACE_H

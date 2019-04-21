@@ -22,7 +22,7 @@
 #include <cstdint>
 #include "AudioFormat.h"
 #include "Sample.h"
-#include "../tools/conversion_buffer.h"
+#include "../tools/ConversionBuffer.h"
 #include "../abstracts/LoggingBase.h"
 #include "../abstracts/AudioIOBufferBase.h"
 
