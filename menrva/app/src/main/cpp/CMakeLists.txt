@@ -18,6 +18,11 @@ find_library(
         log
 )
 
+set(KFR_ARCH_armeabi-v7a neon)
+set(KFR_ARCH_arm64-v8a neon64)
+set(KFR_ARCH_x86 avx1)
+set(KFR_ARCH_x86_64 avx1)
+set(CPU_ARCH ${KFR_ARCH_${ANDROID_ABI}})
 add_subdirectory(
         ${KFR_SOURCE_DIR}
         ${KFR_BINARY_DIR}
