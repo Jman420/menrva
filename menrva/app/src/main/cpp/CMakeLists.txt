@@ -66,6 +66,10 @@ aux_source_directory(
         commands
         COMMANDS_SOURCES
 )
+aux_source_directory(
+        engine/command_handlers
+        COMMAND_HANDLER_SOURCES
+)
 add_library(
         MenrvaEngine
         SHARED
@@ -119,6 +123,7 @@ add_library(
 
         ${MESSAGES_SOURCES}
         ${COMMANDS_SOURCES}
+        ${COMMAND_HANDLER_SOURCES}
 )
 target_include_directories(
         MenrvaEngine

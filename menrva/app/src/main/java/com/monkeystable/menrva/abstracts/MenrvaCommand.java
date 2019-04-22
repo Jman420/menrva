@@ -24,14 +24,12 @@ import com.google.protobuf.MessageLite;
 import com.monkeystable.menrva.commands.MenrvaCommands;
 
 public abstract class MenrvaCommand<TRequest extends MessageLite, TResponse extends MessageLite> {
-    static private final int FIRST_PROPRIETARY_CMD = 0x10000;
-
     private int _CommandId;
     private TRequest _Request;
     private TResponse _Response;
 
     public MenrvaCommand(MenrvaCommands command, TRequest request, TResponse response) {
-        _CommandId = FIRST_PROPRIETARY_CMD + command.ordinal();
+        _CommandId = command.getCommandId();
         _Request = request;
         _Response = response;
     }
