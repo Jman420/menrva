@@ -204,12 +204,12 @@ int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused
     Engine_GetVersion_Handler handler(_ServiceLocator->GetLogger());
     handler.SetRequest(pCmdData, cmdSize);
     if (!handler.Execute(context)) {
-        replySize = 0;
+        *replySize = 0;
         return 0;
     }
 
     _Logger->WriteLog("Serializing GetVersion Response...", LOG_SENDER, __func__);
-    int responseSize = handler.GetCommand()->SerializeResponse(static_cast<byte*>(pReplyData));
+    int responseSize = handler.SerializeResponse(static_cast<byte*>(pReplyData));
     *replySize = static_cast<uint32_t>(responseSize);
 
     _Logger->WriteLog("Successfully returned GetVersion Response.", LOG_SENDER, __func__);

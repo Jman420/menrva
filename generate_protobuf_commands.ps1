@@ -112,6 +112,7 @@ foreach ($protoFile in $protobufFiles) {
   Write-Output "Adding Entry to C++ Command Base TypeDef for : $commandName"
   $typeDefEntry = $cppCommandBaseTypeDefTemplate.Replace($TemplateCommandNameField, $commandName)
   $cppCommandBaseTypeDefReplacement = "$cppCommandBaseTypeDefReplacement`n" + `
+                                      "`n" + `
                                       "$typeDefEntry"
 }
 
