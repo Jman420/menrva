@@ -21,16 +21,27 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-#ifndef MENRVA_<CommandName>_COMMAND_H
-#define MENRVA_<CommandName>_COMMAND_H
+#ifndef MENRVA_MENRVA_COMMAND_BASE_H
+#define MENRVA_MENRVA_COMMAND_BASE_H
 
-#include "TypedCommandBase.h"
-#include "messages/<CommandName>.pb.h"
+#include <google/protobuf/message_lite.h>
+#include "../abstracts/CommandBase.h"
 
-class <CommandName>_Command
-        : public TypedCommandBase<messages::<CommandName>_Request, messages::<CommandName>_Response> {
+using google::protobuf::MessageLite;
+
+typedef char byte;
+
+template <class TRequest, class TResponse>
+class TypedCommandBase : public CommandBase {
 public:
-    <CommandName>_Command();
+    TypedCommandBase(int commandId, TRequest* request, TResponse* response);
+
+    TRequest* GetTypedRequest();
+    TResponse* GetTypedResponse();
+
+private:
+    TRequest* _TypedRequest;
+    TResponse* _TypedResponse;
 };
 
-#endif //MENRVA_<CommandName>_COMMAND_H
+#endif //MENRVA_MENRVA_COMMAND_BASE_H

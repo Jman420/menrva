@@ -202,7 +202,7 @@ int MenrvaCommandMap::DisableEngine(MenrvaModuleContext& context, uint32_t cmdSi
 int MenrvaCommandMap::GetVersion(MenrvaModuleContext& context, uint32_t __unused cmdSize, void* __unused pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
     Engine_GetVersion_Handler handler(_ServiceLocator->GetLogger());
-    handler.SetRequest(pCmdData, cmdSize);
+    handler.DeserializeRequest(pCmdData, cmdSize);
     if (!handler.Execute(context)) {
         *replySize = 0;
         return 0;

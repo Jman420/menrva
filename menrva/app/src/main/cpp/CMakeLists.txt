@@ -82,6 +82,8 @@ add_library(
         abstracts/AudioIOBufferBase.cpp
         abstracts/SingleChannelEffectBase.cpp
         abstracts/MultiChannelEffectBase.cpp
+        abstracts/CommandBase.cpp
+        abstracts/CommandHandlerBase.cpp
 
         tools/AndroidLogger.cpp
         tools/ServiceLocator.cpp

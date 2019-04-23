@@ -27,4 +27,4 @@
 #include "messages/<CommandName>.pb.h"
 
 <CommandName>_Command::<CommandName>_Command()
-    : MenrvaCommandBase(MenrvaCommands::<CommandName>, new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) { }
+    : TypedCommandBase(MenrvaCommands::<CommandName>, new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) { }

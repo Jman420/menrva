@@ -21,44 +21,23 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-#include "MenrvaCommandBase.h"
+#include "TypedCommandBase.h"
 #include "../aosp/aosp_audio_effect_defs.h"
 
 template<class TRequest, class TResponse>
-MenrvaCommandBase<TRequest, TResponse>::MenrvaCommandBase(int commandId, MessageLite *request, MessageLite *response) {
-    _CommandId = commandId;
-    _Request = request;
-    _Response = response;
+TypedCommandBase<TRequest, TResponse>::TypedCommandBase(int commandId, TRequest* request, TResponse* response)
+        : CommandBase(commandId, request, response) {
+    _TypedRequest = request;
+    _TypedResponse = response;
 }
 
 template<class TRequest, class TResponse>
-MenrvaCommandBase<TRequest, TResponse>::~MenrvaCommandBase() {
-    delete _Request;
-    delete _Response;
+TRequest* TypedCommandBase<TRequest, TResponse>::GetTypedRequest() {
+    return _TypedRequest;
 }
 
 template<class TRequest, class TResponse>
-int MenrvaCommandBase<TRequest, TResponse>::GetCommandId() {
-    return _CommandId;
-}
-
-template<class TRequest, class TResponse>
-TRequest* MenrvaCommandBase<TRequest, TResponse>::GetRequest() {
-    return static_cast<TRequest*>(_Request);
-}
-
-template<class TRequest, class TResponse>
-TResponse* MenrvaCommandBase<TRequest, TResponse>::GetResponse() {
-    return static_cast<TResponse*>(_Response);
-}
-
-template<class TRequest, class TResponse>
-int MenrvaCommandBase<TRequest, TResponse>::SerializeResponse(void* responseBuffer) {
-    TResponse& response = *GetResponse();
-    int responseSize = response.ByteSize();
-    *(char*)responseBuffer = *new char[responseSize];
-
-    response.SerializeToArray(responseBuffer, responseSize);
-    return responseSize;
+TResponse* TypedCommandBase<TRequest, TResponse>::GetTypedResponse() {
+    return _TypedResponse;
 }
 <CommandBaseTypeDef>
