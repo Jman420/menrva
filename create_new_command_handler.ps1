@@ -1,4 +1,9 @@
 param([String]$commandName)
+if ([String]::IsNullOrWhiteSpace($commandName)) {
+    Write-Output "Must supply a Command Name as script argument."
+    Write-Output "Example : ./create_new_command_handler.ps1 CommandName"
+    exit 1
+}
 
 $RootSourceDir = "./menrva/app/src/main"
 $SourceTemplatesDir = "$RootSourceDir/templates"

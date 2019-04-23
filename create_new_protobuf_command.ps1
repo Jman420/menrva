@@ -1,4 +1,9 @@
 param([String]$commandName)
+if ([String]::IsNullOrWhiteSpace($commandName)) {
+    Write-Output "Must supply a Command Name as script argument."
+    Write-Output "Example : ./create_new_protobuf_command.ps1 CommandName"
+    exit 1
+}
 
 $CommandTemplateFile = "./menrva/app/src/main/templates/ProtobufCommand.proto.template"
 $CommandOutputDir = "./menrva/app/src/main/protobuf"
