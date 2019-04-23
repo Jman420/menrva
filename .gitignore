@@ -70,4 +70,5 @@ artifacts/*
 
 # Ignore Protobuf Generated Source Files
 menrva/app/src/main/cpp/commands/
+menrva/app/src/main/cpp/command_handlers/
 menrva/app/src/main/java/com/monkeystable/menrva/commands/

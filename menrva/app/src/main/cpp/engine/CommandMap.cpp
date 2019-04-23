@@ -22,7 +22,7 @@
 #include "../commands/messages/Engine_GetVersion.pb.h"
 #include "../commands/Engine_GetVersion_Command.h"
 #include "../tools/CommandIds.h"
-#include "command_handlers/Engine_GetVersion_Handler.h"
+#include "../command_handlers/Engine_GetVersion_Handler.h"
 
 const std::string MenrvaCommandMap::LOG_SENDER = "CommandMap";
 ServiceLocator* MenrvaCommandMap::_ServiceLocator = new ServiceLocator();

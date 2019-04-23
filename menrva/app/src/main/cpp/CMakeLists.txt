@@ -67,7 +67,7 @@ aux_source_directory(
         COMMANDS_SOURCES
 )
 aux_source_directory(
-        engine/command_handlers
+        command_handlers
         COMMAND_HANDLER_SOURCES
 )
 add_library(
