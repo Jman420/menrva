@@ -69,7 +69,7 @@ $cppCommandBaseHeaderTemplate = Get-Content -Path $CppCommandBaseHeaderTemplateF
 $cppCommandBaseClassTemplate = Get-Content -Path $CppCommandBaseClassTemplateFile
 
 Write-Output "Compiling Protobuf Message & Command Files..."
-$protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern" -Recurse).FullName | Resolve-Path -Relative
+$protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern").FullName | Resolve-Path -Relative
 foreach ($protoFile in $protobufFiles) {
   Write-Output "Initializing for Protobuf File : $protoFile"
   $commandName = (Split-Path $protoFile -Leaf).Replace($ProtobufFileExtension, "")
