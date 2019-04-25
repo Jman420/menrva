@@ -16,20 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#include "Module_ResetBuffers_Handler.h"
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+Module_ResetBuffers_Handler::Module_ResetBuffers_Handler(LoggerBase* logger)
+        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
+bool Module_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
+    _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
+    if (context.EffectsEngine == nullptr) {
+        _Logger->WriteLog("Skipping ResetBuffers Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        return false;
+    }
 
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
+    _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
+    context.EffectsEngine->ResetBuffers(context.config.inputCfg.samplingRate);
 
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
     return true;
 }

@@ -76,6 +76,7 @@ add_library(
 
         abstracts/LoggerBase.cpp
         abstracts/LoggingBase.cpp
+        abstracts/CommandHandlerBase.cpp
         abstracts/FftInterfaceBase.cpp
         abstracts/EffectBase.cpp
         abstracts/ConvolutionOperationsBase.cpp
@@ -83,7 +84,6 @@ add_library(
         abstracts/SingleChannelEffectBase.cpp
         abstracts/MultiChannelEffectBase.cpp
         abstracts/CommandBase.cpp
-        abstracts/CommandHandlerBase.cpp
 
         tools/AndroidLogger.cpp
         tools/ServiceLocator.cpp
@@ -116,7 +116,8 @@ add_library(
 
         engine/EngineInterface.cpp
         engine/EffectsEngine.cpp
-        engine/CommandMap.cpp
+        engine/CommandHandlerMap.cpp
+        engine/CommandProcessor.cpp
 
         ModuleInterface.cpp
 

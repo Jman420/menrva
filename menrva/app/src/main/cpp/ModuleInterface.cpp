@@ -81,12 +81,12 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     return 0;
 }
 
-int MenrvaModuleInterface::InitModule(MenrvaModuleContext& context) {
+void MenrvaModuleInterface::InitModule(MenrvaModuleContext &context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
     if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
         _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
-        return 0;
+        return;
     }
 
     context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
@@ -98,7 +98,6 @@ int MenrvaModuleInterface::InitModule(MenrvaModuleContext& context) {
 
     context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
     _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
-    return 0;
 }
 
 int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {

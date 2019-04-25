@@ -16,20 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#ifndef MENRVA_MODULE_DISABLEENGINE_HANDLER_H
+#define MENRVA_MODULE_DISABLEENGINE_HANDLER_H
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+#include "TypedCommandHandlerBase.h"
+#include "../commands/Android_SystemCommand_Command.h"
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
+class Module_DisableEngine_Handler
+        : public TypedCommandHandlerBase<Android_SystemCommand_Command> {
+public:
+    Module_DisableEngine_Handler(LoggerBase *logger);
 
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
+    virtual bool Execute(MenrvaModuleContext& context) override;
+};
 
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
-    return true;
-}
+#endif //MENRVA_MODULE_DISABLEENGINE_HANDLER_H

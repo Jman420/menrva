@@ -16,20 +16,27 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#ifndef MENRVA_COMMANDMAP_H
+#define MENRVA_COMMANDMAP_H
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+#include <map>
+#include "../ModuleInterface.h"
+#include "../abstracts/CommandHandlerBase.h"
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
+typedef std::map<uint32_t, CommandHandlerBase*> handler_map;
 
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
+class CommandHandlerMap {
+public:
+    CommandHandlerMap(LoggerBase* logger);
 
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
-    return true;
-}
+    handler_map* GetHandlerMap();
+    CommandHandlerBase* GetCommandHandler(uint32_t commandId);
+
+private:
+    static bool _Initialized;
+    static handler_map* _HandlerMap;
+
+    static void Initialize(LoggerBase* logger);
+};
+
+#endif //MENRVA_COMMANDMAP_H

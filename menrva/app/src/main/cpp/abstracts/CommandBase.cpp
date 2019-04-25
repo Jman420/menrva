@@ -41,9 +41,9 @@ MessageLite *CommandBase::GetResponse() {
     return _Response;
 }
 
-int CommandBase::SerializeResponse(void* responseBuffer) {
+uint32_t CommandBase::SerializeResponse(void* responseBuffer) {
     MessageLite& response = *_Response;
-    int responseSize = response.ByteSize();
+    uint32_t responseSize = static_cast<uint32_t>(response.ByteSize());
     *(char*)responseBuffer = *new char[responseSize];
 
     response.SerializeToArray(responseBuffer, responseSize);

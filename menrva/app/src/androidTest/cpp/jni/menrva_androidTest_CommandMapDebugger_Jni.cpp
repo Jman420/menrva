@@ -19,7 +19,7 @@
 #include <jni.h>
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/ModuleInterface.h"
-#include "../../../main/cpp/engine/CommandMap.h"
+#include "../../../main/cpp/engine/CommandProcessor.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
 #include "../../../main/cpp/tools/CommandIds.h"
 #include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
@@ -36,7 +36,7 @@ Java_com_monkeystable_menrva_CommandMapDebugger_submitEngine_1GetVersion(JNIEnv 
 
     uint32_t responseLength = 0;
     uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
-    MenrvaCommandMap::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    CommandProcessor::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);

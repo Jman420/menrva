@@ -32,7 +32,7 @@ public:
     virtual MessageLite* GetRequest();
     virtual MessageLite* GetResponse();
 
-    int SerializeResponse(void* responseBuffer);
+    uint32_t SerializeResponse(void* responseBuffer);
 
 protected:
     int _CommandId;

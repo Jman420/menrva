@@ -18,7 +18,7 @@
 
 #include <cerrno>
 #include "EngineInterface.h"
-#include "CommandMap.h"
+#include "CommandProcessor.h"
 #include "../audio/AudioFormat.h"
 
 const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
@@ -90,7 +90,7 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     }
 
     _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
-    int result = MenrvaCommandMap::Process(context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
+    int result = CommandProcessor::Process(context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
     _Logger->WriteLog("CommandMap finished Processing with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;

@@ -19,40 +19,25 @@
 #ifndef MENRVA_COMMAND_MAP_H
 #define MENRVA_COMMAND_MAP_H
 
-#include <map>
 #include "../aosp/aosp_audio_effect_defs.h"
 #include "../ModuleInterface.h"
-
-// Type definitions for the FunctionMap
-typedef int (*CommandFunc)(MenrvaModuleContext&, uint32_t, void*, uint32_t*, void*);
-typedef std::map<uint32_t, CommandFunc> function_map;
+#include "CommandHandlerMap.h"
 
 // Represents the Commands supported by the Menrva Audio Effects Module & Engine
-class MenrvaCommandMap {
+class CommandProcessor {
 public:
     static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
                        void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
     static const std::string LOG_SENDER;
-    static const function_map COMMAND_MAP;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;
-
-    static int InitModule(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-    static int GetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-    static int SetConfig(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-    static int ResetBuffers(MenrvaModuleContext &context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-    static int EnableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-    static int DisableEngine(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-
-    static int GetVersion(MenrvaModuleContext& context, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-
-    static void LogBufferConfig(buffer_config_t& bufferConfig);
+    static CommandHandlerMap* _HandlerMap;
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaCommandMap() = default;
+    CommandProcessor() = default;
 };
 
 #endif //MENRVA_COMMAND_MAP_H

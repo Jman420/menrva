@@ -16,20 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#include "Module_GetConfig_Handler.h"
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+Module_GetConfig_Handler::Module_GetConfig_Handler(LoggerBase* logger)
+        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {
+    _Config = nullptr;
+}
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
-
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
-
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
+bool Module_GetConfig_Handler::Execute(MenrvaModuleContext& context) {
+    _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
+    _Config = &context.config;
     return true;
+}
+
+uint32_t Module_GetConfig_Handler::SerializeResponse(void* responseBuffer) {
+    _Logger->WriteLog("Returning Module Config as Reply Data...", LOG_SENDER, __func__);
+    *(effect_config_t*)responseBuffer = *_Config;
+    _Config = nullptr;
+    return 0;
 }

@@ -16,20 +16,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#include "Module_DisableEngine_Handler.h"
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+Module_DisableEngine_Handler::Module_DisableEngine_Handler(LoggerBase* logger)
+        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
+bool Module_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
+    _Logger->WriteLog("Received DisableEngine Command...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Disabling Effects Engine...", LOG_SENDER, __func__);
+    context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
 
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
-
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
+    _Logger->WriteLog("Successfully Disabled Effects Engine!", LOG_SENDER, __func__);
     return true;
 }

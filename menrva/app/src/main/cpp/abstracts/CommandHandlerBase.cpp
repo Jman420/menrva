@@ -43,6 +43,6 @@ bool CommandHandlerBase::DeserializeRequest(void *data, int length) {
     return true;
 }
 
-int CommandHandlerBase::SerializeResponse(void* responseBuffer) {
+uint32_t CommandHandlerBase::SerializeResponse(void* responseBuffer) {
     return _Command->SerializeResponse(responseBuffer);
 }

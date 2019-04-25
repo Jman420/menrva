@@ -16,20 +16,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Engine_GetVersion_Handler.h"
+#include "Module_Init_Handler.h"
+#include "../commands/Android_SystemCommand_Command.h"
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
+Module_Init_Handler::Module_Init_Handler(LoggerBase *logger)
+        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
-    messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
-
-    _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
-
-    _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
+bool Module_Init_Handler::Execute(MenrvaModuleContext &context) {
+    _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
+    MenrvaModuleInterface::InitModule(context);
+    _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
     return true;
 }

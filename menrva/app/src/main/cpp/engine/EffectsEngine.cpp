@@ -47,7 +47,8 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength) {
+void MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate,
+                                          size_t frameLength) {
     _Logger->WriteLog("Setting up Buffer Configs...", LOG_SENDER, __func__);
     _ChannelLength = channelLength;
 
@@ -71,7 +72,6 @@ int MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRa
 
     _Logger->WriteLog("Successfully setup Buffer Configs!", LOG_SENDER, __func__);
     _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
-    return 0;
 }
 
 int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {

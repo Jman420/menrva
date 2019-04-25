@@ -22,7 +22,8 @@
 #include "CommandBase.h"
 #include "../ModuleInterface.h"
 
-class CommandHandlerBase : LoggingBase {
+class CommandHandlerBase
+        : public LoggingBase {
 public:
     CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction);
     virtual ~CommandHandlerBase();
@@ -30,7 +31,7 @@ public:
     CommandBase* GetCommand();
 
     virtual bool DeserializeRequest(void *data, int length);
-    virtual int SerializeResponse(void* responseBuffer);
+    virtual uint32_t SerializeResponse(void* responseBuffer);
 
     virtual bool Execute(MenrvaModuleContext& context) = 0;
 
