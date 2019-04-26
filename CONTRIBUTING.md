@@ -36,7 +36,6 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
   - Execute the [generate_protobuf_commands.ps1](generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
   - Execute the [create_new_command_handler.ps1](create_new_command_handler.ps1) script with the Command Name as an argument to generate the C++ Command Handler
   - Add necessary logic to the Command Handler in the Resulting File in the [menrva\app\src\main\cpp\command_handlers](menrva\app\src\main\cpp\command_handlers) directory
-  - Execute the [generate_command_handler_base.ps1](generate_command_handler_base.ps1) script to generate the TypedCommandHandlerBase Class
 
 ## Configuring Calculation Precision
 See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.
