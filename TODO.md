@@ -51,7 +51,7 @@
   - ~~Draft Engine Debug UI~~
   - ~~Draft App to Engine Comm Layer~~
   - ~~Refactor File Naming Scheme for Generated Files~~
-  - Refactor Engine Command Layer for Command Pattern
+  - ~~Refactor Engine Command Layer for Command Pattern~~
   - Use Overlap-Discard Method for Convolution
   - Convolver should only return non-corrupted output indexes
   - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)

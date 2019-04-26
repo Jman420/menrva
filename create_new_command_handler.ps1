@@ -41,3 +41,5 @@ Out-File -Force -FilePath "$cppOutputCommandHandlerClassFile" -InputObject $cppC
 & "$PSScriptRoot\generate_command_handler_base.ps1"
 
 & "$PSScriptRoot\generate_command_handler_map.ps1"
+
+Write-Output "Successfully generated Command Handlers for Command : $commandName !"

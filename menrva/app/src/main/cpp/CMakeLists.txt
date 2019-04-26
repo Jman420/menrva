@@ -114,6 +114,10 @@ add_library(
         effects/SingleChannelEffectsBundle.cpp
         effects/MultiChannelEffectsBundle.cpp
 
+        ${MESSAGES_SOURCES}
+        ${COMMANDS_SOURCES}
+        ${COMMAND_HANDLER_SOURCES}
+
         engine/EngineInterface.cpp
         engine/EffectsEngine.cpp
         engine/CommandHandlerMap.cpp
@@ -123,10 +127,6 @@ add_library(
 
         jni/menrva_activities_JniInterface.cpp
         jni/menrva_service_JniInterface.cpp
-
-        ${MESSAGES_SOURCES}
-        ${COMMANDS_SOURCES}
-        ${COMMAND_HANDLER_SOURCES}
 )
 target_include_directories(
         MenrvaEngine
