@@ -7,6 +7,7 @@ $TemplateCommandNameField = "<CommandName>"
 $TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
 $CommandHandlerFileSuffix = "_Handler"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
+$CommandHandlerExcludePattern = "Module_"
 
 $CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
 $CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
@@ -30,10 +31,11 @@ if (Test-Path $CppTypedCommandHandlerBaseClassFile) {
 }
 
 Write-Output "Generating TypedCommandHandlerBase Files..."
-$handlerFiles = (Get-ChildItem -Path "$CppOutputCommandHandlersDir/$CommandHandlerFilePattern").Name
+$handlerFiles = (Get-ChildItem -Path "$CppOutputCommandHandlersDir/$CommandHandlerFilePattern" -Exclude $CommandHandlerExcludePattern).Name
 foreach ($handlerFile in $handlerFiles) {
     Write-Output "Initializing for Handler File : $handlerFile"
-    $handlerCommandName = $handlerFile.Replace("$CommandHandlerFileSuffix$CppClassFileExtension", "")
+    $handlerCommandName = $handlerFile.Replace("$CommandHandlerFilePattern", "")
+    
     $typeDefEntry = $cppTypedCommandHandlerBaseTypeDefTemplate.Replace($TemplateCommandNameField, $handlerCommandName)
     $cppTypedCommandHandlerBaseTypeDefReplacement = "$cppTypedCommandHandlerBaseTypeDefReplacement`n" + `
                                                     "`n" + `
@@ -47,3 +49,5 @@ Out-File -Force -FilePath "$CppTypedCommandHandlerBaseHeaderFile" -InputObject $
 Write-Output "Generating TypedCommandHandlerBase Class File..."
 $cppTypedCommandHandlerBaseClass = $CppTypedCommandHandlerBaseClassTemplate.Replace($TemplateCommandNameField, $commandName).Replace($TemplateCommandHandlerBaseTypeDef, $cppTypedCommandHandlerBaseTypeDefReplacement)
 Out-File -Force -FilePath "$CppTypedCommandHandlerBaseClassFile" -InputObject $cppTypedCommandHandlerBaseClass -Encoding ASCII
+
+Write-Output "Successfully generated Command Handler Base classes!"

@@ -39,3 +39,5 @@ Out-File -Force -FilePath "$cppOutputCommandHandlerHeaderFile" -InputObject $cpp
 Out-File -Force -FilePath "$cppOutputCommandHandlerClassFile" -InputObject $cppCommandHandlerClassFile -Encoding ASCII
 
 & "$PSScriptRoot\generate_command_handler_base.ps1"
+
+& "$PSScriptRoot\generate_command_handler_map.ps1"
