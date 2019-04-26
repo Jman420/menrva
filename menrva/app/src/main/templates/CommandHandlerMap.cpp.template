@@ -50,7 +50,6 @@ CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
 #include "../command_handlers/Module_ResetBuffers_Handler.h"
 #include "../command_handlers/Module_EnableEngine_Handler.h"
 #include "../command_handlers/Module_DisableEngine_Handler.h"
-
 <HandlerMapIncludes>
 
 void CommandHandlerMap::Initialize(LoggerBase* logger) {
@@ -62,7 +61,6 @@ void CommandHandlerMap::Initialize(LoggerBase* logger) {
     handlerMap.insert(handler_map::value_type(EFFECT_CMD_RESET, new Module_ResetBuffers_Handler(logger)));
     handlerMap.insert(handler_map::value_type(EFFECT_CMD_ENABLE, new Module_EnableEngine_Handler(logger)));
     handlerMap.insert(handler_map::value_type(EFFECT_CMD_DISABLE, new Module_DisableEngine_Handler(logger)));
-
 <HandlerMapEntries>
 
     CommandHandlerMap::_Initialized = true;

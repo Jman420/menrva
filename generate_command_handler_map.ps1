@@ -1,6 +1,7 @@
 $RootSourceDir = "./menrva/app/src/main"
 $SourceTemplatesDir = "$RootSourceDir/templates"
-$CppCommandHandlersDir = "$RootSourceDir/cpp/engine"
+$CppCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
+$CppCommandHandlerMapDir = "$RootSourceDir/cpp/engine"
 
 $CppHeaderFileExtension = ".h"
 $CppClassFileExtension = ".cpp"
@@ -9,14 +10,14 @@ $TemplateHandlerMapIncludesField = "<HandlerMapIncludes>"
 $TemplateHandlerMapEntriesField = "<HandlerMapEntries>"
 $CommandHandlerFileSuffix = "_Handler"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-$CommandHandlerExcludePattern = "Module_"
+$CommandHandlerExcludePattern = "Module_*"
 
 $CppHandlerMapHeaderTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.h.template"
 $CppHandlerMapClassTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.cpp.template"
-$CppHandlerMapIncludeTemplateFile = "$SourceTemplatesDir/CommandHandlerMapInclude.cpp.template"
-$CppHandlerMapEntryTemplateFile = "$SourceTemplatesDir/CommandHandlerMapEntry.cpp.template"
-$CppHandlerMapHeaderFile = "$CppCommandHandlersDir/CommandHandlerMap.h"
-$CppHandlerMapClassFile = "$CppCommandHandlersDir/CommandHandlerMap.cpp"
+$CppHandlerMapIncludeTemplateFile = "$SourceTemplatesDir/CommandHandlerMapInclude.template"
+$CppHandlerMapEntryTemplateFile = "$SourceTemplatesDir/CommandHandlerMapEntry.template"
+$CppHandlerMapHeaderFile = "$CppCommandHandlerMapDir/CommandHandlerMap.h"
+$CppHandlerMapClassFile = "$CppCommandHandlerMapDir/CommandHandlerMap.cpp"
 
 Write-Output "Loading Java & C++ Template Files..."
 $cppHandlerMapHeaderTemplate = Get-Content -Path $CppHandlerMapHeaderTemplateFile
@@ -31,14 +32,14 @@ if (Test-Path $CppHandlerMapHeaderFile) {
 }
 if (Test-Path $CppHandlerMapClassFile) {
     Write-Output "Removing $CppHandlerMapClassFile..."
-    Remove-Item $CppHandlerMapHeaderFile -Force
+    Remove-Item $CppHandlerMapClassFile -Force
 }
 
 Write-Output "Generating CommandHandlerMap Files..."
-$handlerFiles = (Get-ChildItem -Path "$CppOutputCommandHandlersDir/$CommandHandlerFilePattern" -Exclude $CommandHandlerExcludePattern).Name
+$handlerFiles = (Get-ChildItem -Path "$CppCommandHandlersDir/$CommandHandlerFilePattern" -Exclude $CommandHandlerExcludePattern).Name
 foreach ($handlerFile in $handlerFiles) {
     Write-Output "Initializing for Handler File : $handlerFile"
-    $commandName = $handlerFile.Replace("$CommandHandlerFilePattern", "")
+    $commandName = $handlerFile.Replace("$CommandHandlerFileSuffix$CppClassFileExtension", "")
 
     $includeEntry = $cppHandlerMapIncludeTemplate.Replace($TemplateCommandNameField, $commandName)
     $includesReplacement = "$includesReplacement`n" + `

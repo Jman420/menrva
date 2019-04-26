@@ -28,4 +28,7 @@ template<class TCommand>
 TCommand* TypedCommandHandlerBase<TCommand>::GetTypedCommand() {
     return _TypedCommand;
 }
+
+#include "../commands/Android_SystemCommand_Command.h"
+template class TypedCommandHandlerBase<Android_SystemCommand_Command>;
 <CommandHandlerBaseTypeDef>

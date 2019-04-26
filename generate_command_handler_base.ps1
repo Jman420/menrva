@@ -7,7 +7,7 @@ $TemplateCommandNameField = "<CommandName>"
 $TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
 $CommandHandlerFileSuffix = "_Handler"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-$CommandHandlerExcludePattern = "Module_"
+$CommandHandlerExcludePattern = "Module_*"
 
 $CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
 $CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
@@ -34,7 +34,7 @@ Write-Output "Generating TypedCommandHandlerBase Files..."
 $handlerFiles = (Get-ChildItem -Path "$CppOutputCommandHandlersDir/$CommandHandlerFilePattern" -Exclude $CommandHandlerExcludePattern).Name
 foreach ($handlerFile in $handlerFiles) {
     Write-Output "Initializing for Handler File : $handlerFile"
-    $handlerCommandName = $handlerFile.Replace("$CommandHandlerFilePattern", "")
+    $handlerCommandName = $handlerFile.Replace("$CommandHandlerFileSuffix$CppClassFileExtension", "")
     
     $typeDefEntry = $cppTypedCommandHandlerBaseTypeDefTemplate.Replace($TemplateCommandNameField, $handlerCommandName)
     $cppTypedCommandHandlerBaseTypeDefReplacement = "$cppTypedCommandHandlerBaseTypeDefReplacement`n" + `
