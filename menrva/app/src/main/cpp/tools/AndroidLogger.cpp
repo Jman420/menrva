@@ -34,7 +34,7 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    SetAppLogLevel(LogLevel::DEBUG);
+    SetLogLevel(LogLevel::DEBUG);
 
     SetOverrideListEnabled(false);
     UpsertOverrideListEntry("MenrvaEffectsEngine", true, LogLevel::VERBOSE);
@@ -51,7 +51,7 @@ void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::
         return;
     }
 
-    if (logLevel >= GetAppLogLevel()) {
+    if (logLevel >= GetLogLevel()) {
         WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
     }
 }

@@ -28,4 +28,6 @@ public class EngineInterface {
     public static native int GetMajorVersion();
     public static native int GetMinorVersion();
     public static native int GetPatchVersion();
+
+    public static native int GetLogLevel();
 }

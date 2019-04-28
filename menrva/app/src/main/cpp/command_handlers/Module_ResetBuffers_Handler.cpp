@@ -34,3 +34,8 @@ bool Module_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
     return true;
 }
+
+uint32_t Module_ResetBuffers_Handler::SerializeResponse(void* responseBuffer) {
+    *(int*)responseBuffer = 0;
+    return sizeof(int);
+}

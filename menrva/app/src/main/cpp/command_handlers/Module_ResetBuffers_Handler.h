@@ -28,6 +28,7 @@ public:
     Module_ResetBuffers_Handler(LoggerBase *logger);
 
     virtual bool Execute(MenrvaModuleContext& context) override;
+    virtual uint32_t SerializeResponse(void* responseBuffer) override;
 };
 
 #endif //MENRVA_MODULE_RESETBUFFERS_HANDLER_H

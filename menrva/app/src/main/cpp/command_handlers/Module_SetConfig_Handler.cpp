@@ -96,3 +96,8 @@ void Module_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {
     _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, audio_channel_count_from_out_mask(bufferConfig.channels));
     _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.accessMode);
 }
+
+uint32_t Module_SetConfig_Handler::SerializeResponse(void* responseBuffer) {
+    *(int*)responseBuffer = 0;
+    return sizeof(int);
+}

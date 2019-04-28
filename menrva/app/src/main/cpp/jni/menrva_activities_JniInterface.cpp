@@ -48,7 +48,7 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_activities_JniInterface_getAppLogLevel(JNIEnv *env, jclass type) {
     auto serviceLocator = *new ServiceLocator();
-    int result = serviceLocator.GetLogger()->GetAppLogLevel();
+    int result = serviceLocator.GetLogger()->GetLogLevel();
     return result;
 }
 

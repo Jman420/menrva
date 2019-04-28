@@ -33,17 +33,17 @@ const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
 const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
 
-LogLevel LoggerBase::_AppLogLevel = DEFAULT_APP_LOG_LEVEL;
+LogLevel LoggerBase::_LogLevel = DEFAULT_APP_LOG_LEVEL;
 
 bool LoggerBase::_OverrideListEnabled = false;
 logger_override_list LoggerBase::_OverrideList = *new logger_override_list();
 
-void LoggerBase::SetAppLogLevel(LogLevel logLevel) {
-    _AppLogLevel = logLevel;
+void LoggerBase::SetLogLevel(LogLevel logLevel) {
+    _LogLevel = logLevel;
 }
 
-LogLevel LoggerBase::GetAppLogLevel() {
-    return _AppLogLevel;
+LogLevel LoggerBase::GetLogLevel() {
+    return _LogLevel;
 }
 
 void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,

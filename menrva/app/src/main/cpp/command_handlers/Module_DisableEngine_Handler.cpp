@@ -29,3 +29,8 @@ bool Module_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Successfully Disabled Effects Engine!", LOG_SENDER, __func__);
     return true;
 }
+
+uint32_t Module_DisableEngine_Handler::SerializeResponse(void* responseBuffer) {
+    *(int*)responseBuffer = 0;
+    return sizeof(int);
+}

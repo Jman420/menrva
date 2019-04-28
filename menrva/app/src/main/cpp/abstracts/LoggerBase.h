@@ -48,8 +48,8 @@ public:
     static const log_level_map LOG_LEVEL_MAP;
     static const int MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
-    void SetAppLogLevel(LogLevel logLevel);
-    LogLevel GetAppLogLevel();
+    void SetLogLevel(LogLevel logLevel);
+    LogLevel GetLogLevel();
 
     void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...);
     void WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...);
@@ -77,7 +77,7 @@ public:
 protected:
     const static std::string APP_NAME;
 
-    static LogLevel _AppLogLevel;
+    static LogLevel _LogLevel;
     static bool _OverrideListEnabled;
     static logger_override_list _OverrideList;
 

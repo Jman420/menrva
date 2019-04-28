@@ -22,7 +22,10 @@ package com.monkeystable.menrva;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.commands.Engine_GetLogLevel_Command;
 import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
+import com.monkeystable.menrva.commands.MenrvaCommands;
+import com.monkeystable.menrva.commands.messages.Engine_GetLogLevel;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 
@@ -38,19 +41,30 @@ import java.util.Locale;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class CommandMapDebugger {
+public class CommandProcessorTests {
     static {
         System.loadLibrary("MenrvaEngineTest");
     }
 
     @Test
-    public void debug1Engine_GetVersion()
+    public void debug1Module_Init() {
+        final int COMMAND_ID = 0;
+        byte[] requestBytes = new byte[0];
+        byte[] responseBuffer = getResponseBuffer();
+
+        int responseLength = submitCommand(COMMAND_ID, requestBytes, requestBytes.length, responseBuffer);
+
+        Assert.assertEquals(Integer.BYTES, responseLength);
+    }
+
+    @Test
+    public void debug2Engine_GetVersion()
             throws InvalidProtocolBufferException {
         Engine_GetVersion_Command command = new Engine_GetVersion_Command();
         byte[] requestBytes = command.getRequest().toByteArray();
-        byte[] responseBuffer = new byte[AudioEffectInterface.MAX_RESPONSE_SIZE];
+        byte[] responseBuffer = getResponseBuffer();
 
-        int responseLength = submitEngine_GetVersion(requestBytes, requestBytes.length, responseBuffer);
+        int responseLength = submitCommand(MenrvaCommands.Engine_GetVersion.getCommandId(), requestBytes, requestBytes.length, responseBuffer);
         byte[] responseBytes = trimResponseBuffer(responseBuffer, responseLength);
         Engine_GetVersion.Engine_GetVersion_Response response = command.getResponse().getParserForType().parseFrom(responseBytes);
 
@@ -63,7 +77,27 @@ public class CommandMapDebugger {
         Assert.assertEquals(realPatch, response.getPatch());
     }
 
-    public native int submitEngine_GetVersion(byte[] requestBytes, int requestLength, byte[] responseBuffer);
+    @Test
+    public void debug3Engine_GetLogLevel()
+            throws InvalidProtocolBufferException {
+        Engine_GetLogLevel_Command command = new Engine_GetLogLevel_Command();
+        byte[] requestBytes = command.getRequest().toByteArray();
+        byte[] responseBuffer = getResponseBuffer();
+
+        int responseLength = submitCommand(MenrvaCommands.Engine_GetLogLevel.getCommandId(), requestBytes, requestBytes.length, responseBuffer);
+        byte[] responseBytes = trimResponseBuffer(responseBuffer, responseLength);
+        Engine_GetLogLevel.Engine_GetLogLevel_Response response = command.getResponse().getParserForType().parseFrom(responseBytes);
+
+        int realLogLevel = EngineInterface.GetLogLevel();
+
+        Assert.assertEquals(realLogLevel, response.getLogLevel());
+    }
+
+    public native int submitCommand(int commandId, byte[] requestBytes, int requestLength, byte[] responseBuffer);
+
+    private byte[] getResponseBuffer() {
+        return new byte[AudioEffectInterface.MAX_RESPONSE_SIZE];
+    }
 
     private byte[] trimResponseBuffer(byte[] buffer, int responseLength)
             throws InvalidProtocolBufferException {

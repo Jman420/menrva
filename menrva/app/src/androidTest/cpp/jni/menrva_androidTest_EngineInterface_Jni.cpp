@@ -18,6 +18,7 @@
 
 #include <jni.h>
 #include "../../../main/cpp/Config.h"
+#include "../../../main/cpp/tools/ServiceLocator.h"
 
 extern "C"
 JNIEXPORT jint JNICALL
@@ -35,4 +36,11 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_EngineInterface_GetPatchVersion(JNIEnv *env, jclass type) {
     return MENRVA_ENGINE_PATCH;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_EngineInterface_GetLogLevel(JNIEnv* env, jclass type) {
+    ServiceLocator serviceLocator = *new ServiceLocator();
+    return serviceLocator.GetLogger()->GetLogLevel();
 }

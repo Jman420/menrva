@@ -33,5 +33,6 @@ uint32_t Module_GetConfig_Handler::SerializeResponse(void* responseBuffer) {
     _Logger->WriteLog("Returning Module Config as Reply Data...", LOG_SENDER, __func__);
     *(effect_config_t*)responseBuffer = *_Config;
     _Config = nullptr;
-    return 0;
+
+    return sizeof(effect_config_t);
 }

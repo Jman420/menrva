@@ -52,10 +52,10 @@ int CommandProcessor::Process(MenrvaModuleContext& context, uint32_t cmdCode, ui
         _Logger->WriteLog("Successfully Processed Command Id (%u).  Serializing Response...", LOG_SENDER, __func__, cmdCode);
         *replySize = handler.SerializeResponse(pReplyData);
 
-        _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__);
+        _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__, cmdCode);
         return 0;
     }
 
-    _Logger->WriteLog("Error processing Command Id (%u).  Returning -EINVAL as error code.", LOG_SENDER, __func__, LogLevel::ERROR);
+    _Logger->WriteLog("Error processing Command Id (%u).  Returning -EINVAL as error code.", LOG_SENDER, __func__, LogLevel::ERROR, cmdCode);
     return -EINVAL;
 }

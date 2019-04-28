@@ -89,9 +89,9 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Passing Command Data to CommandMap for Processing...", LOG_SENDER, __func__);
+    _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
     int result = CommandProcessor::Process(context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
-    _Logger->WriteLog("CommandMap finished Processing with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
+    _Logger->WriteLog("Finished Processing Command with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;
 }

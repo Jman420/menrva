@@ -23,7 +23,6 @@
 #include "../ModuleInterface.h"
 #include "CommandHandlerMap.h"
 
-// Represents the Commands supported by the Menrva Audio Effects Module & Engine
 class CommandProcessor {
 public:
     static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,

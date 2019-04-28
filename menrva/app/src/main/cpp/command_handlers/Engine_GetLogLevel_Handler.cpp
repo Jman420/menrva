@@ -22,9 +22,12 @@ Engine_GetLogLevel_Handler::Engine_GetLogLevel_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_GetLogLevel_Command(), logger, __PRETTY_FUNCTION__) {}
 
 bool Engine_GetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
+    _Logger->WriteLog("Received GetLogLevel Command...", LOG_SENDER, __func__);
     messages::Engine_GetLogLevel_Response& response = *_TypedCommand->GetTypedResponse();
 
-    response.set_loglevel(_Logger->GetAppLogLevel());
+    _Logger->WriteLog("Setting Log Level on Response Object...", LOG_SENDER, __func__);
+    response.set_loglevel(_Logger->GetLogLevel());
 
+    _Logger->WriteLog("Successfully set Log Level on Response Object.", LOG_SENDER, __func__);
     return true;
 }
