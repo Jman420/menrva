@@ -35,6 +35,8 @@ import java.util.UUID;
 public class AudioEffectInterface {
     public static final int MAX_RESPONSE_SIZE = 128;
 
+    private static final String COMMAND_METHOD_NAME = "command";
+
     private static boolean _Initialized = false;
     private static Constructor _Constructor;
     private static Method _SendCommand;
@@ -50,7 +52,7 @@ public class AudioEffectInterface {
         }
 
         try {
-            _SendCommand = AudioEffect.class.getMethod("command", int.class, byte[].class, byte[].class);
+            _SendCommand = AudioEffect.class.getMethod(COMMAND_METHOD_NAME, int.class, byte[].class, byte[].class);
         } catch (NoSuchMethodException e) {
             // TODO : Log Exception
             throw e;

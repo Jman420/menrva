@@ -25,8 +25,11 @@ import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.commands.Engine_GetLogLevel_Command;
 import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Response;
+import com.monkeystable.menrva.dataModels.EngineVersionModel;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -82,17 +85,9 @@ public class DebugActivity extends AppCompatActivity {
         }
 
         Engine_GetVersion_Command getEngineVersionCmd = new Engine_GetVersion_Command();
-        try {
-            _AudioEffect.sendCommand(getEngineVersionCmd);
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvalidProtocolBufferException e) {
-            e.printStackTrace();
-        }
-        Engine_GetVersion_Response engineVersionResponse = getEngineVersionCmd.getResponse();
-        String engineVersion = engineVersionResponse.getMajor() + "." + engineVersionResponse.getMinor() + "." + engineVersionResponse.getPatch();
+        sendEngineCommand(getEngineVersionCmd);
+        EngineVersionModel engineVersion = new EngineVersionModel(getEngineVersionCmd.getResponse(), _AudioEffect);
+        String versionStr = engineVersion.getMajor() + "." + engineVersion.getMinor() + "." + engineVersion.getPatch();
 
         _LogLevelSlider = findViewById(R.id.logLevelSlider);
         final String[] logLevels = JniInterface.getLogLevelsForUI();
@@ -111,22 +106,19 @@ public class DebugActivity extends AppCompatActivity {
         });
         _LogLevelSlider.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                if (!fromUser) {
-                    return;
-                }
-
-                // TODO : Send Command to Set Engine Log Level
-            }
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
 
             @Override
-            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) { }
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+
+            }
 
             @Override
             public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
         });
-        int appLogLevel = JniInterface.getAppLogLevelForUI();
-        _LogLevelSlider.setProgress(appLogLevel);
+        Engine_GetLogLevel_Command getEngineLogLevelCmd = new Engine_GetLogLevel_Command();
+        sendEngineCommand(getEngineLogLevelCmd);
+        _LogLevelSlider.setProgress(getEngineLogLevelCmd.getResponse().getLogLevel());
 
         _Console = findViewById(R.id.consoleOut);
         _Console.setMovementMethod(new ScrollingMovementMethod());
@@ -137,7 +129,7 @@ public class DebugActivity extends AppCompatActivity {
         writeToConsole(TAB + "Effect Name : " + JniInterface.getMenrvaEffectName());
         writeToConsole(TAB + "Effect Type UUID : " + effectTypeUUID);
         writeToConsole(TAB + "Engine UUID : " + engineUUID);
-        writeToConsole(TAB + "Engine version : " + engineVersion);
+        writeToConsole(TAB + "Engine version : " + versionStr);
 
         AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
         writeToConsole("***Effects List***");
@@ -199,5 +191,17 @@ public class DebugActivity extends AppCompatActivity {
 
         streamWriter.write(_Console.getText().toString());
         streamWriter.close();
+    }
+
+    private void sendEngineCommand(MenrvaCommand command) {
+        try {
+            _AudioEffect.sendCommand(command);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
     }
 }

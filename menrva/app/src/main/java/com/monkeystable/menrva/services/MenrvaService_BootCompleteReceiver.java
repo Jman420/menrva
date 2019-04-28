@@ -1,5 +1,7 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
+/*
+ * Menrva - Over-Engineered Tunable Android Audio Effects
  * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +18,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Module_Init_Handler.h"
-#include "../commands/Android_SystemCommand_Command.h"
+package com.monkeystable.menrva.services;
 
-Module_Init_Handler::Module_Init_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
 
-bool Module_Init_Handler::Execute(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
-    MenrvaModuleInterface::InitModule(context);
-    _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
-    return true;
+public class MenrvaService_BootCompleteReceiver extends BroadcastReceiver {
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        //context.startService(new Intent(context, MenrvaService.class));
+    }
 }

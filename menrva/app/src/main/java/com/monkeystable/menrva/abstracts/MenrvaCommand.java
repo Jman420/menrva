@@ -22,6 +22,7 @@ package com.monkeystable.menrva.abstracts;
 
 import com.google.protobuf.MessageLite;
 import com.monkeystable.menrva.commands.MenrvaCommands;
+import com.monkeystable.menrva.commands.messages.Android_SystemCommand;
 
 public abstract class MenrvaCommand<TRequest extends MessageLite, TResponse extends MessageLite> {
     private int _CommandId;
@@ -46,7 +47,8 @@ public abstract class MenrvaCommand<TRequest extends MessageLite, TResponse exte
         return _Response;
     }
 
-    public void setResponse(TResponse value) {
-        _Response = value;
+    public void setResponse(MessageLite value) {
+        //noinspection unchecked
+        _Response = (TResponse)value;
     }
 }

@@ -81,7 +81,7 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     return 0;
 }
 
-void MenrvaModuleInterface::InitModule(MenrvaModuleContext &context) {
+void MenrvaModuleInterface::InitModule(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
     if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
