@@ -118,7 +118,8 @@ public class DebugActivity extends AppCompatActivity {
         });
         Engine_GetLogLevel_Command getEngineLogLevelCmd = new Engine_GetLogLevel_Command();
         sendEngineCommand(getEngineLogLevelCmd);
-        _LogLevelSlider.setProgress(getEngineLogLevelCmd.getResponse().getLogLevel());
+        int engineLogLevel = JniInterface.getEngineLogLevelForUI(getEngineLogLevelCmd.getResponse().getLogLevel());
+        _LogLevelSlider.setProgress(engineLogLevel);
 
         _Console = findViewById(R.id.consoleOut);
         _Console.setMovementMethod(new ScrollingMovementMethod());

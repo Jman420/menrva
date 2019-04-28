@@ -43,13 +43,11 @@ public class JniInterface {
         return result;
     }
 
-    static int getAppLogLevelForUI() {
-        int appLogLevel = getAppLogLevel();
+    static int getEngineLogLevelForUI(int engineLogLevel) {
         int maxLogLevelValue = getMaxLogLevel();
-        return maxLogLevelValue - appLogLevel;
+        return maxLogLevelValue - engineLogLevel;
     }
 
     private static native int getLogLevelsLength();
     private static native int getMaxLogLevel();
-    private static native int getAppLogLevel();
 }
