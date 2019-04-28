@@ -48,14 +48,12 @@ int CommandProcessor::Process(MenrvaModuleContext& context, uint32_t cmdCode, ui
     handler.DeserializeRequest(pCmdData, cmdSize);
 
     _Logger->WriteLog("Executing Command Handler for Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
-    if (handler.Execute(context)) {
-        _Logger->WriteLog("Successfully Processed Command Id (%u).  Serializing Response...", LOG_SENDER, __func__, cmdCode);
-        *replySize = handler.SerializeResponse(pReplyData);
+    handler.Execute(context);
+    int32_t returnValue = handler.GetReturnValue();
 
-        _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__, cmdCode);
-        return 0;
-    }
+    _Logger->WriteLog("Successfully Processed Command Id (%u) with result (%u).  Serializing Response...", LOG_SENDER, __func__, cmdCode, returnValue);
+    *replySize = handler.SerializeResponse(pReplyData);
 
-    _Logger->WriteLog("Error processing Command Id (%u).  Returning -EINVAL as error code.", LOG_SENDER, __func__, LogLevel::ERROR, cmdCode);
-    return -EINVAL;
+    _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__, cmdCode);
+    return returnValue;
 }

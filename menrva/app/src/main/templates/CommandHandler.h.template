@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ENGINE_<CommandName>_HANDLER_H
-#define MENRVA_ENGINE_<CommandName>_HANDLER_H
+#ifndef MENRVA_<CommandName>_HANDLER_H
+#define MENRVA_<CommandName>_HANDLER_H
 
 #include "TypedCommandHandlerBase.h"
 #include "../commands/<CommandName>_Command.h"
@@ -27,7 +27,7 @@ class <CommandName>_Handler
 public:
     <CommandName>_Handler(LoggerBase* logger);
 
-    virtual bool Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(MenrvaModuleContext& context) override;
 };
 
-#endif //MENRVA_ENGINE_<CommandName>_HANDLER_H
+#endif //MENRVA_<CommandName>_HANDLER_H

@@ -27,7 +27,7 @@ class Module_ResetBuffers_Handler
 public:
     Module_ResetBuffers_Handler(LoggerBase *logger);
 
-    virtual bool Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(MenrvaModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 };
 

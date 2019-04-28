@@ -22,11 +22,10 @@
 Module_Init_Handler::Module_Init_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Module_Init_Handler::Execute(MenrvaModuleContext& context) {
+void Module_Init_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
     MenrvaModuleInterface::InitModule(context);
     _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
-    return true;
 }
 
 uint32_t Module_Init_Handler::SerializeResponse(void* responseBuffer) {

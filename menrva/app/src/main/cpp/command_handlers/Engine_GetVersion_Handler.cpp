@@ -21,7 +21,7 @@
 Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
+void Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
     messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
 
@@ -31,5 +31,4 @@ bool Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
     response.set_patch(MENRVA_ENGINE_PATCH);
 
     _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
-    return true;
 }

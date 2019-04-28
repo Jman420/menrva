@@ -27,7 +27,7 @@ class Module_GetConfig_Handler :
 public:
     Module_GetConfig_Handler(LoggerBase *logger);
 
-    virtual bool Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(MenrvaModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 
 private:

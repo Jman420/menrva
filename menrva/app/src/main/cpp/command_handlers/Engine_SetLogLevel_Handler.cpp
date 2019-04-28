@@ -21,7 +21,7 @@
 Engine_SetLogLevel_Handler::Engine_SetLogLevel_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_SetLogLevel_Command(), logger, __PRETTY_FUNCTION__) {}
 
-bool Engine_SetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
+void Engine_SetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received SetLogLevel Command...", LOG_SENDER, __func__);
     messages::Engine_SetLogLevel_Request& request = *_TypedCommand->GetTypedRequest();
     messages::Engine_SetLogLevel_Response& response = *_TypedCommand->GetTypedResponse();
@@ -32,7 +32,7 @@ bool Engine_SetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
         _Logger->WriteLog("SetLogLevel Request Validation Failed : Invalid Log Level Provided (%u)!", LOG_SENDER, __func__, requestLogLevel);
         response.set_loglevel(_Logger->GetLogLevel());
         response.set_success(false);
-        return true;
+        return;
     }
 
     _Logger->WriteLog("Setting New Log Level (%u)...", LOG_SENDER, __func__, requestLogLevel);
@@ -43,5 +43,4 @@ bool Engine_SetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
     response.set_loglevel(_Logger->GetLogLevel());
     response.set_success(true);
     _Logger->WriteLog("Successfully set SetLogLevel Success Response.", LOG_SENDER, __func__);
-    return true;
 }

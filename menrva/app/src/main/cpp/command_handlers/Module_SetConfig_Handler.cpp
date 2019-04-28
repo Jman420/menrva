@@ -28,7 +28,7 @@ bool Module_SetConfig_Handler::DeserializeRequest(void* data, int length) {
     return true;
 }
 
-bool Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
+void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
     effect_config_t& config = *_Config;
 
@@ -40,28 +40,33 @@ bool Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
     if (config.inputCfg.samplingRate != config.outputCfg.samplingRate) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Sample Rate does not match Output Sample Rate.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
+        _ReturnValue = -EINVAL;
+        return;
     }
     if (config.inputCfg.channels != config.outputCfg.channels && audio_channel_mask_in_to_out(config.inputCfg.channels) != config.outputCfg.channels) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Channels do not match Output Channels.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
+        _ReturnValue = -EINVAL;
+        return;
     }
     if (config.inputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
         config.inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported (%u).", LOG_SENDER, __func__, LogLevel::ERROR, config.inputCfg.format);
-        return -EINVAL;
+        _ReturnValue = -EINVAL;
+        return;
     }
     if (config.outputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
         config.outputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.outputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Output Format not supported (%u).", LOG_SENDER, __func__, LogLevel::ERROR, config.inputCfg.format);
-        return -EINVAL;
+        _ReturnValue = -EINVAL;
+        return;
     }
     if (config.outputCfg.accessMode != EFFECT_BUFFER_ACCESS_WRITE &&
         config.outputCfg.accessMode != EFFECT_BUFFER_ACCESS_ACCUMULATE) {
         _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
+        _ReturnValue = -EINVAL;
+        return;
     }
 
     _Logger->WriteLog("Calculating Channels Length...", LOG_SENDER, __func__);
@@ -86,7 +91,6 @@ bool Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = config;
     context.EffectsEngine->SetBufferConfig(context.ChannelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
-    return true;
 }
 
 void Module_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {

@@ -23,10 +23,9 @@ Module_GetConfig_Handler::Module_GetConfig_Handler(LoggerBase* logger)
     _Config = nullptr;
 }
 
-bool Module_GetConfig_Handler::Execute(MenrvaModuleContext& context) {
+void Module_GetConfig_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
     _Config = &context.config;
-    return true;
 }
 
 uint32_t Module_GetConfig_Handler::SerializeResponse(void* responseBuffer) {

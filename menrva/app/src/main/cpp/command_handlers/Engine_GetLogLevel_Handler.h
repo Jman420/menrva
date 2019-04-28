@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ENGINE_Engine_GetLogLevel_HANDLER_H
-#define MENRVA_ENGINE_Engine_GetLogLevel_HANDLER_H
+#ifndef MENRVA_Engine_GetLogLevel_HANDLER_H
+#define MENRVA_Engine_GetLogLevel_HANDLER_H
 
 #include "TypedCommandHandlerBase.h"
 #include "../commands/Engine_GetLogLevel_Command.h"
@@ -27,7 +27,7 @@ class Engine_GetLogLevel_Handler
 public:
     Engine_GetLogLevel_Handler(LoggerBase* logger);
 
-    virtual bool Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(MenrvaModuleContext& context) override;
 };
 
-#endif //MENRVA_ENGINE_Engine_GetLogLevel_HANDLER_H
+#endif //MENRVA_Engine_GetLogLevel_HANDLER_H
