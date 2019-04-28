@@ -32,6 +32,8 @@ const std::string LoggerBase::APP_NAME = "Menrva";
 const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
 const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
+const uint8_t LoggerBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
+const uint8_t LoggerBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
 LogLevel LoggerBase::_LogLevel = DEFAULT_APP_LOG_LEVEL;
 

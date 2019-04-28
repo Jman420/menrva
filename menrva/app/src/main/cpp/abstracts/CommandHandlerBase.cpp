@@ -23,6 +23,7 @@ using google::protobuf::MessageLite;
 CommandHandlerBase::CommandHandlerBase(CommandBase *command, LoggerBase* logger, std::string prettyFunction)
         : LoggingBase(logger, prettyFunction) {
     _Command = command;
+    _ReturnValue = 0;
 }
 
 CommandHandlerBase::~CommandHandlerBase() {
@@ -31,6 +32,10 @@ CommandHandlerBase::~CommandHandlerBase() {
 
 CommandBase *CommandHandlerBase::GetCommand() {
     return _Command;
+}
+
+int32_t CommandHandlerBase::GetReturnValue() {
+    return _ReturnValue;
 }
 
 bool CommandHandlerBase::DeserializeRequest(void *data, int length) {

@@ -53,6 +53,7 @@ CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
 
 #include "../command_handlers/Engine_GetLogLevel_Handler.h"
 #include "../command_handlers/Engine_GetVersion_Handler.h"
+#include "../command_handlers/Engine_SetLogLevel_Handler.h"
 
 void CommandHandlerMap::Initialize(LoggerBase* logger) {
     handler_map& handlerMap = *CommandHandlerMap::_HandlerMap;
@@ -66,6 +67,7 @@ void CommandHandlerMap::Initialize(LoggerBase* logger) {
 
     handlerMap.insert(handler_map::value_type(CommandIds::Calculate(MenrvaCommands::Engine_GetLogLevel), new Engine_GetLogLevel_Handler(logger)));
     handlerMap.insert(handler_map::value_type(CommandIds::Calculate(MenrvaCommands::Engine_GetVersion), new Engine_GetVersion_Handler(logger)));
+    handlerMap.insert(handler_map::value_type(CommandIds::Calculate(MenrvaCommands::Engine_SetLogLevel), new Engine_SetLogLevel_Handler(logger)));
 
     CommandHandlerMap::_Initialized = true;
 }

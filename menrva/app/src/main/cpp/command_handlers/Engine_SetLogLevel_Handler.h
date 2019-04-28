@@ -16,29 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMANDHANDLERBASE_H
-#define MENRVA_COMMANDHANDLERBASE_H
+#ifndef MENRVA_ENGINE_Engine_SetLogLevel_HANDLER_H
+#define MENRVA_ENGINE_Engine_SetLogLevel_HANDLER_H
 
-#include "CommandBase.h"
-#include "../ModuleInterface.h"
+#include "TypedCommandHandlerBase.h"
+#include "../commands/Engine_SetLogLevel_Command.h"
 
-class CommandHandlerBase
-        : public LoggingBase {
+class Engine_SetLogLevel_Handler
+        : public TypedCommandHandlerBase<Engine_SetLogLevel_Command> {
 public:
-    CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction);
-    virtual ~CommandHandlerBase();
+    Engine_SetLogLevel_Handler(LoggerBase* logger);
 
-    CommandBase* GetCommand();
-    int32_t GetReturnValue();
-
-    virtual bool DeserializeRequest(void *data, int length);
-    virtual uint32_t SerializeResponse(void* responseBuffer);
-
-    virtual bool Execute(MenrvaModuleContext& context) = 0;
-
-protected:
-    CommandBase* _Command;
-    int32_t _ReturnValue;
+    virtual bool Execute(MenrvaModuleContext& context) override;
 };
 
-#endif //MENRVA_COMMANDHANDLERBASE_H
+#endif //MENRVA_ENGINE_Engine_SetLogLevel_HANDLER_H

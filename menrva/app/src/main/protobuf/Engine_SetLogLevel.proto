@@ -16,29 +16,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMANDHANDLERBASE_H
-#define MENRVA_COMMANDHANDLERBASE_H
+// CommandId=3
 
-#include "CommandBase.h"
-#include "../ModuleInterface.h"
+syntax = "proto3";
 
-class CommandHandlerBase
-        : public LoggingBase {
-public:
-    CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction);
-    virtual ~CommandHandlerBase();
+package messages;
 
-    CommandBase* GetCommand();
-    int32_t GetReturnValue();
+option java_package = "com.monkeystable.menrva.commands.messages";
+option java_outer_classname = "Engine_SetLogLevel";
 
-    virtual bool DeserializeRequest(void *data, int length);
-    virtual uint32_t SerializeResponse(void* responseBuffer);
+message Engine_SetLogLevel_Request {
+    int32 logLevel = 1;
+}
 
-    virtual bool Execute(MenrvaModuleContext& context) = 0;
-
-protected:
-    CommandBase* _Command;
-    int32_t _ReturnValue;
-};
-
-#endif //MENRVA_COMMANDHANDLERBASE_H
+message Engine_SetLogLevel_Response {
+    bool success = 1;
+    int32 logLevel = 2;
+}
