@@ -36,6 +36,5 @@ bool Module_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
 }
 
 uint32_t Module_ResetBuffers_Handler::SerializeResponse(void* responseBuffer) {
-    *(int*)responseBuffer = 0;
-    return sizeof(int);
+    return 0;
 }
