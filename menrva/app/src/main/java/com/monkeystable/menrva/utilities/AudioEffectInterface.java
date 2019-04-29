@@ -96,7 +96,7 @@ public class AudioEffectInterface {
 
     public void sendCommand(MenrvaCommand message)
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
-        byte[] requestBytes = message.getRequest().toByteArray();
+        byte[] requestBytes = message.serializeRequest();
         byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
         int responseLength = invokeCommand(message.getCommandId(), requestBytes, responseBuffer);
         if (responseLength > responseBuffer.length) {
@@ -107,7 +107,7 @@ public class AudioEffectInterface {
         }
 
         byte[] responseBytes = Arrays.copyOfRange(responseBuffer, 0, responseLength);
-        message.setResponse(message.getResponse().getParserForType().parseFrom(responseBytes));
+        message.deserializeResponse(responseBytes);
     }
 
     private int invokeCommand(int command, byte[] value, byte[] result)

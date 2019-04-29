@@ -43,9 +43,9 @@ public class JniInterface {
         return result;
     }
 
-    static int getEngineLogLevelForUI(int engineLogLevel) {
+    static int translateEngineLogLevel(int logLevel) {
         int maxLogLevelValue = getMaxLogLevel();
-        return maxLogLevelValue - engineLogLevel;
+        return maxLogLevelValue - logLevel;
     }
 
     private static native int getLogLevelsLength();

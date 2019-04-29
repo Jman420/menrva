@@ -20,35 +20,48 @@
 
 package com.monkeystable.menrva.abstracts;
 
+import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite;
 import com.monkeystable.menrva.commands.MenrvaCommands;
-import com.monkeystable.menrva.commands.messages.Android_SystemCommand;
 
-public abstract class MenrvaCommand<TRequest extends MessageLite, TResponse extends MessageLite> {
+public abstract class MenrvaCommand<TRequestBuilder extends MessageLite.Builder, TResponse extends MessageLite> {
     private int _CommandId;
-    private TRequest _Request;
+    private TRequestBuilder _RequestBuilder;
+    private TResponse.Builder _ResponseBuilder;
     private TResponse _Response;
 
-    public MenrvaCommand(MenrvaCommands command, TRequest request, TResponse response) {
+    public MenrvaCommand(MenrvaCommands command, TRequestBuilder requestBuilder, TResponse.Builder responseBuilder) {
         _CommandId = command.getCommandId();
-        _Request = request;
-        _Response = response;
+        _RequestBuilder = requestBuilder;
+        _ResponseBuilder = responseBuilder;
     }
 
     public int getCommandId() {
         return _CommandId;
     }
 
-    public TRequest getRequest() {
-        return _Request;
+    public TRequestBuilder getRequestBuilder() {
+        return _RequestBuilder;
     }
 
     public TResponse getResponse() {
         return _Response;
     }
 
-    public void setResponse(MessageLite value) {
+    public byte[] serializeRequest() {
+        byte[] requestBytes = _RequestBuilder.build().toByteArray();
+        _RequestBuilder.clear();
+
+        return requestBytes;
+    }
+
+    public void deserializeResponse(byte[] responseBytes)
+            throws InvalidProtocolBufferException {
+        _ResponseBuilder.mergeFrom(responseBytes);
+
         //noinspection unchecked
-        _Response = (TResponse)value;
+        _Response = (TResponse)_ResponseBuilder.build();
+
+        _ResponseBuilder.clear();
     }
 }

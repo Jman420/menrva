@@ -61,7 +61,7 @@ public class CommandProcessorTests {
     public void debug2Engine_GetVersion()
             throws InvalidProtocolBufferException {
         Engine_GetVersion_Command command = new Engine_GetVersion_Command();
-        byte[] requestBytes = command.getRequest().toByteArray();
+        byte[] requestBytes = command.serializeRequest();
         byte[] responseBuffer = getResponseBuffer();
 
         int responseLength = submitCommand(MenrvaCommands.Engine_GetVersion.getCommandId(), requestBytes, requestBytes.length, responseBuffer);
@@ -81,7 +81,7 @@ public class CommandProcessorTests {
     public void debug3Engine_GetLogLevel()
             throws InvalidProtocolBufferException {
         Engine_GetLogLevel_Command command = new Engine_GetLogLevel_Command();
-        byte[] requestBytes = command.getRequest().toByteArray();
+        byte[] requestBytes = command.serializeRequest();
         byte[] responseBuffer = getResponseBuffer();
 
         int responseLength = submitCommand(MenrvaCommands.Engine_GetLogLevel.getCommandId(), requestBytes, requestBytes.length, responseBuffer);

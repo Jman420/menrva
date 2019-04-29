@@ -28,7 +28,9 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.monkeystable.menrva.abstracts.MenrvaCommand;
 import com.monkeystable.menrva.commands.Engine_GetLogLevel_Command;
 import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
-import com.monkeystable.menrva.commands.messages.Engine_GetVersion.Engine_GetVersion_Response;
+import com.monkeystable.menrva.commands.Engine_SetLogLevel_Command;
+import com.monkeystable.menrva.commands.messages.Engine_GetLogLevel;
+import com.monkeystable.menrva.commands.messages.Engine_SetLogLevel;
 import com.monkeystable.menrva.dataModels.EngineVersionModel;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
@@ -110,7 +112,15 @@ public class DebugActivity extends AppCompatActivity {
 
             @Override
             public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                Engine_SetLogLevel_Command command = new Engine_SetLogLevel_Command();
+                int newLogLevel = JniInterface.translateEngineLogLevel(progress);
+                command.getRequestBuilder().setLogLevel(newLogLevel);
+                sendEngineCommand(command);
 
+                Engine_SetLogLevel.Engine_SetLogLevel_Response response = command.getResponse();
+                if (!response.getSuccess()) {
+                    bubbleSeekBar.setProgress(response.getLogLevel());
+                }
             }
 
             @Override
@@ -118,7 +128,7 @@ public class DebugActivity extends AppCompatActivity {
         });
         Engine_GetLogLevel_Command getEngineLogLevelCmd = new Engine_GetLogLevel_Command();
         sendEngineCommand(getEngineLogLevelCmd);
-        int engineLogLevel = JniInterface.getEngineLogLevelForUI(getEngineLogLevelCmd.getResponse().getLogLevel());
+        int engineLogLevel = JniInterface.translateEngineLogLevel(getEngineLogLevelCmd.getResponse().getLogLevel());
         _LogLevelSlider.setProgress(engineLogLevel);
 
         _Console = findViewById(R.id.consoleOut);

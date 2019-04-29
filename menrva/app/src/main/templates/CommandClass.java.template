@@ -28,8 +28,8 @@ import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Req
 import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Response;
 
 public class <CommandName>_Command
-        extends MenrvaCommand<<CommandName>_Request, <CommandName>_Response> {
+        extends MenrvaCommand<<CommandName>_Request.Builder, <CommandName>_Response> {
     public <CommandName>_Command() {
-        super(MenrvaCommands.<CommandName>, <CommandName>_Request.newBuilder().build(), <CommandName>_Response.newBuilder().build());
+        super(MenrvaCommands.<CommandName>, <CommandName>_Request.newBuilder(), <CommandName>_Response.newBuilder());
     }
 }
