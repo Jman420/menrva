@@ -20,13 +20,38 @@
 
 package com.monkeystable.menrva.services;
 
+import android.app.Notification;
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.support.v4.app.NotificationCompat;
+
+import com.monkeystable.menrva.NotificationChannels;
+import com.monkeystable.menrva.R;
 
 public class MenrvaService extends Service {
+    private final int SERVICE_ID = 420;
+
+    private NotificationCompat.Builder _NotificationBuilder;
+
     @Override
     public IBinder onBind(Intent intent) {
+        // TODO : Draft & Return Service API Surface
         return null;
+    }
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        _NotificationBuilder = new NotificationCompat.Builder(this, NotificationChannels.SERVICE_CHANNEL_ID)
+                .setContentTitle(NotificationChannels.SERVICE_CHANNEL_NAME)
+                .setSmallIcon(R.drawable.ic_service_notification);
+        updateNotification("Waking up Menrva...");
+    }
+
+    private void updateNotification(String caption) {
+        Notification notification = _NotificationBuilder.setContentText(caption).build();
+        startForeground(SERVICE_ID, notification);
     }
 }

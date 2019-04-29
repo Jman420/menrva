@@ -1,7 +1,6 @@
 /*
  * Menrva - Over-Engineered Tunable Android Audio Effects
  * Copyright (C) 2019 Justin Giannone (aka Jman420)
- * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +17,30 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.services;
+package com.monkeystable.menrva;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
+import android.app.Application;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.os.Build;
 
-public class MenrvaService_BootCompleteReceiver extends BroadcastReceiver {
-
+public class MenrvaApp extends Application {
     @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
+    public void onCreate() {
+        super.onCreate();
 
-        if (action == null || !action.equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
+        createNotificationChannel();
+    }
+
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return;
         }
 
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            context.startService(new Intent(context, MenrvaService.class));
-        }
-        else {
-            context.startForegroundService(new Intent(context, MenrvaService.class));
-        }
+        NotificationChannel serviceChannel = new NotificationChannel(NotificationChannels.SERVICE_CHANNEL_ID,
+                                                                     NotificationChannels.SERVICE_CHANNEL_NAME,
+                                                                     NotificationManager.IMPORTANCE_LOW);
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(serviceChannel);
     }
 }

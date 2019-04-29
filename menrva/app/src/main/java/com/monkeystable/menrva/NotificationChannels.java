@@ -1,7 +1,6 @@
 /*
  * Menrva - Over-Engineered Tunable Android Audio Effects
  * Copyright (C) 2019 Justin Giannone (aka Jman420)
- * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,28 +17,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.services;
+package com.monkeystable.menrva;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Build;
+public class NotificationChannels {
+    public static final String SERVICE_CHANNEL_ID = "menrvaServiceChannel";
+    public static final String SERVICE_CHANNEL_NAME = "Menrva Audio Service";
 
-public class MenrvaService_BootCompleteReceiver extends BroadcastReceiver {
-
-    @Override
-    public void onReceive(Context context, Intent intent) {
-        String action = intent.getAction();
-
-        if (action == null || !action.equalsIgnoreCase(Intent.ACTION_BOOT_COMPLETED)) {
-            return;
-        }
-
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            context.startService(new Intent(context, MenrvaService.class));
-        }
-        else {
-            context.startForegroundService(new Intent(context, MenrvaService.class));
-        }
-    }
+    // Private constructor to prevent instantiation of static class
+    private NotificationChannels() {}
 }

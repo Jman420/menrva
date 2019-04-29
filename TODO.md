@@ -60,6 +60,7 @@
   - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
   - Whole bunch of testing
+  - ? Need Graphic Assets (icons, splash, etc) ?
   - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI, CircleCI) ?
   - Release
