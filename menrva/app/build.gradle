@@ -44,4 +44,6 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
     implementation 'com.xw.repo:bubbleseekbar:3.20'
+
+    implementation fileTree(dir: '../../libs/protobuf/out/java', include: ['*.jar'])
 }

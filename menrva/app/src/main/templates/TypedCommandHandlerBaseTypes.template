@@ -1,0 +1,2 @@
+#include "../commands/<CommandName>_Command.h"
+template class TypedCommandHandlerBase<<CommandName>_Command>;

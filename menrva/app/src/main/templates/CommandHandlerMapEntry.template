@@ -1,0 +1,1 @@
+    handlerMap.insert(handler_map::value_type(CommandIds::Calculate(MenrvaCommands::<CommandName>), new <CommandName>_Handler(logger)));

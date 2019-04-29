@@ -5,9 +5,10 @@
   - Android SDK
   - Android NDK
   - Java SDK (JDK)
-  - FFTW
   - KFR Lib
+  - FFTW
   - KissFFT
+  - Protobuf
   
 ## Versioning
 Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
@@ -17,6 +18,24 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
   
 ## Compiling KissFFT for Android
   - See instructions in [KissFFT Build Readme](https://github.com/Jman420/kissfft_for_android/blob/master/README.md)
+
+## Compiling Protobuf for Android
+  - See instruction in [Protobuf Build Readme](https://github.com/Jman420/protobuf_for_android/blob/develop/README.md)
+  
+## Generating Protobuf Message, Command & Handler Source Files
+  - Follow above instructions for Compiling Protobuf for Android
+  - Execute the [generate_protobuf_commands.ps1](generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
+  **Note:** These files are not included under source control because the generated source code versions on both sides (Java App and C++ Engine) must be the same.
+  - Execute the [generate_command_handler_base.ps1](generate_command_handler_base.ps1) script to generate the TypedCommandHandlerBase Class
+  **Note:** These files are not included under source control because they need to incorporate all Command Handlers that have been defined.
+
+## Creating New App to Engine Command
+  - Follow above instructions for Compiling Protobuf for Android
+  - Execute the [create_new_protobuf_command.ps1](create_new_protobuf_command.ps1) script with the Command Name as an argument to generate the Protobuf Command File
+  - Add necessary data points to the Request and Response Messages in the Resulting File in the [menrva\app\src\main\protobuf](menrva\app\src\main\protobuf) directory
+  - Execute the [generate_protobuf_commands.ps1](generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
+  - Execute the [create_new_command_handler.ps1](create_new_command_handler.ps1) script with the Command Name as an argument to generate the C++ Command Handler
+  - Add necessary logic to the Command Handler in the Resulting File in the [menrva\app\src\main\cpp\command_handlers](menrva\app\src\main\cpp\command_handlers) directory
 
 ## Configuring Calculation Precision
 See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.

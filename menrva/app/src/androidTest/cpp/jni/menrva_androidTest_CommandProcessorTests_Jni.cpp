@@ -1,0 +1,64 @@
+/* Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along
+ * with this program; if not, write to the Free Software Foundation, Inc.,
+ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+ */
+
+#include <jni.h>
+#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/engine/CommandProcessor.h"
+#include "../../../main/cpp/commands/MenrvaCommands.h"
+#include "../../../main/cpp/tools/CommandIds.h"
+#include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
+    effect_handle_t menrvaEffectHandle = nullptr;
+    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+
+    jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
+    jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
+
+    uint32_t responseLength = 0;
+    CommandProcessor::Process(menrvaEngineContext, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+
+    env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
+    env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
+
+    return responseLength;
+}
+
+extern "C"
+JNIEXPORT jint JNICALL
+Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
+    effect_handle_t menrvaEffectHandle = nullptr;
+    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+
+    jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
+    jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
+
+    uint32_t responseLength = 0;
+    uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
+    CommandProcessor::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+
+    env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
+    env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
+
+    return responseLength;
+}

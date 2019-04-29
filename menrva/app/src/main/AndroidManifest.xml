@@ -26,11 +26,11 @@
         </activity>
 
         <service
-            android:name=".service.MenrvaService"
+            android:name=".services.MenrvaService"
             android:enabled="true"/>
 
         <receiver
-            android:name=".service.MenrvaService_BootCompleteReceiver"
+            android:name=".services.MenrvaService_BootCompleteReceiver"
             android:enabled="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />

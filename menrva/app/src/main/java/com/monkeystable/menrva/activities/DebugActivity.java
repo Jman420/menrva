@@ -1,5 +1,7 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/*
+ * Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -21,6 +23,15 @@ package com.monkeystable.menrva.activities;
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
+
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.commands.Engine_GetLogLevel_Command;
+import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
+import com.monkeystable.menrva.commands.Engine_SetLogLevel_Command;
+import com.monkeystable.menrva.commands.messages.Engine_GetLogLevel;
+import com.monkeystable.menrva.commands.messages.Engine_SetLogLevel;
+import com.monkeystable.menrva.dataModels.EngineVersionModel;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -59,6 +70,27 @@ public class DebugActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_activity);
 
+        _TestSong = MediaPlayer.create(DebugActivity.this, R.raw.test_song);
+
+        UUID effectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
+        UUID engineUUID = UUID.fromString(JniInterface.getMenrvaEffectEngineUUID());
+        try {
+            _AudioEffect = new AudioEffectInterface(effectTypeUUID, engineUUID, 0, _TestSong.getAudioSessionId());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        Engine_GetVersion_Command getEngineVersionCmd = new Engine_GetVersion_Command();
+        sendEngineCommand(getEngineVersionCmd);
+        EngineVersionModel engineVersion = new EngineVersionModel(getEngineVersionCmd.getResponse(), _AudioEffect);
+        String versionStr = engineVersion.getMajor() + "." + engineVersion.getMinor() + "." + engineVersion.getPatch();
+
         _LogLevelSlider = findViewById(R.id.logLevelSlider);
         final String[] logLevels = JniInterface.getLogLevelsForUI();
         _LogLevelSlider.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
@@ -74,8 +106,30 @@ public class DebugActivity extends AppCompatActivity {
                 return array;
             }
         });
-        int appLogLevel = JniInterface.getAppLogLevelForUI();
-        _LogLevelSlider.setProgress(appLogLevel);
+        _LogLevelSlider.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListener() {
+            @Override
+            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
+
+            @Override
+            public void getProgressOnActionUp(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat) {
+                Engine_SetLogLevel_Command command = new Engine_SetLogLevel_Command();
+                int newLogLevel = JniInterface.translateEngineLogLevel(progress);
+                command.getRequestBuilder().setLogLevel(newLogLevel);
+                sendEngineCommand(command);
+
+                Engine_SetLogLevel.Engine_SetLogLevel_Response response = command.getResponse();
+                if (!response.getSuccess()) {
+                    bubbleSeekBar.setProgress(response.getLogLevel());
+                }
+            }
+
+            @Override
+            public void getProgressOnFinally(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) { }
+        });
+        Engine_GetLogLevel_Command getEngineLogLevelCmd = new Engine_GetLogLevel_Command();
+        sendEngineCommand(getEngineLogLevelCmd);
+        int engineLogLevel = JniInterface.translateEngineLogLevel(getEngineLogLevelCmd.getResponse().getLogLevel());
+        _LogLevelSlider.setProgress(engineLogLevel);
 
         _Console = findViewById(R.id.consoleOut);
         _Console.setMovementMethod(new ScrollingMovementMethod());
@@ -83,11 +137,10 @@ public class DebugActivity extends AppCompatActivity {
         writeToConsole("-----Console Output-----");
 
         writeToConsole("***Menrva Engine Details***");
-        UUID effectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
-        UUID engineUUID = UUID.fromString(JniInterface.getMenrvaEffectEngineUUID());
         writeToConsole(TAB + "Effect Name : " + JniInterface.getMenrvaEffectName());
         writeToConsole(TAB + "Effect Type UUID : " + effectTypeUUID);
         writeToConsole(TAB + "Engine UUID : " + engineUUID);
+        writeToConsole(TAB + "Engine version : " + versionStr);
 
         AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
         writeToConsole("***Effects List***");
@@ -96,19 +149,6 @@ public class DebugActivity extends AppCompatActivity {
             writeToConsole(TAB + "Effect Type UUID : " + audioEffect.type);
             writeToConsole(TAB + "Engine UUID : " + audioEffect.uuid);
             writeToConsole("--------------------");
-        }
-
-        _TestSong = MediaPlayer.create(DebugActivity.this, R.raw.test_song);
-        try {
-            _AudioEffect = new AudioEffectInterface(effectTypeUUID, engineUUID, 0, _TestSong.getAudioSessionId());
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
         }
 
         writeToConsole("***Instantiated Effect Details***");
@@ -162,5 +202,17 @@ public class DebugActivity extends AppCompatActivity {
 
         streamWriter.write(_Console.getText().toString());
         streamWriter.close();
+    }
+
+    private void sendEngineCommand(MenrvaCommand command) {
+        try {
+            _AudioEffect.sendCommand(command);
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvalidProtocolBufferException e) {
+            e.printStackTrace();
+        }
     }
 }

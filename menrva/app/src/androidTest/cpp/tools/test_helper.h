@@ -21,7 +21,7 @@
 
 #include <vector>
 #include <cmath>
-#include "../../../main/cpp/audio/sample.h"
+#include "../../../main/cpp/audio/Sample.h"
 
 struct test_params {
     sample SampleRate = 44100.0,

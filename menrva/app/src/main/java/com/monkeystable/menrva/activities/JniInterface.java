@@ -1,5 +1,7 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/*
+ * Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,13 +43,11 @@ public class JniInterface {
         return result;
     }
 
-    static int getAppLogLevelForUI() {
-        int appLogLevel = getAppLogLevel();
+    static int translateEngineLogLevel(int logLevel) {
         int maxLogLevelValue = getMaxLogLevel();
-        return maxLogLevelValue - appLogLevel;
+        return maxLogLevelValue - logLevel;
     }
 
     private static native int getLogLevelsLength();
     private static native int getMaxLogLevel();
-    private static native int getAppLogLevel();
 }

@@ -1,5 +1,7 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/*
+ * Menrva - Over-Engineered Tunable Android Audio Effects
+ * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -20,24 +22,26 @@ package com.monkeystable.menrva.utilities;
 
 import android.media.audiofx.AudioEffect;
 
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
+import java.util.Locale;
 import java.util.UUID;
 
 public class AudioEffectInterface {
+    public static final int MAX_RESPONSE_SIZE = 128;
+
+    private static final String COMMAND_METHOD_NAME = "command";
+
     private static boolean _Initialized = false;
     private static Constructor _Constructor;
-    private static Method _GetParameter;
-    private static Method _SetParameter;
+    private static Method _SendCommand;
 
     private AudioEffect _Effect;
-    private ByteConverter _ByteConverter;
 
     private static void initialize() throws NoSuchMethodException {
         try {
@@ -48,14 +52,7 @@ public class AudioEffectInterface {
         }
 
         try {
-            _GetParameter = AudioEffect.class.getMethod("getParameter", int.class, byte[].class);
-        } catch (NoSuchMethodException e) {
-            // TODO : Log Exception
-            throw e;
-        }
-
-        try {
-            _SetParameter = AudioEffect.class.getMethod("setParameter", int.class, byte[].class);
+            _SendCommand = AudioEffect.class.getMethod(COMMAND_METHOD_NAME, int.class, byte[].class, byte[].class);
         } catch (NoSuchMethodException e) {
             // TODO : Log Exception
             throw e;
@@ -83,8 +80,10 @@ public class AudioEffectInterface {
             // TODO : Log Exception
             throw e;
         }
+    }
 
-        _ByteConverter = new ByteConverter();
+    public AudioEffect.Descriptor getDescriptor() {
+        return _Effect.getDescriptor();
     }
 
     public boolean getEnabled() {
@@ -95,62 +94,26 @@ public class AudioEffectInterface {
         _Effect.setEnabled(enabled);
     }
 
-    public void setParameter(int parameter, boolean value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
+    public void sendCommand(MenrvaCommand message)
+            throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
+        byte[] requestBytes = message.serializeRequest();
+        byte[] responseBuffer = new byte[MAX_RESPONSE_SIZE];
+        int responseLength = invokeCommand(message.getCommandId(), requestBytes, responseBuffer);
+        if (responseLength > responseBuffer.length) {
+            String exceptionMsg = String.format(Locale.US,"Response Buffer Overflow.  Response Length %d exceeds Max Length %d.",
+                    responseLength, responseBuffer.length);
+            // TODO : Log Exception
+            throw new InvalidProtocolBufferException(exceptionMsg);
+        }
+
+        byte[] responseBytes = Arrays.copyOfRange(responseBuffer, 0, responseLength);
+        message.deserializeResponse(responseBytes);
     }
 
-    public void setParameter(int parameter, short value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, short[] value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, int value)
-            throws IllegalAccessException, InvocationTargetException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, int[] value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, float value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, float[] value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public void setParameter(int parameter, String value)
-            throws InvocationTargetException, IllegalAccessException {
-        byte[] valueBytes = _ByteConverter.convertToBytes(value);
-        invokeSetParameter(parameter, valueBytes);
-    }
-
-    public AudioEffect.Descriptor getDescriptor() {
-        return _Effect.getDescriptor();
-    }
-
-    private void invokeSetParameter(int parameter, byte[] value)
+    private int invokeCommand(int command, byte[] value, byte[] result)
             throws IllegalAccessException, InvocationTargetException {
         try {
-            _SetParameter.invoke(_Effect, parameter, value);
+            return (int)_SendCommand.invoke(_Effect, command, value, result);
         } catch (IllegalAccessException e) {
             // TODO : Log Exception
             throw e;
