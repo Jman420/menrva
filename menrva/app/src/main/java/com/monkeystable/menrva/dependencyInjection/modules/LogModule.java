@@ -25,7 +25,7 @@ import dagger.Module;
 import dagger.Provides;
 
 @Module
-public class AndroidLogModule {
+public class LogModule {
     @Provides
     public AndroidLogger provideLogger() {
         return new AndroidLogger();

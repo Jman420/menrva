@@ -26,6 +26,6 @@ import dagger.android.ContributesAndroidInjector;
 
 @Module
 public abstract class ActivitiesModule {
-    @ContributesAndroidInjector(modules = { AndroidLogModule.class })
+    @ContributesAndroidInjector(modules = { LogModule.class })
     abstract DebugActivity contributeDebugActivityInjector();
 }

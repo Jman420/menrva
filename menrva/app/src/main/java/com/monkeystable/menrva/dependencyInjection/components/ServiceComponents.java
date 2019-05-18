@@ -19,13 +19,13 @@
 
 package com.monkeystable.menrva.dependencyInjection.components;
 
-import com.monkeystable.menrva.dependencyInjection.modules.AndroidLogModule;
+import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
 import com.monkeystable.menrva.utilities.AndroidLogger;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 
-@Component(modules = { AndroidInjectionModule.class, AndroidLogModule.class, })
+@Component(modules = { AndroidInjectionModule.class, LogModule.class, })
 public interface ServiceComponents {
     AndroidLogger getLogger();
 }
