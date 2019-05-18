@@ -19,17 +19,33 @@
 
 package com.monkeystable.menrva;
 
-import android.app.Application;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.os.Build;
 
-public class MenrvaApp extends Application {
+import com.monkeystable.menrva.dependencyInjection.components.AppComponents;
+import com.monkeystable.menrva.dependencyInjection.components.DaggerAppComponents;
+
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
+
+public class MenrvaApp extends DaggerApplication {
+    private AppComponents _AppComponents;
+
+    public MenrvaApp() {
+        _AppComponents = DaggerAppComponents.create();
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
         createNotificationChannel();
+    }
+
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return _AppComponents;
     }
 
     private void createNotificationChannel() {

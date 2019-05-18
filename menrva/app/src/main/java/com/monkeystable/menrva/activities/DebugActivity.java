@@ -54,7 +54,10 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-public class DebugActivity extends AppCompatActivity {
+import dagger.android.AndroidInjection;
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class DebugActivity extends DaggerAppCompatActivity {
     private final String TAB = "    ";
 
     private TextView _Console;

@@ -29,7 +29,9 @@ import android.support.v4.app.NotificationCompat;
 import com.monkeystable.menrva.NotificationChannels;
 import com.monkeystable.menrva.R;
 
-public class MenrvaService extends Service {
+import dagger.android.DaggerService;
+
+public class MenrvaService extends DaggerService {
     private final int SERVICE_ID = 420;
 
     private NotificationCompat.Builder _NotificationBuilder;
@@ -37,6 +39,7 @@ public class MenrvaService extends Service {
     @Override
     public IBinder onBind(Intent intent) {
         // TODO : Draft & Return Service API Surface
+
         return null;
     }
 
@@ -47,7 +50,16 @@ public class MenrvaService extends Service {
         _NotificationBuilder = new NotificationCompat.Builder(this, NotificationChannels.SERVICE_CHANNEL_ID)
                 .setContentTitle(NotificationChannels.SERVICE_CHANNEL_NAME)
                 .setSmallIcon(R.drawable.ic_service_notification);
-        updateNotification("Waking up Menrva...");
+        updateNotification("Waking up...");
+
+        // Initialize & Register Broadcast Receivers
+        //   - AudioSession Created/Destroyed
+        //
+        //   - Bluetooth Connected/Disconnected
+        //   - Headset Plug/Unplug
+        //   - USB Audio Plug/Unplug
+
+        // Wrap Current Output Device as Finite State Machine
     }
 
     private void updateNotification(String caption) {
