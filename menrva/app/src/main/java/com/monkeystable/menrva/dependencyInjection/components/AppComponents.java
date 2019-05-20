@@ -19,10 +19,15 @@
 
 package com.monkeystable.menrva.dependencyInjection.components;
 
+import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
+import com.monkeystable.menrva.utilities.AndroidLogger;
+
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 
-@Component(modules = { AndroidInjectionModule.class, })
-public interface AppComponents extends AndroidInjector<DaggerApplication> {}
+@Component(modules = { AndroidInjectionModule.class, LogModule.class, })
+public interface AppComponents extends AndroidInjector<DaggerApplication> {
+    AndroidLogger getLogger();
+}
