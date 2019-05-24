@@ -17,18 +17,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dependencyInjection.components;
+package com.monkeystable.menrva.dependencyInjection.modules;
 
-import com.monkeystable.menrva.abstracts.MenrvaLogger;
-import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
-import com.monkeystable.menrva.dependencyInjection.modules.NotificationHandlerModule;
 import com.monkeystable.menrva.interfaces.INotificationHandler;
+import com.monkeystable.menrva.utilities.NotificationHandler;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import dagger.Module;
+import dagger.Provides;
 
-@Component(modules = { AndroidInjectionModule.class, LogModule.class, NotificationHandlerModule.class, })
-public interface ServiceComponents {
-    MenrvaLogger getLogger();
-    INotificationHandler getNotificationHandler();
+@Module
+public class NotificationHandlerModule {
+    @Provides
+    public INotificationHandler provideNotificationHandler() {
+        return new NotificationHandler();
+    }
 }

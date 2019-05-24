@@ -20,21 +20,25 @@
 
 package com.monkeystable.menrva.services;
 
-import android.app.Notification;
-import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 
 import com.monkeystable.menrva.NotificationChannels;
 import com.monkeystable.menrva.R;
+import com.monkeystable.menrva.interfaces.INotificationHandler;
 
-import dagger.android.DaggerService;
+import javax.inject.Inject;
 
-public class MenrvaService extends DaggerService {
+public class MenrvaService extends com.monkeystable.menrva.abstracts.MenrvaService {
     private final int SERVICE_ID = 420;
 
-    private NotificationCompat.Builder _NotificationBuilder;
+    @Inject
+    protected INotificationHandler _NotificationHandler;
+
+    @Override
+    public int getServiceId() {
+        return SERVICE_ID;
+    }
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -47,10 +51,8 @@ public class MenrvaService extends DaggerService {
     public void onCreate() {
         super.onCreate();
 
-        _NotificationBuilder = new NotificationCompat.Builder(this, NotificationChannels.SERVICE_CHANNEL_ID)
-                .setContentTitle(NotificationChannels.SERVICE_CHANNEL_NAME)
-                .setSmallIcon(R.drawable.ic_service_notification);
-        updateNotification("Waking up...");
+        _NotificationHandler.createNotification(this, NotificationChannels.SERVICE_CHANNEL_ID, NotificationChannels.SERVICE_CHANNEL_NAME);
+        _NotificationHandler.setNotification(this, NotificationChannels.SERVICE_CHANNEL_ID, "Waking up...", R.drawable.ic_service_notification);
 
         // Initialize & Register Broadcast Receivers
         //   - AudioSession Created/Destroyed
@@ -60,10 +62,5 @@ public class MenrvaService extends DaggerService {
         //   - USB Audio Plug/Unplug
 
         // Wrap Current Output Device as Finite State Machine
-    }
-
-    private void updateNotification(String caption) {
-        Notification notification = _NotificationBuilder.setContentText(caption).build();
-        startForeground(SERVICE_ID, notification);
     }
 }

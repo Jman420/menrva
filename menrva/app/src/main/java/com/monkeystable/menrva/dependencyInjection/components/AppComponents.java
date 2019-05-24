@@ -19,17 +19,20 @@
 
 package com.monkeystable.menrva.dependencyInjection.components;
 
+import com.monkeystable.menrva.abstracts.MenrvaLogger;
 import com.monkeystable.menrva.dependencyInjection.modules.ActivitiesModule;
 import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
+import com.monkeystable.menrva.dependencyInjection.modules.NotificationHandlerModule;
 import com.monkeystable.menrva.dependencyInjection.modules.ServicesModule;
-import com.monkeystable.menrva.utilities.AndroidLogger;
+import com.monkeystable.menrva.interfaces.INotificationHandler;
 
 import dagger.Component;
 import dagger.android.AndroidInjectionModule;
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;
 
-@Component(modules = { AndroidInjectionModule.class, LogModule.class, ActivitiesModule.class, ServicesModule.class })
+@Component(modules = { AndroidInjectionModule.class, LogModule.class, ActivitiesModule.class, ServicesModule.class, NotificationHandlerModule.class, })
 public interface AppComponents extends AndroidInjector<DaggerApplication> {
-    AndroidLogger getLogger();
+    MenrvaLogger getLogger();
+    INotificationHandler getNotificationHandler();
 }

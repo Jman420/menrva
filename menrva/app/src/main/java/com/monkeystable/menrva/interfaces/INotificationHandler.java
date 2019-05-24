@@ -17,18 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dependencyInjection.components;
+package com.monkeystable.menrva.interfaces;
 
-import com.monkeystable.menrva.abstracts.MenrvaLogger;
-import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
-import com.monkeystable.menrva.dependencyInjection.modules.NotificationHandlerModule;
-import com.monkeystable.menrva.interfaces.INotificationHandler;
+import android.app.Service;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import com.monkeystable.menrva.abstracts.MenrvaService;
 
-@Component(modules = { AndroidInjectionModule.class, LogModule.class, NotificationHandlerModule.class, })
-public interface ServiceComponents {
-    MenrvaLogger getLogger();
-    INotificationHandler getNotificationHandler();
+public interface INotificationHandler {
+    void createNotification(Service owner, String channelId, String channelName);
+    void createNotification(Service owner, String channelId, String channelName, Integer importanceLevel);
+
+    boolean setNotification(MenrvaService owner, String channelId, String caption);
+    boolean setNotification(MenrvaService owner, String channelId, Integer icon);
+    boolean setNotification(MenrvaService owner, String channelId, String caption, Integer icon);
 }

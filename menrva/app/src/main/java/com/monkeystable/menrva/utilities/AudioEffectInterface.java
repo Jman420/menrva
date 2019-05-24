@@ -24,6 +24,7 @@ import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
 import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.interfaces.IAudioEffectInterface;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -32,7 +33,7 @@ import java.util.Arrays;
 import java.util.Locale;
 import java.util.UUID;
 
-public class AudioEffectInterface {
+public class AudioEffectInterface implements IAudioEffectInterface {
     public static final int MAX_RESPONSE_SIZE = 128;
 
     private static final String COMMAND_METHOD_NAME = "command";
@@ -82,18 +83,22 @@ public class AudioEffectInterface {
         }
     }
 
+    @Override
     public AudioEffect.Descriptor getDescriptor() {
         return _Effect.getDescriptor();
     }
 
+    @Override
     public boolean getEnabled() {
         return _Effect.getEnabled();
     }
 
+    @Override
     public void setEnabled(boolean enabled) {
         _Effect.setEnabled(enabled);
     }
 
+    @Override
     public void sendCommand(MenrvaCommand message)
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException {
         byte[] requestBytes = message.serializeRequest();

@@ -17,18 +17,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dependencyInjection.components;
+package com.monkeystable.menrva.interfaces;
 
-import com.monkeystable.menrva.abstracts.MenrvaLogger;
-import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
-import com.monkeystable.menrva.dependencyInjection.modules.NotificationHandlerModule;
-import com.monkeystable.menrva.interfaces.INotificationHandler;
+import android.media.audiofx.AudioEffect;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.monkeystable.menrva.abstracts.MenrvaCommand;
 
-@Component(modules = { AndroidInjectionModule.class, LogModule.class, NotificationHandlerModule.class, })
-public interface ServiceComponents {
-    MenrvaLogger getLogger();
-    INotificationHandler getNotificationHandler();
+import java.lang.reflect.InvocationTargetException;
+
+public interface IAudioEffectInterface {
+    AudioEffect.Descriptor getDescriptor();
+
+    boolean getEnabled();
+    void setEnabled(boolean enabled);
+
+    void sendCommand(MenrvaCommand message)
+            throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException;
 }

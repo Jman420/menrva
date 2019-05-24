@@ -17,18 +17,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dependencyInjection.components;
+package com.monkeystable.menrva.abstracts;
 
-import com.monkeystable.menrva.abstracts.MenrvaLogger;
-import com.monkeystable.menrva.dependencyInjection.modules.LogModule;
-import com.monkeystable.menrva.dependencyInjection.modules.NotificationHandlerModule;
-import com.monkeystable.menrva.interfaces.INotificationHandler;
+import com.monkeystable.menrva.utilities.LogLevel;
 
-import dagger.Component;
-import dagger.android.AndroidInjectionModule;
+public abstract class MenrvaLogger {
+    private static final LogLevel DEFAULT_LOG_LEVEL = LogLevel.DEBUG;
+    protected static LogLevel _LogLevel;
 
-@Component(modules = { AndroidInjectionModule.class, LogModule.class, NotificationHandlerModule.class, })
-public interface ServiceComponents {
-    MenrvaLogger getLogger();
-    INotificationHandler getNotificationHandler();
+    public void setLogLevel(LogLevel logLevel) {
+        _LogLevel = logLevel;
+    }
+
+    public LogLevel getLogLevel() {
+        return _LogLevel;
+    }
+
+    public void writeLog(String message, String senderClass, String senderFunction) {
+        writeLog(message, senderClass, senderFunction, DEFAULT_LOG_LEVEL);
+    }
+
+    public abstract void writeLog(String message, String senderClass, String senderFunction, LogLevel logLevel);
 }

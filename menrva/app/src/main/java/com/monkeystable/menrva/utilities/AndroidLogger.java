@@ -21,22 +21,20 @@ package com.monkeystable.menrva.utilities;
 
 import android.util.Log;
 
-public class AndroidLogger {
+import com.monkeystable.menrva.abstracts.MenrvaLogger;
+
+public class AndroidLogger extends MenrvaLogger {
     private static final String APP_NAME = "Menrva";
     private static final String LOG_ELEMENT_DELIMITER = ".";
     private static final String FUNCTION_SUFFIX = "()";
 
     private static boolean _Initialized = false;
-    private static LogLevel _LogLevel;
 
     public AndroidLogger() {
         Initialize();
     }
 
-    public void setLogLevel(LogLevel logLevel) {
-        _LogLevel = logLevel;
-    }
-
+    @Override
     public void writeLog(String message, String senderClass, String senderFunction, LogLevel logLevel) {
         if (logLevel.ordinal() > _LogLevel.ordinal()) {
             return;

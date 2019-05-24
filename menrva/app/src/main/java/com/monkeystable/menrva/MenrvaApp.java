@@ -19,10 +19,6 @@
 
 package com.monkeystable.menrva;
 
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.os.Build;
-
 import com.monkeystable.menrva.dependencyInjection.components.AppComponents;
 import com.monkeystable.menrva.dependencyInjection.components.DaggerAppComponents;
 
@@ -37,26 +33,7 @@ public class MenrvaApp extends DaggerApplication {
     }
 
     @Override
-    public void onCreate() {
-        super.onCreate();
-
-        createNotificationChannel();
-    }
-
-    @Override
     protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
         return _AppComponents;
-    }
-
-    private void createNotificationChannel() {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
-            return;
-        }
-
-        NotificationChannel serviceChannel = new NotificationChannel(NotificationChannels.SERVICE_CHANNEL_ID,
-                                                                     NotificationChannels.SERVICE_CHANNEL_NAME,
-                                                                     NotificationManager.IMPORTANCE_LOW);
-        NotificationManager notificationManager = getSystemService(NotificationManager.class);
-        notificationManager.createNotificationChannel(serviceChannel);
     }
 }

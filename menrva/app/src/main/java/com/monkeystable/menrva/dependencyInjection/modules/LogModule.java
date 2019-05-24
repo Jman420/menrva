@@ -19,6 +19,7 @@
 
 package com.monkeystable.menrva.dependencyInjection.modules;
 
+import com.monkeystable.menrva.abstracts.MenrvaLogger;
 import com.monkeystable.menrva.utilities.AndroidLogger;
 
 import dagger.Module;
@@ -27,7 +28,7 @@ import dagger.Provides;
 @Module
 public class LogModule {
     @Provides
-    public AndroidLogger provideLogger() {
+    public MenrvaLogger provideLogger() {
         return new AndroidLogger();
     }
 }
