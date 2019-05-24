@@ -22,7 +22,7 @@ package com.monkeystable.menrva.interfaces;
 import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.abstracts.CommandBase;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -32,6 +32,6 @@ public interface IAudioEffectInterface {
     boolean getEnabled();
     void setEnabled(boolean enabled);
 
-    void sendCommand(MenrvaCommand message)
+    void sendCommand(CommandBase message)
             throws InvocationTargetException, IllegalAccessException, InvalidProtocolBufferException;
 }

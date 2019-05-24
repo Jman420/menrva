@@ -25,11 +25,12 @@ import android.os.IBinder;
 
 import com.monkeystable.menrva.NotificationChannels;
 import com.monkeystable.menrva.R;
+import com.monkeystable.menrva.abstracts.ServiceBase;
 import com.monkeystable.menrva.interfaces.INotificationHandler;
 
 import javax.inject.Inject;
 
-public class MenrvaService extends com.monkeystable.menrva.abstracts.MenrvaService {
+public class SystemMonitorService extends ServiceBase {
     private final int SERVICE_ID = 420;
 
     @Inject

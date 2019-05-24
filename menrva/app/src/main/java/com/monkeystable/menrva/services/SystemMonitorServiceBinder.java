@@ -21,6 +21,6 @@ package com.monkeystable.menrva.services;
 
 import android.os.Binder;
 
-public class MenrvaServiceBinder extends Binder {
+public class SystemMonitorServiceBinder extends Binder {
 
 }

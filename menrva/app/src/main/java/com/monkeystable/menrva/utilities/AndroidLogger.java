@@ -21,9 +21,9 @@ package com.monkeystable.menrva.utilities;
 
 import android.util.Log;
 
-import com.monkeystable.menrva.abstracts.MenrvaLogger;
+import com.monkeystable.menrva.abstracts.LoggerBase;
 
-public class AndroidLogger extends MenrvaLogger {
+public class AndroidLogger extends LoggerBase {
     private static final String APP_NAME = "Menrva";
     private static final String LOG_ELEMENT_DELIMITER = ".";
     private static final String FUNCTION_SUFFIX = "()";

@@ -19,12 +19,23 @@
 
 package com.monkeystable.menrva.abstracts;
 
-import com.monkeystable.menrva.utilities.AudioEffectInterface;
+import com.monkeystable.menrva.utilities.LogLevel;
 
-public class MenrvaDataModel {
-    protected AudioEffectInterface _EffectInterface;
+public abstract class LoggerBase {
+    private static final LogLevel DEFAULT_LOG_LEVEL = LogLevel.DEBUG;
+    protected static LogLevel _LogLevel;
 
-    public MenrvaDataModel(AudioEffectInterface effectInterface) {
-        _EffectInterface = effectInterface;
+    public void setLogLevel(LogLevel logLevel) {
+        _LogLevel = logLevel;
     }
+
+    public LogLevel getLogLevel() {
+        return _LogLevel;
+    }
+
+    public void writeLog(String message, String senderClass, String senderFunction) {
+        writeLog(message, senderClass, senderFunction, DEFAULT_LOG_LEVEL);
+    }
+
+    public abstract void writeLog(String message, String senderClass, String senderFunction, LogLevel logLevel);
 }

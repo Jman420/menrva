@@ -19,7 +19,7 @@
 
 package com.monkeystable.menrva.dependencyInjection.modules;
 
-import com.monkeystable.menrva.services.MenrvaService;
+import com.monkeystable.menrva.services.SystemMonitorService;
 
 import dagger.Module;
 import dagger.android.ContributesAndroidInjector;
@@ -27,5 +27,5 @@ import dagger.android.ContributesAndroidInjector;
 @Module
 public abstract class ServicesModule {
     @ContributesAndroidInjector(modules = { LogModule.class })
-    abstract MenrvaService contributeMenrvaServiceInjector();
+    abstract SystemMonitorService contributeMenrvaServiceInjector();
 }

@@ -19,4 +19,8 @@
 
 package com.monkeystable.menrva.abstracts;
 
-public class MenrvaViewModel { }
+import dagger.android.DaggerService;
+
+public abstract class ServiceBase extends DaggerService {
+    public abstract int getServiceId();
+}

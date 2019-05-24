@@ -19,8 +19,8 @@
 
 package com.monkeystable.menrva;
 
-import com.monkeystable.menrva.dependencyInjection.components.AppComponents;
-import com.monkeystable.menrva.dependencyInjection.components.DaggerAppComponents;
+import com.monkeystable.menrva.dependencyInjection.AppComponents;
+import com.monkeystable.menrva.dependencyInjection.DaggerAppComponents;
 
 import dagger.android.AndroidInjector;
 import dagger.android.DaggerApplication;

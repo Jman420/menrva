@@ -19,11 +19,11 @@
 
 package com.monkeystable.menrva.dataModels;
 
-import com.monkeystable.menrva.abstracts.MenrvaDataModel;
+import com.monkeystable.menrva.abstracts.DataModelBase;
 import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 
-public class EngineVersionModel extends MenrvaDataModel {
+public class EngineVersionModel extends DataModelBase {
     private int _Major;
     private int _Minor;
     private int _Patch;

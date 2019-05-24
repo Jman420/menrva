@@ -23,7 +23,7 @@
 
 package com.monkeystable.menrva.commands;
 
-import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.abstracts.CommandBase;
 import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Request;
 import com.monkeystable.menrva.commands.messages.<CommandName>.<CommandName>_Response;
 

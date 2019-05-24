@@ -21,13 +21,13 @@ package com.monkeystable.menrva.interfaces;
 
 import android.app.Service;
 
-import com.monkeystable.menrva.abstracts.MenrvaService;
+import com.monkeystable.menrva.abstracts.ServiceBase;
 
 public interface INotificationHandler {
     void createNotification(Service owner, String channelId, String channelName);
     void createNotification(Service owner, String channelId, String channelName, Integer importanceLevel);
 
-    boolean setNotification(MenrvaService owner, String channelId, String caption);
-    boolean setNotification(MenrvaService owner, String channelId, Integer icon);
-    boolean setNotification(MenrvaService owner, String channelId, String caption, Integer icon);
+    boolean setNotification(ServiceBase owner, String channelId, String caption);
+    boolean setNotification(ServiceBase owner, String channelId, Integer icon);
+    boolean setNotification(ServiceBase owner, String channelId, String caption, Integer icon);
 }

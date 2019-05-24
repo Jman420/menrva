@@ -25,7 +25,7 @@ import android.app.Service;
 import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
-import com.monkeystable.menrva.abstracts.MenrvaService;
+import com.monkeystable.menrva.abstracts.ServiceBase;
 import com.monkeystable.menrva.interfaces.INotificationHandler;
 
 import java.util.Hashtable;
@@ -64,17 +64,17 @@ public class NotificationHandler implements INotificationHandler {
     }
 
     @Override
-    public boolean setNotification(MenrvaService owner, String channelId, String caption) {
+    public boolean setNotification(ServiceBase owner, String channelId, String caption) {
         return setNotification(owner, channelId, caption, null);
     }
 
     @Override
-    public boolean setNotification(MenrvaService owner, String channelId, Integer icon) {
+    public boolean setNotification(ServiceBase owner, String channelId, Integer icon) {
         return setNotification(owner, channelId, null, icon);
     }
 
     @Override
-    public boolean setNotification(MenrvaService owner, String channelId, String caption, Integer icon) {
+    public boolean setNotification(ServiceBase owner, String channelId, String caption, Integer icon) {
         NotificationCompat.Builder notificationBuilder = _NotificationBuilders.get(channelId);
         if (notificationBuilder == null) {
             return false;
