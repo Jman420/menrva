@@ -17,12 +17,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva;
+package com.monkeystable.menrva.dataModels;
 
-public class NotificationChannels {
-    public static final String SERVICE_CHANNEL_ID = "menrvaServiceChannel";
-    public static final String SERVICE_CHANNEL_NAME = "Menrva Monitor Service";
+import com.monkeystable.menrva.abstracts.DataModelBase;
+import com.monkeystable.menrva.utilities.AudioEffectInterface;
 
-    // Private constructor to prevent instantiation of static class
-    private NotificationChannels() {}
+public class EngineLogLevelModel extends DataModelBase {
+    public EngineLogLevelModel(AudioEffectInterface effectInterface) {
+        super(effectInterface);
+    }
+
+
 }

@@ -55,6 +55,10 @@ public class SystemMonitorService extends ServiceBase {
         _NotificationHandler.createNotification(this, NotificationChannels.SERVICE_CHANNEL_ID, NotificationChannels.SERVICE_CHANNEL_NAME);
         _NotificationHandler.setNotification(this, NotificationChannels.SERVICE_CHANNEL_ID, "Waking up...", R.drawable.ic_service_notification);
 
+        // Initialize AudioEffectInterface Collection
+
+        // Wrap Current Output Device as Finite State Machine
+
         // Initialize & Register Broadcast Receivers
         //   - AudioSession Created/Destroyed
         //
@@ -62,6 +66,5 @@ public class SystemMonitorService extends ServiceBase {
         //   - Headset Plug/Unplug
         //   - USB Audio Plug/Unplug
 
-        // Wrap Current Output Device as Finite State Machine
     }
 }

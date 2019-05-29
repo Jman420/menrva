@@ -92,11 +92,11 @@ public class DebugActivity extends DaggerAppCompatActivity {
         String versionStr = engineVersion.getMajor() + "." + engineVersion.getMinor() + "." + engineVersion.getPatch();
 
         _LogLevelSlider = findViewById(R.id.logLevelSlider);
-        final String[] logLevels = JniInterface.getLogLevelsForUI();
         _LogLevelSlider.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
             @NonNull
             @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                final String[] logLevels = JniInterface.getLogLevelsForUI();
                 array.clear();
 
                 for (int logLevelCounter = 0; logLevelCounter < logLevels.length; logLevelCounter++) {

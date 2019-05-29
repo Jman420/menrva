@@ -24,10 +24,10 @@ import android.app.Service;
 import com.monkeystable.menrva.abstracts.ServiceBase;
 
 public interface INotificationHandler {
-    void createNotification(Service owner, String channelId, String channelName);
-    void createNotification(Service owner, String channelId, String channelName, Integer importanceLevel);
+    void createNotification(Service context, String channelId, String channelName);
+    void createNotification(Service context, String channelId, String channelName, Integer importanceLevel);
 
-    boolean setNotification(ServiceBase owner, String channelId, String caption);
-    boolean setNotification(ServiceBase owner, String channelId, Integer icon);
-    boolean setNotification(ServiceBase owner, String channelId, String caption, Integer icon);
+    boolean setNotification(ServiceBase context, String channelId, String caption);
+    boolean setNotification(ServiceBase context, String channelId, Integer icon);
+    boolean setNotification(ServiceBase context, String channelId, String caption, Integer icon);
 }

@@ -38,12 +38,12 @@ public class NotificationHandler implements INotificationHandler {
     }
 
     @Override
-    public void createNotification(Service owner, String channelId, String channelName) {
-        createNotification(owner, channelId, channelName, null);
+    public void createNotification(Service context, String channelId, String channelName) {
+        createNotification(context, channelId, channelName, null);
     }
 
     @Override
-    public void createNotification(Service owner, String channelId, String channelName, Integer importanceLevel) {
+    public void createNotification(Service context, String channelId, String channelName, Integer importanceLevel) {
         if (_NotificationBuilders.containsKey(channelId)) {
             return;
         }
@@ -54,27 +54,27 @@ public class NotificationHandler implements INotificationHandler {
             }
 
             NotificationChannel serviceChannel = new NotificationChannel(channelId, channelName, importanceLevel);
-            NotificationManager notificationManager = owner.getSystemService(NotificationManager.class);
+            NotificationManager notificationManager = context.getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(serviceChannel);
         }
 
-        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(owner, channelId)
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(context, channelId)
                 .setContentTitle(channelName);
         _NotificationBuilders.put(channelId, notificationBuilder);
     }
 
     @Override
-    public boolean setNotification(ServiceBase owner, String channelId, String caption) {
-        return setNotification(owner, channelId, caption, null);
+    public boolean setNotification(ServiceBase context, String channelId, String caption) {
+        return setNotification(context, channelId, caption, null);
     }
 
     @Override
-    public boolean setNotification(ServiceBase owner, String channelId, Integer icon) {
-        return setNotification(owner, channelId, null, icon);
+    public boolean setNotification(ServiceBase context, String channelId, Integer icon) {
+        return setNotification(context, channelId, null, icon);
     }
 
     @Override
-    public boolean setNotification(ServiceBase owner, String channelId, String caption, Integer icon) {
+    public boolean setNotification(ServiceBase context, String channelId, String caption, Integer icon) {
         NotificationCompat.Builder notificationBuilder = _NotificationBuilders.get(channelId);
         if (notificationBuilder == null) {
             return false;
@@ -87,7 +87,7 @@ public class NotificationHandler implements INotificationHandler {
             notificationBuilder.setSmallIcon(icon);
         }
 
-        owner.startForeground(owner.getServiceId(), notificationBuilder.build());
+        context.startForeground(context.getServiceId(), notificationBuilder.build());
         return true;
     }
 }
