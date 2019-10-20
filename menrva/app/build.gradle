@@ -33,6 +33,11 @@ android {
             jniLibs.srcDirs = ['../../libs/fftw/out/', '../../libs/kissfft/out/']
         }
     }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    buildToolsVersion = '29.0.2'
 }
 
 dependencies {
