@@ -57,7 +57,7 @@ const char* MenrvaModuleInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1
 
 int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused, int32_t ioId __unused, effect_handle_t* pHandle) {
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
-
+    
     if (pHandle == nullptr) {
         _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;

@@ -17,34 +17,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dataModels;
+package com.monkeystable.menrva;
 
-import com.monkeystable.menrva.abstracts.DataModelBase;
-import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
-import com.monkeystable.menrva.utilities.AudioEffectInterface;
+import com.monkeystable.menrva.dependencyInjection.AppComponents;
+import com.monkeystable.menrva.dependencyInjection.DaggerAppComponents;
 
-public class EngineVersionModel extends DataModelBase {
-    private int _Major;
-    private int _Minor;
-    private int _Patch;
+import dagger.android.AndroidInjector;
+import dagger.android.DaggerApplication;
 
-    public EngineVersionModel(Engine_GetVersion.Engine_GetVersion_Response data, AudioEffectInterface effectInterface) {
-        super(effectInterface);
+public class MenrvaApp extends DaggerApplication {
+    private AppComponents _AppComponents;
 
-        _Major = data.getMajor();
-        _Minor = data.getMinor();
-        _Patch = data.getPatch();
+    public MenrvaApp() {
+        _AppComponents = DaggerAppComponents.create();
     }
 
-    public int getMajor() {
-        return _Major;
-    }
-
-    public int getMinor() {
-        return _Minor;
-    }
-
-    public int getPatch() {
-        return _Patch;
+    @Override
+    protected AndroidInjector<? extends DaggerApplication> applicationInjector() {
+        return _AppComponents;
     }
 }

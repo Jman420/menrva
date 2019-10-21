@@ -1,7 +1,6 @@
 /*
  * Menrva - Over-Engineered Tunable Android Audio Effects
  * Copyright (C) 2019 Justin Giannone (aka Jman420)
- * File last modified : 4/20/19 9:16 AM
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -18,15 +17,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.services;
+package com.monkeystable.menrva.abstracts;
 
-import android.app.Service;
-import android.content.Intent;
-import android.os.IBinder;
+import dagger.android.DaggerService;
 
-public class MenrvaService extends Service {
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
+public abstract class ServiceBase extends DaggerService {
+    public abstract int getServiceId();
 }

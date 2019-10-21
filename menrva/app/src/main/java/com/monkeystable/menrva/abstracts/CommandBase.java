@@ -24,13 +24,13 @@ import com.google.protobuf.InvalidProtocolBufferException;
 import com.google.protobuf.MessageLite;
 import com.monkeystable.menrva.commands.MenrvaCommands;
 
-public abstract class MenrvaCommand<TRequestBuilder extends MessageLite.Builder, TResponse extends MessageLite> {
+public abstract class CommandBase<TRequestBuilder extends MessageLite.Builder, TResponse extends MessageLite> {
     private int _CommandId;
     private TRequestBuilder _RequestBuilder;
     private TResponse.Builder _ResponseBuilder;
     private TResponse _Response;
 
-    public MenrvaCommand(MenrvaCommands command, TRequestBuilder requestBuilder, TResponse.Builder responseBuilder) {
+    public CommandBase(MenrvaCommands command, TRequestBuilder requestBuilder, TResponse.Builder responseBuilder) {
         _CommandId = command.getCommandId();
         _RequestBuilder = requestBuilder;
         _ResponseBuilder = responseBuilder;

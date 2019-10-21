@@ -31,11 +31,11 @@ const log_level_map LoggerBase::LOG_LEVEL_MAP = {
 const std::string LoggerBase::APP_NAME = "Menrva";
 const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
 const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
-const LogLevel LoggerBase::DEFAULT_APP_LOG_LEVEL = LogLevel::ERROR;
+const LogLevel LoggerBase::START_UP_LOG_LEVEL = LogLevel::ERROR;
 const uint8_t LoggerBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
 const uint8_t LoggerBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
-LogLevel LoggerBase::_LogLevel = DEFAULT_APP_LOG_LEVEL;
+LogLevel LoggerBase::_LogLevel = START_UP_LOG_LEVEL;
 
 bool LoggerBase::_OverrideListEnabled = false;
 logger_override_list LoggerBase::_OverrideList = *new logger_override_list();

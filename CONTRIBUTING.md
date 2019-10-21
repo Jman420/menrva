@@ -54,6 +54,24 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
 
 ## AVD Tips & Tricks
 
+### Install Full Magisk on Android Emulator
+For root app development on Android 10 (Q) and after both the system and vendor partitions are read-only and ADB's remount command will not remount them as read-write.  As such Magisk is the only option for modifying the necessary partitions.  At a high level we are going to modify the ramdisk.img file for the AVD System Image of the Emulator we want to install Magisk on.  This is essentially a similar process to using Magisk Manager's Patch Method for installation.
+  - Download 'Android Image Kitchen' from : https://forum.xda-developers.com/showthread.php?t=2073775
+  - Extract only mkbootimg and unpackbootimg executables and all library files from the tools directory of the 'Android Image Kitchen' archive
+    * Note : Other executable files in the 'Android Image Kitchen' archive may be flagged as malware.  We need only the files listed above which should not be flagged.
+  - Use mkbootimg to create a Dummy Boot Image using the desired AVD System Image
+    * Note : The kernel file should be prefixed with 'kernel-'
+    * IMPORTANT : Be sure to include the ramdisk.img file in the mkbootimg command; this is the part that Magisk Manager will need to modify
+  - Configure Emulated Device to always Cold Boot
+  - Copy the resulting Dummy Boot Image file to the Emulated Device
+  - Install Magisk Manager on the Emulated Device
+  - Use Magisk Manager to patch the Dummy Boot Image file
+  - Copy the resulting Patched Boot Image back to the Host Device
+  - Use unpackbootimg to unpack the Patched Boot Image
+  - Replace the AVD System Image ramdisk.img file with the file contained in the ramdisk tarball from the Unpacked Patched Boot Image`
+  - Restart the Emulated Device
+    * Note : Device must be configured to Cold Boot for stability
+
 ### Android Emulator with Writable System
 Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.
 

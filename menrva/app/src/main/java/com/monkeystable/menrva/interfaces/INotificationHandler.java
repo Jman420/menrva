@@ -17,34 +17,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dataModels;
+package com.monkeystable.menrva.interfaces;
 
-import com.monkeystable.menrva.abstracts.DataModelBase;
-import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
-import com.monkeystable.menrva.utilities.AudioEffectInterface;
+import android.app.Service;
 
-public class EngineVersionModel extends DataModelBase {
-    private int _Major;
-    private int _Minor;
-    private int _Patch;
+import com.monkeystable.menrva.abstracts.ServiceBase;
 
-    public EngineVersionModel(Engine_GetVersion.Engine_GetVersion_Response data, AudioEffectInterface effectInterface) {
-        super(effectInterface);
+public interface INotificationHandler {
+    void createNotification(Service context, String channelId, String channelName);
+    void createNotification(Service context, String channelId, String channelName, Integer importanceLevel);
 
-        _Major = data.getMajor();
-        _Minor = data.getMinor();
-        _Patch = data.getPatch();
-    }
-
-    public int getMajor() {
-        return _Major;
-    }
-
-    public int getMinor() {
-        return _Minor;
-    }
-
-    public int getPatch() {
-        return _Patch;
-    }
+    boolean setNotification(ServiceBase context, String channelId, String caption);
+    boolean setNotification(ServiceBase context, String channelId, Integer icon);
+    boolean setNotification(ServiceBase context, String channelId, String caption, Integer icon);
 }

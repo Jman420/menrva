@@ -17,34 +17,15 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.dataModels;
+package com.monkeystable.menrva.dependencyInjection.modules;
 
-import com.monkeystable.menrva.abstracts.DataModelBase;
-import com.monkeystable.menrva.commands.messages.Engine_GetVersion;
-import com.monkeystable.menrva.utilities.AudioEffectInterface;
+import com.monkeystable.menrva.activities.DebugActivity;
 
-public class EngineVersionModel extends DataModelBase {
-    private int _Major;
-    private int _Minor;
-    private int _Patch;
+import dagger.Module;
+import dagger.android.ContributesAndroidInjector;
 
-    public EngineVersionModel(Engine_GetVersion.Engine_GetVersion_Response data, AudioEffectInterface effectInterface) {
-        super(effectInterface);
-
-        _Major = data.getMajor();
-        _Minor = data.getMinor();
-        _Patch = data.getPatch();
-    }
-
-    public int getMajor() {
-        return _Major;
-    }
-
-    public int getMinor() {
-        return _Minor;
-    }
-
-    public int getPatch() {
-        return _Patch;
-    }
+@Module
+public abstract class ActivitiesModule {
+    @ContributesAndroidInjector(modules = { LogModule.class })
+    abstract DebugActivity contributeDebugActivityInjector();
 }

@@ -92,7 +92,7 @@ protected:
 private:
     const static std::string OVERRIDE_LIST_KEY_DELIMITER;
     const static LogLevel DEFAULT_LOG_LEVEL;
-    const static LogLevel DEFAULT_APP_LOG_LEVEL;
+    const static LogLevel START_UP_LOG_LEVEL;
 };
 
 #endif //MENRVA_LOGGER_BASE_H

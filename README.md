@@ -55,3 +55,4 @@ Huge thanks goes out to all of the XDA Audio Mod developers out there and their 
   - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) - For providing a reasonable and understandable FFT Convolver Implementation
   - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) - For providing a reasonable and understandable Stereo FFT Convolver Implementation
   - [Protobuf](https://github.com/protocolbuffers/protobuf) - For providing an off the shelf Protocol Serializer
+  - [Dagger](https://github.com/google/dagger) - For providing an excellent Dependency Injection Framework

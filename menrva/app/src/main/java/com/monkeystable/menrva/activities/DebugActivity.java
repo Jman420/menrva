@@ -25,16 +25,14 @@ import android.media.MediaPlayer;
 import android.media.audiofx.AudioEffect;
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.monkeystable.menrva.abstracts.MenrvaCommand;
+import com.monkeystable.menrva.abstracts.CommandBase;
 import com.monkeystable.menrva.commands.Engine_GetLogLevel_Command;
 import com.monkeystable.menrva.commands.Engine_GetVersion_Command;
 import com.monkeystable.menrva.commands.Engine_SetLogLevel_Command;
-import com.monkeystable.menrva.commands.messages.Engine_GetLogLevel;
 import com.monkeystable.menrva.commands.messages.Engine_SetLogLevel;
 import com.monkeystable.menrva.dataModels.EngineVersionModel;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.SparseArray;
@@ -54,7 +52,9 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.UUID;
 
-public class DebugActivity extends AppCompatActivity {
+import dagger.android.support.DaggerAppCompatActivity;
+
+public class DebugActivity extends DaggerAppCompatActivity {
     private final String TAB = "    ";
 
     private TextView _Console;
@@ -92,11 +92,11 @@ public class DebugActivity extends AppCompatActivity {
         String versionStr = engineVersion.getMajor() + "." + engineVersion.getMinor() + "." + engineVersion.getPatch();
 
         _LogLevelSlider = findViewById(R.id.logLevelSlider);
-        final String[] logLevels = JniInterface.getLogLevelsForUI();
         _LogLevelSlider.setCustomSectionTextArray(new BubbleSeekBar.CustomSectionTextArray() {
             @NonNull
             @Override
             public SparseArray<String> onCustomize(int sectionCount, @NonNull SparseArray<String> array) {
+                final String[] logLevels = JniInterface.getLogLevelsForUI();
                 array.clear();
 
                 for (int logLevelCounter = 0; logLevelCounter < logLevels.length; logLevelCounter++) {
@@ -204,7 +204,7 @@ public class DebugActivity extends AppCompatActivity {
         streamWriter.close();
     }
 
-    private void sendEngineCommand(MenrvaCommand command) {
+    private void sendEngineCommand(CommandBase command) {
         try {
             _AudioEffect.sendCommand(command);
         } catch (InvocationTargetException e) {

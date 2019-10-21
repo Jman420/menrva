@@ -17,6 +17,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-package com.monkeystable.menrva.abstracts;
+package com.monkeystable.menrva.utilities;
 
-public class MenrvaViewModel { }
+public enum LogLevel {
+    VERBOSE(2),
+    DEBUG(3),
+    INFO(4),
+    WARN(5),
+    ERROR(6),
+    FATAL(7),;
+
+    private final int _LogLevelId;
+
+    LogLevel(int logLevelId) {
+        _LogLevelId = logLevelId;
+    }
+
+    public int getLogLevelId() {
+        return _LogLevelId;
+    }
+}

@@ -52,6 +52,11 @@
   - ~~Draft App to Engine Comm Layer~~
   - ~~Refactor File Naming Scheme for Generated Files~~
   - ~~Refactor Engine Command Layer for Command Pattern~~
+  
+  - Integrate Faust Effects into Menrva Engine
+  - Dynamic Load Faust Effect Libraries
+  - Discover & Register Effects in Faust Libraries
+  
   - Use Overlap-Discard Method for Convolution
   - Convolver should only return non-corrupted output indexes
   - Implement Master Limiter (floor & ceiling limiters, channel pan control, gain control)
@@ -60,6 +65,7 @@
   - Draft Installation Method via UI w/ Root
   - Draft JNI Interface to Menrva Module Backend
   - Whole bunch of testing
+  - ? Need Graphic Assets (icons, splash, etc) ?
   - ? Draft Unit Tests ?
   - ? CI Integration (TravisCI, CircleCI) ?
   - Release
