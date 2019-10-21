@@ -57,7 +57,7 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
 ### Install Full Magisk on Android Emulator
 For root app development on Android 10 (Q) and after both the system and vendor partitions are read-only and ADB's remount command will not remount them as read-write.  As such Magisk is the only option for modifying the necessary partitions.  At a high level we are going to modify the ramdisk.img file for the AVD System Image of the Emulator we want to install Magisk on.  This is essentially a similar process to using Magisk Manager's Patch Method for installation.
   - Download 'Android Image Kitchen' from : https://forum.xda-developers.com/showthread.php?t=2073775
-  - Extract only mkbootimg and unpackbootimg from the tools directory of the 'Android Image Kitchen' archive
+  - Extract only mkbootimg and unpackbootimg executables and all library files from the tools directory of the 'Android Image Kitchen' archive
     * Note : Other executable files in the 'Android Image Kitchen' archive may be flagged as malware.  We need only the files listed above which should not be flagged.
   - Use mkbootimg to create a Dummy Boot Image using the desired AVD System Image
     * Note : The kernel file should be prefixed with 'kernel-'

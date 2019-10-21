@@ -37,12 +37,15 @@ Copy-Item -Path $MenrvaBuildApk -Destination $AppArtifact
 
 Write-Output "Extracting Backend from Menrva App APK..."
 Add-Type -Assembly System.IO.Compression.FileSystem
-$apkZip = [IO.Compression.ZipFile]::OpenRead("../$AppArtifact")
+$appArtifactPath = Resolve-Path $AppArtifact
+$apkZip = [IO.Compression.ZipFile]::OpenRead("$appArtifactPath")
 $backendFileEntries = $apkZip.Entries | where { $_.FullName -like "lib/*" }
 foreach ($backendFileEntry in $backendFileEntries) {
     $backendOutputFile = $backendFileEntry.FullName.Replace("lib/", "")
-    New-Item -Force "$BackendArtifactDir/$backendOutputFile"
-    [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, "../$BackendArtifactDir/$backendOutputFile", $true) 
+    $outputFile = "$BackendArtifactDir/$backendOutputFile"
+    New-Item -Force $outputFile
+    $destination = Resolve-Path $outputFile
+    [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, $destination, $true) 
 }
 $apkZip.Dispose()
 
