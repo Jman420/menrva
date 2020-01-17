@@ -70,6 +70,8 @@ public class DebugActivity extends DaggerAppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.debug_activity);
 
+        AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
+
         _TestSong = MediaPlayer.create(DebugActivity.this, R.raw.test_song);
 
         UUID effectTypeUUID = UUID.fromString(JniInterface.getMenrvaEffectTypeUUID());
@@ -142,7 +144,6 @@ public class DebugActivity extends DaggerAppCompatActivity {
         writeToConsole(TAB + "Engine UUID : " + engineUUID);
         writeToConsole(TAB + "Engine version : " + versionStr);
 
-        AudioEffect.Descriptor[] effects = AudioEffect.queryEffects();
         writeToConsole("***Effects List***");
         for (AudioEffect.Descriptor audioEffect : effects) {
             writeToConsole(TAB + "Effect Name : " + audioEffect.name);
