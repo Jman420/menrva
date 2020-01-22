@@ -61,13 +61,14 @@ ExecuteAdbCommand -logMsg "Pushing Menrva Lib to Device..." -failMsg "Failed to 
 ExecuteAdbCommand -logMsg "Pushing FFTW Lib to Device..." -failMsg "Failed to Push FFTW Lib to Device!" -command "push $Fftw3LibPath $VendorLib"
 ExecuteAdbCommand -logMsg "Pushing KissFFT Lib to Device..." -failMsg "Failed to Push KissFFT Lib to Device!" -command "push $KissFftLibPath $VendorLib"
 ExecuteAdbCommand -logMsg "Pushing Shared C++ Lib to Device..." -failMsg "Failed to Push Shared C++ Lib to Device!" -command "push $SharedCppLibPath $VendorLib"
-# ExecuteAdbCommand -logMsg "Copying Std C++ Lib from System to Vendor..." -failMsg "Failed to Copy Std C++ Lib from System to Vendor!" -command "shell cp /system/lib/libstdc++.so /vendor/lib"
+ExecuteAdbCommand -logMsg "Copying Std C++ Lib from System to Vendor..." -failMsg "Failed to Copy Std C++ Lib from System to Vendor!" -command "shell cp /system/lib/libstdc++.so /vendor/lib"
 ExecuteAdbCommand -logMsg "Pushing Audio Effects Config to Device..." -failMsg "Failed to Push Audio Effects Config to Device!" -command "push $AudioEffectsConfigPath $VendorEtc"
 
 ExecuteAdbCommand -logMsg "Setting Menrva Lib SEContext..." -failMsg "Failed to set Menrva Lib SEContext!" -command "shell chcon -v u:object_r:vendor_file:s0 $SoundFxLib/$MenrvaLibFile"
 ExecuteAdbCommand -logMsg "Setting FFTW Lib SEContext..." -failMsg "Failed to set FFTW Lib SEContext!" -command "shell chcon -v u:object_r:vendor_file:s0 $VendorLib/$Fftw3LibFile"
 ExecuteAdbCommand -logMsg "Setting KissFFT Lib SEContext..." -failMsg "Failed to set KissFFT Lib SEContext!" -command "shell chcon -v u:object_r:vendor_file:s0 $VendorLib/$KissFftLibFile"
 ExecuteAdbCommand -logMsg "Setting Shared C++ Lib SEContext..." -failMsg "Failed to set Shared C++ Lib SEContext!" -command "shell chcon -v u:object_r:vendor_file:s0 $VendorLib/$SharedCppLibFile"
+ExecuteAdbCommand -logMsg "Setting Std C++ Lib SEContext..." -failMsg "Failed to set Std C++ Lib SEContext!" -command "shell chcon -v u:object_r:vendor_file:s0 $VendorLib/libstdc++.so"
 ExecuteAdbCommand -logMsg "Setting Audio Effects Config File SEContext..." -failMsg "Failed to set Audio Effects Config File SEContext!" -command "shell chcon -v u:object_r:vendor_configs_file:s0 $VendorEtc/$AudioEffectsConfigFile"
 
 ExecuteAdbCommand "Rebooting Device to Load Libraries..." -failMsg "Failed to Reboot Device!" -command "reboot"
