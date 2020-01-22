@@ -68,7 +68,7 @@ For root app development on Android 10 (Q) and after both the system and vendor 
   - Use Magisk Manager to patch the Dummy Boot Image file
   - Copy the resulting Patched Boot Image back to the Host Device
   - Use unpackbootimg to unpack the Patched Boot Image
-  - Replace the AVD System Image ramdisk.img file with the file contained in the ramdisk tarball from the Unpacked Patched Boot Image
+  - Replace the AVD System Image ramdisk.img file with the ramdisk gzip file from the Unpacked Patched Boot Image
   - Restart the Emulated Device
     * Note : Device must be configured to Cold Boot for stability
 
