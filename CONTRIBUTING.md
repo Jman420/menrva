@@ -80,7 +80,7 @@ Android Emulator is already deeply integrated into Android Studio through the AV
   - Add a new External Tools
   - Use the following settings to configure the External Tool Parameters
     * Name : Run Project Emulator
-    * Program : $ModuleSdkPath$\tools\emulator.exe
+    * Program : $ModuleSdkPath$\emulator\emulator.exe
     * Parameters : -avd $ProjectName$ -writable-system
 
 #### Add AVD for Project
