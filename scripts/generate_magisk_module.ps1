@@ -28,8 +28,7 @@ New-Item -Path "$ModuleBackendDir" -ItemType Directory -Force
 Copy-Item -Path "$BackendArtifactDir/*" -Recurse -Exclude "$BackendArtifactExcludePattern" -Destination "$ModuleBackendDir" -Force
 
 Write-Output "Copying Menrva APK to MMT directory..."
-New-Item -Path "$ModuleAppDir" -ItemType Directory -Force
-Copy-Item -Path "$ApkFile" -Destination "$ModuleAppDir/$ModuleApkFileName" -Force
+Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$ModuleApkFileName" -Force
 
 Write-Output "Copying Menrva Magisk Module Files into MMT directory..."
 Write-Output "$ModuleCustomizeFile"
