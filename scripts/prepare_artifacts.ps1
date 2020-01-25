@@ -1,24 +1,19 @@
 param([string]$BuildType = "debug")
 
-#$MenrvaBuildApk = "./menrva/app/build/outputs/apk/$BuildType/app-$BuildType.apk"
-#$ArtifactsRoot = "./artifacts"
-#$AppArtifact = "$ArtifactsRoot/MenrvaApp-$BuildType.apk"
-#$BackendArtifactDir = "$ArtifactsRoot/backend"
-
 . ./build_variables.ps1
 $MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
-$AppArtifact = "$ArtifactsRoot/MenrvaApp-$BuildType.apk"
+$AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 
-if (!Test-Path $MenrvaBuildApk) {
+if (!(Test-Path $MenrvaBuildApk)) {
     Write-Output "No successful build found for : $BuildType.  Complete a successful build and try again."
     exit 1
 }
 
 Write-Output "Clearing Existing Artifacts..."
-if (Test-Path $ArtifactsRoot) {
-    Remove-Item $ArtifactsRoot -Recurse -Force
+if (Test-Path $ArtifactsRootDir) {
+    Remove-Item $ArtifactsRootDir -Recurse -Force
 }
-New-Item -ItemType directory -Path $ArtifactsRoot
+New-Item -ItemType directory -Path $ArtifactsRootDir
 
 Write-Output "Copying Menrva App APK to Artifacts Directory..."
 Copy-Item -Path $MenrvaBuildApk -Destination $AppArtifact
@@ -36,4 +31,4 @@ foreach ($backendFileEntry in $backendFileEntries) {
     [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, $destination, $true) 
 }
 $apkZip.Dispose()
-Write-Output "Successfully extracted Artifacts into $ArtifactsRoot !"
+Write-Output "Successfully extracted Artifacts into $ArtifactsRootDir !"

@@ -1,43 +1,3 @@
-#$ProtocExe = "./libs/protobuf/out/compiler/protoc.exe"
-#$ProtobufFileExtension = ".proto"
-#$ProtobufFilePattern = "*$ProtobufFileExtension"
-
-#$RootSourceDir = "./menrva/app/src/main"
-#$ProtobufSourceDir = "$RootSourceDir/protobuf"
-#$SourceTemplatesDir = "$RootSourceDir/templates"
-#$CppOutputCommandDir = "$RootSourceDir/cpp/commands"
-#$CppOutputMessageDir = "$CppOutputCommandDir/messages"
-#$JavaSourceDir = "$RootSourceDir/java"
-#$JavaOutputCommandDir = "$JavaSourceDir/com/monkeystable/menrva/commands"
-#$JavaOutputMessageDir = "$JavaOutputCommandDir/messages"
-
-#$TemplateCommandBaseTypeDefField = "<CommandBaseTypeDef>"
-#$TemplateCommandNameField = "<CommandName>"
-#$TemplateCommandIdField = "<CommandId>"
-#$TemplateCommandEnumFileField = "<CommandEnumFile>"
-#$TemplateCommandEnumEntryField = "<EnumEntry>"
-#$CommandEnumFileName = "MenrvaCommands"
-#$CommandClassFileSuffix = "_Command"
-
-#$JavaFileExtension = ".java"
-#$JavaCommandClassTemplateFile = "$SourceTemplatesDir/CommandClass.java.template"
-#$JavaCommandEnumTemplateFile = "$SourceTemplatesDir/CommandsEnum.java.template"
-#$JavaCommandEnumEntryTemplateFile = "$SourceTemplatesDir/CommandsEnum.java_Entry.template"
-#$JavaCommandEnumFile = "$JavaOutputCommandDir/$CommandEnumFileName$JavaFileExtension"
-
-#$CppHeaderFileExtension = ".h"
-#$CppClassFileExtension = ".cpp"
-#$CppCommandHeaderTemplateFile = "$SourceTemplatesDir/CommandClass.h.template"
-#$CppCommandClassTemplateFile = "$SourceTemplatesDir/CommandClass.cpp.template"
-#$CppCommandEnumTemplateFile = "$SourceTemplatesDir/CommandsEnum.h.template"
-#$CppCommandEnumEntryTemplateFile = "$SourceTemplatesDir/CommandsEnum.h_Entry.template"
-#$CppCommandEnumFile = "$CppOutputCommandDir/$CommandEnumFileName$CppHeaderFileExtension"
-#$CppCommandBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandBaseTypes.template"
-#$CppCommandBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandBase.h.template"
-#$CppCommandBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandBase.cpp.template"
-#$CppCommandBaseHeaderFile = "$CppOutputCommandDir/TypedCommandBase.h"
-#$CppCommandBaseClassFile = "$CppOutputCommandDir/TypedCommandBase.cpp"
-
 . ./build_variables.ps1
 
 Write-Output "Removing Output Directories..."
@@ -86,7 +46,7 @@ foreach ($protoFile in $protobufFiles) {
   . $ProtocExe `
     --proto_path="$ProtobufSourceDir" `
     --cpp_out="lite:$CppOutputMessageDir" `
-    --java_out="lite:$JavaSourceDir" `
+    --java_out="lite:$JavaRootDir" `
     "$protoFile"
   
   Write-Output "Generating Java Command File : $JavaOutputCommandDir/$javaCommandFileName"

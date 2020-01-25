@@ -1,21 +1,12 @@
-param([String]$commandName)
-if ([String]::IsNullOrWhiteSpace($commandName)) {
+param([String]$CommandName)
+if ([String]::IsNullOrWhiteSpace($CommandName)) {
     Write-Output "Must supply a Command Name as script argument."
-    Write-Output "Example : ./create_new_protobuf_command.ps1 CommandName"
+    Write-Output "Example : ./create_new_protobuf_command.ps1 [CommandName]"
     exit 1
 }
 
-#$CommandTemplateFile = "./menrva/app/src/main/templates/ProtobufCommand.proto.template"
-#$ProtobufSourceDir = "./menrva/app/src/main/protobuf"
-#$ProtobufFileExtension = ".proto"
-#$CommandFileName = "$commandName$ProtobufFileExtension"
-#$CommandFilePath = "$ProtobufSourceDir/$CommandFileName"
-
-#$TemplateCommandIdField = "<CommandId>"
-#$TemplateCommandNameField = "<CommandName>"
-
 . ./build_variables.ps1
-$CommandFileName = "$commandName$ProtobufFileExtension"
+$CommandFileName = "$CommandName$ProtobufFileExtension"
 $CommandFilePath = "$ProtobufSourceDir/$CommandFileName"
 
 If (Test-Path "$CommandFilePath") {
@@ -29,8 +20,10 @@ $commandTemplate = Get-Content -Path $CommandTemplateFile
 Write-Output "Calculating New Command Id..."
 $commandId = (Get-ChildItem -File -Path $ProtobufSourceDir).Count
 
-Write-Output "Generating Protobuf Command for : $commandName"
-$commandOutput = $commandTemplate.Replace($TemplateCommandIdField, $commandId).Replace($TemplateCommandNameField, $commandName)
+Write-Output "Generating Protobuf Command for : $CommandName"
+$commandOutput = $commandTemplate.Replace($TemplateCommandIdField, $commandId).Replace($TemplateCommandNameField, $CommandName)
 
 Write-Output "Creating Protobuf Command File : $commandFileName"
 Out-File -Force -FilePath "$CommandFilePath" -InputObject $commandOutput -Encoding ASCII
+
+Write-Output "Successfully created Protobuf Command File : $CommandFilePath !"

@@ -4,7 +4,6 @@
   - Android Studio
   - Android SDK
   - Android NDK
-  - Java SDK (JDK)
   - KFR Lib
   - FFTW
   - KissFFT
@@ -24,18 +23,18 @@ Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in o
   
 ## Generating Protobuf Message, Command & Handler Source Files
   - Follow above instructions for Compiling Protobuf for Android
-  - Execute the [generate_protobuf_commands.ps1](generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
+  - Execute the [scripts/generate_protobuf_commands.ps1](scripts/generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
   **Note:** These files are not included under source control because the generated source code versions on both sides (Java App and C++ Engine) must be the same.
-  - Execute the [generate_command_handler_base.ps1](generate_command_handler_base.ps1) script to generate the TypedCommandHandlerBase Class
+  - Execute the [scripts/generate_command_handler_base.ps1](scripts/generate_command_handler_base.ps1) script to generate the TypedCommandHandlerBase Class
   **Note:** These files are not included under source control because they need to incorporate all Command Handlers that have been defined.
 
 ## Creating New App to Engine Command
   - Follow above instructions for Compiling Protobuf for Android
-  - Execute the [create_new_protobuf_command.ps1](create_new_protobuf_command.ps1) script with the Command Name as an argument to generate the Protobuf Command File
-  - Add necessary data points to the Request and Response Messages in the Resulting File in the [menrva\app\src\main\protobuf](menrva\app\src\main\protobuf) directory
-  - Execute the [generate_protobuf_commands.ps1](generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
-  - Execute the [create_new_command_handler.ps1](create_new_command_handler.ps1) script with the Command Name as an argument to generate the C++ Command Handler
-  - Add necessary logic to the Command Handler in the Resulting File in the [menrva\app\src\main\cpp\command_handlers](menrva\app\src\main\cpp\command_handlers) directory
+  - Execute the [scripts/create_new_protobuf_command.ps1](scripts/create_new_protobuf_command.ps1) script with the Command Name as an argument to generate the Protobuf Command File
+  - Add necessary data points to the Request and Response Messages in the Resulting File in the [menrva/app/src/main/protobuf](menrva/app/src/main/protobuf) directory
+  - Execute the [scripts/generate_protobuf_commands.ps1](scripts/generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
+  - Execute the [scripts/create_new_command_handler.ps1](scripts/create_new_command_handler.ps1) script with the Command Name as an argument to generate the C++ Command Handler
+  - Add necessary logic to the Command Handler in the Resulting File in the [menrva/app/src/main/cpp/command_handlers](menrva/app/src/main/cpp/command_handlers) directory
 
 ## Configuring Calculation Precision
 See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.
@@ -50,7 +49,7 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
 ## Automated ADB Installation
   - Complete a Successful Build
   - Run an Android Emulated Device via AVD -OR- Attach an Android Device via USB with ADB Debugging Enabled
-  - Execute [deploy_to_device.ps1](deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
+  - Execute [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
 
 ## Generating Magisk Module Zip
   - Download latest MMT-Ex (Magisk Module Template Extended) from [https://github.com/Zackptg5/MMT-Extended](https://github.com/Zackptg5/MMT-Extended) (downloading the entire repository as a Zip File will suffice)

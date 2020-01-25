@@ -1,20 +1,3 @@
-#$RootSourceDir = "./menrva/app/src/main"
-#$SourceTemplatesDir = "$RootSourceDir/templates"
-#$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
-
-#$CppClassFileExtension = ".cpp"
-#$TemplateCommandNameField = "<CommandName>"
-#$TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
-#$CommandHandlerFileSuffix = "_Handler"
-#$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-#$CommandHandlerExcludePattern = "Module_*"
-
-#$CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
-#$CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
-#$CppTypedCommandHandlerBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBaseTypes.template"
-#$CppTypedCommandHandlerBaseHeaderFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.h"
-#$CppTypedCommandHandlerBaseClassFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.cpp"
-
 . ./build_variables.ps1
 
 Write-Output "Loading Java & C++ Template Files..."
@@ -52,4 +35,4 @@ Write-Output "Generating TypedCommandHandlerBase Class File..."
 $cppTypedCommandHandlerBaseClass = $CppTypedCommandHandlerBaseClassTemplate.Replace($TemplateCommandNameField, $commandName).Replace($TemplateCommandHandlerBaseTypeDef, $cppTypedCommandHandlerBaseTypeDefReplacement)
 Out-File -Force -FilePath "$CppTypedCommandHandlerBaseClassFile" -InputObject $cppTypedCommandHandlerBaseClass -Encoding ASCII
 
-Write-Output "Successfully generated Command Handler Base classes!"
+Write-Output "Successfully generated Command Handler Base Classes!"

@@ -1,32 +1,20 @@
-param([String]$commandName)
-if ([String]::IsNullOrWhiteSpace($commandName)) {
+param([String]$CommandName)
+if ([String]::IsNullOrWhiteSpace($CommandName)) {
     Write-Output "Must supply a Command Name as script argument."
-    Write-Output "Example : ./create_new_command_handler.ps1 CommandName"
+    Write-Output "Example : ./create_new_command_handler.ps1 [CommandName]"
     exit 1
 }
 
-#$RootSourceDir = "./menrva/app/src/main"
-#$SourceTemplatesDir = "$RootSourceDir/templates"
-#$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
-
-#$CppHeaderFileExtension = ".h"
-#$CppClassFileExtension = ".cpp"
-#$TemplateCommandNameField = "<CommandName>"
-#$CommandHandlerFileSuffix = "_Handler"
-#$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-
-#$CppCommandHandlerHeaderTemplateFile = "$SourceTemplatesDir/CommandHandler.h.template"
-#$CppCommandHandlerClassTemplateFile = "$SourceTemplatesDir/CommandHandler.cpp.template"
-
 . ./build_variables.ps1
+$CppProjectCacheDir = "$RootAppDir/.cxx"
 
 Write-Output "Loading Java & C++ Template Files..."
 $cppCommandHandlerHeaderTemplate = Get-Content -Path $CppCommandHandlerHeaderTemplateFile
 $cppCommandHandlerClassTemplate = Get-Content -Path $CppCommandHandlerClassTemplateFile
 
-Write-Output "Creating New Command Handler : $commandName"
-$cppOutputCommandHandlerHeaderFile = "$CppOutputCommandHandlersDir/$commandName$CommandHandlerFileSuffix$CppHeaderFileExtension"
-$cppOutputCommandHandlerClassFile = "$CppOutputCommandHandlersDir/$commandName$CommandHandlerFileSuffix$CppClassFileExtension"
+Write-Output "Creating New Command Handler : $CommandName"
+$cppOutputCommandHandlerHeaderFile = "$CppOutputCommandHandlersDir/$CommandName$CommandHandlerFileSuffix$CppHeaderFileExtension"
+$cppOutputCommandHandlerClassFile = "$CppOutputCommandHandlersDir/$CommandName$CommandHandlerFileSuffix$CppClassFileExtension"
 if (Test-Path $cppOutputCommandHandlerClassFile) {
     Write-Output "Command Handler already exists.  Delete the following files to regenerate them :"
     Write-Output "    - $cppOutputCommandHandlerHeaderFile"
@@ -34,9 +22,9 @@ if (Test-Path $cppOutputCommandHandlerClassFile) {
     exit 1
 }
 
-Write-Output "Generating Command Handler : $commandName"
-$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderTemplate.Replace($TemplateCommandNameField, $commandName)
-$cppCommandHandlerClassFile = $cppCommandHandlerClassTemplate.Replace($TemplateCommandNameField, $commandName)
+Write-Output "Generating Command Handler : $CommandName"
+$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderTemplate.Replace($TemplateCommandNameField, $CommandName)
+$cppCommandHandlerClassFile = $cppCommandHandlerClassTemplate.Replace($TemplateCommandNameField, $CommandName)
 Out-File -Force -FilePath "$cppOutputCommandHandlerHeaderFile" -InputObject $cppCommandHandlerHeaderFile -Encoding ASCII
 Out-File -Force -FilePath "$cppOutputCommandHandlerClassFile" -InputObject $cppCommandHandlerClassFile -Encoding ASCII
 
@@ -44,4 +32,9 @@ Out-File -Force -FilePath "$cppOutputCommandHandlerClassFile" -InputObject $cppC
 
 & "$PSScriptRoot\generate_command_handler_map.ps1"
 
-Write-Output "Successfully generated Command Handlers for Command : $commandName !"
+if (Test-Path $CppProjectCacheDir) {
+    Write-Output "Clearing C++ Project Cache to include New Command Handler..."
+    Remove-Item "$CppProjectCacheDir" -Recurse -Force
+}
+
+Write-Output "Successfully generated Command Handler : $cppOutputCommandHandlerClassFile !"

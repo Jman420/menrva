@@ -1,24 +1,3 @@
-#$RootSourceDir = "./menrva/app/src/main"
-#$SourceTemplatesDir = "$RootSourceDir/templates"
-#$CppCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
-#$CppCommandHandlerMapDir = "$RootSourceDir/cpp/engine"
-
-#$CppHeaderFileExtension = ".h"
-#$CppClassFileExtension = ".cpp"
-#$TemplateCommandNameField = "<CommandName>"
-#$TemplateHandlerMapIncludesField = "<HandlerMapIncludes>"
-#$TemplateHandlerMapEntriesField = "<HandlerMapEntries>"
-#$CommandHandlerFileSuffix = "_Handler"
-#$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-#$CommandHandlerExcludePattern = "Module_*"
-
-#$CppHandlerMapHeaderTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.h.template"
-#$CppHandlerMapClassTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.cpp.template"
-#$CppHandlerMapIncludeTemplateFile = "$SourceTemplatesDir/CommandHandlerMapInclude.template"
-#$CppHandlerMapEntryTemplateFile = "$SourceTemplatesDir/CommandHandlerMapEntry.template"
-#$CppHandlerMapHeaderFile = "$CppCommandHandlerMapDir/CommandHandlerMap.h"
-#$CppHandlerMapClassFile = "$CppCommandHandlerMapDir/CommandHandlerMap.cpp"
-
 . ./build_variables.ps1
 
 Write-Output "Loading Java & C++ Template Files..."
