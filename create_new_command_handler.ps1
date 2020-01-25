@@ -5,18 +5,20 @@ if ([String]::IsNullOrWhiteSpace($commandName)) {
     exit 1
 }
 
-$RootSourceDir = "./menrva/app/src/main"
-$SourceTemplatesDir = "$RootSourceDir/templates"
-$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
+#$RootSourceDir = "./menrva/app/src/main"
+#$SourceTemplatesDir = "$RootSourceDir/templates"
+#$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
 
-$CppHeaderFileExtension = ".h"
-$CppClassFileExtension = ".cpp"
-$TemplateCommandNameField = "<CommandName>"
-$CommandHandlerFileSuffix = "_Handler"
-$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
+#$CppHeaderFileExtension = ".h"
+#$CppClassFileExtension = ".cpp"
+#$TemplateCommandNameField = "<CommandName>"
+#$CommandHandlerFileSuffix = "_Handler"
+#$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
 
-$CppCommandHandlerHeaderTemplateFile = "$SourceTemplatesDir/CommandHandler.h.template"
-$CppCommandHandlerClassTemplateFile = "$SourceTemplatesDir/CommandHandler.cpp.template"
+#$CppCommandHandlerHeaderTemplateFile = "$SourceTemplatesDir/CommandHandler.h.template"
+#$CppCommandHandlerClassTemplateFile = "$SourceTemplatesDir/CommandHandler.cpp.template"
+
+. ./build_variables.ps1
 
 Write-Output "Loading Java & C++ Template Files..."
 $cppCommandHandlerHeaderTemplate = Get-Content -Path $CppCommandHandlerHeaderTemplateFile

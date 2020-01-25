@@ -45,12 +45,18 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
   - Compile KissFFT with Double Precision (see [KissFFT Precision](https://github.com/Jman420/kissfft_for_android/blob/master/README.md#kissfft-precision) for details)
   - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
   - Recompile Menrva
-  - Follow Installation Instructions of your choice
+  - Follow the Installation Instructions of your choice
   
 ## Automated ADB Installation
   - Complete a Successful Build
   - Run an Android Emulated Device via AVD -OR- Attach an Android Device via USB with ADB Debugging Enabled
   - Execute [deploy_to_device.ps1](deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
+
+## Generating Magisk Module Zip
+  - Download latest MMT-Ex (Magisk Module Template Extended) from [https://github.com/Zackptg5/MMT-Extended](https://github.com/Zackptg5/MMT-Extended) (downloading the entire repository as a Zip File will suffice)
+  - Extract the contents of the folder in the Zip File (something like 'MMT-Extended-master') to /MMT-Ex/
+  - Execute the []() script to generate the Magisk Module Zip
+  - Magisk Module Zip will be in /artifacts/ directory
 
 ## AVD Tips & Tricks
 

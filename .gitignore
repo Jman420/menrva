@@ -73,3 +73,5 @@ artifacts/*
 menrva/app/src/main/cpp/commands/
 menrva/app/src/main/cpp/command_handlers/TypedCommandHandlerBase.*
 menrva/app/src/main/java/com/monkeystable/menrva/commands/
+MMT-Ex/*
+!MMT-Ex/dummy.txt

@@ -1,19 +1,21 @@
-$RootSourceDir = "./menrva/app/src/main"
-$SourceTemplatesDir = "$RootSourceDir/templates"
-$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
+#$RootSourceDir = "./menrva/app/src/main"
+#$SourceTemplatesDir = "$RootSourceDir/templates"
+#$CppOutputCommandHandlersDir = "$RootSourceDir/cpp/command_handlers"
 
-$CppClassFileExtension = ".cpp"
-$TemplateCommandNameField = "<CommandName>"
-$TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
-$CommandHandlerFileSuffix = "_Handler"
-$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
-$CommandHandlerExcludePattern = "Module_*"
+#$CppClassFileExtension = ".cpp"
+#$TemplateCommandNameField = "<CommandName>"
+#$TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
+#$CommandHandlerFileSuffix = "_Handler"
+#$CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
+#$CommandHandlerExcludePattern = "Module_*"
 
-$CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
-$CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
-$CppTypedCommandHandlerBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBaseTypes.template"
-$CppTypedCommandHandlerBaseHeaderFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.h"
-$CppTypedCommandHandlerBaseClassFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.cpp"
+#$CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
+#$CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
+#$CppTypedCommandHandlerBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBaseTypes.template"
+#$CppTypedCommandHandlerBaseHeaderFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.h"
+#$CppTypedCommandHandlerBaseClassFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase.cpp"
+
+. ./build_variables.ps1
 
 Write-Output "Loading Java & C++ Template Files..."
 $cppTypedCommandHandlerBaseHeaderTemplate = Get-Content -Path $CppTypedCommandHandlerBaseHeaderTemplateFile

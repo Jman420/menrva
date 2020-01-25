@@ -5,14 +5,18 @@ if ([String]::IsNullOrWhiteSpace($commandName)) {
     exit 1
 }
 
-$CommandTemplateFile = "./menrva/app/src/main/templates/ProtobufCommand.proto.template"
-$CommandOutputDir = "./menrva/app/src/main/protobuf"
-$ProtobufFileExtension = ".proto"
-$CommandFileName = "$commandName$ProtobufFileExtension"
-$CommandFilePath = "$CommandOutputDir/$CommandFileName"
+#$CommandTemplateFile = "./menrva/app/src/main/templates/ProtobufCommand.proto.template"
+#$ProtobufSourceDir = "./menrva/app/src/main/protobuf"
+#$ProtobufFileExtension = ".proto"
+#$CommandFileName = "$commandName$ProtobufFileExtension"
+#$CommandFilePath = "$ProtobufSourceDir/$CommandFileName"
 
-$TemplateCommandIdField = "<CommandId>"
-$TemplateCommandNameField = "<CommandName>"
+#$TemplateCommandIdField = "<CommandId>"
+#$TemplateCommandNameField = "<CommandName>"
+
+. ./build_variables.ps1
+$CommandFileName = "$commandName$ProtobufFileExtension"
+$CommandFilePath = "$ProtobufSourceDir/$CommandFileName"
 
 If (Test-Path "$CommandFilePath") {
     Write-Output "Protobuf Command File ($CommandFilePath) already exists!"
@@ -23,7 +27,7 @@ Write-Output "Getting Protobuf Command Template..."
 $commandTemplate = Get-Content -Path $CommandTemplateFile
 
 Write-Output "Calculating New Command Id..."
-$commandId = (Get-ChildItem -File -Path $CommandOutputDir).Count
+$commandId = (Get-ChildItem -File -Path $ProtobufSourceDir).Count
 
 Write-Output "Generating Protobuf Command for : $commandName"
 $commandOutput = $commandTemplate.Replace($TemplateCommandIdField, $commandId).Replace($TemplateCommandNameField, $commandName)
