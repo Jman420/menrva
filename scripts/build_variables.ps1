@@ -76,7 +76,7 @@ $AudioEffectsConfigFile = "$ModuleFilesDir/$AudioEffectsConfigFile"
 $ModuleReadmeFile = "$ModuleFilesDir/customize.sh"
 $ModuleInstallScriptFile = "$ModuleFilesDir/install.sh"
 $ModuleInfoFile = "$ModuleFilesDir/module.prop"
-$ModuleReadmeFile = "$ModuleFilesDir/Readme.md"
+$ModuleReadmeFile = "$RepoRootDir/Readme.md"
 
 # Template Fields
 $TemplateCommandEnumFileField = "<CommandEnumFile>"
