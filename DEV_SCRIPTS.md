@@ -17,7 +17,7 @@ Creates a new Protobuf Command File based on the [Protobuf Command Template File
 ./create_new_protobuf_command.ps1 [CommandName]
 
 ### Parameters
-CommandName - Name of the New Command
+* CommandName - Name of the New Command
 
 ## [generate_protobuf_commands.ps1](scripts/generate_protobuf_commands.ps1)
 Executes the Protobuf Compiler against all Protobuf Command Files to generate both Java & C++ source code files for the Protobuf Messages.  It also generates both Java & C++ Command source code files based on the Command Template Files ([Java Command Template](menrva/app/src/main/templates/CommandClass.java.template), [C++ Command Header Template](menrva/app/src/main/templates/CommandClass.h.template), [C++ Command Class Template](menrva/app/src/main/templates/CommandClass.cpp.template)) updates all necessary supporting Java & C++ source code files.
@@ -35,7 +35,7 @@ Creates a C++ Command Handler based on the C++ Command Handler Templates ([Comma
 ./create_new_command_handler.ps1 [CommandName]
 
 ### Parameters
-CommandName - Name of the Command to Handle
+* CommandName - Name of the Command to Handle
 
 ## [generate_command_handler_base.ps1](scripts/generate_command_handler_base.ps1)
 Regenerates the C++ TypedCommandHandlerBase Header & Class by incorporating strong typedefs for all Command Handlers found in [menrva/app/src/main/cpp/command_handlers](menrva/app/src/main/cpp/command_handlers).  This script is executed as part of the [create_new_command_handler.ps1](scripts/create_new_command_handler.ps1) workflow.
@@ -62,17 +62,18 @@ Copies a successful build's APK to the Artifacts directory and extracts the back
 ./prepare_artifacts.ps1 [BuildType]
 
 ### Parameters
-BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for artifact processing
+* BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for artifact processing
 
 # [deploy_to_device.ps1](scripts/deploy_to_device.ps1)
 Attempts to deploy the specified Build Artifacts to an attached device via ADB.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) to be performed prior to execution.
 
 ### Execution Syntax
-./deploy_to_device.ps1 [Architecture] [BuildType]
+./deploy_to_device.ps1 [Architecture] [BuildType] [EffectsConfigFile]
 
 ### Parameters
-Architecture - (Optional; Default 'x86') Indicates the Architecture of the Target Device
-BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for deployment
+* Architecture - (Optional; Default 'x86') Indicates the Architecture of the Target Device
+* BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for deployment
+* EffectsConfigFile - (Optional; Default '/vendor/etc/audio_effects.xml') Provides the path to the audio_effects config file on the target device; usually either '/vendor/etc/audio_effects.xml' or '/vendor/etc/audio_effects.conf'
 
 # [generate_magisk_module.ps1](scripts/generate_magisk_module.ps1)
 Regenerates a Magisk Module using the [MMT-Ex Template](https://github.com/Zackptg5/MMT-Extended) and places the Magisk Zip File in the Artifacts directory.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) to be performed and the MMT-Ex Template be extracted into the /libs/MMT-Ex/ directory prior to execution.
@@ -81,4 +82,4 @@ Regenerates a Magisk Module using the [MMT-Ex Template](https://github.com/Zackp
 ./generate_magisk_module.ps1 [BuildType]
 
 ### Parameters
-BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for module creation
+* BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for module creation

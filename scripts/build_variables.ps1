@@ -8,6 +8,7 @@ $AudioEffectsConfigFileName = "audio_effects.xml"
 $CommandEnumFileName = "MenrvaCommands"
 $CommandClassFileSuffix = "_Command"
 $CommandHandlerFileSuffix = "_Handler"
+$ModulePatchScriptFileName = "patch_effects_config.sh"
 
 # File Extensions
 $ProtobufFileExtension = ".proto"
@@ -75,6 +76,7 @@ $JavaCommandEnumFile = "$JavaOutputCommandDir/$CommandEnumFileName$JavaFileExten
 $AudioEffectsConfigFile = "$ModuleFilesDir/$AudioEffectsConfigFileName"
 $ModuleCustomizeFile = "$ModuleFilesDir/customize.sh"
 $ModuleInstallScriptFile = "$ModuleFilesDir/install.sh"
+$ModulePatchScriptFile = "$ModuleFilesDir/$ModulePatchScriptFileName"
 $ModuleInfoFile = "$ModuleFilesDir/module.prop"
 $ModuleReadmeFile = "$RepoRootDir/Readme.md"
 $MenrvaMagiskModuleFile = "$ArtifactsRootDir/Menrva_MagiskModule.zip"
