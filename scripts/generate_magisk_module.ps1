@@ -4,7 +4,7 @@ param([string]$BuildType = "debug")
 $ApkFile = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $ModuleAddonDir = "$ModuleCommonDir/addon"
 $ModuleRootDummyFile = "$MagiskModuleDir/dummy.txt"
-$ModuleSystemDummyFile = "$MagiskModuleDir/system/placeholder"
+$ModuleSystemDir = "$MagiskModuleDir/system"
 
 if (!(Test-Path $ArtifactsRootDir)) {
     Write-Output "Artifacts directory is missing.  Execute prepare_artifacts.sh and try again."
@@ -34,6 +34,7 @@ Write-Output "Copying Menrva Magisk Module Files into MMT directory..."
 Copy-Item -Path "$ModuleCustomizeFile" -Destination "$MagiskModuleDir" -Force
 Copy-Item -Path "$ModuleInstallScriptFile" -Destination "$ModuleCommonDir" -Force
 Copy-Item -Path "$ModulePatchScriptFile" -Destination "$ModuleCommonDir" -Force
+Copy-Item -Path "$ModuleStartupScriptFile" -Destination "$ModuleCommonDir" -Force
 Copy-Item -Path "$ModuleInfoFile" -Destination "$MagiskModuleDir" -Force
 Copy-Item -Path "$ModuleReadmeFile" -Destination "$MagiskModuleDir" -Force
 
@@ -44,12 +45,12 @@ if (Test-Path $ModuleAddonDir) {
 if (Test-Path $ModuleRootDummyFile) {
     Remove-Item "$ModuleRootDummyFile" -Force
 }
-if (Test-Path $ModuleSystemDummyFile) {
-    Remove-Item "$ModuleSystemDummyFile" -Force
+if (Test-Path $ModuleSystemDir) {
+    Remove-Item "$ModuleSystemDir" -Recurse -Force
 }
 Remove-Item "$MagiskModuleDir/*.git*" -Force
 
-Write-Output "Creating Magisk Zip File based on MMT directory..."
-Compress-Archive -Path "$MagiskModuleDir/*" -DestinationPath "$MenrvaMagiskModuleFile" -Force
+#Write-Output "Creating Magisk Zip File based on MMT directory..."
+#Compress-Archive -Path "$MagiskModuleDir/*" -DestinationPath "$MenrvaMagiskModuleFile" -CompressionLevel "Fastest" -Force
 
 Write-Output "Successfully generated Menrva Magisk Zip File : $MenrvaMagiskModuleFile !"
