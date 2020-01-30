@@ -31,11 +31,7 @@ Write-Output "Copying Menrva APK to MMT directory..."
 Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$ModuleApkFileName" -Force
 
 Write-Output "Copying Menrva Magisk Module Files into MMT directory..."
-Copy-Item -Path "$ModuleCustomizeFile" -Destination "$MagiskModuleDir" -Force
-Copy-Item -Path "$ModuleInstallScriptFile" -Destination "$ModuleCommonDir" -Force
-Copy-Item -Path "$ModulePatchScriptFile" -Destination "$ModuleCommonDir" -Force
-Copy-Item -Path "$ModuleStartupScriptFile" -Destination "$ModuleCommonDir" -Force
-Copy-Item -Path "$ModuleInfoFile" -Destination "$MagiskModuleDir" -Force
+Copy-Item -Path "$ModuleFilesDir/*" -Destination "$MagiskModuleDir" -Recurse -Force
 Copy-Item -Path "$ModuleReadmeFile" -Destination "$MagiskModuleDir" -Force
 
 Write-Output "Removing unused files from MMT directory..."
