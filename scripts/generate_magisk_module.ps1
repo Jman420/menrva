@@ -46,7 +46,10 @@ if (Test-Path $ModuleSystemDir) {
 }
 Remove-Item "$MagiskModuleDir/*.git*" -Force
 
-#Write-Output "Creating Magisk Zip File based on MMT directory..."
-#Compress-Archive -Path "$MagiskModuleDir/*" -DestinationPath "$MenrvaMagiskModuleFile" -CompressionLevel "Fastest" -Force
+Write-Output "Creating Magisk Zip File based on MMT directory..."
+if (Test-Path $MenrvaMagiskModuleFile) {
+    Remove-Item $MenrvaMagiskModuleFile -Force
+}
+7z a "$MenrvaMagiskModuleFile" "$MagiskModuleDir/*" -r
 
 Write-Output "Successfully generated Menrva Magisk Zip File : $MenrvaMagiskModuleFile !"

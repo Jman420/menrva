@@ -1,6 +1,10 @@
 # Development Scripts Info
 The Menrva Project provides various development scripts designed to automate some of the workflows associated with Menrva's development.  Details of the scripts' functionality, output and parameters are documented below.  See the [CONTRIBUTING](CONTRIBUTING.md) document for workflow details.
 
+## Requirements
+* Powershell
+* 7zip
+
 ## [build_variables.ps1](scripts/build_variables.ps1)
 A container for all of the constant values that are shared between the development scripts.  This provides a single place to update values and impact all of the development scripts.
 
@@ -46,7 +50,7 @@ Regenerates the C++ TypedCommandHandlerBase Header & Class by incorporating stro
 ### Parameters
 None
 
-# [generate_command_handler_map.ps1](scripts/generate_command_handler_map.ps1)
+## [generate_command_handler_map.ps1](scripts/generate_command_handler_map.ps1)
 Regenerates the C++ CommandHandlerMap Header & Class by populating the HandlerMap with appropriate entries for each Command Handler and its associated Command.  This script is executed as part of the [create_new_command_handler.ps1](scripts/create_new_command_handler.ps1) workflow.
 
 ### Execution Syntax
@@ -55,7 +59,7 @@ Regenerates the C++ CommandHandlerMap Header & Class by populating the HandlerMa
 ### Parameters
 None
 
-# [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1)
+## [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1)
 Copies a successful build's APK to the Artifacts directory and extracts the backend libraries by architecture to prepare for deployment.  This script requires a successful build to be performed prior to execution.
 
 ### Execution Syntax
@@ -64,7 +68,7 @@ Copies a successful build's APK to the Artifacts directory and extracts the back
 ### Parameters
 * BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for artifact processing
 
-# [deploy_to_device.ps1](scripts/deploy_to_device.ps1)
+## [deploy_to_device.ps1](scripts/deploy_to_device.ps1)
 Attempts to deploy the specified Build Artifacts to an attached device via ADB.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) to be performed prior to execution.
 
 ### Execution Syntax
@@ -75,8 +79,17 @@ Attempts to deploy the specified Build Artifacts to an attached device via ADB. 
 * BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for deployment
 * EffectsConfigFile - (Optional; Default '/vendor/etc/audio_effects.xml') Provides the path to the audio_effects config file on the target device; usually either '/vendor/etc/audio_effects.xml' or '/vendor/etc/audio_effects.conf'
 
-# [generate_magisk_module.ps1](scripts/generate_magisk_module.ps1)
-Regenerates a Magisk Module using the [MMT-Ex Template](https://github.com/Zackptg5/MMT-Extended) and places the Magisk Zip File in the Artifacts directory.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) to be performed and the MMT-Ex Template be extracted into the /libs/MMT-Ex/ directory prior to execution.
+## [prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1)
+Downloads and extracts the MMT-Extended GitHub Repository to libs/MMT-Extended-master/.
+
+### Execution Syntax
+./prepare_magisk_module_template.ps1
+
+### Parameters
+N/A
+
+## [generate_magisk_module.ps1](scripts/generate_magisk_module.ps1)
+Regenerates a Magisk Module using the [MMT-Extended Template](https://github.com/Zackptg5/MMT-Extended) and places the Magisk Zip File in the Artifacts directory.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) and [prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) to be performed.
 
 ### Execution Syntax
 ./generate_magisk_module.ps1 [BuildType]

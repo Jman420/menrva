@@ -1,9 +1,14 @@
 . ./build_variables.ps1
 
-MMT_REPO_URL="https://github.com/Zackptg5/MMT-Extended/archive/master.zip"
-MMT_REPO_ZIP_OUTPUT="$RepoLibsDir/MMT-Ex-master.zip"
-MMT_ZIP_FOLDER_NAME = "MMT-Extended-master"
+$RepoUrl = "https://github.com/Zackptg5/MMT-Extended/archive/master.zip"
+$RepoZipFile = "$RepoLibsDir/MMT-Extended-master.zip"
 
-Start-BitsTransfer -Source $MMT_REPO_URL -Destination $MMT_REPO_ZIP_OUTPUT
+if (Test-Path $RepoZipFile) {
+    Remove-Item $RepoZipFile -Force
+}
+Start-BitsTransfer -Source $RepoUrl -Destination $RepoZipFile
 
-# Extract Zip File to ./libs/MMT-Ex/
+if (Test-Path $MagiskModuleDir) {
+    Remove-Item $MagiskModuleDir -Recurse -Force
+}
+7z x "$RepoZipFile" -o"$RepoLibsDir" -r
