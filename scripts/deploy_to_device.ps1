@@ -2,7 +2,7 @@ param([string]$Architecture = "x86",
       [string]$BuildType = "debug",
       [string]$EffectsConfigFile = "/vendor/etc/audio_effects.xml")
 
-. ./build_variables.ps1
+. ./variables.ps1
 $MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
 $AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $MenrvaLibPath = "$BackendArtifactDir/$Architecture/$MenrvaLibFileName"

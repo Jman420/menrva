@@ -1,6 +1,6 @@
 param([string]$BuildType = "debug")
 
-. ./build_variables.ps1
+. ./variables.ps1
 $MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
 $AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 

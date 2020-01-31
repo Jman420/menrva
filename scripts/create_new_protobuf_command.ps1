@@ -5,7 +5,7 @@ if ([String]::IsNullOrWhiteSpace($CommandName)) {
     exit 1
 }
 
-. ./build_variables.ps1
+. ./variables.ps1
 $CommandFileName = "$CommandName$ProtobufFileExtension"
 $CommandFilePath = "$ProtobufSourceDir/$CommandFileName"
 

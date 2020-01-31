@@ -5,7 +5,7 @@ if ([String]::IsNullOrWhiteSpace($CommandName)) {
     exit 1
 }
 
-. ./build_variables.ps1
+. ./variables.ps1
 $CppProjectCacheDir = "$RootAppDir/.cxx"
 
 Write-Output "Loading Java & C++ Template Files..."

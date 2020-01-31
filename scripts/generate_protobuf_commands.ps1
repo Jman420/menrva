@@ -1,4 +1,4 @@
-. ./build_variables.ps1
+. ./variables.ps1
 
 Write-Output "Removing Output Directories..."
 if (Test-Path $CppOutputCommandDir) {

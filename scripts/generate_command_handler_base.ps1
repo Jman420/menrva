@@ -1,4 +1,4 @@
-. ./build_variables.ps1
+. ./variables.ps1
 
 Write-Output "Loading Java & C++ Template Files..."
 $cppTypedCommandHandlerBaseHeaderTemplate = Get-Content -Path $CppTypedCommandHandlerBaseHeaderTemplateFile

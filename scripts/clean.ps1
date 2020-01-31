@@ -1,4 +1,4 @@
-. ./build_variables.ps1
+. ./variables.ps1
 
 $AppCxxPath = "$RootAppDir/.cxx"
 $AppBuildPath = "$RootAppDir/build"

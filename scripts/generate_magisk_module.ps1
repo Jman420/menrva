@@ -1,6 +1,6 @@
 param([string]$BuildType = "debug")
 
-. ./build_variables.ps1
+. ./variables.ps1
 $ApkFile = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $ModuleAddonDir = "$ModuleCommonDir/addon"
 $ModuleRootDummyFile = "$MagiskModuleDir/dummy.txt"
