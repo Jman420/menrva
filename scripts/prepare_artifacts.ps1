@@ -19,16 +19,5 @@ Write-Output "Copying Menrva App APK to Artifacts Directory..."
 Copy-Item -Path $MenrvaBuildApk -Destination $AppArtifact
 
 Write-Output "Extracting Backend from Menrva App APK..."
-Add-Type -Assembly System.IO.Compression.FileSystem
-$appArtifactPath = Resolve-Path $AppArtifact
-$apkZip = [IO.Compression.ZipFile]::OpenRead("$appArtifactPath")
-$backendFileEntries = $apkZip.Entries | where { $_.FullName -like "lib/*" }
-foreach ($backendFileEntry in $backendFileEntries) {
-    $backendOutputFile = $backendFileEntry.FullName.Replace("lib/", "")
-    $outputFile = "$BackendArtifactDir/$backendOutputFile"
-    New-Item -Force $outputFile
-    $destination = Resolve-Path $outputFile
-    [IO.Compression.ZipFileExtensions]::ExtractToFile($backendFileEntry, $destination, $true) 
-}
-$apkZip.Dispose()
+7z x $MenrvaBuildApk lib/* -o"$ArtifactsRootDir"
 Write-Output "Successfully extracted Artifacts into $ArtifactsRootDir !"
