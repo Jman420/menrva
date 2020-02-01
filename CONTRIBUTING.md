@@ -59,6 +59,18 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
 
 ## AVD Tips & Tricks
 
+### Capture Logcat from Boot
+Most issues with AudioFlinger based Audio Mods will occur during device startup (between boot and the initial display of the lock screen).  The most reliable way to do this is to capture the Logcat using ADB.
+
+  - Unlock Developer Mode on Android Device
+  - Enable USB Debugging on Android Device
+  - Configure Android Device to always allow USB Debugging from Target Computer
+  - Shutdown Android Device
+  - Open Console on Target Computer
+  - Execute :
+    * Powershell : ./adb.exe -d logcat | Tee-Object -File logcat_dump.txt
+    * Bash : adb -d logcat > logcat_dump.txt
+
 ### Android Emulator with Writable System
 Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.
 
