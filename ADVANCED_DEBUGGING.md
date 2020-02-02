@@ -37,9 +37,9 @@
   ```
   - Commands for Building AOSP from Source Code executed from AOSP Source Code Root Directory :  
   ```
-  make clobber
-  
   . build/envsetup.sh
+  
+  make clobber
   lunch <Desired Target Architecture; recommend aosp_x86_64-eng>
 
   export LC_ALL=C

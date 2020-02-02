@@ -181,7 +181,7 @@ MultiChannelEffectsBundle* MenrvaEffectsEngine::GetMultiChannelEffectsBundle() {
 void MenrvaEffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Processing Input Audio Frame...", LOG_SENDER, __func__);
 
-    _Logger->WriteLog("Processing Single Channel Effects for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
+    /**_Logger->WriteLog("Processing Single Channel Effects for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
     for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
         _Logger->WriteLog("Processing Input Audio Frame for Channel (%d).", LOG_SENDER, __func__, channelCounter);
         SingleChannelEffectsBundle& effectsBundle = _SingleChannelEffects[channelCounter];
@@ -210,6 +210,9 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
             _Logger->WriteLog("Skipping Effect (%s).  Effect Disabled.", LOG_SENDER, __func__, effect.NAME.c_str());
         }
     }
+    /**/
+
+    MultiChannelEffectsBundle& multiChannelEffectsBundle = *_MultiChannelEffects;
 
     _Logger->WriteLog("Processing Master Limiter Effect...", LOG_SENDER, __func__);
     MasterLimiter& masterLimiter = *multiChannelEffectsBundle.GetMasterLimiter();
