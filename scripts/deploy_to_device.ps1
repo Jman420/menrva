@@ -34,11 +34,9 @@ ExecuteAdbCommand -command "root"                                               
 ExecuteAdbCommand -command "remount"                                                       -logMsg "Remounting Device Volumes..." -failMsg "Failed to Remount Device Volumes!"
 ExecuteAdbCommand -command "push"    -parameters "$MenrvaLibPath $SoundFxLibDir"           -logMsg "Pushing Menrva Lib to Device..." -failMsg "Failed to Push Menrva Lib to Device!"
 ExecuteAdbCommand -command "push"    -parameters "$SharedCppLibPath $VendorLibDir"         -logMsg "Pushing Shared C++ Lib to Device..." -failMsg "Failed to Push Shared C++ Lib to Device!"
-ExecuteAdbCommand -command "shell"   -parameters "cp /system/lib/libstdc++.so /vendor/lib" -logMsg "Copying Std C++ Lib from System to Vendor..." -failMsg "Failed to Copy Std C++ Lib from System to Vendor!"
 
 ExecuteAdbCommand -command "shell"   -parameters "chcon -v u:object_r:vendor_file:s0 $SoundFxLibDir/$MenrvaLibFileName"   -logMsg "Setting Menrva Lib SEContext..." -failMsg "Failed to set Menrva Lib SEContext!"
 ExecuteAdbCommand -command "shell"   -parameters "chcon -v u:object_r:vendor_file:s0 $VendorLibDir/$SharedCppLibFileName" -logMsg "Setting Shared C++ Lib SEContext..." -failMsg "Failed to set Shared C++ Lib SEContext!"
-ExecuteAdbCommand -command "shell"   -parameters "chcon -v u:object_r:vendor_file:s0 $VendorLibDir/libstdc++.so"          -logMsg "Setting Std C++ Lib SEContext..." -failMsg "Failed to set Std C++ Lib SEContext!"
 
 ExecuteAdbCommand -command "pull" -parameters "$EffectsConfigFile ." -logMsg "Pulling Effects Config File from Device..." -failMsg "Failed to pull Effects Config File from Device : $EffectsConfigFile"    
 Write-Output "Patching Effects Config File on PC : ./$EffectsConfigFileName"
