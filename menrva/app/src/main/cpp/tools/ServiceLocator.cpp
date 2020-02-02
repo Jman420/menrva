@@ -19,16 +19,14 @@
 #include "../Config.h"
 #include "ServiceLocator.h"
 #include "AndroidLogger.h"
-#include "../fft/FftwInterface.h"
-#include "../fft/KissFftInterface.h"
 #include "../fft/KfrInterface.h"
+/**#include "../fft/FftwInterface.h"
+#include "../fft/KissFftInterface.h"/**/
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
 ServiceLocator::ServiceLocator() {
     _FftEngineType = FftEngineType::KFR;
-
-    // TODO : Get FFT Engine Type from Shared Settings
 }
 
 LoggerBase* ServiceLocator::GetLogger() {
@@ -36,7 +34,9 @@ LoggerBase* ServiceLocator::GetLogger() {
 }
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    switch (_FftEngineType) {
+    return new KfrInterface(GetLogger());
+
+    /**switch (_FftEngineType) {
         case FftEngineType::KFR:
             return new KfrInterface(GetLogger());
 
@@ -47,7 +47,7 @@ FftInterfaceBase* ServiceLocator::GetFftEngine() {
             return new KissFftInterface(GetLogger());
     }
 
-    throw std::runtime_error("Invalid FFT Engine Type.");
+    throw std::runtime_error("Invalid FFT Engine Type.");/**/
 }
 
 FirGenerator* ServiceLocator::GetFirGenerator() {
