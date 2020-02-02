@@ -14,18 +14,6 @@ if (!(Test-Path $ApkFile)) {
     Write-Output "MenrvaApp Apk File is missing.  Execute prepare_artifacts.sh and try again."
     exit 1
 }
-if (!(Test-Path $BackendArtifactDir)) {
-    Write-Output "Backend Artifacts Directory is missing.  Execute prepare_artifacts.sh and try again."
-    exit 1
-}
-if ((Get-ChildItem -Path $BackendArtifactDir -Directory).Count -lt 1) {
-    Write-Output "Backend Artifacts are missing.  Execute prepare_artifacts.sh and try again."
-    exit 1
-}
-
-Write-Output "Copying Backend Libraries to MMT directory..."
-New-Item -Path "$ModuleBackendDir" -ItemType Directory -Force
-Copy-Item -Path "$BackendArtifactDir/*" -Recurse -Exclude "$BackendArtifactExcludePattern" -Destination "$ModuleBackendDir" -Force
 
 Write-Output "Copying Menrva APK to MMT directory..."
 Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$ModuleApkFileName" -Force
