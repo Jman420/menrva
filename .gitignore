@@ -76,4 +76,4 @@ menrva/app/src/main/cpp/engine/CommandHandlerMap.*
 menrva/app/src/main/java/com/monkeystable/menrva/commands/
 
 # Ignore Libs Dependencies
-libs/MMT-Extended-master*
+libs/MMT-Extended*

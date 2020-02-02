@@ -20,8 +20,6 @@ install_backend_files() {
   
   mkdir $TARGET_DIR/soundfx
   mv $TARGET_DIR/libMenrvaEngine.so $TARGET_DIR/soundfx/libMenrvaEngine.so
-  
-  cp_ch -n $ORIGDIR/system/$LIB_DIR/libstdc++.so $TARGET_DIR/libstdc++.so
 }
 
 ui_print "Installing 32bit Backend Drivers..."

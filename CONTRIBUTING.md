@@ -5,18 +5,10 @@
   - Android SDK
   - Android NDK
   - KFR Lib
-  - FFTW
-  - KissFFT
   - Protobuf
   
 ## Versioning
 Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
-
-## Compiling FFTW for Android
-  - See instructions in [FFTW Build Readme](https://github.com/Jman420/fftw_for_android/blob/master/README.md)
-  
-## Compiling KissFFT for Android
-  - See instructions in [KissFFT Build Readme](https://github.com/Jman420/kissfft_for_android/blob/master/README.md)
 
 ## Compiling Protobuf for Android
   - See instruction in [Protobuf Build Readme](https://github.com/Jman420/protobuf_for_android/blob/develop/README.md)

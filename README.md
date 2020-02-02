@@ -28,14 +28,19 @@ To ease both development and deployment of Menrva to target devices I have provi
 
 #### Scripted Installation Steps
   - Successfully build Menrva (see [CONTRIBUTING](CONTRIBUTING.md))
-  - Execute the [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1)
+  - Execute [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) script
+  - Execute the [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) script
   - Wait for the device to restart
 
 ### In-App Installation
 **Coming Soon**
 
 ### Magisk Installation
-**In Progress**
+  - Successfully build Menrva (see [CONTRIBUTING](CONTRIBUTING.md))
+  - Execute [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) script
+  - Execute the [prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) script
+  - Execute the [generate_magisk_module.ps1](scripts/generate_magisk_module.ps1) script
+  - Magisk Module Zip will be at /artifacts/Menrva-MagiskModule.zip
 
 ## Calculation Precision
 I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
@@ -50,8 +55,6 @@ Huge thanks goes out to all of the XDA Audio Mod developers out there and their 
   - [JamesDSP](https://github.com/james34602/JamesDSPManager) - For providing JamesDSP as an open source foundation and inspiration
   - [FFTW3-Android](https://github.com/Lauszus/fftw3-android) - For inspiration and guidance on FFTW compilation for Android
   - [BetterExplained](https://betterexplained.com/) - For providing this awesome explanation of the [Fourier Transform](https://betterexplained.com/articles/an-interactive-guide-to-the-fourier-transform/)
-  - [FFTW](http://fftw.org/) - For providing an awesome Fast Fourier Transform Library
-  - [KissFFT](https://github.com/mborgerding/kissfft) - For providing an awesome Fast Fourier Transform Library
   - [KFR](https://www.kfrlib.com/) - For providing an awesome Fast Fourier Transform & DSP Library
   - [FFTConvolver](https://github.com/HiFi-LoFi/FFTConvolver) - For providing a reasonable and understandable FFT Convolver Implementation
   - [Binaural FFTConvolver](https://github.com/Bendrien/FFTConvolver) - For providing a reasonable and understandable Stereo FFT Convolver Implementation

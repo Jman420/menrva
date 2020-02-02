@@ -8,8 +8,6 @@ cmake_minimum_required(VERSION 3.8)
 set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
 set(KFR_SOURCE_DIR ${LIBS_ROOT_DIR}/kfr)
 set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
-set(FFTW_OUTPUT_DIR ${LIBS_ROOT_DIR}/fftw/out)
-set(KISSFFT_OUTPUT_DIR ${LIBS_ROOT_DIR}/kissfft/out)
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
 
@@ -26,26 +24,6 @@ set(CPU_ARCH ${KFR_ARCH_${ANDROID_ABI}})
 add_subdirectory(
         ${KFR_SOURCE_DIR}
         ${KFR_BINARY_DIR}
-)
-
-add_library(
-        libfftw
-        SHARED IMPORTED
-)
-set_target_properties(
-        libfftw
-        PROPERTIES IMPORTED_LOCATION
-        ${FFTW_OUTPUT_DIR}/${ANDROID_ABI}/libfftw3.so
-)
-
-add_library(
-        libkissfft
-        SHARED IMPORTED
-)
-set_target_properties(
-        libkissfft
-        PROPERTIES IMPORTED_LOCATION
-        ${KISSFFT_OUTPUT_DIR}/${ANDROID_ABI}/libkissfft.so
 )
 
 add_library(
@@ -100,8 +78,6 @@ add_library(
 
         ir/FirGenerator.cpp
 
-        fft/FftwInterface.cpp
-        fft/KissFftInterface.cpp
         fft/KfrInterface.cpp
 
         convolver/ConvolutionOperations.cpp
@@ -131,16 +107,12 @@ add_library(
 target_include_directories(
         MenrvaEngine
         PRIVATE
-        ${FFTW_OUTPUT_DIR}/include
-        ${KISSFFT_OUTPUT_DIR}/include
         ${PROTOBUF_OUTPUT_DIR}/include
 )
 target_link_libraries(
         MenrvaEngine
 
         ${log-lib}
-        libfftw
-        libkissfft
         kfr
         kfr_dft
         libprotobuf-lite

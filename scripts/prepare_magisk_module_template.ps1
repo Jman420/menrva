@@ -2,6 +2,7 @@
 
 $RepoUrl = "https://github.com/Zackptg5/MMT-Extended/archive/master.zip"
 $RepoZipFile = "$RepoLibsDir/MMT-Extended-master.zip"
+$RootZipFolder = "MMT-Extended-master"
 
 Write-Output "Preparing Magisk Module Template Directory..."
 if (Test-Path $RepoZipFile) {
@@ -17,4 +18,5 @@ if (Test-Path $MagiskModuleDir) {
 }
 Write-Output "Unzipping MMT-Extended to Magisk Module Template Directory..."
 7z x "$RepoZipFile" -o"$RepoLibsDir" -r
+mv $RepoLibsDir/$RootZipFolder $MagiskModuleDir
 Write-Output "Successfully prepared Magisk Module Template!"
