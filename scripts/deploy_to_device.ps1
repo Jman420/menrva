@@ -1,10 +1,7 @@
 param([string]$Architecture = "x86",
-      [string]$BuildType = "debug",
       [string]$EffectsConfigFile = "/vendor/etc/audio_effects.xml")
 
 . ./variables.ps1
-$MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
-$AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $MenrvaLibPath = "$BackendArtifactDir/$Architecture/$MenrvaLibFileName"
 $SharedCppLibPath = "$BackendArtifactDir/$Architecture/$SharedCppLibFileName"
 $EffectsConfigFileName = Split-Path -Leaf $EffectsConfigFile
@@ -64,7 +61,6 @@ switch -Wildcard ($EffectsConfigFile) {
 }
 Set-Content -Value $configContents -Path $EffectsConfigFileName
 Write-Output "Successfully Patched Effects Config File on PC : ./$EffectsConfigFileName"
-
 ExecuteAdbCommand -command "push" -parameters "./$EffectsConfigFileName $EffectsConfigFile" -logMsg "Pushing Patched Effect Config File to Device..." -failMsg "Failed to push Patched Effect Config File to Device!"
 
 Write-Output "Cleaning Up Effect Config File on PC..."

@@ -47,6 +47,7 @@ public:
     void SetData(AudioFormat inputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength);
     void* GetData();
     sample operator()(uint32_t channelIndex, size_t sampleIndex) const;  // Read-Only Subscript Operator
+    sample operator[](size_t sampleIndex) const;  // Read-Only Index Operator
 
 private:
     AudioFormat _InputAudioFormat;

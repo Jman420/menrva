@@ -228,6 +228,47 @@ sample AudioInputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
     return normalizedValue;
 }
 
+sample AudioInputBuffer::operator[](size_t bufferIndex) const {
+    _Logger->WriteLog("Validating Buffer Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex);
+    if (bufferIndex > _BufferLength) {
+        throw std::runtime_error("Invalid Sample Index Provided.");
+    }
+
+    _Logger->WriteLog("Retrieving Normalized Value for Buffer Index (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferIndex);
+    sample normalizedValue;
+
+    switch (_InputAudioFormat) {
+        case AudioFormat::PCM_16: {
+            int16_t value = (*_BufferWrapper->PCM_16)[bufferIndex];
+            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
+            normalizedValue = Normalize<int16_t>(value);
+            break;
+        }
+
+        case AudioFormat::PCM_32: {
+            int32_t value = (*_BufferWrapper->PCM_32)[bufferIndex];
+            _Logger->WriteLog("Normalizing value (%d) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
+            normalizedValue = Normalize<int32_t>(value);
+            break;
+        }
+
+        case AudioFormat::PCM_Float: {
+            float value = (*_BufferWrapper->PCM_Float)[bufferIndex];
+            _Logger->WriteLog("Normalizing value (%f) from Audio Format (%d) to sample type...", LOG_SENDER, __func__, LogLevel::VERBOSE, value, _InputAudioFormat);
+            normalizedValue = static_cast<sample>(value);
+            break;
+        }
+
+        default:
+            std::string msg = "Unable to retrieve Normalized Value.  Invalid Audio Format Provided.";
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            throw std::runtime_error(msg);
+    }
+
+    _Logger->WriteLog("Successfully retrieved Normalized Value (%f) for Buffer Index (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, normalizedValue, bufferIndex);
+    return normalizedValue;
+}
+
 template<class TInputType>
 sample AudioInputBuffer::Normalize(TInputType data) const {
     _Logger->WriteLog("Normalizing value for AudioFormat (%d)...", LOG_SENDER, __func__, LogLevel::VERBOSE, _InputAudioFormat);

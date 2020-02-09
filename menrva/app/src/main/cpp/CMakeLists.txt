@@ -97,7 +97,7 @@ add_library(
         ${COMMAND_HANDLER_SOURCES}
 
         engine/EngineInterface.cpp
-        engine/EffectsEngine.cpp
+        engine/EffectsEngine_mobile.cpp
         engine/CommandHandlerMap.cpp
         engine/CommandProcessor.cpp
 

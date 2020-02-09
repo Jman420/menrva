@@ -1,7 +1,4 @@
-param([string]$BuildType = "debug")
-
 . ./variables.ps1
-$ApkFile = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $ModuleAddonDir = "$ModuleCommonDir/addon"
 $ModuleRootDummyFile = "$MagiskModuleDir/dummy.txt"
 $ModuleSystemDir = "$MagiskModuleDir/system"
@@ -10,13 +7,13 @@ if (!(Test-Path $ArtifactsRootDir)) {
     Write-Output "Artifacts directory is missing.  Execute prepare_artifacts.sh and try again."
     exit 1
 }
-if (!(Test-Path $ApkFile)) {
+if (!(Test-Path $AppArtifact)) {
     Write-Output "MenrvaApp Apk File is missing.  Execute prepare_artifacts.sh and try again."
     exit 1
 }
 
 Write-Output "Copying Menrva APK to MMT directory..."
-Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$ModuleApkFileName" -Force
+Copy-Item -Path "$AppArtifact" -Destination "$MagiskModuleDir" -Force
 
 Write-Output "Copying Menrva Magisk Module Files into MMT directory..."
 Copy-Item -Path "$ModuleFilesDir/*" -Destination "$MagiskModuleDir" -Recurse -Force

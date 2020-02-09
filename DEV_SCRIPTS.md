@@ -59,14 +59,26 @@ Regenerates the C++ CommandHandlerMap Header & Class by populating the HandlerMa
 ### Parameters
 None
 
+## [build.ps1](scripts/build.ps1)
+Executes the gradle build process for the Project with the appropriate Product Flavor and Build Type parameters.
+
+### Execution Syntax
+./build.ps1 [IsOptimizedBuild] [IsReleaseBuild]
+
+### Parameters
+* IsOptimizedBuild - (Optional; Default 'true') Indicates whether to build the Project with all optimizations
+* IsReleaseBuild - (Optional; Default 'true') Indicates whether to build the Project as Release or Debug
+
 ## [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1)
 Copies a successful build's APK to the Artifacts directory and extracts the backend libraries by architecture to prepare for deployment.  This script requires a successful build to be performed prior to execution.
 
 ### Execution Syntax
-./prepare_artifacts.ps1 [BuildType]
+./prepare_artifacts.ps1 [IsOptimizedBuild] [IsReleaseBuild] [IsSigned]
 
 ### Parameters
-* BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for artifact processing
+* IsOptimizedBuild - (Optional; Default true) Indicates whether to use Optimized Binaries
+* IsReleaseBuild - (Optional; Default true) Indicates whether to use Release Binaries
+* IsSigned - (Optional; Default false) Indicates whether the Binaries are signed
 
 ## [deploy_to_device.ps1](scripts/deploy_to_device.ps1)
 Attempts to deploy the specified Build Artifacts to an attached device via ADB.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) to be performed prior to execution.
@@ -92,7 +104,7 @@ N/A
 Regenerates a Magisk Module using the [MMT-Extended Template](https://github.com/Zackptg5/MMT-Extended) and places the Magisk Zip File in the Artifacts directory.  This script requires successful execution of [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) and [prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) to be performed.
 
 ### Execution Syntax
-./generate_magisk_module.ps1 [BuildType]
+./generate_magisk_module.ps1
 
 ### Parameters
-* BuildType - (Optional; Default 'debug') Indicates the type of successful build to leverage for module creation
+N/A

@@ -33,6 +33,7 @@ public:
 protected:
     uint32_t _ChannelLength;
     size_t _SampleLength;
+    size_t _BufferLength;
 
     static size_t CalculateBufferIndex(uint32_t channelLength, uint32_t channelIndex, size_t sampleIndex);
 };

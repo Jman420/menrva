@@ -73,6 +73,13 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     context.ChannelLength = audio_channel_count_from_out_mask(config.outputCfg.channels);
     if (context.ChannelLength < 1) {
         _Logger->WriteLog("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", LOG_SENDER, __func__, LogLevel::ERROR, context.ChannelLength);
+        _ReturnValue = -EINVAL;
+        return;
+    }
+    if (context.ChannelLength > 2) {
+        _Logger->WriteLog("Invalid Channels Length (%d).  Mobile Menrva Engine only supports up to Stereo (2) Channels.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _ReturnValue = -EINVAL;
+        return;
     }
 
     if (!context.InputBuffer) {
