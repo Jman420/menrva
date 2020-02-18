@@ -21,22 +21,22 @@
 #include "CommandProcessor.h"
 #include "../audio/AudioFormat.h"
 
-const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
+const std::string EngineInterface::LOG_SENDER = "EngineInterface";
 
-ServiceLocator* MenrvaEngineInterface::_ServiceLocator = new ServiceLocator();
-LoggerBase* MenrvaEngineInterface::_Logger = _ServiceLocator->GetLogger();
+ServiceLocator* EngineInterface::_ServiceLocator = new ServiceLocator();
+LoggerBase* EngineInterface::_Logger = _ServiceLocator->GetLogger();
 
-int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr) {
+int EngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
     MenrvaModuleContext& context = *(MenrvaModuleContext*)handle;
     audio_buffer_t& inBuffer = *inBufferPtr;
     audio_buffer_t& outBuffer = *outBufferPtr;
 
-    if (context.ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING) {
+    if (context.ModuleStatus == ModuleStatus::RELEASING) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENODATA;
     }
-    if (context.ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY) {
+    if (context.ModuleStatus != ModuleStatus::READY) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
@@ -77,13 +77,13 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBuf
     return result;
 }
 
-int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
+int EngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
     auto contextPtr = (MenrvaModuleContext*)self;
     MenrvaModuleContext& context = *contextPtr;
 
-    if (context.ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_RELEASING ||
-        context.ModuleStatus == MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
+    if (context.ModuleStatus == ModuleStatus::RELEASING ||
+        context.ModuleStatus == ModuleStatus::INITIALIZING) {
 
         _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;

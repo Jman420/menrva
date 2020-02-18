@@ -26,11 +26,11 @@
 #include "audio/AudioInputBuffer.h"
 #include "audio/AudioOutputBuffer.h"
 
-enum MenrvaModuleStatus {
-    MENRVA_MODULE_UNINITIALIZED,
-    MENRVA_MODULE_INITIALIZING,
-    MENRVA_MODULE_READY,
-    MENRVA_MODULE_RELEASING,
+enum ModuleStatus {
+    UNINITIALIZED,
+    INITIALIZING,
+    READY,
+    RELEASING,
 };
 
 // Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
@@ -38,16 +38,16 @@ struct MenrvaModuleContext {
     __unused const effect_interface_s* itfe;
     effect_config_t config;
 
-    MenrvaModuleStatus ModuleStatus;
-    MenrvaEffectsEngine* EffectsEngine;
+    ModuleStatus ModuleStatus;
+    EffectsEngine* EffectsEngine;
 
     uint32_t ChannelLength;
     AudioInputBuffer* InputBuffer;
     AudioOutputBuffer* OutputBuffer;
 };
 
-// Represents the public interface for interacting with the Menrva Audio Effects Module
-class MenrvaModuleInterface {
+// Represents the public interface for interacting with the Audio Effects Module
+class ModuleInterface {
 public:
     static const effect_descriptor_t EffectDescriptor;
     static const effect_interface_s EngineInterface;
@@ -67,7 +67,7 @@ private:
     static LoggerBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaModuleInterface() = default;
+    ModuleInterface() = default;
 };
 
 #endif //MENRVA_MODULE_INTERFACE_H

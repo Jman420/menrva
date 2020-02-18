@@ -26,18 +26,18 @@
 #include "../effects/SingleChannelEffectsBundle.h"
 #include "../effects/MultiChannelEffectsBundle.h"
 
-enum MenrvaEngineStatus {
-    MENRVA_ENGINE_UNCONFIGURED,
-    MENRVA_ENGINE_DISABLED,
-    MENRVA_ENGINE_ENABLED,
+enum EngineStatus {
+    UNCONFIGURED,
+    DISABLED,
+    ENABLED,
 };
 
-class MenrvaEffectsEngine : public LoggingBase {
+class EffectsEngine : public LoggingBase {
 public:
-    MenrvaEngineStatus _EngineStatus;
+    EngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
-    ~MenrvaEffectsEngine();
+    EffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
+    ~EffectsEngine();
 
     void SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength);
     int Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer);

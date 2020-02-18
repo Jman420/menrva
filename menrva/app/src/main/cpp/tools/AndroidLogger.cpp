@@ -37,7 +37,7 @@ void AndroidLogger::Initialize() {
     SetLogLevel(LogLevel::DEBUG);
 
     SetOverrideListEnabled(false);
-    UpsertOverrideListEntry("MenrvaEffectsEngine", true, LogLevel::VERBOSE);
+    UpsertOverrideListEntry("EffectsEngine", true, LogLevel::VERBOSE);
     // END DEBUG
 
     // TODO : Get LogLevel & Whitelist Settings from Persisted Settings

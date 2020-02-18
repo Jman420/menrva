@@ -28,7 +28,7 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
-    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
@@ -47,7 +47,7 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
-    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);

@@ -25,14 +25,14 @@
 #include "../effects/StereoWidener.h"
 #include "../effects/Equalizer.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
+EffectsEngine::EffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _ServiceLocator = serviceLocator;
     _FftEngine = fftEngine;
-    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNCONFIGURED;
+    _EngineStatus = EngineStatus::UNCONFIGURED;
 }
 
-MenrvaEffectsEngine::~MenrvaEffectsEngine() {
+EffectsEngine::~EffectsEngine() {
     _Logger->WriteLog("Disposing of Buffers...", LOG_SENDER, __func__);
     delete[] _InputAudioFrame;
     delete[] _OutputAudioFrame;
@@ -47,8 +47,8 @@ MenrvaEffectsEngine::~MenrvaEffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-void MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate,
-                                          size_t frameLength) {
+void EffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate,
+                                    size_t frameLength) {
     _Logger->WriteLog("Setting up Buffer Configs...", LOG_SENDER, __func__);
     _ChannelLength = channelLength;
 
@@ -71,16 +71,16 @@ void MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleR
     _MultiChannelEffects->ResetBuffers(sampleRate, frameLength);
 
     _Logger->WriteLog("Successfully setup Buffer Configs!", LOG_SENDER, __func__);
-    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
+    _EngineStatus = EngineStatus::DISABLED;
 }
 
-int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {
+int EffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog("Processing Input Audio Buffer of length (%d) and channels (%d)...", LOG_SENDER, __func__, inputBuffer.GetSampleLength(), _ChannelLength);
-    if (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_UNCONFIGURED) {
+    if (_EngineStatus == EngineStatus::UNCONFIGURED) {
         _Logger->WriteLog("Unable to process Input Audio Buffer of length (%d) and channels (%d).  Engine not configured!", LOG_SENDER, __func__, LogLevel::ERROR, inputBuffer.GetSampleLength(), _ChannelLength);
         return -EINVAL;
     }
-    if (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_DISABLED) {
+    if (_EngineStatus == EngineStatus::DISABLED) {
         _Logger->WriteLog("Skipping processing Input Audio Buffer of length (%d) and channels (%d).  Engine is Disabled!", LOG_SENDER, __func__);
         return -ENODATA;
     }
@@ -123,10 +123,10 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
     }
 
     _Logger->WriteLog("Successfully processed Input Audio Buffer of length (%d)!", LOG_SENDER, __func__, inputBuffer.GetSampleLength());
-    return (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_DISABLED) ? -ENODATA : 0;
+    return (_EngineStatus == EngineStatus::DISABLED) ? -ENODATA : 0;
 }
 
-void MenrvaEffectsEngine::ResetBuffers(sample sampleRate) {
+void EffectsEngine::ResetBuffers(sample sampleRate) {
     _Logger->WriteLog("Resetting Effects Buffers...", LOG_SENDER, __func__);
     for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
         SingleChannelEffectsBundle& effectsBundle = _SingleChannelEffects[channelCounter];
@@ -140,7 +140,7 @@ void MenrvaEffectsEngine::ResetBuffers(sample sampleRate) {
     _Logger->WriteLog("Successfully Reset Effects Buffers!", LOG_SENDER, __func__);
 }
 
-void MenrvaEffectsEngine::SetEffectEnabled(uint8_t effectIndex, bool enabled) {
+void EffectsEngine::SetEffectEnabled(uint8_t effectIndex, bool enabled) {
     _Logger->WriteLog("Setting Enabled Flag on Effect Index (%d) to (%d)...", LOG_SENDER, __func__, effectIndex, enabled);
     if (effectIndex >= SingleChannelEffectsBundle::LENGTH) {
         _Logger->WriteLog("Skipping Setting Enabled Flag on Effect Index (%d).  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, effectIndex);
@@ -155,7 +155,7 @@ void MenrvaEffectsEngine::SetEffectEnabled(uint8_t effectIndex, bool enabled) {
     _Logger->WriteLog("Successfully set Enabled Flag on Effect Index (%d) to (%d)!", LOG_SENDER, __func__, effectIndex, enabled);
 }
 
-void MenrvaEffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value) {
+void EffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* settingName, void* value) {
     _Logger->WriteLog("Setting Effect Configuration : %s on Effect Index (%d)...", LOG_SENDER, __func__, settingName, effectIndex);
     if (effectIndex >= SingleChannelEffectsBundle::LENGTH) {
         _Logger->WriteLog("Skipping Setting Effect Configuration (%s) on Effect Index (%d).  Index out of bounds.", LOG_SENDER, __func__, LogLevel::WARN, settingName, effectIndex);
@@ -170,15 +170,15 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* sett
     _Logger->WriteLog("Successfully set Effect Configuration (%s) on Effect Index (%d)!", LOG_SENDER, __func__, settingName, effectIndex);
 }
 
-SingleChannelEffectsBundle* MenrvaEffectsEngine::GetSingleChannelEffectsBundle() {
+SingleChannelEffectsBundle* EffectsEngine::GetSingleChannelEffectsBundle() {
     return _SingleChannelEffects;
 }
 
-MultiChannelEffectsBundle* MenrvaEffectsEngine::GetMultiChannelEffectsBundle() {
+MultiChannelEffectsBundle* EffectsEngine::GetMultiChannelEffectsBundle() {
     return _MultiChannelEffects;
 }
 
-void MenrvaEffectsEngine::ProcessInputAudioFrame() {
+void EffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Processing Input Audio Frame...", LOG_SENDER, __func__);
 
     /**_Logger->WriteLog("Processing Single Channel Effects for (%d) Channels...", LOG_SENDER, __func__, _ChannelLength);
@@ -221,7 +221,7 @@ void MenrvaEffectsEngine::ProcessInputAudioFrame() {
     _Logger->WriteLog("Successfully processed Input Audio Frame!", LOG_SENDER, __func__);
 }
 
-size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer) {
+size_t EffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog("Processing Output Audio Frame...", LOG_SENDER, __func__);
     AudioBuffer& outputFrame = *_OutputAudioFrame;
     size_t outputFrameLength = std::min(outputFrame.GetLength(),

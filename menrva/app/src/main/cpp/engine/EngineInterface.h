@@ -23,7 +23,7 @@
 #include "../abstracts/LoggerBase.h"
 #include "../tools/ServiceLocator.h"
 
-class MenrvaEngineInterface {
+class EngineInterface {
 public:
     static int Process(effect_handle_t handle, audio_buffer_t* inBuffer, audio_buffer_t* outBuffer);
     static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
@@ -35,7 +35,7 @@ private:
     static LoggerBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaEngineInterface() = default;
+    EngineInterface() = default;
 };
 
 #endif //MENRVA_ENGINE_INTERFACE_H

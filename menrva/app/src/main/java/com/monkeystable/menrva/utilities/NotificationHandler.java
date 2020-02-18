@@ -23,7 +23,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.Service;
 import android.os.Build;
-import android.support.v4.app.NotificationCompat;
+import androidx.core.app.NotificationCompat;
 
 import com.monkeystable.menrva.abstracts.ServiceBase;
 import com.monkeystable.menrva.interfaces.INotificationHandler;

@@ -21,11 +21,11 @@
 #include "engine/EngineInterface.h"
 #include "tools/ServiceLocator.h"
 
-const std::string MenrvaModuleInterface::LOG_SENDER = "ModuleInterface";
-ServiceLocator* MenrvaModuleInterface::_ServiceLocator = new ServiceLocator();
-LoggerBase* MenrvaModuleInterface::_Logger = _ServiceLocator->GetLogger();
+const std::string ModuleInterface::LOG_SENDER = "ModuleInterface";
+ServiceLocator* ModuleInterface::_ServiceLocator = new ServiceLocator();
+LoggerBase* ModuleInterface::_Logger = _ServiceLocator->GetLogger();
 
-const effect_descriptor_t MenrvaModuleInterface::EffectDescriptor = {
+const effect_descriptor_t ModuleInterface::EffectDescriptor = {
         // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_nullptr)
         .type = { 0xec7178ec, 0xe5e1, 0x4432, 0xa3f4, { 0x46, 0x57, 0xe6, 0x79, 0x52, 0x10 } },
         // UUID for this particular implementation (http://www.itu.int/ITU-T/asn1/uuid.html)
@@ -44,20 +44,20 @@ const effect_descriptor_t MenrvaModuleInterface::EffectDescriptor = {
         .implementor = "Jman420"
 };
 
-const effect_interface_s MenrvaModuleInterface::EngineInterface =
+const effect_interface_s ModuleInterface::EngineInterface =
 {
-    MenrvaEngineInterface::Process,
-    MenrvaEngineInterface::Command,
-    MenrvaModuleInterface::GetDescriptorFromModule,
-    nullptr
+        EngineInterface::Process,
+        EngineInterface::Command,
+        ModuleInterface::GetDescriptorFromModule,
+        nullptr
 };
 
-const char* MenrvaModuleInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
-const char* MenrvaModuleInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
+const char* ModuleInterface::EffectTypeUUID = "ec7178ec-e5e1-4432-a3f4-4657e6795210";
+const char* ModuleInterface::EngineUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1";
 
-int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused, int32_t ioId __unused, effect_handle_t* pHandle) {
+int ModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId __unused, int32_t ioId __unused, effect_handle_t* pHandle) {
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
-    
+
     if (pHandle == nullptr) {
         _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
@@ -66,14 +66,14 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
         _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
-    if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
+    if (memcmp(uuid, &ModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
+        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, ModuleInterface::EngineUUID);
         return -EINVAL;
     }
 
     _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
     auto context = new MenrvaModuleContext();
-    context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
+    context->ModuleStatus = ModuleStatus::UNINITIALIZED;
     InitModule(*context);
 
     *pHandle = (effect_handle_t)context;
@@ -81,26 +81,26 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
     return 0;
 }
 
-void MenrvaModuleInterface::InitModule(MenrvaModuleContext& context) {
+void ModuleInterface::InitModule(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
-    if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
+    if (context.ModuleStatus > ModuleStatus::INITIALIZING) {
         _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
         return;
     }
 
-    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
+    context.ModuleStatus = ModuleStatus::INITIALIZING;
+    context.EffectsEngine = new EffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
     context.itfe = &EngineInterface;
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
-    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
+    context.ModuleStatus = ModuleStatus::READY;
     _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
 }
 
-int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
+int ModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     _Logger->WriteLog("Releasing Menrva Module...", LOG_SENDER, __func__);
     auto module = (MenrvaModuleContext*)moduleHandle;
 
@@ -110,7 +110,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     }
 
     _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", LOG_SENDER, __func__);
-    module->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_RELEASING;
+    module->ModuleStatus = ModuleStatus::RELEASING;
     delete module->EffectsEngine;
     delete module->InputBuffer;
     delete module->OutputBuffer;
@@ -120,7 +120,7 @@ int MenrvaModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     return 0;
 }
 
-int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor) {
+int ModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
     if (pDescriptor == nullptr) {
         _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -130,17 +130,17 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effe
         _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
-    if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
+    if (memcmp(uuid, &ModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
+        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, ModuleInterface::EngineUUID);
         return -ENOENT;
     }
 
     _Logger->WriteLog("Returning Effect Descriptor pointer!", LOG_SENDER, __func__);
-    *pDescriptor = MenrvaModuleInterface::EffectDescriptor;
+    *pDescriptor = ModuleInterface::EffectDescriptor;
     return 0;
 }
 
-int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor) {
+int ModuleInterface::GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
     auto module = (MenrvaModuleContext*)self;
     if (module == nullptr || pDescriptor == nullptr) {
@@ -149,7 +149,7 @@ int MenrvaModuleInterface::GetDescriptorFromModule(effect_handle_t self, effect_
     }
 
     _Logger->WriteLog("Returning Effect Descriptor pointer!", LOG_SENDER, __func__);
-    *pDescriptor = MenrvaModuleInterface::EffectDescriptor;
+    *pDescriptor = ModuleInterface::EffectDescriptor;
     return 0;
 }
 
@@ -159,10 +159,10 @@ extern "C" {
     audio_effect_library_t AUDIO_EFFECT_LIBRARY_INFO_SYM = {
         .tag = AUDIO_EFFECT_LIBRARY_TAG,
         .version = EFFECT_LIBRARY_API_VERSION,
-        .name = MenrvaModuleInterface::EffectDescriptor.name,
-        .implementor = MenrvaModuleInterface::EffectDescriptor.implementor,
-        .create_effect = MenrvaModuleInterface::CreateModule,
-        .release_effect = MenrvaModuleInterface::ReleaseModule,
-        .get_descriptor = MenrvaModuleInterface::GetDescriptorFromUUID,
+        .name = ModuleInterface::EffectDescriptor.name,
+        .implementor = ModuleInterface::EffectDescriptor.implementor,
+        .create_effect = ModuleInterface::CreateModule,
+        .release_effect = ModuleInterface::ReleaseModule,
+        .get_descriptor = ModuleInterface::GetDescriptorFromUUID,
     };
 }

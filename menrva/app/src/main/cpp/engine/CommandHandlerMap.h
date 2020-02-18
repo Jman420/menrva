@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMANDMAP_H
-#define MENRVA_COMMANDMAP_H
+#ifndef MENRVA_COMMAND_HANDLER_MAP_H
+#define MENRVA_COMMAND_HANDLER_MAP_H
 
 #include <map>
 #include "../ModuleInterface.h"
@@ -39,4 +39,4 @@ private:
     static void Initialize(LoggerBase* logger);
 };
 
-#endif //MENRVA_COMMANDMAP_H
+#endif //MENRVA_COMMAND_HANDLER_MAP_H
