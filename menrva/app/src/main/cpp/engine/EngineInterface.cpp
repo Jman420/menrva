@@ -32,11 +32,11 @@ int EngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr
     audio_buffer_t& inBuffer = *inBufferPtr;
     audio_buffer_t& outBuffer = *outBufferPtr;
 
-    if (context.ModuleStatus == ModuleStatus::RELEASING) {
+    if (context.Status == ModuleStatus::RELEASING) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENODATA;
     }
-    if (context.ModuleStatus != ModuleStatus::READY) {
+    if (context.Status != ModuleStatus::READY) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
@@ -71,7 +71,7 @@ int EngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr
     }
 
     _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
-    int result = context.EffectsEngine->Process(*context.InputBuffer, *context.OutputBuffer);
+    int result = context.Engine->Process(*context.InputBuffer, *context.OutputBuffer);
 
     _Logger->WriteLog("EffectsEngine finished Processing with Result (%d)!", LOG_SENDER, __func__, result);
     return result;
@@ -82,8 +82,8 @@ int EngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cm
     auto contextPtr = (MenrvaModuleContext*)self;
     MenrvaModuleContext& context = *contextPtr;
 
-    if (context.ModuleStatus == ModuleStatus::RELEASING ||
-        context.ModuleStatus == ModuleStatus::INITIALIZING) {
+    if (context.Status == ModuleStatus::RELEASING ||
+        context.Status == ModuleStatus::INITIALIZING) {
 
         _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;

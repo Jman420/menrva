@@ -97,7 +97,7 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
     context.config = config;
-    context.EffectsEngine->SetBufferConfig(context.ChannelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
+    context.Engine->SetBufferConfig(context.ChannelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
 }
 
 void Module_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {

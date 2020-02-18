@@ -73,7 +73,7 @@ int ModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId _
 
     _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
     auto context = new MenrvaModuleContext();
-    context->ModuleStatus = ModuleStatus::UNINITIALIZED;
+    context->Status = ModuleStatus::UNINITIALIZED;
     InitModule(*context);
 
     *pHandle = (effect_handle_t)context;
@@ -84,19 +84,19 @@ int ModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId _
 void ModuleInterface::InitModule(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
 
-    if (context.ModuleStatus > ModuleStatus::INITIALIZING) {
+    if (context.Status > ModuleStatus::INITIALIZING) {
         _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
         return;
     }
 
-    context.ModuleStatus = ModuleStatus::INITIALIZING;
-    context.EffectsEngine = new EffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
+    context.Status = ModuleStatus::INITIALIZING;
+    context.Engine = new EffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
     context.itfe = &EngineInterface;
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
-    context.ModuleStatus = ModuleStatus::READY;
+    context.Status = ModuleStatus::READY;
     _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
 }
 
@@ -110,8 +110,8 @@ int ModuleInterface::ReleaseModule(effect_handle_t moduleHandle) {
     }
 
     _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", LOG_SENDER, __func__);
-    module->ModuleStatus = ModuleStatus::RELEASING;
-    delete module->EffectsEngine;
+    module->Status = ModuleStatus::RELEASING;
+    delete module->Engine;
     delete module->InputBuffer;
     delete module->OutputBuffer;
     delete module;

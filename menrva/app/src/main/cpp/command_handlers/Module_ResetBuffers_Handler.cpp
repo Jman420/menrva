@@ -23,13 +23,13 @@ Module_ResetBuffers_Handler::Module_ResetBuffers_Handler(LoggerBase* logger)
 
 void Module_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
-    if (context.EffectsEngine == nullptr) {
+    if (context.Engine == nullptr) {
         _Logger->WriteLog("Skipping ResetBuffers Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return;
     }
 
     _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
-    context.EffectsEngine->ResetBuffers(context.config.inputCfg.samplingRate);
+    context.Engine->ResetBuffers(context.config.inputCfg.samplingRate);
 
     _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
 }
