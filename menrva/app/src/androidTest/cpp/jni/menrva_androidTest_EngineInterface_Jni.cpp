@@ -17,25 +17,25 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/Config.h"
+#include "../../../main/cpp/BuildConfig.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
 
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_EngineInterface_GetMajorVersion(JNIEnv *env, jclass type) {
-    return MENRVA_ENGINE_MAJOR;
+    return MENRVA_VERSION_MAJOR;
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_EngineInterface_GetMinorVersion(JNIEnv *env, jclass type) {
-    return MENRVA_ENGINE_MINOR;
+    return MENRVA_VERSION_MINOR;
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_EngineInterface_GetPatchVersion(JNIEnv *env, jclass type) {
-    return MENRVA_ENGINE_PATCH;
+    return MENRVA_VERSION_PATCH;
 }
 
 extern "C"

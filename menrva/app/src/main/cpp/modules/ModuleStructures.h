@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,32 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ENGINE_INTERFACE_H
-#define MENRVA_ENGINE_INTERFACE_H
+#ifndef MENRVA_MODULE_STRUCTURES_H
+#define MENRVA_MODULE_STRUCTURES_H
 
-#include "../aosp/aosp_audio_effect_defs.h"
-#include "../abstracts/LoggerBase.h"
-#include "../tools/ServiceLocator.h"
+#include <cstdint>
+#include "../audio/AudioOutputBuffer.h"
+#include "../engine/EffectsEngine.h"
 
-class EngineInterface {
-public:
-    static int Process(effect_handle_t handle, audio_buffer_t* inBuffer, audio_buffer_t* outBuffer);
-    static int Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
-
-private:
-    static const std::string LOG_SENDER;
-
-    static ServiceLocator* _ServiceLocator;
-    static LoggerBase* _Logger;
-
-    // Private Constructor to prevent instantiation of Static Class
-    EngineInterface() = default;
+enum ModuleStatus {
+    UNINITIALIZED,
+    INITIALIZING,
+    READY,
+    RELEASING,
 };
 
-#endif //MENRVA_ENGINE_INTERFACE_H
+struct ModuleConfig {
+    uint32_t ChannelLength;
+    AudioFormat Format;
+};
+
+struct ModuleContext {
+    ModuleStatus Status;
+    EffectsEngine* Engine;
+    ModuleConfig* Config;
+
+    AudioInputBuffer* InputBuffer;
+    AudioOutputBuffer* OutputBuffer;
+};
+
+#endif //MENRVA_MODULE_STRUCTURES_H

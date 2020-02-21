@@ -21,7 +21,7 @@
 Engine_SetLogLevel_Handler::Engine_SetLogLevel_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_SetLogLevel_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Engine_SetLogLevel_Handler::Execute(MenrvaModuleContext& context) {
+void Engine_SetLogLevel_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received SetLogLevel Command...", LOG_SENDER, __func__);
     messages::Engine_SetLogLevel_Request& request = *_TypedCommand->GetTypedRequest();
     messages::Engine_SetLogLevel_Response& response = *_TypedCommand->GetTypedResponse();

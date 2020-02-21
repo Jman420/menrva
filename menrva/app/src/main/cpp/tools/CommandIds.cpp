@@ -17,7 +17,7 @@
  */
 
 #include "CommandIds.h"
-#include "../aosp/aosp_audio_effect_defs.h"
+#include "../modules/android/aosp/aosp_audio_effect_defs.h"
 
 uint32_t CommandIds::Calculate(MenrvaCommands command) {
     return EFFECT_CMD_FIRST_PROPRIETARY + command;

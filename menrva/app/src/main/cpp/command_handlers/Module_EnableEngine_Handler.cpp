@@ -21,7 +21,7 @@
 Module_EnableEngine_Handler::Module_EnableEngine_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Module_EnableEngine_Handler::Execute(MenrvaModuleContext& context) {
+void Module_EnableEngine_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received EnableEngine Command...", LOG_SENDER, __func__);
     _Logger->WriteLog("Enabling Effects Engine...", LOG_SENDER, __func__);
     context.Engine->_EngineStatus = EngineStatus::ENABLED;

@@ -29,7 +29,7 @@ ServiceLocator* CommandProcessor::_ServiceLocator = new ServiceLocator();
 LoggerBase* CommandProcessor::_Logger = _ServiceLocator->GetLogger();
 CommandHandlerMap* CommandProcessor::_HandlerMap = new CommandHandlerMap(_Logger);
 
-int CommandProcessor::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
+int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
     if (context.Status != ModuleStatus::READY){
         _Logger->WriteLog("Skipping Processing Command Id (%u).  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR, cmdCode);

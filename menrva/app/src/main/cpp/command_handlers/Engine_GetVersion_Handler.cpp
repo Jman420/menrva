@@ -21,14 +21,14 @@
 Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
+void Engine_GetVersion_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
     messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
 
     _Logger->WriteLog("Setting Engine Version on Response Object...", LOG_SENDER, __func__);
-    response.set_major(MENRVA_ENGINE_MAJOR);
-    response.set_minor(MENRVA_ENGINE_MINOR);
-    response.set_patch(MENRVA_ENGINE_PATCH);
+    response.set_major(MENRVA_VERSION_MAJOR);
+    response.set_minor(MENRVA_VERSION_MINOR);
+    response.set_patch(MENRVA_VERSION_PATCH);
 
     _Logger->WriteLog("Successfully set Engine Version on Response Object.", LOG_SENDER, __func__);
 }

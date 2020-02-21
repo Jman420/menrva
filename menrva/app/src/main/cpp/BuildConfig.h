@@ -16,12 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONFIG_H
-#define MENRVA_CONFIG_H
+#ifndef MENRVA_BUILDCONFIG_H
+#define MENRVA_BUILDCONFIG_H
 
-#define MENRVA_ENGINE_MAJOR 0
-#define MENRVA_ENGINE_MINOR 1
-#define MENRVA_ENGINE_PATCH 0
+#define MENRVA_VERSION_MAJOR 0
+#define MENRVA_VERSION_MINOR 1
+#define MENRVA_VERSION_PATCH 0
 
 /* MENRVA_DSP_FRAME_LENGTH - Defines the number of audio samples in a single audio frame for processing.
  *
@@ -44,4 +44,4 @@
  * ----------------------------DO NOT MODIFY CODE BELOW THIS LINE---------------------------------
  */
 
-#endif //MENRVA_CONFIG_H
+#endif //MENRVA_BUILDCONFIG_H

@@ -19,13 +19,13 @@
 #ifndef MENRVA_COMMAND_PROCESSOR_H
 #define MENRVA_COMMAND_PROCESSOR_H
 
-#include "../aosp/aosp_audio_effect_defs.h"
-#include "../ModuleInterface.h"
+#include "../modules/android/aosp/aosp_audio_effect_defs.h"
+#include "../modules/android/AndroidInterface.h"
 #include "CommandHandlerMap.h"
 
 class CommandProcessor {
 public:
-    static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
+    static int Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
                        void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:

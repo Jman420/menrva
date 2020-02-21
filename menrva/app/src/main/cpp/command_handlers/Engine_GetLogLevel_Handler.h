@@ -27,7 +27,7 @@ class Engine_GetLogLevel_Handler
 public:
     Engine_GetLogLevel_Handler(LoggerBase* logger);
 
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
 };
 
 #endif //MENRVA_Engine_GetLogLevel_HANDLER_H

@@ -20,7 +20,7 @@
 #define MENRVA_COMMANDHANDLERBASE_H
 
 #include "CommandBase.h"
-#include "../ModuleInterface.h"
+#include "../modules/android/AndroidInterface.h"
 
 class CommandHandlerBase
         : public LoggingBase {
@@ -34,7 +34,7 @@ public:
     virtual bool DeserializeRequest(void *data, int length);
     virtual uint32_t SerializeResponse(void* responseBuffer);
 
-    virtual void Execute(MenrvaModuleContext& context) = 0;
+    virtual void Execute(ModuleContext& context) = 0;
 
 protected:
     CommandBase* _Command;

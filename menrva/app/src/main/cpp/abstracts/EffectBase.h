@@ -20,7 +20,7 @@
 #define MENRVA_EFFECT_BASE_H
 
 #include <string>
-#include "../aosp/aosp_audio_effect_defs.h"
+#include "../modules/android/aosp/aosp_audio_effect_defs.h"
 #include "../audio/AudioBuffer.h"
 
 class EffectBase {

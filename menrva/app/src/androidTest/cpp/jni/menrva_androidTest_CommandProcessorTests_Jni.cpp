@@ -17,8 +17,8 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/modules/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/modules/android/AndroidInterface.h"
 #include "../../../main/cpp/engine/CommandProcessor.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
 #include "../../../main/cpp/tools/CommandIds.h"
@@ -29,7 +29,7 @@ JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
     ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
@@ -48,7 +48,7 @@ JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
     ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);

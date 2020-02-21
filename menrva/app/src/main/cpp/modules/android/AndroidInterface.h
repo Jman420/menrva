@@ -16,37 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_MODULE_INTERFACE_H
-#define MENRVA_MODULE_INTERFACE_H
+#ifndef MENRVA_ANDROID_INTERFACE_H
+#define MENRVA_ANDROID_INTERFACE_H
 
+#include "../ModuleStructures.h"
 #include "aosp/aosp_audio_effect_defs.h"
-#include "tools/ServiceLocator.h"
-#include "abstracts/LoggerBase.h"
-#include "engine/EffectsEngine.h"
-#include "audio/AudioInputBuffer.h"
-#include "audio/AudioOutputBuffer.h"
+#include "../../tools/ServiceLocator.h"
+#include "../../abstracts/LoggerBase.h"
+#include "../../engine/EffectsEngine.h"
+#include "../../audio/AudioInputBuffer.h"
+#include "../../audio/AudioOutputBuffer.h"
 
-enum ModuleStatus {
-    UNINITIALIZED,
-    INITIALIZING,
-    READY,
-    RELEASING,
-};
-
-// Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
-struct MenrvaModuleContext {
+struct AndroidModuleContext : public ModuleContext {
     __unused const effect_interface_s* itfe;
-    effect_config_t config;
-
-    ModuleStatus Status;
-    EffectsEngine* Engine;
-
-    uint32_t ChannelLength;
-    AudioInputBuffer* InputBuffer;
-    AudioOutputBuffer* OutputBuffer;
+    effect_config_t AndroidConfig;
 };
 
-// Represents the public interface for interacting with the Audio Effects Module
 class ModuleInterface {
 public:
     static const effect_descriptor_t EffectDescriptor;
@@ -54,11 +39,14 @@ public:
     static const char* EffectTypeUUID;
     static const char* EngineUUID;
 
-    static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId, effect_handle_t* pHandle);
-    static void InitModule(MenrvaModuleContext &context);
-    static int ReleaseModule(effect_handle_t moduleHandle);
-    static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
-    static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);
+    static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId, effect_handle_t* handlePtr);
+    static void InitModule(ModuleContext* context);
+    static int ReleaseModule(effect_handle_t handle);
+    static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* descriptorPtr);
+    static int GetDescriptorFromModule(effect_handle_t handle, effect_descriptor_t* descriptorPtr);
+
+    static int Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr);
+    static int Command(effect_handle_t handle, uint32_t cmdCode, uint32_t cmdSize, void* cmdDataPtr, uint32_t* replySize, void* replyDataPtr);
 
 private:
     static const std::string LOG_SENDER;
@@ -70,4 +58,4 @@ private:
     ModuleInterface() = default;
 };
 
-#endif //MENRVA_MODULE_INTERFACE_H
+#endif //MENRVA_ANDROID_INTERFACE_H

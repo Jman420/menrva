@@ -23,7 +23,7 @@ Module_GetConfig_Handler::Module_GetConfig_Handler(LoggerBase* logger)
     _Config = nullptr;
 }
 
-void Module_GetConfig_Handler::Execute(MenrvaModuleContext& context) {
+void Module_GetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
     _Config = &context.config;
 }

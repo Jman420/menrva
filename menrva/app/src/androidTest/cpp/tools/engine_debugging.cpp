@@ -18,10 +18,10 @@
 
 #include "engine_debugging.h"
 #include "test_helper.h"
-#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/modules/android/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
 #include "../../../main/cpp/tools/WaveGenerator.h"
-#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/modules/android/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;
@@ -57,7 +57,7 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     effect_handle_t menrvaEffectHandle = nullptr;
     ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();
