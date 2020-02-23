@@ -46,8 +46,17 @@ aux_source_directory(
 )
 aux_source_directory(
         command_handlers
-        ENGINE_COMMAND_HANDLER_SOURCES
+        ENGINE_COMMAND_HANDLERS_SOURCES
 )
+aux_source_directory(
+        modules/android/commands
+        ANDROID_COMMANDS_SOURCES
+)
+aux_source_directory(
+        modules/android/command_handlers
+        ANDROID_COMMAND_HANDLERS_SOURCES
+)
+
 add_library(
         MenrvaEngine
         SHARED
@@ -89,11 +98,14 @@ add_library(
 
         ${ENGINE_MESSAGES_SOURCES}
         ${ENGINE_COMMANDS_SOURCES}
-        ${ENGINE_COMMAND_HANDLER_SOURCES}
+        ${ENGINE_COMMAND_HANDLERS_SOURCES}
 
         engine/EffectsEngine_mobile.cpp
         engine/CommandHandlerMap.cpp
         engine/CommandProcessor.cpp
+
+        ${ANDROID_COMMANDS_SOURCES}
+        ${ANDROID_COMMAND_HANDLERS_SOURCES}
 
         modules/android/tools/AndroidLogger.cpp
         modules/android/tools/AndroidServiceLocator.cpp
