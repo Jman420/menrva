@@ -22,7 +22,6 @@
  */
 
 #include "TypedCommandBase.h"
-#include "../aosp/aosp_audio_effect_defs.h"
 
 template<class TRequest, class TResponse>
 TypedCommandBase<TRequest, TResponse>::TypedCommandBase(int commandId, TRequest* request, TResponse* response)

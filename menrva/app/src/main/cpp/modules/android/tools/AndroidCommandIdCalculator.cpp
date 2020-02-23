@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "CommandIds.h"
-#include "../modules/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../tools/CommandIdCalculator.h"
+#include "../aosp/aosp_audio_effect_defs.h"
 
-uint32_t CommandIds::Calculate(MenrvaCommands command) {
+uint32_t CommandIdCalculator::Calculate(MenrvaCommands command) {
     return EFFECT_CMD_FIRST_PROPRIETARY + command;
 }

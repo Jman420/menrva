@@ -29,7 +29,7 @@ void Module_ResetBuffers_Handler::Execute(ModuleContext& context) {
     }
 
     _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
-    context.Engine->ResetBuffers(context.config.inputCfg.samplingRate);
+    context.Engine->ResetBuffers(context.Config->SampleRate);
 
     _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
 }

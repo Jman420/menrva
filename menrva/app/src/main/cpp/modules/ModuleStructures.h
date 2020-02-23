@@ -33,6 +33,7 @@ enum ModuleStatus {
 struct ModuleConfig {
     uint32_t ChannelLength;
     AudioFormat Format;
+    sample SampleRate;
 };
 
 struct ModuleContext {

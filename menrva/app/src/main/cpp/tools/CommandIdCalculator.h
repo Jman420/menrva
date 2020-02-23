@@ -22,7 +22,7 @@
 #include <cstdint>
 #include "../commands/MenrvaCommands.h"
 
-class CommandIds {
+class CommandIdCalculator {
 public:
     static uint32_t Calculate(MenrvaCommands command);
 };

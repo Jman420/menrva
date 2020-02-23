@@ -21,7 +21,7 @@
 #include "../../../main/cpp/modules/android/AndroidInterface.h"
 #include "../../../main/cpp/engine/CommandProcessor.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
-#include "../../../main/cpp/tools/CommandIds.h"
+#include "../../../main/cpp/tools/CommandIdCalculator.h"
 #include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 
 extern "C"
@@ -54,7 +54,7 @@ Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEn
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
     uint32_t responseLength = 0;
-    uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
+    uint32_t commandId = CommandIdCalculator::Calculate(MenrvaCommands::Engine_GetVersion);
     CommandProcessor::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);

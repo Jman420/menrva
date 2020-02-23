@@ -18,7 +18,7 @@
 
 #include <cerrno>
 #include "CommandProcessor.h"
-#include "../tools/CommandIds.h"
+#include "../tools/CommandIdCalculator.h"
 #include "../commands/MenrvaCommands.h"
 #include "../commands/messages/Engine_GetVersion.pb.h"
 #include "../commands/Engine_GetVersion_Command.h"

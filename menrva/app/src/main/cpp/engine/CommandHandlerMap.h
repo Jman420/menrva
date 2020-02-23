@@ -16,11 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMAND_HANDLER_MAP_H
-#define MENRVA_COMMAND_HANDLER_MAP_H
+#ifndef MENRVA_COMMANDMAP_H
+#define MENRVA_COMMANDMAP_H
 
 #include <map>
-#include "../modules/android/AndroidInterface.h"
 #include "../abstracts/CommandHandlerBase.h"
 
 typedef std::map<uint32_t, CommandHandlerBase*> handler_map;
@@ -39,4 +38,4 @@ private:
     static void Initialize(LoggerBase* logger);
 };
 
-#endif //MENRVA_COMMAND_HANDLER_MAP_H
+#endif //MENRVA_COMMANDMAP_H

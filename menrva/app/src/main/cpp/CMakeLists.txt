@@ -38,15 +38,15 @@ set_target_properties(
 
 aux_source_directory(
         commands/messages
-        MESSAGES_SOURCES
+        ENGINE_MESSAGES_SOURCES
 )
 aux_source_directory(
         commands
-        COMMANDS_SOURCES
+        ENGINE_COMMANDS_SOURCES
 )
 aux_source_directory(
         command_handlers
-        COMMAND_HANDLER_SOURCES
+        ENGINE_COMMAND_HANDLER_SOURCES
 )
 add_library(
         MenrvaEngine
@@ -63,13 +63,9 @@ add_library(
         abstracts/MultiChannelEffectBase.cpp
         abstracts/CommandBase.cpp
 
-        tools/AndroidLogger.cpp
-        tools/ServiceLocator.cpp
         tools/MathOperations.cpp
         tools/Buffer.cpp
         tools/ConversionBuffer.cpp
-        tools/WaveGenerator.cpp
-        tools/CommandIds.cpp
 
         audio/AudioBuffer.cpp
         audio/AudioInputBuffer.cpp
@@ -77,6 +73,7 @@ add_library(
         audio/AudioComponentsBuffer.cpp
 
         ir/FirGenerator.cpp
+        ir/WaveGenerator.cpp
 
         fft/KfrInterface.cpp
 
@@ -90,15 +87,18 @@ add_library(
         effects/SingleChannelEffectsBundle.cpp
         effects/MultiChannelEffectsBundle.cpp
 
-        modules/android/AndroidInterface.cpp
-
-        ${MESSAGES_SOURCES}
-        ${COMMANDS_SOURCES}
-        ${COMMAND_HANDLER_SOURCES}
+        ${ENGINE_MESSAGES_SOURCES}
+        ${ENGINE_COMMANDS_SOURCES}
+        ${ENGINE_COMMAND_HANDLER_SOURCES}
 
         engine/EffectsEngine_mobile.cpp
         engine/CommandHandlerMap.cpp
         engine/CommandProcessor.cpp
+
+        modules/android/tools/AndroidLogger.cpp
+        modules/android/tools/AndroidServiceLocator.cpp
+        modules/android/tools/AndroidCommandIdCalculator.cpp
+        modules/android/AndroidInterface.cpp
 
         jni/menrva_activities_JniInterface.cpp
         jni/menrva_service_JniInterface.cpp

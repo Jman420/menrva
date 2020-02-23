@@ -30,6 +30,7 @@ bool Module_SetConfig_Handler::DeserializeRequest(void* data, int length) {
 
 void Module_SetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
+    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
     effect_config_t& config = *_Config;
 
     _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
@@ -70,17 +71,22 @@ void Module_SetConfig_Handler::Execute(ModuleContext& context) {
     }
 
     _Logger->WriteLog("Calculating Channels Length...", LOG_SENDER, __func__);
-    context.ChannelLength = audio_channel_count_from_out_mask(config.outputCfg.channels);
-    if (context.ChannelLength < 1) {
-        _Logger->WriteLog("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", LOG_SENDER, __func__, LogLevel::ERROR, context.ChannelLength);
+
+    uint32_t channelLength = audio_channel_count_from_out_mask(config.outputCfg.channels);
+    if (channelLength < 1) {
+        _Logger->WriteLog("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", LOG_SENDER, __func__, LogLevel::ERROR, channelLength);
         _ReturnValue = -EINVAL;
         return;
     }
-    if (context.ChannelLength > 2) {
+    if (channelLength > 2) {
         _Logger->WriteLog("Invalid Channels Length (%d).  Mobile Menrva Engine only supports up to Stereo (2) Channels.", LOG_SENDER, __func__, LogLevel::ERROR);
         _ReturnValue = -EINVAL;
         return;
     }
+
+    _Logger->WriteLog("Setting Menrva Engine Configuration...", LOG_SENDER, __func__);
+    ModuleConfig& moduleConfig = *context.Config;
+    moduleConfig.ChannelLength = channelLength;
 
     if (!context.InputBuffer) {
         _Logger->WriteLog("Creating Audio Input Buffer Wrapper...", LOG_SENDER, __func__);
@@ -96,8 +102,7 @@ void Module_SetConfig_Handler::Execute(ModuleContext& context) {
     context.OutputBuffer->SetFormat((AudioFormat)config.outputCfg.format);
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
-    context.config = config;
-    context.Engine->SetBufferConfig(context.ChannelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
+    context.Engine->SetBufferConfig(channelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
 }
 
 void Module_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {

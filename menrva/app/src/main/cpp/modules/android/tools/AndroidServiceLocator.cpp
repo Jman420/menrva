@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../BuildConfig.h"
-#include "ServiceLocator.h"
+#include "../../../tools/ServiceLocator.h"
 #include "AndroidLogger.h"
-#include "../fft/KfrInterface.h"
-/**#include "../fft/FftwInterface.h"
-#include "../fft/KissFftInterface.h"/**/
+#include "../../../fft/KfrInterface.h"
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
@@ -35,19 +32,6 @@ LoggerBase* ServiceLocator::GetLogger() {
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
     return new KfrInterface(GetLogger());
-
-    /**switch (_FftEngineType) {
-        case FftEngineType::KFR:
-            return new KfrInterface(GetLogger());
-
-        case FftEngineType::FFTW:
-            return new FftwInterface(GetLogger());
-
-        case FftEngineType::KISS_FFT:
-            return new KissFftInterface(GetLogger());
-    }
-
-    throw std::runtime_error("Invalid FFT Engine Type.");/**/
 }
 
 FirGenerator* ServiceLocator::GetFirGenerator() {

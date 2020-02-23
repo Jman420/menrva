@@ -25,7 +25,8 @@ Module_GetConfig_Handler::Module_GetConfig_Handler(LoggerBase* logger)
 
 void Module_GetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
-    _Config = &context.config;
+    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
+    _Config = &androidContext.AndroidConfig;
 }
 
 uint32_t Module_GetConfig_Handler::SerializeResponse(void* responseBuffer) {

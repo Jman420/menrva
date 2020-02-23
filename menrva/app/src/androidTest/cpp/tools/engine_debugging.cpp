@@ -20,7 +20,7 @@
 #include "test_helper.h"
 #include "../../../main/cpp/modules/android/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
-#include "../../../main/cpp/tools/WaveGenerator.h"
+#include "../../../main/cpp/ir/WaveGenerator.h"
 #include "../../../main/cpp/modules/android/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
@@ -57,7 +57,7 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     effect_handle_t menrvaEffectHandle = nullptr;
     ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
+    AndroidModuleContext menrvaEngineContext = *(AndroidModuleContext*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();
