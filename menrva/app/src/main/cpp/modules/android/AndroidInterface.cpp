@@ -93,6 +93,8 @@ void ModuleInterface::InitModule(ModuleContext* context) {
     androidContext.Engine = new EffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
     androidContext.itfe = &EngineInterface;
 
+    // TODO : Inject Android Host Command Handlers
+
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
 
@@ -214,8 +216,6 @@ int ModuleInterface::Command(effect_handle_t handle, uint32_t cmdCode, uint32_t 
         _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
-
-    // TODO : Intercept Android System Commands which require cmdData serialization (SetConfig & GetConfig)
 
     _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
     int result = CommandProcessor::Process(context, cmdCode, cmdSize, cmdDataPtr, replySize, replyDataPtr);
