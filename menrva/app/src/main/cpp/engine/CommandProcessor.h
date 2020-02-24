@@ -32,9 +32,8 @@ public:
 
 private:
     static const std::string LOG_SENDER;
-
-    static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;
+
     CommandHandlerMap* _HandlerMap;
 };
 

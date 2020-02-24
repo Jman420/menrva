@@ -109,7 +109,7 @@ void ModuleInterface::InitModule(ModuleContext* context) {
     commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_RESET, new Android_ResetBuffers_Handler(_Logger)));
     commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_ENABLE, new Android_EnableEngine_Handler(_Logger)));
     commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_DISABLE, new Android_DisableEngine_Handler(_Logger)));
-    androidContext.CommandProcessor = commandProcessor;  // IDE seems to think these types are incompatible, but compiler builds successfully?
+    androidContext.CommandProcessor = commandProcessor;  // IDE thinks these types are incompatible, but compiler builds and runtime executes successfully
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);

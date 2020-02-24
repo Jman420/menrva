@@ -25,10 +25,13 @@
 #include "../command_handlers/Engine_GetVersion_Handler.h"
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
-ServiceLocator* CommandProcessor::_ServiceLocator = new ServiceLocator();
-LoggerBase* CommandProcessor::_Logger = _ServiceLocator->GetLogger();
+LoggerBase* CommandProcessor::_Logger = nullptr;
 
 CommandProcessor::CommandProcessor() {
+    if (!_Logger) {
+        _Logger = (new ServiceLocator())->GetLogger();
+    }
+
     _HandlerMap = new CommandHandlerMap(_Logger);
 }
 
