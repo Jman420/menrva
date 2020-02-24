@@ -25,18 +25,17 @@
 
 class CommandProcessor {
 public:
-    static int Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
-                       void* pCmdData, uint32_t* replySize, void* pReplyData);
+    CommandProcessor();
+
+    int Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    CommandHandlerMap* GetCommandHandlerMap();
 
 private:
     static const std::string LOG_SENDER;
 
     static ServiceLocator* _ServiceLocator;
     static LoggerBase* _Logger;
-    static CommandHandlerMap* _HandlerMap;
-
-    // Private Constructor to prevent instantiation of Static Class
-    CommandProcessor() = default;
+    CommandHandlerMap* _HandlerMap;
 };
 
 #endif //MENRVA_COMMAND_PROCESSOR_H

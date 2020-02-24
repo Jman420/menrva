@@ -27,7 +27,10 @@
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
 ServiceLocator* CommandProcessor::_ServiceLocator = new ServiceLocator();
 LoggerBase* CommandProcessor::_Logger = _ServiceLocator->GetLogger();
-CommandHandlerMap* CommandProcessor::_HandlerMap = new CommandHandlerMap(_Logger);
+
+CommandProcessor::CommandProcessor() {
+    _HandlerMap = new CommandHandlerMap(_Logger);
+}
 
 int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Processing Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
@@ -56,4 +59,8 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
 
     _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__, cmdCode);
     return returnValue;
+}
+
+CommandHandlerMap *CommandProcessor::GetCommandHandlerMap() {
+    return _HandlerMap;
 }

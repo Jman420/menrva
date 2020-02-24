@@ -19,6 +19,13 @@
 #include <cerrno>
 #include "AndroidInterface.h"
 #include "../../engine/CommandProcessor.h"
+#include "../../tools/CommandIdCalculator.h"
+#include "command_handlers/Android_InitEngine_Handler.h"
+#include "command_handlers/Android_GetConfig_Handler.h"
+#include "command_handlers/Android_SetConfig_Handler.h"
+#include "command_handlers/Android_ResetBuffers_Handler.h"
+#include "command_handlers/Android_EnableEngine_Handler.h"
+#include "command_handlers/Android_DisableEngine_Handler.h"
 
 const std::string ModuleInterface::LOG_SENDER = "ModuleInterface";
 ServiceLocator* ModuleInterface::_ServiceLocator = new ServiceLocator();
@@ -93,7 +100,16 @@ void ModuleInterface::InitModule(ModuleContext* context) {
     androidContext.Engine = new EffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
     androidContext.itfe = &EngineInterface;
 
-    // TODO : Inject Android Host Command Handlers
+    _Logger->WriteLog("Injecting Android Host Command Handlers...", LOG_SENDER, __func__);
+    CommandProcessor* commandProcessor = new CommandProcessor();
+    handler_map& commandHandlerMap = *commandProcessor->GetCommandHandlerMap()->GetHandlerMap();
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_INIT, new Android_InitEngine_Handler(_Logger)));
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_GET_CONFIG, new Android_GetConfig_Handler(_Logger)));
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_SET_CONFIG, new Android_SetConfig_Handler(_Logger)));
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_RESET, new Android_ResetBuffers_Handler(_Logger)));
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_ENABLE, new Android_EnableEngine_Handler(_Logger)));
+    commandHandlerMap.insert(handler_map::value_type(EFFECT_CMD_DISABLE, new Android_DisableEngine_Handler(_Logger)));
+    androidContext.CommandProcessor = commandProcessor;  // IDE seems to think these types are incompatible, but compiler builds successfully?
 
     // TODO : Configure any necessary default parameters
     //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
@@ -218,7 +234,7 @@ int ModuleInterface::Command(effect_handle_t handle, uint32_t cmdCode, uint32_t 
     }
 
     _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
-    int result = CommandProcessor::Process(context, cmdCode, cmdSize, cmdDataPtr, replySize, replyDataPtr);
+    int result = context.CommandProcessor->Process(context, cmdCode, cmdSize, cmdDataPtr, replySize, replyDataPtr);
 
     _Logger->WriteLog("Finished Processing Command with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
     return result;

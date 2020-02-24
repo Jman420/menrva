@@ -23,6 +23,9 @@
 #include "../audio/AudioOutputBuffer.h"
 #include "../engine/EffectsEngine.h"
 
+// Forward Declaration too avoid circular reference : ../engine/CommandProcessor.h
+class CommandProcessor;
+
 enum ModuleStatus {
     UNINITIALIZED,
     INITIALIZING,
@@ -38,8 +41,9 @@ struct ModuleConfig {
 
 struct ModuleContext {
     ModuleStatus Status;
-    EffectsEngine* Engine;
     ModuleConfig* Config;
+    EffectsEngine* Engine;
+    CommandProcessor* CommandProcessor;
 
     AudioInputBuffer* InputBuffer;
     AudioOutputBuffer* OutputBuffer;
