@@ -21,8 +21,8 @@
  * To regenerate this file re-execute compile_protobuf_messages.ps1
  */
 
-#ifndef MENRVA_MENRVA_COMMAND_BASE_H
-#define MENRVA_MENRVA_COMMAND_BASE_H
+#ifndef MENRVA_TYPED_COMMAND_BASE_H
+#define MENRVA_TYPED_COMMAND_BASE_H
 
 #include <google/protobuf/message_lite.h>
 #include "../abstracts/CommandBase.h"
@@ -44,4 +44,4 @@ private:
     TResponse* _TypedResponse;
 };
 
-#endif //MENRVA_MENRVA_COMMAND_BASE_H
+#endif //MENRVA_TYPED_COMMAND_BASE_H

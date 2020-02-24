@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_EFFECTS_BUNDLE_H
-#define MENRVA_EFFECTS_BUNDLE_H
+#ifndef MENRVA_SINGLE_CHANNEL_EFFECTS_BUNDLE_H
+#define MENRVA_SINGLE_CHANNEL_EFFECTS_BUNDLE_H
 
 #include "../tools/ServiceLocator.h"
 #include "BassBoost.h"
@@ -51,4 +51,4 @@ private:
     SingleChannelEffectBase** _Effects;
 };
 
-#endif //MENRVA_EFFECTS_BUNDLE_H
+#endif //MENRVA_SINGLE_CHANNEL_EFFECTS_BUNDLE_H

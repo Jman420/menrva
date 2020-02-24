@@ -19,15 +19,13 @@
 #ifndef MENRVA_ANDROID_INTERFACE_H
 #define MENRVA_ANDROID_INTERFACE_H
 
-#include "../ModuleStructures.h"
 #include "aosp/aosp_audio_effect_defs.h"
+#include "../ModuleStructures.h"
 #include "../../tools/ServiceLocator.h"
 #include "../../abstracts/LoggerBase.h"
-#include "../../engine/EffectsEngine.h"
-#include "../../audio/AudioInputBuffer.h"
-#include "../../audio/AudioOutputBuffer.h"
 
-struct AndroidModuleContext : public ModuleContext {
+struct AndroidModuleContext
+        : public ModuleContext {
     __unused const effect_interface_s* itfe;
     effect_config_t AndroidConfig;
 };

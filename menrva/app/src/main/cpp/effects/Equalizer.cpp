@@ -22,9 +22,7 @@ const std::string Equalizer::EFFECT_NAME = "Equalizer";
 
 Equalizer::Equalizer(LoggerBase* logger)
         : SingleChannelEffectBase(EFFECT_NAME),
-          LoggingBase(logger, __PRETTY_FUNCTION__) {
-
-}
+          LoggingBase(logger, __PRETTY_FUNCTION__) {}
 
 void Equalizer::Process(AudioBuffer& input, AudioBuffer& output) {
     // TODO : Implement Equalizer Effect

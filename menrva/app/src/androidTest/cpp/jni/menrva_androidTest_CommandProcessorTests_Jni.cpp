@@ -17,8 +17,6 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/modules/android/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/modules/android/AndroidInterface.h"
 #include "../../../main/cpp/engine/CommandProcessor.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
 #include "../../../main/cpp/tools/CommandIdCalculator.h"
@@ -27,11 +25,6 @@
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
-    ServiceLocator* locator = new ServiceLocator();
-    LoggerBase* logger = locator->GetLogger();
-    uint32_t val = 1;
-    logger->WriteLog("This is a test message : (%u)", "TestSender", "TestFunc", val);
-
     effect_handle_t menrvaEffectHandle = nullptr;
     ModuleInterface::CreateModule(&ModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
     ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;

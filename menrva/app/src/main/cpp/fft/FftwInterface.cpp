@@ -77,9 +77,11 @@ void FftwInterface::Deallocate(sample* data) {
 }
 
 void FftwInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) {
-    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal.GetData(), components.GetRealData(), components.GetImagData());
+    Fftw3ExecuteReal2Complex(_Plans.Real2ComplexPlan, signal.GetData(), components.GetRealData(),
+                             components.GetImaginaryData());
 }
 
 void FftwInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) {
-    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components.GetRealData(), components.GetImagData(), signal.GetData());
+    Fftw3ExecuteComplex2Real(_Plans.Complex2RealPlan, components.GetRealData(),
+                             components.GetImaginaryData(), signal.GetData());
 }

@@ -48,8 +48,7 @@ LogLevel LoggerBase::GetLogLevel() {
     return _LogLevel;
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,
-                          LogLevel logLevel, ...) {
+void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...) {
     va_list args;
     va_start(args, logLevel);
     WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel, args);

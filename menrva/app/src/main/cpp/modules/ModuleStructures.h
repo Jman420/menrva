@@ -20,6 +20,7 @@
 #define MENRVA_MODULE_STRUCTURES_H
 
 #include <cstdint>
+#include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
 #include "../engine/EffectsEngine.h"
 

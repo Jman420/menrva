@@ -17,6 +17,7 @@
  */
 
 #include "Android_InitEngine_Handler.h"
+#include "../commands/Android_Generic_Command.h"
 
 Android_InitEngine_Handler::Android_InitEngine_Handler(LoggerBase* logger)
         : CommandHandlerBase(new Android_Generic_Command(), logger, __PRETTY_FUNCTION__) {}

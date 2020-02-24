@@ -21,13 +21,13 @@
 AudioComponentsBuffer::AudioComponentsBuffer() {
     _Length = 0;
     _RealBuffer = new AudioBuffer();
-    _ImagBuffer = new AudioBuffer();
+    _ImaginaryBuffer = new AudioBuffer();
 }
 
 AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length) {
     _Length = length;
     _RealBuffer = new AudioBuffer();
-    _ImagBuffer = new AudioBuffer();
+    _ImaginaryBuffer = new AudioBuffer();
 
     if (length > 0) {
         CreateData(fftEngine, length);
@@ -36,17 +36,17 @@ AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
     delete _RealBuffer;
-    delete _ImagBuffer;
+    delete _ImaginaryBuffer;
 }
 
 void AudioComponentsBuffer::ResetData() {
     _RealBuffer->ResetData();
-    _ImagBuffer->ResetData();
+    _ImaginaryBuffer->ResetData();
 }
 
 void AudioComponentsBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
     _RealBuffer->CreateData(fftEngine, length);
-    _ImagBuffer->CreateData(fftEngine, length);
+    _ImaginaryBuffer->CreateData(fftEngine, length);
     _Length = length;
 }
 
@@ -62,18 +62,18 @@ AudioBuffer* AudioComponentsBuffer::GetRealBuffer() {
     return _RealBuffer;
 }
 
-sample* AudioComponentsBuffer::GetImagData() {
-    return _ImagBuffer->GetData();
+sample* AudioComponentsBuffer::GetImaginaryData() {
+    return _ImaginaryBuffer->GetData();
 }
 
-AudioBuffer* AudioComponentsBuffer::GetImagBuffer() {
-    return _ImagBuffer;
+AudioBuffer* AudioComponentsBuffer::GetImaginaryBuffer() {
+    return _ImaginaryBuffer;
 }
 
 void AudioComponentsBuffer::SetRealValue(size_t index, sample value) {
     (*_RealBuffer)[index] = value;
 }
 
-void AudioComponentsBuffer::SetImagValue(size_t index, sample value) {
-    (*_ImagBuffer)[index] = value;
+void AudioComponentsBuffer::SetImaginaryValue(size_t index, sample value) {
+    (*_ImaginaryBuffer)[index] = value;
 }

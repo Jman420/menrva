@@ -37,7 +37,7 @@ MessageLite* CommandBase::GetRequest() {
     return _Request;
 }
 
-MessageLite *CommandBase::GetResponse() {
+MessageLite* CommandBase::GetResponse() {
     return _Response;
 }
 

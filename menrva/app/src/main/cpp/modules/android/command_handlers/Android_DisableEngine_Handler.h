@@ -19,8 +19,7 @@
 #ifndef MENRVA_ANDROID_DISABLE_ENGINE_HANDLER_H
 #define MENRVA_ANDROID_DISABLE_ENGINE_HANDLER_H
 
-#include "../../../command_handlers/TypedCommandHandlerBase.h"
-#include "../commands/Android_Generic_Command.h"
+#include "../../../abstracts/CommandHandlerBase.h"
 
 class Android_DisableEngine_Handler
         : public CommandHandlerBase {

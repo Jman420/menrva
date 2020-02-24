@@ -21,7 +21,7 @@
 using namespace kfr;
 
 KfrInterface::KfrInterface(LoggerBase* logger)
-    : LoggingBase(logger, __PRETTY_FUNCTION__) {
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _Initialized = false;
 }
 
@@ -57,7 +57,7 @@ void KfrInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer
     _Plan->execute(componentsData, signal.GetData(), _TempBuffer->data());
 
     sample* realComponents = components.GetRealBuffer()->GetData();
-    sample* imagComponents = components.GetImagBuffer()->GetData();
+    sample* imagComponents = components.GetImaginaryBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
         realComponents[componentCounter] = componentsData[componentCounter].re;
         imagComponents[componentCounter] = componentsData[componentCounter].im;
@@ -67,7 +67,7 @@ void KfrInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer
 void KfrInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBuffer& signal) {
     complex<sample>* componentsData = _ComponentsBuffer->data();
     sample* realComponents = components.GetRealBuffer()->GetData();
-    sample* imagComponents = components.GetImagBuffer()->GetData();
+    sample* imagComponents = components.GetImaginaryBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
         componentsData[componentCounter].re = realComponents[componentCounter];
         componentsData[componentCounter].im = imagComponents[componentCounter];

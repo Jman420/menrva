@@ -17,6 +17,7 @@
  */
 
 #include "Android_ResetBuffers_Handler.h"
+#include "../commands/Android_Generic_Command.h"
 
 Android_ResetBuffers_Handler::Android_ResetBuffers_Handler(LoggerBase* logger)
         : CommandHandlerBase(new Android_Generic_Command(), logger, __PRETTY_FUNCTION__) {}

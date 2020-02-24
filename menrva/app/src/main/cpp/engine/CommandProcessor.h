@@ -19,8 +19,6 @@
 #ifndef MENRVA_COMMAND_PROCESSOR_H
 #define MENRVA_COMMAND_PROCESSOR_H
 
-#include "../modules/android/aosp/aosp_audio_effect_defs.h"
-#include "../modules/android/AndroidInterface.h"
 #include "CommandHandlerMap.h"
 
 class CommandProcessor {

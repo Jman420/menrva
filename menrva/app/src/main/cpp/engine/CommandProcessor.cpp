@@ -20,9 +20,6 @@
 #include "CommandProcessor.h"
 #include "../tools/CommandIdCalculator.h"
 #include "../commands/MenrvaCommands.h"
-#include "../commands/messages/Engine_GetVersion.pb.h"
-#include "../commands/Engine_GetVersion_Command.h"
-#include "../command_handlers/Engine_GetVersion_Handler.h"
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
 LoggerBase* CommandProcessor::_Logger = nullptr;
@@ -64,6 +61,6 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
     return returnValue;
 }
 
-CommandHandlerMap *CommandProcessor::GetCommandHandlerMap() {
+CommandHandlerMap* CommandProcessor::GetCommandHandlerMap() {
     return _HandlerMap;
 }

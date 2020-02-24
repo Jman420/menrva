@@ -65,9 +65,7 @@ void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& buffe
     _Logger->WriteLog("Successfully Summed and Scaled AudioBuffers by (%f)!", LOG_SENDER, __func__, scalar);
 }
 
-void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA,
-                                                      AudioComponentsBuffer& bufferB,
-                                                      AudioComponentsBuffer& output) {
+void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) {
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
     if (output.GetLength() > bufferA.GetLength()) {
         _Logger->WriteLog("Unable to Multiply and Accumulate Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", LOG_SENDER, __func__, LogLevel::FATAL, output.GetLength(), bufferA.GetLength());
@@ -79,11 +77,11 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
     }
 
     sample* bufferAReal = bufferA.GetRealBuffer()->GetData();
-    sample* bufferAImag = bufferA.GetImagBuffer()->GetData();
+    sample* bufferAImag = bufferA.GetImaginaryBuffer()->GetData();
     sample* bufferBReal = bufferB.GetRealBuffer()->GetData();
-    sample* bufferBImag = bufferB.GetImagBuffer()->GetData();
+    sample* bufferBImag = bufferB.GetImaginaryBuffer()->GetData();
     sample* outputReal = output.GetRealBuffer()->GetData();
-    sample* outputImag = output.GetImagBuffer()->GetData();
+    sample* outputImag = output.GetImaginaryBuffer()->GetData();
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
         sample valueAReal = bufferAReal[sampleCounter];

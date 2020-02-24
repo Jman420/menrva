@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMAND_IDS_H
-#define MENRVA_COMMAND_IDS_H
+#ifndef MENRVA_COMMAND_ID_CALCULATOR_H
+#define MENRVA_COMMAND_ID_CALCULATOR_H
 
 #include <cstdint>
 #include "../commands/MenrvaCommands.h"
@@ -27,4 +27,4 @@ public:
     static uint32_t Calculate(MenrvaCommands command);
 };
 
-#endif //MENRVA_COMMAND_IDS_H
+#endif //MENRVA_COMMAND_ID_CALCULATOR_H

@@ -19,14 +19,12 @@
 #ifndef MENRVA_FIR_GENERATOR_H
 #define MENRVA_FIR_GENERATOR_H
 
-#include <string>
-#include <cmath>
 #include "../abstracts/LoggingBase.h"
 #include "../abstracts/FftInterfaceBase.h"
 #include "../audio/Sample.h"
-#include "../audio/AudioBuffer.h"
 
-class FirGenerator : public LoggingBase {
+class FirGenerator
+        : public LoggingBase {
 public:
     FirGenerator(LoggerBase* logger, FftInterfaceBase* fftEngine);
     ~FirGenerator();

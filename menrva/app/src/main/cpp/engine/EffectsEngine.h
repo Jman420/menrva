@@ -32,7 +32,8 @@ enum EngineStatus {
     ENABLED,
 };
 
-class EffectsEngine : public LoggingBase {
+class EffectsEngine
+        : public LoggingBase {
 public:
     EngineStatus _EngineStatus;
 

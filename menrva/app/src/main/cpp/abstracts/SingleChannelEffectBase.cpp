@@ -20,4 +20,4 @@
 #include <utility>
 
 SingleChannelEffectBase::SingleChannelEffectBase(std::string name)
-    : EffectBase(std::move(name)) { }
+        : EffectBase(std::move(name)) {}

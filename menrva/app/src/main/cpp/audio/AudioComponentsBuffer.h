@@ -32,19 +32,19 @@ public:
 
     size_t GetLength();
     sample* GetRealData();
-    sample* GetImagData();
+    sample* GetImaginaryData();
     AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImagBuffer();
+    AudioBuffer* GetImaginaryBuffer();
 
     void SetRealValue(size_t index, sample value);
-    void SetImagValue(size_t index, sample value);
+    void SetImaginaryValue(size_t index, sample value);
 
     void ResetData();
 
 private:
     size_t _Length;
     AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImagBuffer;
+    AudioBuffer* _ImaginaryBuffer;
 };
 
 #endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H

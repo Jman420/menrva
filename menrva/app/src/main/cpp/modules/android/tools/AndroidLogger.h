@@ -22,7 +22,8 @@
 #include <map>
 #include "../../../abstracts/LoggerBase.h"
 
-class AndroidLogger : public LoggerBase {
+class AndroidLogger
+        : public LoggerBase {
 public:
     AndroidLogger();
 

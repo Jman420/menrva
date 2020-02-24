@@ -91,11 +91,12 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Imaginary Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, imaginaryFreqData);
 
             fftFrequencies.SetRealValue(elementCounter, realFreqData);
-            fftFrequencies.SetImagValue(elementCounter, imaginaryFreqData * -WaveGeneratorConstants::ONE);
+            fftFrequencies.SetImaginaryValue(elementCounter,
+                                             imaginaryFreqData * -WaveGeneratorConstants::ONE);
 
             size_t reverseElementCounter = fftFrequencyLength - elementCounter - 1;
             fftFrequencies.SetRealValue(reverseElementCounter, realFreqData);
-            fftFrequencies.SetImagValue(reverseElementCounter, imaginaryFreqData);
+            fftFrequencies.SetImaginaryValue(reverseElementCounter, imaginaryFreqData);
             _Logger->WriteLog("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, reverseElementCounter);
         }
 

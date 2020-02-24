@@ -30,7 +30,7 @@ CommandHandlerBase::~CommandHandlerBase() {
     delete _Command;
 }
 
-CommandBase *CommandHandlerBase::GetCommand() {
+CommandBase* CommandHandlerBase::GetCommand() {
     return _Command;
 }
 

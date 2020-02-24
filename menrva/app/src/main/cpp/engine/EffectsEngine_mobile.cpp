@@ -20,10 +20,6 @@
 #include <algorithm>
 #include "EffectsEngine.h"
 #include "../BuildConfig.h"
-#include "../tools/Buffer.cpp"
-#include "../effects/BassBoost.h"
-#include "../effects/StereoWidener.h"
-#include "../effects/Equalizer.h"
 
 EffectsEngine::EffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
@@ -47,8 +43,7 @@ EffectsEngine::~EffectsEngine() {
     _Logger->WriteLog("Successfully disposed of Menrva Engine!", LOG_SENDER, __func__);
 }
 
-void EffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate,
-                                    size_t frameLength) {
+void EffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength) {
     _Logger->WriteLog("Setting up Buffer Configs...", LOG_SENDER, __func__);
     _ChannelLength = channelLength;
 

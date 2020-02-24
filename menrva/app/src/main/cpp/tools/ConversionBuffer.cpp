@@ -56,7 +56,7 @@ TOutputType ConversionBuffer<TInputType, TOutputType>::operator[](size_t index) 
 }
 
 template<class TInputType, class TOutputType>
-TInputType &ConversionBuffer<TInputType, TOutputType>::operator[](size_t index) {
+TInputType& ConversionBuffer<TInputType, TOutputType>::operator[](size_t index) {
     return (*_DataBuffer)[index];
 }
 
