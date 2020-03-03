@@ -59,8 +59,8 @@ void KfrInterface::SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer
     sample* realComponents = components.GetRealBuffer()->GetData();
     sample* imagComponents = components.GetImaginaryBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
-        realComponents[componentCounter] = componentsData[componentCounter].re;
-        imagComponents[componentCounter] = componentsData[componentCounter].im;
+        realComponents[componentCounter] = componentsData[componentCounter].real();
+        imagComponents[componentCounter] = componentsData[componentCounter].imag();
     }
 }
 
@@ -69,8 +69,8 @@ void KfrInterface::ComponentsToSignal(AudioComponentsBuffer& components, AudioBu
     sample* realComponents = components.GetRealBuffer()->GetData();
     sample* imagComponents = components.GetImaginaryBuffer()->GetData();
     for (int componentCounter = 0; componentCounter < components.GetLength(); componentCounter++) {
-        componentsData[componentCounter].re = realComponents[componentCounter];
-        componentsData[componentCounter].im = imagComponents[componentCounter];
+        componentsData[componentCounter].real(realComponents[componentCounter]);
+        componentsData[componentCounter].imag(imagComponents[componentCounter]);
     }
 
     _Plan->execute(signal.GetData(), componentsData, _TempBuffer->data());
