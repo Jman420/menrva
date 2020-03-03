@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2019 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,8 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "ConvolutionOperationsBase.h"
+#ifndef MENRVA_COMMAND_HANDLER_BASE_H
+#define MENRVA_COMMAND_HANDLER_BASE_H
 
-void ConvolutionOperationsBase::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
-    SumAndScale(bufferA, bufferB, output, 1.0);
-}
+#include "../commands/CommandBase.h"
+#include "../modules/android/AndroidInterface.h"
+
+class CommandHandlerBase
+        : public LoggingBase {
+public:
+    CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction);
+    virtual ~CommandHandlerBase();
+
+    CommandBase* GetCommand();
+    int32_t GetReturnValue();
+
+    virtual bool DeserializeRequest(void *data, int length);
+    virtual uint32_t SerializeResponse(void* responseBuffer);
+
+    virtual void Execute(ModuleContext& context) = 0;
+
+protected:
+    CommandBase* _Command;
+    int32_t _ReturnValue;
+};
+
+#endif //MENRVA_COMMAND_HANDLER_BASE_H

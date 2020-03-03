@@ -17,7 +17,7 @@
  */
 
 #include "FftwInterface.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "FftInterfaceBase.h"
 
 FftwPlanCache* FftwInterface::_PlansCache = new FftwPlanCache();
 

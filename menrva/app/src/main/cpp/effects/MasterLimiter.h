@@ -19,8 +19,8 @@
 #ifndef MENRVA_MASTER_LIMITER_H
 #define MENRVA_MASTER_LIMITER_H
 
-#include "../abstracts/MultiChannelEffectBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "MultiChannelEffectBase.h"
+#include "../tools/LoggingBase.h"
 
 class MasterLimiter : public MultiChannelEffectBase,
                       public LoggingBase {

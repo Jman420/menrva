@@ -20,14 +20,14 @@
 #define MENRVA_CONVOLVER_H
 
 #include <cstddef>
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "../tools/LoggingBase.h"
+#include "../fft/FftInterfaceBase.h"
 #include "../audio/AudioBuffer.h"
 #include "ConvolutionOperations.h"
 
 class Convolver : public LoggingBase {
 public:
-    Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
+    Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine);
     ~Convolver();
 
     void ResetBuffers();
@@ -46,7 +46,7 @@ private:
     static size_t FindImpulseResponseLength(AudioBuffer& impulseResponse);
     static size_t CalculateSegmentsCount(size_t segmentLength, size_t filterLength);
 
-    ConvolutionOperationsBase* _ConvolutionOperations;
+    ConvolutionOperations* _ConvolutionOperations;
     FftInterfaceBase* _FftEngine;
 
     bool _Initialized;

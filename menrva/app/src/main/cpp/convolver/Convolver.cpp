@@ -35,10 +35,10 @@ size_t Convolver::CalculateSegmentsCount(size_t segmentLength, size_t filterLeng
     return (segmentLength + filterLength - 1) / segmentLength;
 }
 
-Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations)
+Convolver::Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
-    _ConvolutionOperations = convolutionOperations;
+    _ConvolutionOperations = new ConvolutionOperations(_Logger);
 
     _Initialized = false;
     _FilterSegmentsLength = 0;

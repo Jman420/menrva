@@ -1,5 +1,4 @@
 Menrva Optimization TODOs :
-  - Abstract AOSP Structures entirely into Module & Engine Interfaces
   - Draft Desktop-based Test Harness for EffectsEngine & EffectsEngine
   - Optimize for Stereo Support; drop support for all others
   - Restructure PCM Conversions for Compiler Optimization

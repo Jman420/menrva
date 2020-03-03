@@ -20,7 +20,7 @@
 #define MENRVA_COMMAND_HANDLER_MAP_H
 
 #include <map>
-#include "../abstracts/CommandHandlerBase.h"
+#include "../command_handlers/CommandHandlerBase.h"
 
 typedef std::map<uint32_t, CommandHandlerBase*> handler_map;
 

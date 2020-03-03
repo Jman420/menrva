@@ -44,7 +44,7 @@ Java_com_monkeystable_menrva_EngineDebugger_debug2ConvolverOneFrame(JNIEnv* __un
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
-    Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
+    Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     convolver.Initialize(params.MenrvaAudioFrameLength, firFilter);
 
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
@@ -65,7 +65,7 @@ Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* __
     ServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
-    Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
+    Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     convolver.Initialize(params.MenrvaAudioFrameLength, firFilter);
 
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());

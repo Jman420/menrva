@@ -22,7 +22,7 @@
 #include "aosp/aosp_audio_effect_defs.h"
 #include "../ModuleStructures.h"
 #include "../../tools/ServiceLocator.h"
-#include "../../abstracts/LoggerBase.h"
+#include "../../tools/LoggerBase.h"
 
 struct AndroidModuleContext
         : public ModuleContext {

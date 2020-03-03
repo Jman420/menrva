@@ -19,8 +19,8 @@
 #ifndef MENRVA_FIR_GENERATOR_H
 #define MENRVA_FIR_GENERATOR_H
 
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "../tools/LoggingBase.h"
+#include "../fft/FftInterfaceBase.h"
 #include "../audio/Sample.h"
 
 class FirGenerator

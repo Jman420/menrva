@@ -19,8 +19,8 @@
 #ifndef MENRVA_LOGGER_BASE_H
 #define MENRVA_LOGGER_BASE_H
 
-#include <string>
-#include <map>
+#include "../../../../../../../../../../../Users/jgiannone/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/string"
+#include "../../../../../../../../../../../Users/jgiannone/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/map"
 
 enum LogLevel {
     VERBOSE = 2,

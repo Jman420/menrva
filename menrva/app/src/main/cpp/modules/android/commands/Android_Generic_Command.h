@@ -19,7 +19,7 @@
 #ifndef MENRVA_ANDROID_GENERIC_COMMAND_H
 #define MENRVA_ANDROID_GENERIC_COMMAND_H
 
-#include "../../../abstracts/CommandBase.h"
+#include "../../../commands/CommandBase.h"
 
 class Android_Generic_Command
         : public CommandBase {

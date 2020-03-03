@@ -19,7 +19,7 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-#include "../abstracts/LoggingBase.h"
+#include "../tools/LoggingBase.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
 #include "../tools/ServiceLocator.h"

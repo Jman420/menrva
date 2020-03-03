@@ -42,6 +42,10 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& dest
     _Logger->WriteLog("Successfully Clear and Cloned Source Buffer into Destination Buffer!", LOG_SENDER, __func__);
 }
 
+void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output) {
+    SumAndScale(bufferA, bufferB, output, 1.0);
+}
+
 void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) {
     _Logger->WriteLog("Summing and Scaling Audio Buffers by (%f)...", LOG_SENDER, __func__, scalar);
     if (output.GetLength() > bufferA.GetLength()) {
