@@ -17,8 +17,10 @@
  */
 
 #include "FirGenerator.h"
-#include "../tools/MathOperations.h"
 #include "WaveGeneratorConstants.h"
+#include "../tools/MathOperations.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
@@ -91,8 +93,7 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
             _Logger->WriteLog("Imaginary Frequency Value for Element Index (%d) is (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, elementIndex, imaginaryFreqData);
 
             fftFrequencies.SetRealValue(elementCounter, realFreqData);
-            fftFrequencies.SetImaginaryValue(elementCounter,
-                                             imaginaryFreqData * -WaveGeneratorConstants::ONE);
+            fftFrequencies.SetImaginaryValue(elementCounter, imaginaryFreqData * -WaveGeneratorConstants::ONE);
 
             size_t reverseElementCounter = fftFrequencyLength - elementCounter - 1;
             fftFrequencies.SetRealValue(reverseElementCounter, realFreqData);

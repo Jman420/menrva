@@ -17,6 +17,8 @@
  */
 
 #include "KfrInterface.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 using namespace kfr;
 

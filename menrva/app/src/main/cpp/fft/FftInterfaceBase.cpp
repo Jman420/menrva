@@ -18,6 +18,8 @@
 
 #include <cstring>
 #include "FftInterfaceBase.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 FftInterfaceBase::FftInterfaceBase() {
     _SignalSize = 0;
