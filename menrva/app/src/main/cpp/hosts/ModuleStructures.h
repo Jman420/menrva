@@ -19,7 +19,7 @@
 #ifndef MENRVA_MODULE_STRUCTURES_H
 #define MENRVA_MODULE_STRUCTURES_H
 
-#include <cstdint>
+#include "../../../../../../../../../../../Users/jgiannone/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/cstdint"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
 #include "../engine/EffectsEngine.h"

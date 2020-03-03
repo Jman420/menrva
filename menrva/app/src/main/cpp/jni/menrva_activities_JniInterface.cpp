@@ -17,7 +17,7 @@
  */
 
 #include <jni.h>
-#include "../modules/android/AndroidInterface.h"
+#include "../hosts/android/AndroidInterface.h"
 
 extern "C"
 JNIEXPORT jstring JNICALL

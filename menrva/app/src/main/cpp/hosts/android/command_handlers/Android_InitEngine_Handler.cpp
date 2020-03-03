@@ -16,24 +16,20 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Android_GetConfig_Handler.h"
+#include "Android_InitEngine_Handler.h"
 #include "../commands/Android_Generic_Command.h"
+#include "../AndroidInterface.h"
 
-Android_GetConfig_Handler::Android_GetConfig_Handler(LoggerBase* logger)
-        : CommandHandlerBase(new Android_Generic_Command(), logger, __PRETTY_FUNCTION__) {
-    _Config = nullptr;
+Android_InitEngine_Handler::Android_InitEngine_Handler(LoggerBase* logger)
+        : CommandHandlerBase(new Android_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
+
+void Android_InitEngine_Handler::Execute(ModuleContext& context) {
+    _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
+    ModuleInterface::InitModule(&context);
+    _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
 }
 
-void Android_GetConfig_Handler::Execute(ModuleContext& context) {
-    _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
-    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
-    _Config = &androidContext.AndroidConfig;
-}
-
-uint32_t Android_GetConfig_Handler::SerializeResponse(void* responseBuffer) {
-    _Logger->WriteLog("Returning Module Config as Reply Data...", LOG_SENDER, __func__);
-    *(effect_config_t*)responseBuffer = *_Config;
-    _Config = nullptr;
-
-    return sizeof(effect_config_t);
+uint32_t Android_InitEngine_Handler::SerializeResponse(void* responseBuffer) {
+    *(int*)responseBuffer = 0;
+    return sizeof(int);
 }

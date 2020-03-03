@@ -49,11 +49,11 @@ aux_source_directory(
         ENGINE_COMMAND_HANDLERS_SOURCES
 )
 aux_source_directory(
-        modules/android/commands
+        hosts/android/commands
         ANDROID_COMMANDS_SOURCES
 )
 aux_source_directory(
-        modules/android/command_handlers
+        hosts/android/command_handlers
         ANDROID_COMMAND_HANDLERS_SOURCES
 )
 
@@ -103,10 +103,10 @@ add_library(
         ${ANDROID_COMMANDS_SOURCES}
         ${ANDROID_COMMAND_HANDLERS_SOURCES}
 
-        modules/android/tools/AndroidLogger.cpp
-        modules/android/tools/AndroidServiceLocator.cpp
-        modules/android/tools/AndroidCommandIdCalculator.cpp
-        modules/android/AndroidInterface.cpp
+        hosts/android/tools/AndroidLogger.cpp
+        hosts/android/tools/AndroidServiceLocator.cpp
+        hosts/android/tools/AndroidCommandIdCalculator.cpp
+        hosts/android/AndroidInterface.cpp
 
         jni/menrva_activities_JniInterface.cpp
         jni/menrva_service_JniInterface.cpp

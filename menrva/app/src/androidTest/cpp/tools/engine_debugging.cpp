@@ -18,10 +18,10 @@
 
 #include "engine_debugging.h"
 #include "test_helper.h"
-#include "../../../main/cpp/modules/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/hosts/android/AndroidInterface.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
 #include "../../../main/cpp/ir/WaveGenerator.h"
-#include "../../../main/cpp/modules/android/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;

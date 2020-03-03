@@ -18,6 +18,7 @@
 
 #include "Android_SetConfig_Handler.h"
 #include "../commands/Android_Generic_Command.h"
+#include "../AndroidInterface.h"
 
 Android_SetConfig_Handler::Android_SetConfig_Handler(LoggerBase* logger)
         : CommandHandlerBase(new Android_Generic_Command(), logger, __PRETTY_FUNCTION__) {

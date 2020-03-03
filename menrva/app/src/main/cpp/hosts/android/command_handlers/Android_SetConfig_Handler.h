@@ -19,6 +19,7 @@
 #ifndef MENRVA_ANDROID_SET_CONFIG_HANDLER_H
 #define MENRVA_ANDROID_SET_CONFIG_HANDLER_H
 
+#include "../aosp/aosp_audio_effect_defs.h"
 #include "../../../command_handlers/CommandHandlerBase.h"
 
 class Android_SetConfig_Handler

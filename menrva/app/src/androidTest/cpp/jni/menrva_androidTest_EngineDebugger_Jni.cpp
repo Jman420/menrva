@@ -24,7 +24,7 @@
 #include "../../../main/cpp/ir/FirGenerator.h"
 #include "../../../main/cpp/effects/BassBoost.h"
 #include "../../../main/cpp/ir/WaveGenerator.h"
-#include "../../../main/cpp/modules/android/AndroidInterface.h"
+#include "../../../main/cpp/hosts/android/AndroidInterface.h"
 
 extern "C"
 JNIEXPORT void JNICALL
