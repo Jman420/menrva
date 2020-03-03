@@ -3,7 +3,7 @@
 Write-Output "Removing Output Directories..."
 if (Test-Path $CppOutputCommandDir) {
     Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
-    Remove-Item $CppOutputCommandDir -Force -Recurse
+    Remove-Item $CppOutputCommandDir/* -Exclude "CommandBase.*" -Force -Recurse
 }
 if (Test-Path $JavaOutputCommandDir) {
     Write-Output "Removing Java Output Directory : $JavaOutputCommandDir ..."

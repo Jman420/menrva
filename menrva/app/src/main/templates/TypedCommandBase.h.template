@@ -27,7 +27,7 @@
 #define MENRVA_TYPED_COMMAND_BASE_H
 
 #include <google/protobuf/message_lite.h>
-#include "../abstracts/CommandBase.h"
+#include "CommandBase.h"
 
 using google::protobuf::MessageLite;
 

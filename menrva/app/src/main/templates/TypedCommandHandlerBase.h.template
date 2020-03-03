@@ -27,7 +27,7 @@
 #define MENRVA_TYPED_COMMAND_HANDLER_BASE_H
 
 #include "../commands/TypedCommandBase.h"
-#include "../abstracts/CommandHandlerBase.h"
+#include "CommandHandlerBase.h"
 
 template <class TCommand>
 class TypedCommandHandlerBase
