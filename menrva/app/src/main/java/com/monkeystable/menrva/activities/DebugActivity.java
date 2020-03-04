@@ -32,7 +32,7 @@ import com.monkeystable.menrva.commands.Engine_SetLogLevel_Command;
 import com.monkeystable.menrva.commands.messages.Engine_SetLogLevel;
 import com.monkeystable.menrva.dataModels.EngineVersionModel;
 import com.monkeystable.menrva.utilities.AudioEffectInterface;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.SparseArray;
