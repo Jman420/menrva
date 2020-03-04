@@ -17,8 +17,9 @@
  */
 
 #include "FirGenerator.h"
-#include "../tools/MathOperations.h"
 #include "WaveGeneratorConstants.h"
+#include "../tools/MathOperations.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
         : LoggingBase(logger, __PRETTY_FUNCTION__) {

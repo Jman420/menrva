@@ -22,6 +22,8 @@
 #include <kfr/dft.hpp>
 #include "../abstracts/FftInterfaceBase.h"
 #include "../abstracts/LoggingBase.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 using namespace kfr;
 

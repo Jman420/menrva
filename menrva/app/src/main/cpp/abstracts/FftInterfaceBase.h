@@ -20,8 +20,11 @@
 #define MENRVA_FFT_INTERFACE_BASE_H
 
 #include "../audio/Sample.h"
-#include "../audio/AudioBuffer.h"
-#include "../audio/AudioComponentsBuffer.h"
+//#include "../audio/AudioBuffer.h"
+//#include "../audio/AudioComponentsBuffer.h"
+
+class AudioBuffer;  // Forward Declaration to avoid circular reference : ../audio/AudioBuffer.h
+class AudioComponentsBuffer;  // Forward Declaration to avoid circular reference : ../audio/AudioComponentsBuffer.h
 
 class FftInterfaceBase {
 public:
