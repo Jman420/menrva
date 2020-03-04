@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -55,8 +55,8 @@
         app:bsb_auto_adjust_section_mark="true"
         app:bsb_hide_bubble="true"
         app:bsb_is_float_type="false"
-        app:bsb_min="0"
         app:bsb_max="5"
+        app:bsb_min="0"
         app:bsb_rtl="false"
         app:bsb_section_count="5"
         app:bsb_section_text_position="below_section_mark"
@@ -77,4 +77,4 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
