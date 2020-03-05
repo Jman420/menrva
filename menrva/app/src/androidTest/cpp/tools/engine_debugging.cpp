@@ -57,7 +57,7 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     effect_handle_t menrvaEffectHandle = nullptr;
     AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    AndroidModuleContext menrvaEngineContext = *(AndroidModuleContext*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();

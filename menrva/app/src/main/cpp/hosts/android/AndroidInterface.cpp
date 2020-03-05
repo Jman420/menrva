@@ -73,38 +73,24 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Creating Menrva Context...", LOG_SENDER, __func__);
-    auto context = new MenrvaModuleContext();
-    context->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_UNINITIALIZED;
-    InitModule(*context);
+    _Logger->WriteLog("Creating Android Module Context...", LOG_SENDER, __func__);
+    auto androidContext = new AndroidModuleContext();
+    androidContext->ModuleStatus = MenrvaModuleStatus::UNINITIALIZED;
+    androidContext->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
 
-    *pHandle = (effect_handle_t)context;
+    _Logger->WriteLog("Creating Android Module Interface...", LOG_SENDER, __func__);
+    auto moduleInterface = new AndroidModuleInterface();
+    moduleInterface->AndroidContext = androidContext;
+    moduleInterface->itfe = &EngineInterface;
+
+    *pHandle = (effect_handle_t)androidContext;
     _Logger->WriteLog("Successfully Created Menrva Module!", LOG_SENDER, __func__);
     return 0;
 }
 
-void AndroidInterface::InitModule(MenrvaModuleContext& context) {
-    _Logger->WriteLog("Initializing Menrva Effects Engine & Interface...", LOG_SENDER, __func__);
-
-    if (context.ModuleStatus > MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING) {
-        _Logger->WriteLog("Menrva Effects Engine & Interface already Initialized!", LOG_SENDER, __func__);
-        return;
-    }
-
-    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_INITIALIZING;
-    context.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
-    context.itfe = &EngineInterface;
-
-    // TODO : Configure any necessary default parameters
-    //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
-
-    context.ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_READY;
-    _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
-}
-
 int AndroidInterface::ReleaseModule(effect_handle_t moduleHandle) {
     _Logger->WriteLog("Releasing Menrva Module...", LOG_SENDER, __func__);
-    auto module = (MenrvaModuleContext*)moduleHandle;
+    auto module = (AndroidModuleContext*)moduleHandle;
 
     if (module == nullptr) {
         _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::ERROR);
@@ -112,7 +98,7 @@ int AndroidInterface::ReleaseModule(effect_handle_t moduleHandle) {
     }
 
     _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", LOG_SENDER, __func__);
-    module->ModuleStatus = MenrvaModuleStatus::MENRVA_MODULE_RELEASING;
+    module->ModuleStatus = MenrvaModuleStatus::RELEASING;
     delete module->EffectsEngine;
     delete module->InputBuffer;
     delete module->OutputBuffer;

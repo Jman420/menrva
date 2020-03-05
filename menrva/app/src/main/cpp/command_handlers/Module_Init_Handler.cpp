@@ -24,8 +24,18 @@ Module_Init_Handler::Module_Init_Handler(LoggerBase* logger)
 
 void Module_Init_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
-    AndroidInterface::InitModule(context);
-    _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
+
+    if (context.ModuleStatus > MenrvaModuleStatus::INITIALIZING) {
+        _Logger->WriteLog("Module Context already Initialized!", LOG_SENDER, __func__);
+        return;
+    }
+
+    context.ModuleStatus = MenrvaModuleStatus::INITIALIZING;
+    // TODO : Configure any necessary default parameters
+    //_Logger->WriteLog("Setting up Menrva Effects Engine Parameters...", logPrefix);
+
+    context.ModuleStatus = MenrvaModuleStatus::READY;
+    _Logger->WriteLog("Successfully Initialized Menrva Context!", LOG_SENDER, __func__);
 }
 
 uint32_t Module_Init_Handler::SerializeResponse(void* responseBuffer) {

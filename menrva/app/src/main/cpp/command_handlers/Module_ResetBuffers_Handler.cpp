@@ -29,7 +29,8 @@ void Module_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
     }
 
     _Logger->WriteLog("Resetting Effects Engine Buffers...", LOG_SENDER, __func__);
-    context.EffectsEngine->ResetBuffers(context.config.inputCfg.samplingRate);
+    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
+    context.EffectsEngine->ResetBuffers(androidContext.config.inputCfg.samplingRate);
 
     _Logger->WriteLog("Successfully Reset Effects Engine Buffers!", LOG_SENDER, __func__);
 }

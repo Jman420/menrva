@@ -20,33 +20,21 @@
 #define MENRVA_MODULE_INTERFACE_H
 
 #include "aosp/aosp_audio_effect_defs.h"
+#include "../ModuleStructures.h"
 #include "../../tools/ServiceLocator.h"
 #include "../../tools/LoggerBase.h"
-#include "../../engine/EffectsEngine.h"
-#include "../../audio/AudioInputBuffer.h"
-#include "../../audio/AudioOutputBuffer.h"
 
-enum MenrvaModuleStatus {
-    MENRVA_MODULE_UNINITIALIZED,
-    MENRVA_MODULE_INITIALIZING,
-    MENRVA_MODULE_READY,
-    MENRVA_MODULE_RELEASING,
-};
-
-// Expected structure passed as effect_handle_t; Represents an instance of a MenrvaModule
-struct MenrvaModuleContext {
-    __unused const effect_interface_s* itfe;
+struct AndroidModuleContext
+        : public MenrvaModuleContext {
     effect_config_t config;
-
-    MenrvaModuleStatus ModuleStatus;
-    MenrvaEffectsEngine* EffectsEngine;
-
-    uint32_t ChannelLength;
-    AudioInputBuffer* InputBuffer;
-    AudioOutputBuffer* OutputBuffer;
 };
 
-// Represents the public interface for interacting with the Menrva Audio Effects Module
+struct AndroidModuleInterface {
+    __unused const effect_interface_s* itfe;
+
+    AndroidModuleContext* AndroidContext;
+};
+
 class AndroidInterface {
 public:
     static const effect_descriptor_t EffectDescriptor;
@@ -55,7 +43,6 @@ public:
     static const char* EngineUUID;
 
     static int CreateModule(const effect_uuid_t* uuid, int32_t sessionId, int32_t ioId, effect_handle_t* pHandle);
-    static void InitModule(MenrvaModuleContext &context);
     static int ReleaseModule(effect_handle_t moduleHandle);
     static int GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor);
     static int GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor);

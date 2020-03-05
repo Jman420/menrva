@@ -93,7 +93,8 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     context.OutputBuffer->SetFormat((AudioFormat)config.outputCfg.format);
 
     _Logger->WriteLog("Configuring Effect Engine...", LOG_SENDER, __func__);
-    context.config = config;
+    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
+    androidContext.config = config;
     context.EffectsEngine->SetBufferConfig(context.ChannelLength, config.inputCfg.samplingRate, MENRVA_DSP_FRAME_LENGTH);
 }
 
