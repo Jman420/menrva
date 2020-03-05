@@ -1,10 +1,9 @@
 . ./variables.ps1
 
 Write-Output "Removing Output Directories..."
-if (Test-Path $CppOutputCommandDir) {
-    Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
-    Remove-Item $CppOutputCommandDir -Force -Recurse
-}
+Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
+Remove-Item $CppOutputCommandDir\* -Force -Recurse -Exclude "CommandBase*"
+
 if (Test-Path $JavaOutputCommandDir) {
     Write-Output "Removing Java Output Directory : $JavaOutputCommandDir ..."
     Remove-Item $JavaOutputCommandDir -Force -Recurse
