@@ -102,6 +102,7 @@ add_library(
         engine/CommandProcessor.cpp
 
         hosts/android/commands/AndroidHost_Generic_Command.cpp
+
         ${HOST_COMMAND_HANDLER_SOURCES}
 
         hosts/android/AndroidInterface.cpp
