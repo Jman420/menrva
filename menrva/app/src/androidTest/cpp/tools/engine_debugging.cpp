@@ -57,15 +57,15 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     effect_handle_t menrvaEffectHandle = nullptr;
     AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    AndroidModuleContext menrvaEngineContext = *(AndroidModuleContext*)menrvaEffectHandle;
+    AndroidModuleInterface menrvaModuleInterface = *(AndroidModuleInterface*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();
-    menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
-    menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
+    menrvaModuleInterface.itfe->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
+    menrvaModuleInterface.itfe->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
 
     audio_buffer_t outputBuffer;
     outputBuffer.frameCount = params.AndroidAudioFrameLength;
     outputBuffer.s16 = new int16_t[params.AndroidAudioFrameLength];
-    menrvaEngineContext.itfe->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
+    menrvaModuleInterface.itfe->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
 }

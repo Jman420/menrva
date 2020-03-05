@@ -83,7 +83,7 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
     moduleInterface->AndroidContext = androidContext;
     moduleInterface->itfe = &EngineInterface;
 
-    *pHandle = (effect_handle_t)androidContext;
+    *pHandle = (effect_handle_t)moduleInterface;
     _Logger->WriteLog("Successfully Created Menrva Module!", LOG_SENDER, __func__);
     return 0;
 }

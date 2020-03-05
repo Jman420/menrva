@@ -86,18 +86,11 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBuf
 
 int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
-    auto contextPtr = (AndroidModuleContext*)self;
-    AndroidModuleContext& androidContext = *contextPtr;
-
-    if (androidContext.MenrvaContext->ModuleStatus == MenrvaModuleStatus::RELEASING ||
-        androidContext.MenrvaContext->ModuleStatus == MenrvaModuleStatus::INITIALIZING) {
-
-        _Logger->WriteLog("Skipping Processing Command.  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR);
-        return -EINVAL;
-    }
+    auto contextPtr = (AndroidModuleInterface*)self;
+    AndroidModuleContext& androidContext = *contextPtr->AndroidContext;
 
     _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
-    int result = CommandProcessor::Process(*androidContext.MenrvaContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
+    int result = CommandProcessor::Process(androidContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
     _Logger->WriteLog(StringOperations::FormatString("Finished Processing Command with Result (%d).", result),
                       LOG_SENDER, __func__, LogLevel::VERBOSE);
