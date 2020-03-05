@@ -20,6 +20,7 @@
 #include "ModuleInterface.h"
 #include "engine/EngineInterface.h"
 #include "tools/ServiceLocator.h"
+#include "tools/StringOperations.h"
 
 const std::string MenrvaModuleInterface::LOG_SENDER = "ModuleInterface";
 ServiceLocator* MenrvaModuleInterface::_ServiceLocator = new ServiceLocator();
@@ -67,7 +68,8 @@ int MenrvaModuleInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessi
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
+        _Logger->WriteLog(StringOperations::FormatString("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", MenrvaModuleInterface::EngineUUID),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
@@ -131,7 +133,8 @@ int MenrvaModuleInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effe
         return -EINVAL;
     }
     if (memcmp(uuid, &MenrvaModuleInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
-        _Logger->WriteLog("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", LOG_SENDER, __func__, LogLevel::ERROR, MenrvaModuleInterface::EngineUUID);
+        _Logger->WriteLog(StringOperations::FormatString("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", MenrvaModuleInterface::EngineUUID),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENOENT;
     }
 

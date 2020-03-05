@@ -17,6 +17,7 @@
  */
 
 #include "Module_SetConfig_Handler.h"
+#include "../tools/StringOperations.h"
 
 Module_SetConfig_Handler::Module_SetConfig_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {
@@ -51,14 +52,16 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     if (config.inputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
         config.inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Format not supported (%u).", LOG_SENDER, __func__, LogLevel::ERROR, config.inputCfg.format);
+        _Logger->WriteLog(StringOperations::FormatString("Invalid Effect Config Parameters.  Input Format not supported (%u).", config.inputCfg.format),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         _ReturnValue = -EINVAL;
         return;
     }
     if (config.outputCfg.format != AUDIO_FORMAT_PCM_16_BIT &&
         config.outputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.outputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Format not supported (%u).", LOG_SENDER, __func__, LogLevel::ERROR, config.inputCfg.format);
+        _Logger->WriteLog(StringOperations::FormatString("Invalid Effect Config Parameters.  Output Format not supported (%u).", config.inputCfg.format),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         _ReturnValue = -EINVAL;
         return;
     }
@@ -72,7 +75,8 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Calculating Channels Length...", LOG_SENDER, __func__);
     context.ChannelLength = audio_channel_count_from_out_mask(config.outputCfg.channels);
     if (context.ChannelLength < 1) {
-        _Logger->WriteLog("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", LOG_SENDER, __func__, LogLevel::ERROR, context.ChannelLength);
+        _Logger->WriteLog(StringOperations::FormatString("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", context.ChannelLength),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
     }
 
     if (!context.InputBuffer) {
@@ -94,11 +98,11 @@ void Module_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
 }
 
 void Module_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {
-    _Logger->WriteLog("Buffer Format (0x%07x)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.format);
-    _Logger->WriteLog("Buffer Sample Rate (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.samplingRate);
-    _Logger->WriteLog("Buffer Channel Mask (0x%07x)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.channels);
-    _Logger->WriteLog("Buffer Channel Count (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, audio_channel_count_from_out_mask(bufferConfig.channels));
-    _Logger->WriteLog("Buffer Access Mode (%u)", LOG_SENDER, __func__, LogLevel::VERBOSE, bufferConfig.accessMode);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Format (0x%07x)", bufferConfig.format), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Sample Rate (%u)", bufferConfig.samplingRate), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Mask (0x%07x)", bufferConfig.channels), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Count (%u)", audio_channel_count_from_out_mask(bufferConfig.channels)), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Access Mode (%u)", bufferConfig.accessMode), LOG_SENDER, __func__, LogLevel::VERBOSE);
 }
 
 uint32_t Module_SetConfig_Handler::SerializeResponse(void* responseBuffer) {

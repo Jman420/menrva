@@ -70,6 +70,7 @@ add_library(
         tools/ConversionBuffer.cpp
         tools/WaveGenerator.cpp
         tools/CommandIds.cpp
+        tools/StringOperations.cpp
 
         audio/AudioBuffer.cpp
         audio/AudioInputBuffer.cpp

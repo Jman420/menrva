@@ -52,13 +52,13 @@ public:
     void SetLogLevel(LogLevel logLevel);
     LogLevel GetLogLevel();
 
-    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, ...);
-    void WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...);
-    void WriteLog(std::string message, LogLevel logLevel, ...);
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel);
+    void WriteLog(std::string message, std::string senderClass, LogLevel logLevel);
+    void WriteLog(std::string message, LogLevel logLevel);
 
-    void WriteLog(std::string message, std::string senderClass, std::string senderFunction, ...);
-    void WriteLog(std::string message, std::string senderClass, ...);
-    void WriteLog(std::string message, ...);
+    void WriteLog(std::string message, std::string senderClass, std::string senderFunction);
+    void WriteLog(std::string message, std::string senderClass);
+    void WriteLog(std::string message);
 
     void SetOverrideListEnabled(bool enabled);
     bool GetOverrideListEnabled();
@@ -82,7 +82,7 @@ protected:
     static bool _OverrideListEnabled;
     static logger_override_list _OverrideList;
 
-    virtual void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) = 0;
+    virtual void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) = 0;
 
     logger_override_entry* GetAddOverrideListElement(std::string className);
     logger_override_entry* GetAddOverrideListElement(std::string className, std::string functionName);

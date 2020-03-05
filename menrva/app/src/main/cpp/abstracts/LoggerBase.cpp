@@ -48,41 +48,30 @@ LogLevel LoggerBase::GetLogLevel() {
     return _LogLevel;
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction,
-                          LogLevel logLevel, ...) {
-    va_list args;
-    va_start(args, logLevel);
-    WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel, args);
+void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
+    if ((GetOverrideListEnabled() && CheckOverrideList(senderClass, senderFunction, logLevel)) || logLevel >= GetLogLevel()) {
+        WriteLogLine(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel);
+    }
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel, ...) {
-    va_list args;
-    va_start(args, logLevel);
-    WriteLog(std::move(message), std::move(senderClass), "", logLevel, args);
+void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel) {
+    WriteLog(std::move(message), std::move(senderClass), "", logLevel);
 }
 
-void LoggerBase::WriteLog(std::string message, LogLevel logLevel, ...) {
-    va_list args;
-    va_start(args, logLevel);
-    WriteLog(std::move(message), "", "", logLevel, args);
+void LoggerBase::WriteLog(std::string message, LogLevel logLevel) {
+    WriteLog(std::move(message), "", "", logLevel);
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, ...) {
-    va_list args;
-    va_start(args, senderFunction);
-    WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), DEFAULT_LOG_LEVEL, args);
+void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction) {
+    WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), DEFAULT_LOG_LEVEL);
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, ...) {
-    va_list args;
-    va_start(args, senderClass);
-    WriteLog(std::move(message), std::move(senderClass), "", DEFAULT_LOG_LEVEL, args);
+void LoggerBase::WriteLog(std::string message, std::string senderClass) {
+    WriteLog(std::move(message), std::move(senderClass), "", DEFAULT_LOG_LEVEL);
 }
 
-void LoggerBase::WriteLog(std::string message, ...) {
-    va_list args;
-    va_start(args, message);
-    WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL, args);
+void LoggerBase::WriteLog(std::string message) {
+    WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL);
 }
 
 void LoggerBase::SetOverrideListEnabled(bool enabled) {

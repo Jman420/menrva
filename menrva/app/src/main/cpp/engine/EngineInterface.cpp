@@ -20,6 +20,7 @@
 #include "EngineInterface.h"
 #include "CommandProcessor.h"
 #include "../audio/AudioFormat.h"
+#include "../tools/StringOperations.h"
 
 const std::string MenrvaEngineInterface::LOG_SENDER = "EngineInterface";
 
@@ -41,13 +42,16 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBuf
         return 0;
     }
     if (inBuffer.frameCount != outBuffer.frameCount) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", LOG_SENDER, __func__, LogLevel::ERROR, inBuffer.frameCount, outBuffer.frameCount);
+        _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", inBuffer.frameCount, outBuffer.frameCount),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
     uint32_t channelLength = context.ChannelLength;
-    _Logger->WriteLog("Input Buffer Frame Length (%u) and Channel Length (%u).", LOG_SENDER, __func__, inBuffer.frameCount, channelLength);
-    _Logger->WriteLog("Output Buffer Frame Length (%u and Channel Length (%u).", LOG_SENDER, __func__, outBuffer.frameCount, channelLength);
+    _Logger->WriteLog(StringOperations::FormatString("Input Buffer Frame Length (%u) and Channel Length (%u).", inBuffer.frameCount, channelLength),
+                      LOG_SENDER, __func__);
+    _Logger->WriteLog(StringOperations::FormatString("Output Buffer Frame Length (%u and Channel Length (%u).", outBuffer.frameCount, channelLength),
+                      LOG_SENDER, __func__);
     _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
     switch (context.config.inputCfg.format) {
         case AUDIO_FORMAT_PCM_16_BIT:
@@ -66,14 +70,16 @@ int MenrvaEngineInterface::Process(effect_handle_t handle, audio_buffer_t* inBuf
             break;
 
         default:
-            _Logger->WriteLog("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", LOG_SENDER, __func__, LogLevel::ERROR, context.config.inputCfg.format);
+            _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", context.config.inputCfg.format),
+                              LOG_SENDER, __func__, LogLevel::ERROR);
             return -EINVAL;
     }
 
     _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
     int result = context.EffectsEngine->Process(*context.InputBuffer, *context.OutputBuffer);
 
-    _Logger->WriteLog("EffectsEngine finished Processing with Result (%d)!", LOG_SENDER, __func__, result);
+    _Logger->WriteLog(StringOperations::FormatString("EffectsEngine finished Processing with Result (%d)!", result),
+                      LOG_SENDER, __func__);
     return result;
 }
 
@@ -92,6 +98,7 @@ int MenrvaEngineInterface::Command(effect_handle_t self, uint32_t cmdCode, uint3
     _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
     int result = CommandProcessor::Process(context, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
-    _Logger->WriteLog("Finished Processing Command with Result (%d).", LOG_SENDER, __func__, LogLevel::VERBOSE, result);
+    _Logger->WriteLog(StringOperations::FormatString("Finished Processing Command with Result (%d).", result),
+                      LOG_SENDER, __func__, LogLevel::VERBOSE);
     return result;
 }

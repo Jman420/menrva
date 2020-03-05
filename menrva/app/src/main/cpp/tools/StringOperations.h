@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#ifndef MENRVA_STRING_OPERATIONS_H
+#define MENRVA_STRING_OPERATIONS_H
 
-#include <map>
-#include "../abstracts/LoggerBase.h"
+#include <string>
 
-class AndroidLogger
-        : public LoggerBase {
+class StringOperations {
 public:
-    AndroidLogger();
-
-protected:
-    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
+    static std::string FormatString(std::string format, ...);
 
 private:
-    static const std::string LOG_ELEMENT_DELIMITER,
-                             FUNCTION_SUFFIX;
-    static bool _Initialized;
-
-    void Initialize();
+    // Private Constructor to prevent instantiation of Static Class
+    StringOperations() = default;
 };
 
-#endif //MENRVA_ANDROID_LOGGER_H
+#endif //MENRVA_STRING_OPERATIONS_H

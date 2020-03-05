@@ -45,18 +45,7 @@ void AndroidLogger::Initialize() {
     _Initialized = true;
 }
 
-void AndroidLogger::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
-    if (GetOverrideListEnabled() && CheckOverrideList(senderClass, senderFunction, logLevel)) {
-        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
-        return;
-    }
-
-    if (logLevel >= GetLogLevel()) {
-        WriteLogCatMsg(message, senderClass, senderFunction, logLevel, args);
-    }
-}
-
-void AndroidLogger::WriteLogCatMsg(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel, va_list args) {
+void AndroidLogger::WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
     // Format Log Tag
     std::string prefix = APP_NAME;
     if (!senderClass.empty()) {
@@ -67,5 +56,5 @@ void AndroidLogger::WriteLogCatMsg(std::string message, std::string senderClass,
     }
 
     // Write Message
-    __android_log_vprint(logLevel, prefix.c_str(), message.c_str(), args);
+    __android_log_write(logLevel, prefix.c_str(), message.c_str());
 }

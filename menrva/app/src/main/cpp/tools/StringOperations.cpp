@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,26 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#include <vector>
+#include "StringOperations.h"
 
-#include <map>
-#include "../abstracts/LoggerBase.h"
+std::string StringOperations::FormatString(std::string format, ...) {
+    va_list args;
+    const char* formatCStr = format.c_str();
 
-class AndroidLogger
-        : public LoggerBase {
-public:
-    AndroidLogger();
+    va_start (args, format);
+    size_t outputLength = static_cast<size_t>(std::vsnprintf(NULL, 0, formatCStr, args));
+    outputLength++;  // Accommodate for the appended null character
+    va_end (args);
 
-protected:
-    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
+    va_start (args, format);
+    std::vector<char> resultBuffer(outputLength);
+    char* resultPtr = &resultBuffer[0];
+    std::vsnprintf(resultPtr, outputLength, formatCStr, args);
+    va_end (args);
 
-private:
-    static const std::string LOG_ELEMENT_DELIMITER,
-                             FUNCTION_SUFFIX;
-    static bool _Initialized;
-
-    void Initialize();
-};
-
-#endif //MENRVA_ANDROID_LOGGER_H
+    return resultPtr;
+}

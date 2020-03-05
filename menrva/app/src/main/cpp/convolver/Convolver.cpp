@@ -19,6 +19,7 @@
 #include <cmath>
 #include "Convolver.h"
 #include "../tools/MathOperations.h"
+#include "../tools/StringOperations.h"
 
 const float Convolver::SIGNAL_THRESHOLD = 0.000001F;
 
@@ -133,15 +134,18 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
     AudioBuffer impulseSignalSegment(_FftEngine, segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
-        _Logger->WriteLog("Initializing Filter Segment for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
+        _Logger->WriteLog(StringOperations::FormatString("Initializing Filter Segment for Segment Index (%d)...", segmentCounter),
+                          LOG_SENDER, __func__);
         _FilterSegments[segmentCounter].CreateData(_FftEngine, segmentComponentsLength);
 
         // Copy Current Segment of Impulse Response to Beginning Half of our Impulse Signal Segment, leaving last half as 0's
-        _Logger->WriteLog("Preparing Filter Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
+        _Logger->WriteLog(StringOperations::FormatString("Preparing Filter Segment Index (%d)...", segmentCounter),
+                          LOG_SENDER, __func__);
         size_t copySize = (segmentCounter != lastSegmentIndex) ? segmentLength : validFilterLength - (lastSegmentIndex * segmentLength);
         memcpy(impulseSignalSegment.GetData(), &filterImpulseResponse[segmentCounter * segmentLength], sizeof(sample) * copySize);
 
-        _Logger->WriteLog("Calculating Filter Components for Segment Index (%d)...", LOG_SENDER, __func__, segmentCounter);
+        _Logger->WriteLog(StringOperations::FormatString("Calculating Filter Components for Segment Index (%d)...", segmentCounter),
+                          LOG_SENDER, __func__);
         _FftEngine->SignalToComponents(impulseSignalSegment, _FilterSegments[segmentCounter]);
     }
 
@@ -181,7 +185,8 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
 }
 
 void Convolver::Process(AudioBuffer& input, AudioBuffer& output) {
-    _Logger->WriteLog("Processing Audio Frame of length (%d)...", LOG_SENDER, __func__, input.GetLength());
+    _Logger->WriteLog(StringOperations::FormatString("Processing Audio Frame of length (%d)...", input.GetLength()),
+                      LOG_SENDER, __func__);
     if (!_Initialized) {
         _Logger->WriteLog("Convolver not Initialized!  Skipping Processing Audio Frame.", LOG_SENDER, __func__, LogLevel::ERROR);
         return;
@@ -217,8 +222,8 @@ size_t Convolver::GetFilterSegmentsLength() {
 }
 
 void Convolver::LogSegmentConfig() {
-    _Logger->WriteLog("Frame Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameLength);
-    _Logger->WriteLog("Frame Size (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FrameSize);
-    _Logger->WriteLog("Filter Segments Length (%d)", LOG_SENDER, __func__, LogLevel::VERBOSE, _FilterSegmentsLength);
-    _Logger->WriteLog("Signal Scalar (%f)", LOG_SENDER, __func__, LogLevel::VERBOSE, _SignalScalar);
+    _Logger->WriteLog(StringOperations::FormatString("Frame Length (%d)", _FrameLength), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Frame Size (%d)", _FrameSize), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Filter Segments Length (%d)", _FilterSegmentsLength), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Signal Scalar (%f)", _SignalScalar), LOG_SENDER, __func__, LogLevel::VERBOSE);
 }
