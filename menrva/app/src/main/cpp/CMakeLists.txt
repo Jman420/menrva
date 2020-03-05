@@ -88,7 +88,7 @@ add_library(
         effects/SingleChannelEffectsBundle.cpp
         effects/MultiChannelEffectsBundle.cpp
 
-        ModuleInterface.cpp
+        hosts/android/AndroidInterface.cpp
 
         ${MESSAGES_SOURCES}
         ${COMMANDS_SOURCES}

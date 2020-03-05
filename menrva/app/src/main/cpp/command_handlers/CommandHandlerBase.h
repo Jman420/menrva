@@ -20,7 +20,7 @@
 #define MENRVA_COMMANDHANDLERBASE_H
 
 #include "../commands/CommandBase.h"
-#include "../ModuleInterface.h"
+#include "../hosts/android/AndroidInterface.h"
 
 class CommandHandlerBase
         : public LoggingBase {

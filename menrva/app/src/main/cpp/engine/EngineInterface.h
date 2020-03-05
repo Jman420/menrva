@@ -19,7 +19,7 @@
 #ifndef MENRVA_ENGINE_INTERFACE_H
 #define MENRVA_ENGINE_INTERFACE_H
 
-#include "../aosp/aosp_audio_effect_defs.h"
+#include "../hosts/android/aosp/aosp_audio_effect_defs.h"
 #include "../tools/LoggerBase.h"
 #include "../tools/ServiceLocator.h"
 

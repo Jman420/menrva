@@ -20,11 +20,11 @@
 #define MENRVA_MODULE_INTERFACE_H
 
 #include "aosp/aosp_audio_effect_defs.h"
-#include "tools/ServiceLocator.h"
-#include "tools/LoggerBase.h"
-#include "engine/EffectsEngine.h"
-#include "audio/AudioInputBuffer.h"
-#include "audio/AudioOutputBuffer.h"
+#include "../../tools/ServiceLocator.h"
+#include "../../tools/LoggerBase.h"
+#include "../../engine/EffectsEngine.h"
+#include "../../audio/AudioInputBuffer.h"
+#include "../../audio/AudioOutputBuffer.h"
 
 enum MenrvaModuleStatus {
     MENRVA_MODULE_UNINITIALIZED,
@@ -47,7 +47,7 @@ struct MenrvaModuleContext {
 };
 
 // Represents the public interface for interacting with the Menrva Audio Effects Module
-class MenrvaModuleInterface {
+class AndroidInterface {
 public:
     static const effect_descriptor_t EffectDescriptor;
     static const effect_interface_s EngineInterface;
@@ -67,7 +67,7 @@ private:
     static LoggerBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
-    MenrvaModuleInterface() = default;
+    AndroidInterface() = default;
 };
 
 #endif //MENRVA_MODULE_INTERFACE_H

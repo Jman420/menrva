@@ -20,7 +20,7 @@
 #define MENRVA_COMMANDMAP_H
 
 #include <map>
-#include "../ModuleInterface.h"
+#include "../hosts/android/AndroidInterface.h"
 #include "../command_handlers/CommandHandlerBase.h"
 
 typedef std::map<uint32_t, CommandHandlerBase*> handler_map;

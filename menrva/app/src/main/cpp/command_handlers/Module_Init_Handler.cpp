@@ -24,7 +24,7 @@ Module_Init_Handler::Module_Init_Handler(LoggerBase* logger)
 
 void Module_Init_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Initializing Module Context...", LOG_SENDER, __func__);
-    MenrvaModuleInterface::InitModule(context);
+    AndroidInterface::InitModule(context);
     _Logger->WriteLog("Successfully Initialized Module!", LOG_SENDER, __func__);
 }
 

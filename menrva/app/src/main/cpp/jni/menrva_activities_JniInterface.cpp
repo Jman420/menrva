@@ -17,24 +17,24 @@
  */
 
 #include <jni.h>
-#include "../ModuleInterface.h"
+#include "../hosts/android/AndroidInterface.h"
 
 extern "C"
 JNIEXPORT jstring JNICALL
 Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectName(JNIEnv *env, jclass type) {
-    return env->NewStringUTF(MenrvaModuleInterface::EffectDescriptor.name);
+    return env->NewStringUTF(AndroidInterface::EffectDescriptor.name);
 }
 
 extern "C"
 JNIEXPORT jstring
 JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectTypeUUID(JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaModuleInterface::EffectTypeUUID);
+    return env->NewStringUTF(AndroidInterface::EffectTypeUUID);
 }
 
 extern "C"
 JNIEXPORT jstring
 JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngineUUID(JNIEnv* env, jclass caller __unused) {
-    return env->NewStringUTF(MenrvaModuleInterface::EngineUUID);
+    return env->NewStringUTF(AndroidInterface::EngineUUID);
 }
 
 extern "C"
