@@ -18,11 +18,11 @@
 
 #include <cerrno>
 #include "AndroidInterface.h"
-#include "../../engine/EngineInterface.h"
 #include "../../tools/ServiceLocator.h"
 #include "../../tools/StringOperations.h"
+#include "../../engine/CommandProcessor.h"
 
-const std::string AndroidInterface::LOG_SENDER = "ModuleInterface";
+const std::string AndroidInterface::LOG_SENDER = "AndroidInterface";
 ServiceLocator* AndroidInterface::_ServiceLocator = new ServiceLocator();
 LoggerBase* AndroidInterface::_Logger = _ServiceLocator->GetLogger();
 
@@ -45,10 +45,24 @@ const effect_descriptor_t AndroidInterface::EffectDescriptor = {
         .implementor = "Jman420"
 };
 
+// Required Exported Member for Android Audio Framework Entry Point
+extern "C" {
+    __attribute__ ((visibility ("default")))
+    audio_effect_library_t AUDIO_EFFECT_LIBRARY_INFO_SYM = {
+            .tag = AUDIO_EFFECT_LIBRARY_TAG,
+            .version = EFFECT_LIBRARY_API_VERSION,
+            .name = AndroidInterface::EffectDescriptor.name,
+            .implementor = AndroidInterface::EffectDescriptor.implementor,
+            .create_effect = AndroidInterface::CreateModule,
+            .release_effect = AndroidInterface::ReleaseModule,
+            .get_descriptor = AndroidInterface::GetDescriptorFromUUID,
+    };
+}
+
 const effect_interface_s AndroidInterface::EngineInterface =
 {
-        MenrvaEngineInterface::Process,
-        MenrvaEngineInterface::Command,
+        AndroidInterface::Process,
+        AndroidInterface::Command,
         AndroidInterface::GetDescriptorFromModule,
         nullptr
 };
@@ -144,16 +158,72 @@ int AndroidInterface::GetDescriptorFromModule(effect_handle_t self, effect_descr
     return 0;
 }
 
-// Required Exported Member for Android Audio Framework Entry Point
-extern "C" {
-    __attribute__ ((visibility ("default")))
-    audio_effect_library_t AUDIO_EFFECT_LIBRARY_INFO_SYM = {
-        .tag = AUDIO_EFFECT_LIBRARY_TAG,
-        .version = EFFECT_LIBRARY_API_VERSION,
-        .name = AndroidInterface::EffectDescriptor.name,
-        .implementor = AndroidInterface::EffectDescriptor.implementor,
-        .create_effect = AndroidInterface::CreateModule,
-        .release_effect = AndroidInterface::ReleaseModule,
-        .get_descriptor = AndroidInterface::GetDescriptorFromUUID,
-    };
+int AndroidInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr) {
+    _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
+    MenrvaModuleContext& context = *(MenrvaModuleContext*)handle;
+    audio_buffer_t& inBuffer = *inBufferPtr;
+    audio_buffer_t& outBuffer = *outBufferPtr;
+
+    if (context.ModuleStatus == MenrvaModuleStatus::RELEASING) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
+        return -ENODATA;
+    }
+    if (context.ModuleStatus != MenrvaModuleStatus::READY) {
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
+        return 0;
+    }
+    if (inBuffer.frameCount != outBuffer.frameCount) {
+        _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", inBuffer.frameCount, outBuffer.frameCount),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
+        return -EINVAL;
+    }
+
+    uint32_t channelLength = context.ChannelLength;
+    _Logger->WriteLog(StringOperations::FormatString("Input Buffer Frame Length (%u) and Channel Length (%u).", inBuffer.frameCount, channelLength),
+                      LOG_SENDER, __func__);
+    _Logger->WriteLog(StringOperations::FormatString("Output Buffer Frame Length (%u and Channel Length (%u).", outBuffer.frameCount, channelLength),
+                      LOG_SENDER, __func__);
+    _Logger->WriteLog("Setting up AudioBuffer Data from Input & Output Buffers...", LOG_SENDER, __func__);
+    AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
+    switch (androidContext.config.inputCfg.format) {
+        case AUDIO_FORMAT_PCM_16_BIT:
+            context.InputBuffer->SetData(inBuffer.s16, channelLength, inBuffer.frameCount);
+            context.OutputBuffer->SetData(outBuffer.s16, channelLength, outBuffer.frameCount);
+            break;
+
+        case AUDIO_FORMAT_PCM_32_BIT:
+            context.InputBuffer->SetData(inBuffer.s32, channelLength, inBuffer.frameCount);
+            context.OutputBuffer->SetData(outBuffer.s32, channelLength, outBuffer.frameCount);
+            break;
+
+        case AUDIO_FORMAT_PCM_FLOAT:
+            context.InputBuffer->SetData(inBuffer.f32, channelLength, inBuffer.frameCount);
+            context.OutputBuffer->SetData(outBuffer.f32, channelLength, outBuffer.frameCount);
+            break;
+
+        default:
+            _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", androidContext.config.inputCfg.format),
+                              LOG_SENDER, __func__, LogLevel::ERROR);
+            return -EINVAL;
+    }
+
+    _Logger->WriteLog("Passing AudioBuffers to EffectsEngine for Processing...", LOG_SENDER, __func__);
+    int result = context.EffectsEngine->Process(*context.InputBuffer, *context.OutputBuffer);
+
+    _Logger->WriteLog(StringOperations::FormatString("EffectsEngine finished Processing with Result (%d)!", result),
+                      LOG_SENDER, __func__);
+    return result;
+}
+
+int AndroidInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
+    _Logger->WriteLog("Command Input Received...", LOG_SENDER, __func__);
+    auto contextPtr = (AndroidModuleInterface*)self;
+    AndroidModuleContext& androidContext = *contextPtr->AndroidContext;
+
+    _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
+    int result = CommandProcessor::Process(androidContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
+
+    _Logger->WriteLog(StringOperations::FormatString("Finished Processing Command with Result (%d).", result),
+                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+    return result;
 }
