@@ -20,8 +20,8 @@
 #define MENRVA_KFR_INTERFACE_H
 
 #include <kfr/dft.hpp>
-#include "../abstracts/FftInterfaceBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "FftInterfaceBase.h"
+#include "../tools/LoggingBase.h"
 #include "../audio/AudioBuffer.h"
 #include "../audio/AudioComponentsBuffer.h"
 

@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,28 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMANDBASE_H
-#define MENRVA_COMMANDBASE_H
+#include "WaveGenerator.h"
+#include "WaveGeneratorConstants.h"
 
-#include <google/protobuf/message_lite.h>
+WaveGenerator::WaveGenerator(FftInterfaceBase* fftEngine) {
+    _FftEngine = fftEngine;
+}
 
-using google::protobuf::MessageLite;
+WaveGenerator::~WaveGenerator() {
+    delete _FftEngine;
+}
 
-class CommandBase {
-public:
-    CommandBase(int commandId, MessageLite* request, MessageLite* response);
-    virtual ~CommandBase();
+AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
+    AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
+    for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
+        sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((M_PI * 2.0 / length) * frequency * sampleCounter + offset));
+    }
 
-    int GetCommandId();
-    virtual MessageLite* GetRequest();
-    virtual MessageLite* GetResponse();
-
-    uint32_t SerializeResponse(void* responseBuffer);
-
-protected:
-    int _CommandId;
-    MessageLite* _Request;
-    MessageLite* _Response;
-};
-
-#endif //MENRVA_COMMANDBASE_H
+    return &sineWaveBuffer;
+}

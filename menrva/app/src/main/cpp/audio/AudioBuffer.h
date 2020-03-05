@@ -21,7 +21,7 @@
 
 #include "Sample.h"
 #include "../tools/Buffer.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "../fft/FftInterfaceBase.h"
 
 //class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/FftInterfaceBase.h
 

@@ -20,7 +20,7 @@
 #include "test_helper.h"
 #include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
-#include "../../../main/cpp/tools/WaveGenerator.h"
+#include "../../../main/cpp/ir/WaveGenerator.h"
 #include "../../../main/cpp/ModuleInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {

@@ -19,8 +19,8 @@
 #ifndef MENRVA_SERVICE_LOCATOR_H
 #define MENRVA_SERVICE_LOCATOR_H
 
-#include "../abstracts/LoggerBase.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "LoggerBase.h"
+#include "../fft/FftInterfaceBase.h"
 #include "../ir/FirGenerator.h"
 #include "../convolver/Convolver.h"
 

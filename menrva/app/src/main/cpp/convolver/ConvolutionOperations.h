@@ -19,8 +19,8 @@
 #ifndef MENRVA_CONVOLUTION_OPERATIONS_H
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
-#include "../abstracts/ConvolutionOperationsBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "ConvolutionOperationsBase.h"
+#include "../tools/LoggingBase.h"
 #include "../audio/AudioBuffer.h"
 #include "../audio/AudioComponentsBuffer.h"
 

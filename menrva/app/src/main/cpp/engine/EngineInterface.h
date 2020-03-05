@@ -20,7 +20,7 @@
 #define MENRVA_ENGINE_INTERFACE_H
 
 #include "../aosp/aosp_audio_effect_defs.h"
-#include "../abstracts/LoggerBase.h"
+#include "../tools/LoggerBase.h"
 #include "../tools/ServiceLocator.h"
 
 class MenrvaEngineInterface {

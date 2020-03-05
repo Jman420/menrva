@@ -21,8 +21,8 @@
 
 #include <string>
 #include <cmath>
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "../tools/LoggingBase.h"
+#include "../fft/FftInterfaceBase.h"
 #include "../audio/Sample.h"
 #include "../audio/AudioBuffer.h"
 

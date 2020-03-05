@@ -21,7 +21,7 @@
 
 #include "aosp/aosp_audio_effect_defs.h"
 #include "tools/ServiceLocator.h"
-#include "abstracts/LoggerBase.h"
+#include "tools/LoggerBase.h"
 #include "engine/EffectsEngine.h"
 #include "audio/AudioInputBuffer.h"
 #include "audio/AudioOutputBuffer.h"

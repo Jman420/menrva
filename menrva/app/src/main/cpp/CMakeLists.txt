@@ -52,38 +52,35 @@ add_library(
         MenrvaEngine
         SHARED
 
-        abstracts/LoggerBase.cpp
-        abstracts/LoggingBase.cpp
-        abstracts/CommandHandlerBase.cpp
-        abstracts/FftInterfaceBase.cpp
-        abstracts/EffectBase.cpp
-        abstracts/ConvolutionOperationsBase.cpp
-        abstracts/AudioIOBufferBase.cpp
-        abstracts/SingleChannelEffectBase.cpp
-        abstracts/MultiChannelEffectBase.cpp
-        abstracts/CommandBase.cpp
-
+        tools/LoggerBase.cpp
+        tools/LoggingBase.cpp
         tools/AndroidLogger.cpp
         tools/ServiceLocator.cpp
         tools/MathOperations.cpp
         tools/Buffer.cpp
         tools/ConversionBuffer.cpp
-        tools/WaveGenerator.cpp
         tools/CommandIds.cpp
         tools/StringOperations.cpp
 
         audio/AudioBuffer.cpp
+        audio/AudioIOBufferBase.cpp
         audio/AudioInputBuffer.cpp
         audio/AudioOutputBuffer.cpp
         audio/AudioComponentsBuffer.cpp
 
+        ir/WaveGenerator.cpp
         ir/FirGenerator.cpp
 
+        fft/FftInterfaceBase.cpp
         fft/KfrInterface.cpp
 
+        convolver/ConvolutionOperationsBase.cpp
         convolver/ConvolutionOperations.cpp
         convolver/Convolver.cpp
 
+        effects/EffectBase.cpp
+        effects/SingleChannelEffectBase.cpp
+        effects/MultiChannelEffectBase.cpp
         effects/MasterLimiter.cpp
         effects/BassBoost.cpp
         effects/Equalizer.cpp

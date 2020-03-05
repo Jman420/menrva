@@ -19,8 +19,8 @@
 #ifndef MENRVA_STEREO_WIDENER_H
 #define MENRVA_STEREO_WIDENER_H
 
-#include "../abstracts/MultiChannelEffectBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "MultiChannelEffectBase.h"
+#include "../tools/LoggingBase.h"
 
 class StereoWidener : public MultiChannelEffectBase,
                       public LoggingBase {

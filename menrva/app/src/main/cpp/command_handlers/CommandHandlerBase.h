@@ -16,36 +16,29 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "CommandBase.h"
+#ifndef MENRVA_COMMANDHANDLERBASE_H
+#define MENRVA_COMMANDHANDLERBASE_H
 
-CommandBase::CommandBase(int commandId, MessageLite *request, MessageLite *response) {
-    _CommandId = commandId;
-    _Request = request;
-    _Response = response;
-}
+#include "../commands/CommandBase.h"
+#include "../ModuleInterface.h"
 
-CommandBase::~CommandBase() {
-    delete _Request;
-    delete _Response;
-}
+class CommandHandlerBase
+        : public LoggingBase {
+public:
+    CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction);
+    virtual ~CommandHandlerBase();
 
-int CommandBase::GetCommandId() {
-    return _CommandId;
-}
+    CommandBase* GetCommand();
+    int32_t GetReturnValue();
 
-MessageLite* CommandBase::GetRequest() {
-    return _Request;
-}
+    virtual bool DeserializeRequest(void *data, int length);
+    virtual uint32_t SerializeResponse(void* responseBuffer);
 
-MessageLite *CommandBase::GetResponse() {
-    return _Response;
-}
+    virtual void Execute(MenrvaModuleContext& context) = 0;
 
-uint32_t CommandBase::SerializeResponse(void* responseBuffer) {
-    MessageLite& response = *_Response;
-    uint32_t responseSize = static_cast<uint32_t>(response.ByteSizeLong());
-    *(char*)responseBuffer = *new char[responseSize];
+protected:
+    CommandBase* _Command;
+    int32_t _ReturnValue;
+};
 
-    response.SerializeToArray(responseBuffer, responseSize);
-    return responseSize;
-}
+#endif //MENRVA_COMMANDHANDLERBASE_H

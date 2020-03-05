@@ -21,8 +21,8 @@
 
 #include <map>
 #include "FftwFunctions.h"
-#include "../abstracts/FftInterfaceBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "FftInterfaceBase.h"
+#include "../tools/LoggingBase.h"
 
 typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
