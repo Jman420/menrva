@@ -30,7 +30,7 @@ MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* f
         : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _ServiceLocator = serviceLocator;
     _FftEngine = fftEngine;
-    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_UNCONFIGURED;
+    _EngineStatus = MenrvaEngineStatus::UNCONFIGURED;
 }
 
 MenrvaEffectsEngine::~MenrvaEffectsEngine() {
@@ -73,18 +73,18 @@ void MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleR
     _MultiChannelEffects->ResetBuffers(sampleRate, frameLength);
 
     _Logger->WriteLog("Successfully setup Buffer Configs!", LOG_SENDER, __func__);
-    _EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_DISABLED;
+    _EngineStatus = MenrvaEngineStatus::DISABLED;
 }
 
 int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffer& outputBuffer) {
     _Logger->WriteLog(StringOperations::FormatString("Processing Input Audio Buffer of length (%d) and channels (%d)...", inputBuffer.GetSampleLength(), _ChannelLength),
                       LOG_SENDER, __func__);
-    if (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_UNCONFIGURED) {
+    if (_EngineStatus == MenrvaEngineStatus::UNCONFIGURED) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to process Input Audio Buffer of length (%d) and channels (%d).  Engine not configured!", inputBuffer.GetSampleLength(), _ChannelLength),
                           LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
-    if (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_DISABLED) {
+    if (_EngineStatus == MenrvaEngineStatus::DISABLED) {
         _Logger->WriteLog(StringOperations::FormatString("Skipping processing Input Audio Buffer of length (%d) and channels (%d).  Engine is Disabled!", inputBuffer.GetSampleLength(), _ChannelLength),
                           LOG_SENDER, __func__);
         return -ENODATA;
@@ -135,7 +135,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
 
     _Logger->WriteLog(StringOperations::FormatString("Successfully processed Input Audio Buffer of length (%d)!", inputBuffer.GetSampleLength()),
                       LOG_SENDER, __func__);
-    return (_EngineStatus == MenrvaEngineStatus::MENRVA_ENGINE_DISABLED) ? -ENODATA : 0;
+    return (_EngineStatus == MenrvaEngineStatus::DISABLED) ? -ENODATA : 0;
 }
 
 void MenrvaEffectsEngine::ResetBuffers(sample sampleRate) {

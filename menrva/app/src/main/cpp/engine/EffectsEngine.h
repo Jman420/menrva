@@ -27,12 +27,13 @@
 #include "../effects/MultiChannelEffectsBundle.h"
 
 enum MenrvaEngineStatus {
-    MENRVA_ENGINE_UNCONFIGURED,
-    MENRVA_ENGINE_DISABLED,
-    MENRVA_ENGINE_ENABLED,
+    UNCONFIGURED,
+    DISABLED,
+    ENABLED,
 };
 
-class MenrvaEffectsEngine : public LoggingBase {
+class MenrvaEffectsEngine
+        : public LoggingBase {
 public:
     MenrvaEngineStatus _EngineStatus;
 

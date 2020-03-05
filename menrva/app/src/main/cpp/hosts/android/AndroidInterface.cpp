@@ -73,6 +73,8 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
         return -EINVAL;
     }
 
+    // TODO : Instantiate Command Processor & Inject Android Host Command Handlers
+
     _Logger->WriteLog("Creating Android Module Context...", LOG_SENDER, __func__);
     auto androidContext = new AndroidModuleContext();
     androidContext->ModuleStatus = MenrvaModuleStatus::UNINITIALIZED;

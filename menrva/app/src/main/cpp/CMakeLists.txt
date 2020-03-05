@@ -48,6 +48,10 @@ aux_source_directory(
         command_handlers
         COMMAND_HANDLER_SOURCES
 )
+aux_source_directory(
+        hosts/android/command_handlers
+        HOST_COMMAND_HANDLER_SOURCES
+)
 add_library(
         MenrvaEngine
         SHARED
@@ -98,6 +102,8 @@ add_library(
         engine/CommandProcessor.cpp
 
         hosts/android/commands/AndroidHost_Generic_Command.cpp
+        ${HOST_COMMAND_HANDLER_SOURCES}
+
         hosts/android/AndroidInterface.cpp
 
         jni/menrva_activities_JniInterface.cpp

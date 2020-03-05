@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2019 Justin Giannone (aka Jman420)
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,12 +16,13 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "Module_DisableEngine_Handler.h"
+#include "Android_DisableEngine_Handler.h"
+#include "../commands/AndroidHost_Generic_Command.h"
 
-Module_DisableEngine_Handler::Module_DisableEngine_Handler(LoggerBase* logger)
-        : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
+Android_DisableEngine_Handler::Android_DisableEngine_Handler(LoggerBase* logger)
+        : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Module_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
+void Android_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received DisableEngine Command...", LOG_SENDER, __func__);
     _Logger->WriteLog("Disabling Effects Engine...", LOG_SENDER, __func__);
     context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::DISABLED;
@@ -29,7 +30,7 @@ void Module_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Successfully Disabled Effects Engine!", LOG_SENDER, __func__);
 }
 
-uint32_t Module_DisableEngine_Handler::SerializeResponse(void* responseBuffer) {
+uint32_t Android_DisableEngine_Handler::SerializeResponse(void* responseBuffer) {
     *(int*)responseBuffer = 0;
     return sizeof(int);
 }

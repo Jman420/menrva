@@ -24,7 +24,7 @@ Module_EnableEngine_Handler::Module_EnableEngine_Handler(LoggerBase* logger)
 void Module_EnableEngine_Handler::Execute(MenrvaModuleContext& context) {
     _Logger->WriteLog("Received EnableEngine Command...", LOG_SENDER, __func__);
     _Logger->WriteLog("Enabling Effects Engine...", LOG_SENDER, __func__);
-    context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::MENRVA_ENGINE_ENABLED;
+    context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::ENABLED;
 
     _Logger->WriteLog("Successfully Enabled Effects Engine!", LOG_SENDER, __func__);
 }
