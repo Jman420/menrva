@@ -20,7 +20,7 @@
 #define MENRVA_FFTW_FUNCTIONS_H
 
 #include <fftw3.h>
-#include "../Config.h"
+#include "../BuildConfig.h"
 
 typedef float* (fftwAllocateFunc)(size_t);
 typedef void (fftwFreeFunc)(void*);

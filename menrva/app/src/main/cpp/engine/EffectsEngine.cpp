@@ -19,7 +19,7 @@
 #include <cerrno>
 #include <algorithm>
 #include "EffectsEngine.h"
-#include "../Config.h"
+#include "../BuildConfig.h"
 #include "../tools/Buffer.cpp"
 #include "../effects/BassBoost.h"
 #include "../effects/StereoWidener.h"

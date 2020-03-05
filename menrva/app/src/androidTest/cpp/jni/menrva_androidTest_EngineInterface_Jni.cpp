@@ -17,7 +17,7 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/Config.h"
+#include "../../../main/cpp/BuildConfig.h"
 #include "../../../main/cpp/tools/ServiceLocator.h"
 
 extern "C"

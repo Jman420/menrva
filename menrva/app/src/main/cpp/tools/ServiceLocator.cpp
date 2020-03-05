@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../Config.h"
+#include "../BuildConfig.h"
 #include "ServiceLocator.h"
 #include "AndroidLogger.h"
 #include "../fft/KfrInterface.h"

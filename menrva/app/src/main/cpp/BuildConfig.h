@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONFIG_H
-#define MENRVA_CONFIG_H
+#ifndef MENRVA_BUILDCONFIG_H
+#define MENRVA_BUILDCONFIG_H
 
 #define MENRVA_ENGINE_MAJOR 0
 #define MENRVA_ENGINE_MINOR 1
@@ -44,4 +44,4 @@
  * ----------------------------DO NOT MODIFY CODE BELOW THIS LINE---------------------------------
  */
 
-#endif //MENRVA_CONFIG_H
+#endif //MENRVA_BUILDCONFIG_H
