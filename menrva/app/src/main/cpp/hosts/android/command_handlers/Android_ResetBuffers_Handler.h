@@ -26,7 +26,7 @@ class Android_ResetBuffers_Handler
 public:
     Android_ResetBuffers_Handler(LoggerBase *logger);
 
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 };
 

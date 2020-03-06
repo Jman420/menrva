@@ -23,7 +23,7 @@
 Android_ResetBuffers_Handler::Android_ResetBuffers_Handler(LoggerBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Android_ResetBuffers_Handler::Execute(MenrvaModuleContext& context) {
+void Android_ResetBuffers_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received ResetBuffers Command...", LOG_SENDER, __func__);
     if (context.EffectsEngine == nullptr) {
         _Logger->WriteLog("Skipping ResetBuffers Command.  Invalid Engine Instance provided.", LOG_SENDER, __func__, LogLevel::ERROR);

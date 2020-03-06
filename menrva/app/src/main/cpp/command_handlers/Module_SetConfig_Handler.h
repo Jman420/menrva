@@ -29,7 +29,7 @@ public:
     Module_SetConfig_Handler(LoggerBase* logger);
 
     virtual bool DeserializeRequest(void *data, int length) override;
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 
 private:

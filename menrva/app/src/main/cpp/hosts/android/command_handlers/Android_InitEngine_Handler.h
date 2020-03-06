@@ -26,7 +26,7 @@ class Android_InitEngine_Handler
 public:
     Android_InitEngine_Handler(LoggerBase *logger);
 
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 };
 

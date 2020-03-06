@@ -25,7 +25,7 @@ Android_GetConfig_Handler::Android_GetConfig_Handler(LoggerBase* logger)
     _Config = nullptr;
 }
 
-void Android_GetConfig_Handler::Execute(MenrvaModuleContext& context) {
+void Android_GetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Storing Module Config...", LOG_SENDER, __func__);
     AndroidModuleContext& androidContext = *(AndroidModuleContext*)&context;
     _Config = &androidContext.config;

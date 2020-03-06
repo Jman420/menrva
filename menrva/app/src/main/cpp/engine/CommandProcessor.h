@@ -23,7 +23,7 @@
 
 class CommandProcessor {
 public:
-    static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
     static const std::string LOG_SENDER;

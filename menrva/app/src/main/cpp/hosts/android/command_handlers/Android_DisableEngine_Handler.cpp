@@ -22,7 +22,7 @@
 Android_DisableEngine_Handler::Android_DisableEngine_Handler(LoggerBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Android_DisableEngine_Handler::Execute(MenrvaModuleContext& context) {
+void Android_DisableEngine_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received DisableEngine Command...", LOG_SENDER, __func__);
     _Logger->WriteLog("Disabling Effects Engine...", LOG_SENDER, __func__);
     context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::DISABLED;

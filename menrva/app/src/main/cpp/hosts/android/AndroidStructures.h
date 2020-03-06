@@ -23,7 +23,7 @@
 #include "../ModuleStructures.h"
 
 struct AndroidModuleContext
-        : public MenrvaModuleContext {
+        : public ModuleContext {
     effect_config_t config;
 };
 

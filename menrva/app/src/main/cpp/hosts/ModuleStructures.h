@@ -25,15 +25,15 @@
 
 struct CommandProcessor;  // Forward Declaration to avoid circular reference : ../engine/CommandProcessor.h
 
-enum MenrvaModuleStatus {
+enum ModuleStatus {
     UNINITIALIZED,
     INITIALIZING,
     READY,
     RELEASING,
 };
 
-struct MenrvaModuleContext {
-    MenrvaModuleStatus ModuleStatus;
+struct ModuleContext {
+    ModuleStatus ModuleStatus;
     MenrvaEffectsEngine* EffectsEngine;
     CommandProcessor* CommandProcessor;
 

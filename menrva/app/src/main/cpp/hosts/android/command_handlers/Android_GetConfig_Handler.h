@@ -27,7 +27,7 @@ class Android_GetConfig_Handler
 public:
     Android_GetConfig_Handler(LoggerBase *logger);
 
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;
 
 private:

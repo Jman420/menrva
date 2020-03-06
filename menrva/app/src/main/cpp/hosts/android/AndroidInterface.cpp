@@ -91,7 +91,7 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
 
     _Logger->WriteLog("Creating Android Module Context...", LOG_SENDER, __func__);
     auto androidContext = new AndroidModuleContext();
-    androidContext->ModuleStatus = MenrvaModuleStatus::UNINITIALIZED;
+    androidContext->ModuleStatus = ModuleStatus::UNINITIALIZED;
     androidContext->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
 
     _Logger->WriteLog("Creating Android Module Interface...", LOG_SENDER, __func__);
@@ -114,7 +114,7 @@ int AndroidInterface::ReleaseModule(effect_handle_t moduleHandle) {
     }
 
     _Logger->WriteLog("Deleting Effects Engine & Module Pointers...", LOG_SENDER, __func__);
-    module->ModuleStatus = MenrvaModuleStatus::RELEASING;
+    module->ModuleStatus = ModuleStatus::RELEASING;
     delete module->EffectsEngine;
     delete module->InputBuffer;
     delete module->OutputBuffer;
@@ -147,7 +147,7 @@ int AndroidInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_de
 
 int AndroidInterface::GetDescriptorFromModule(effect_handle_t self, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
-    auto module = (MenrvaModuleContext*)self;
+    auto module = (ModuleContext*)self;
     if (module == nullptr || pDescriptor == nullptr) {
         _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
@@ -160,15 +160,15 @@ int AndroidInterface::GetDescriptorFromModule(effect_handle_t self, effect_descr
 
 int AndroidInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPtr, audio_buffer_t* outBufferPtr) {
     _Logger->WriteLog("Buffer Input Received...", LOG_SENDER, __func__);
-    MenrvaModuleContext& context = *(MenrvaModuleContext*)handle;
+    ModuleContext& context = *(ModuleContext*)handle;
     audio_buffer_t& inBuffer = *inBufferPtr;
     audio_buffer_t& outBuffer = *outBufferPtr;
 
-    if (context.ModuleStatus == MenrvaModuleStatus::RELEASING) {
+    if (context.ModuleStatus == ModuleStatus::RELEASING) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
         return -ENODATA;
     }
-    if (context.ModuleStatus != MenrvaModuleStatus::READY) {
+    if (context.ModuleStatus != ModuleStatus::READY) {
         _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }

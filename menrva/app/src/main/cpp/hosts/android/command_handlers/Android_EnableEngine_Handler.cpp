@@ -22,7 +22,7 @@
 Android_EnableEngine_Handler::Android_EnableEngine_Handler(LoggerBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Android_EnableEngine_Handler::Execute(MenrvaModuleContext& context) {
+void Android_EnableEngine_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received EnableEngine Command...", LOG_SENDER, __func__);
     _Logger->WriteLog("Enabling Effects Engine...", LOG_SENDER, __func__);
     context.EffectsEngine->_EngineStatus = MenrvaEngineStatus::ENABLED;

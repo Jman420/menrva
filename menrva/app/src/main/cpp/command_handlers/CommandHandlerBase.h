@@ -35,7 +35,7 @@ public:
     virtual bool DeserializeRequest(void *data, int length);
     virtual uint32_t SerializeResponse(void* responseBuffer);
 
-    virtual void Execute(MenrvaModuleContext& context) = 0;
+    virtual void Execute(ModuleContext& context) = 0;
 
 protected:
     CommandBase* _Command;

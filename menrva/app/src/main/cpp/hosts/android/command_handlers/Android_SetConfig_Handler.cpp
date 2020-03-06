@@ -31,7 +31,7 @@ bool Android_SetConfig_Handler::DeserializeRequest(void* data, int length) {
     return true;
 }
 
-void Android_SetConfig_Handler::Execute(MenrvaModuleContext& context) {
+void Android_SetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
     effect_config_t& config = *_Config;
 

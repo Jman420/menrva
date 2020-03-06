@@ -21,7 +21,7 @@
 Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
 
-void Engine_GetVersion_Handler::Execute(MenrvaModuleContext& context) {
+void Engine_GetVersion_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received GetVersion Command...", LOG_SENDER, __func__);
     messages::Engine_GetVersion_Response& response = *_TypedCommand->GetTypedResponse();
 
