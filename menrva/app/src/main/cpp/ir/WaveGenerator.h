@@ -19,6 +19,7 @@
 #ifndef MENRVA_WAVE_GENERATOR_H
 #define MENRVA_WAVE_GENERATOR_H
 
+#include "../audio/Sample.h"
 #include "../audio/AudioBuffer.h"
 
 class WaveGenerator {
