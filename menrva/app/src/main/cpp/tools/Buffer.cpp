@@ -17,7 +17,6 @@
  */
 
 #include <cstring>
-#include <cassert>
 #include <stdexcept>
 #include "Buffer.h"
 #include "../audio/Sample.h"
