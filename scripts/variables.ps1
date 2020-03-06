@@ -92,9 +92,13 @@ $TemplateCommandBaseTypeDefField = "<CommandBaseTypeDef>"
 $TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
 $TemplateHandlerMapIncludesField = "<HandlerMapIncludes>"
 $TemplateHandlerMapEntriesField = "<HandlerMapEntries>"
+$TemplateYearField = "<Year>"
 
 # Patterns
 $CommandHandlerExcludePattern = "Module_*"
 $ProtobufFilePattern = "*$ProtobufFileExtension"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
 $BackendArtifactExcludePattern = "*Test*"
+
+# Misc
+$CurrentYear = Get-Date -Format "yyyy"

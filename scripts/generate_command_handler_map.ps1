@@ -33,10 +33,14 @@ foreach ($handlerFile in $handlerFiles) {
 
 Write-Output "Generating CommandHandlerMap Header File..."
 $cppCommandHandlerHeader = $cppHandlerMapHeaderTemplate
+$cppCommandHandlerHeader = $cppCommandHandlerHeader.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppHandlerMapHeaderFile" -InputObject $cppCommandHandlerHeader -Encoding ASCII
 
 Write-Output "Generating CommandHandlerMap Class File..."
-$cppCommandHandlerClass = $cppHandlerMapClassTemplate.Replace($TemplateHandlerMapIncludesField, $includesReplacement).Replace($TemplateHandlerMapEntriesField, $mapEntriesReplacement)
+$cppCommandHandlerClass = $cppHandlerMapClassTemplate
+$cppCommandHandlerClass = $cppCommandHandlerClass.Replace($TemplateHandlerMapIncludesField, $includesReplacement)
+$cppCommandHandlerClass = $cppCommandHandlerClass.Replace($TemplateHandlerMapEntriesField, $mapEntriesReplacement)
+$cppCommandHandlerClass = $cppCommandHandlerClass.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppHandlerMapClassFile" -InputObject $cppCommandHandlerClass -Encoding ASCII
 
 Write-Output "Successfully generated Command Handler Map Classes!"

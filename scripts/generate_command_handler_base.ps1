@@ -28,11 +28,16 @@ foreach ($handlerFile in $handlerFiles) {
 }
 
 Write-Output "Generating TypedCommandHandlerBase Header File..."
-$cppTypedCommandHandlerBaseHeader = $CppTypedCommandHandlerBaseHeaderTemplate.Replace($TemplateCommandNameField, $commandName)
+$cppTypedCommandHandlerBaseHeader = $CppTypedCommandHandlerBaseHeaderTemplate
+$cppTypedCommandHandlerBaseHeader = $cppTypedCommandHandlerBaseHeader.Replace($TemplateCommandNameField, $commandName)
+$cppTypedCommandHandlerBaseHeader = $cppTypedCommandHandlerBaseHeader.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppTypedCommandHandlerBaseHeaderFile" -InputObject $cppTypedCommandHandlerBaseHeader -Encoding ASCII
 
 Write-Output "Generating TypedCommandHandlerBase Class File..."
-$cppTypedCommandHandlerBaseClass = $CppTypedCommandHandlerBaseClassTemplate.Replace($TemplateCommandNameField, $commandName).Replace($TemplateCommandHandlerBaseTypeDef, $cppTypedCommandHandlerBaseTypeDefReplacement)
+$cppTypedCommandHandlerBaseClass = $CppTypedCommandHandlerBaseClassTemplate
+$cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateCommandNameField, $commandName)
+$cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateCommandHandlerBaseTypeDef, $cppTypedCommandHandlerBaseTypeDefReplacement)
+$cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppTypedCommandHandlerBaseClassFile" -InputObject $cppTypedCommandHandlerBaseClass -Encoding ASCII
 
 Write-Output "Successfully generated Command Handler Base Classes!"

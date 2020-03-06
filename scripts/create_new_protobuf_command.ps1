@@ -21,7 +21,10 @@ Write-Output "Calculating New Command Id..."
 $commandId = (Get-ChildItem -File -Path $ProtobufSourceDir).Count
 
 Write-Output "Generating Protobuf Command for : $CommandName"
-$commandOutput = $commandTemplate.Replace($TemplateCommandIdField, $commandId).Replace($TemplateCommandNameField, $CommandName)
+$commandOutput = $commandTemplate
+$commandOutput = $commandOutput.Replace($TemplateCommandIdField, $commandId)
+$commandOutput = $commandOutput.Replace($TemplateCommandNameField, $CommandName)
+$commandOutput = $commandOutput.Replace($TemplateYearField, $CurrentYear)
 
 Write-Output "Creating Protobuf Command File : $commandFileName"
 Out-File -Force -FilePath "$CommandFilePath" -InputObject $commandOutput -Encoding ASCII

@@ -23,9 +23,14 @@ if (Test-Path $cppOutputCommandHandlerClassFile) {
 }
 
 Write-Output "Generating Command Handler : $CommandName"
-$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderTemplate.Replace($TemplateCommandNameField, $CommandName)
-$cppCommandHandlerClassFile = $cppCommandHandlerClassTemplate.Replace($TemplateCommandNameField, $CommandName)
+$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderTemplate
+$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderFile.Replace($TemplateCommandNameField, $CommandName)
+$cppCommandHandlerHeaderFile = $cppCommandHandlerHeaderFile.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$cppOutputCommandHandlerHeaderFile" -InputObject $cppCommandHandlerHeaderFile -Encoding ASCII
+
+$cppCommandHandlerClassFile = $cppCommandHandlerClassTemplate
+$cppCommandHandlerClassFile = $cppCommandHandlerClassFile.Replace($TemplateCommandNameField, $CommandName)
+$cppCommandHandlerClassFile = $cppCommandHandlerClassFile.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$cppOutputCommandHandlerClassFile" -InputObject $cppCommandHandlerClassFile -Encoding ASCII
 
 & "$PSScriptRoot\generate_command_handler_base.ps1"
