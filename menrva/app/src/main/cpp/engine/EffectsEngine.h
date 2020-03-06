@@ -20,9 +20,9 @@
 #define MENRVA_EFFECTS_ENGINE_H
 
 #include "../tools/LoggingBase.h"
+#include "../tools/ServiceLocator.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
-#include "../tools/ServiceLocator.h"
 #include "../effects/SingleChannelEffectsBundle.h"
 #include "../effects/MultiChannelEffectsBundle.h"
 

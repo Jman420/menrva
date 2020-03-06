@@ -16,17 +16,14 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMAND_MAP_H
-#define MENRVA_COMMAND_MAP_H
+#ifndef MENRVA_COMMAND_PROCESSOR_H
+#define MENRVA_COMMAND_PROCESSOR_H
 
-#include "../hosts/android/aosp/aosp_audio_effect_defs.h"
-#include "../hosts/android/AndroidInterface.h"
 #include "CommandHandlerMap.h"
 
 class CommandProcessor {
 public:
-    static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize,
-                       void* pCmdData, uint32_t* replySize, void* pReplyData);
+    static int Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
 
 private:
     static const std::string LOG_SENDER;
@@ -39,4 +36,4 @@ private:
     CommandProcessor() = default;
 };
 
-#endif //MENRVA_COMMAND_MAP_H
+#endif //MENRVA_COMMAND_PROCESSOR_H

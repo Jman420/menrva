@@ -20,10 +20,6 @@
 #include <algorithm>
 #include "EffectsEngine.h"
 #include "../BuildConfig.h"
-#include "../tools/Buffer.cpp"
-#include "../effects/BassBoost.h"
-#include "../effects/StereoWidener.h"
-#include "../effects/Equalizer.h"
 #include "../tools/StringOperations.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)

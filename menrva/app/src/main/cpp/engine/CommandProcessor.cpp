@@ -18,11 +18,6 @@
 
 #include <cerrno>
 #include "CommandProcessor.h"
-#include "../tools/CommandIds.h"
-#include "../commands/MenrvaCommands.h"
-#include "../commands/messages/Engine_GetVersion.pb.h"
-#include "../commands/Engine_GetVersion_Command.h"
-#include "../command_handlers/Engine_GetVersion_Handler.h"
 #include "../tools/StringOperations.h"
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
