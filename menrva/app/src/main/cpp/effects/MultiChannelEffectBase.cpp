@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "MultiChannelEffectBase.h"
 #include <utility>
+#include "MultiChannelEffectBase.h"
 
 MultiChannelEffectBase::MultiChannelEffectBase(std::string name)
-    : EffectBase(std::move(name)) { }
+        : EffectBase(std::move(name)) {}

@@ -21,7 +21,8 @@
 
 #include "EffectBase.h"
 
-class SingleChannelEffectBase : public EffectBase {
+class SingleChannelEffectBase
+        : public EffectBase {
 public:
     explicit SingleChannelEffectBase(std::string name);
 

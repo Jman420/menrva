@@ -19,7 +19,6 @@
 #ifndef MENRVA_EFFECTS_BUNDLE_H
 #define MENRVA_EFFECTS_BUNDLE_H
 
-#include "../tools/ServiceLocator.h"
 #include "BassBoost.h"
 #include "Equalizer.h"
 

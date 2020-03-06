@@ -24,8 +24,9 @@
 #include "../ir/FirGenerator.h"
 #include "../convolver/Convolver.h"
 
-class BassBoost : public SingleChannelEffectBase,
-                  public LoggingBase {
+class BassBoost
+        : public SingleChannelEffectBase,
+          public LoggingBase {
 public:
     BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
     ~BassBoost() override;

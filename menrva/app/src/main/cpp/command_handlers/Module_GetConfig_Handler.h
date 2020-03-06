@@ -21,6 +21,7 @@
 
 #include "TypedCommandHandlerBase.h"
 #include "../commands/Android_SystemCommand_Command.h"
+#include "../hosts/android/aosp/aosp_audio_effect_defs.h"
 
 class Module_GetConfig_Handler :
         public TypedCommandHandlerBase<Android_SystemCommand_Command> {
