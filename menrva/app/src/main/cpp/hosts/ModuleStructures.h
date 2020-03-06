@@ -19,9 +19,9 @@
 #ifndef MENRVA_MODULE_STRUCTURES_H
 #define MENRVA_MODULE_STRUCTURES_H
 
+#include "../engine/EffectsEngine.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
-#include "../engine/EffectsEngine.h"
 
 enum MenrvaModuleStatus {
     UNINITIALIZED,

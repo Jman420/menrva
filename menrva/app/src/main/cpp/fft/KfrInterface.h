@@ -27,8 +27,9 @@
 
 using namespace kfr;
 
-class KfrInterface : public FftInterfaceBase,
-                     public LoggingBase {
+class KfrInterface
+        : public FftInterfaceBase,
+          public LoggingBase {
 public:
     explicit KfrInterface(LoggerBase* logger);
     ~KfrInterface() override;
