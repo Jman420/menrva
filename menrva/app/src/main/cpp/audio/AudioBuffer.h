@@ -23,9 +23,8 @@
 #include "../tools/Buffer.h"
 #include "../fft/FftInterfaceBase.h"
 
-//class FftInterfaceBase;  // Forward Declaration to avoid circular reference : ../abstracts/FftInterfaceBase.h
-
-class AudioBuffer : public Buffer<sample> {
+class AudioBuffer
+        : public Buffer<sample> {
 public:
     AudioBuffer();
     AudioBuffer(FftInterfaceBase* fftEngine, size_t length);

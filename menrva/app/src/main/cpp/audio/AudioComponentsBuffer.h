@@ -19,8 +19,8 @@
 #ifndef MENRVA_AUDIO_COMPONENTS_BUFFER_H
 #define MENRVA_AUDIO_COMPONENTS_BUFFER_H
 
-#include "AudioBuffer.h"
 #include "Sample.h"
+#include "AudioBuffer.h"
 
 class AudioComponentsBuffer {
 public:

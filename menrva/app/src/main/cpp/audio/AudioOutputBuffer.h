@@ -23,9 +23,9 @@
 #include <cstdint>
 #include "Sample.h"
 #include "AudioFormat.h"
-#include "../tools/ConversionBuffer.h"
-#include "../tools/LoggingBase.h"
 #include "AudioIOBufferBase.h"
+#include "../tools/Buffer.h"
+#include "../tools/LoggingBase.h"
 
 union audio_output_buffer_u {
     Buffer<int16_t>* PCM_16;

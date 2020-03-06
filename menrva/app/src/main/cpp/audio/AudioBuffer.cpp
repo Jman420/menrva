@@ -17,8 +17,6 @@
  */
 
 #include "AudioBuffer.h"
-#include "../tools/Buffer.cpp"
-//#include "../abstracts/FftInterfaceBase.h"
 
 AudioBuffer::AudioBuffer() {
     _FftEngine = nullptr;
