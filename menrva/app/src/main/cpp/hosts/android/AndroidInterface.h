@@ -19,21 +19,9 @@
 #ifndef MENRVA_MODULE_INTERFACE_H
 #define MENRVA_MODULE_INTERFACE_H
 
-#include "aosp/aosp_audio_effect_defs.h"
-#include "../ModuleStructures.h"
+#include "AndroidStructures.h"
 #include "../../tools/ServiceLocator.h"
 #include "../../tools/LoggerBase.h"
-
-struct AndroidModuleContext
-        : public MenrvaModuleContext {
-    effect_config_t config;
-};
-
-struct AndroidModuleInterface {
-    __unused const effect_interface_s* itfe;
-
-    AndroidModuleContext* AndroidContext;
-};
 
 class AndroidInterface {
 public:

@@ -19,7 +19,7 @@
 #include "Android_SetConfig_Handler.h"
 #include "../commands/AndroidHost_Generic_Command.h"
 #include "../../../tools/StringOperations.h"
-#include "../AndroidInterface.h"
+#include "../AndroidStructures.h"
 
 Android_SetConfig_Handler::Android_SetConfig_Handler(LoggerBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {

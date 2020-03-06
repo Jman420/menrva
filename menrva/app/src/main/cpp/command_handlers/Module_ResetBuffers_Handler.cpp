@@ -17,7 +17,7 @@
  */
 
 #include "Module_ResetBuffers_Handler.h"
-#include "../hosts/android/AndroidInterface.h"
+#include "../hosts/android/AndroidStructures.h"
 
 Module_ResetBuffers_Handler::Module_ResetBuffers_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {}
