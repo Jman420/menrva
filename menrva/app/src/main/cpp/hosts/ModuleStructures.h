@@ -23,6 +23,8 @@
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
 
+struct CommandProcessor;  // Forward Declaration to avoid circular reference : ../engine/CommandProcessor.h
+
 enum MenrvaModuleStatus {
     UNINITIALIZED,
     INITIALIZING,
@@ -33,6 +35,7 @@ enum MenrvaModuleStatus {
 struct MenrvaModuleContext {
     MenrvaModuleStatus ModuleStatus;
     MenrvaEffectsEngine* EffectsEngine;
+    CommandProcessor* CommandProcessor;
 
     uint32_t ChannelLength;
     AudioInputBuffer* InputBuffer;
