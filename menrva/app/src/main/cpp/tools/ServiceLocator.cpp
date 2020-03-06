@@ -20,6 +20,8 @@
 #include "ServiceLocator.h"
 #include "AndroidLogger.h"
 #include "../fft/KfrInterface.h"
+#include "../convolver/ConvolutionOperations.h"
+
 /**#include "../fft/FftwInterface.h"
 #include "../fft/KissFftInterface.h"/**/
 

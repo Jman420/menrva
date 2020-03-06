@@ -23,9 +23,10 @@
 #include "../tools/LoggingBase.h"
 #include "../fft/FftInterfaceBase.h"
 #include "../audio/AudioBuffer.h"
-#include "ConvolutionOperations.h"
+#include "ConvolutionOperationsBase.h"
 
-class Convolver : public LoggingBase {
+class Convolver
+        : public LoggingBase {
 public:
     Convolver(LoggerBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();

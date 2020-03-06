@@ -21,8 +21,6 @@
 
 #include "ConvolutionOperationsBase.h"
 #include "../tools/LoggingBase.h"
-#include "../audio/AudioBuffer.h"
-#include "../audio/AudioComponentsBuffer.h"
 
 class ConvolutionOperations : public ConvolutionOperationsBase,
                               public LoggingBase {
