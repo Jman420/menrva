@@ -16,11 +16,12 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMANDHANDLERBASE_H
-#define MENRVA_COMMANDHANDLERBASE_H
+#ifndef MENRVA_COMMAND_HANDLER_BASE_H
+#define MENRVA_COMMAND_HANDLER_BASE_H
 
+#include "../tools/LoggingBase.h"
 #include "../commands/CommandBase.h"
-#include "../hosts/android/AndroidInterface.h"
+#include "../hosts/ModuleStructures.h"
 
 class CommandHandlerBase
         : public LoggingBase {
@@ -41,4 +42,4 @@ protected:
     int32_t _ReturnValue;
 };
 
-#endif //MENRVA_COMMANDHANDLERBASE_H
+#endif //MENRVA_COMMAND_HANDLER_BASE_H

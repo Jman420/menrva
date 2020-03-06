@@ -17,6 +17,7 @@
  */
 
 #include "Module_GetConfig_Handler.h"
+#include "../hosts/android/AndroidInterface.h"
 
 Module_GetConfig_Handler::Module_GetConfig_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {

@@ -18,6 +18,7 @@
 
 #include "Android_GetConfig_Handler.h"
 #include "../commands/AndroidHost_Generic_Command.h"
+#include "../AndroidInterface.h"
 
 Android_GetConfig_Handler::Android_GetConfig_Handler(LoggerBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {

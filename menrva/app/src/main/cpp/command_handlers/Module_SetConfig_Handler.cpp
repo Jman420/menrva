@@ -18,6 +18,7 @@
 
 #include "Module_SetConfig_Handler.h"
 #include "../tools/StringOperations.h"
+#include "../hosts/android/AndroidInterface.h"
 
 Module_SetConfig_Handler::Module_SetConfig_Handler(LoggerBase* logger)
         : TypedCommandHandlerBase(new Android_SystemCommand_Command(), logger, __PRETTY_FUNCTION__) {
