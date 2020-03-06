@@ -20,7 +20,6 @@
 #define MENRVA_MODULE_INIT_HANDLER_H
 
 #include "TypedCommandHandlerBase.h"
-#include "../commands/MenrvaCommands.h"
 #include "../commands/Android_SystemCommand_Command.h"
 
 class Module_Init_Handler
