@@ -1,5 +1,5 @@
 /* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018, 2019 Justin Giannone (aka Jman420)
+ * Copyright (C) 2018 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,9 +16,34 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "CommandIds.h"
-#include "../hosts/android/aosp/aosp_audio_effect_defs.h"
+#ifndef MENRVA_SERVICE_LOCATOR_H
+#define MENRVA_SERVICE_LOCATOR_H
 
-uint32_t CommandIds::Calculate(MenrvaCommands command) {
-    return EFFECT_CMD_FIRST_PROPRIETARY + command;
-}
+#include "../log/LoggerBase.h"
+#include "../fft/FftInterfaceBase.h"
+#include "../ir/FirGenerator.h"
+#include "../convolver/Convolver.h"
+
+enum FftEngineType {
+    KFR,
+    FFTW,
+    KISS_FFT,
+};
+
+class ServiceLocator {
+public:
+    FftEngineType _FftEngineType;
+
+    ServiceLocator();
+
+    LoggerBase* GetLogger();
+    FftInterfaceBase* GetFftEngine();
+    FirGenerator* GetFirGenerator();
+    ConvolutionOperationsBase* GetConvolutionOperations();
+    Convolver* GetConvolver();
+
+private:
+    static LoggerBase* _Logger;
+};
+
+#endif //MENRVA_SERVICE_LOCATOR_H

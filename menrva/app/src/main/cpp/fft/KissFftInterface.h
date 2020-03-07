@@ -21,7 +21,7 @@
 
 #include <map>
 #include "FftInterfaceBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 #include "KissFftFunctions.h"
 
 typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;

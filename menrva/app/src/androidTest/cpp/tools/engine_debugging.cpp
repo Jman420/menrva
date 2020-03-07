@@ -19,7 +19,7 @@
 #include "engine_debugging.h"
 #include "test_helper.h"
 #include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/tools/ServiceLocator.h"
+#include "../../../main/cpp/hosts/ServiceLocator.h"
 #include "../../../main/cpp/ir/WaveGenerator.h"
 #include "../../../main/cpp/hosts/android/AndroidInterface.h"
 

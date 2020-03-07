@@ -20,7 +20,7 @@
 #define MENRVA_MASTER_LIMITER_H
 
 #include "MultiChannelEffectBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 
 class MasterLimiter : public MultiChannelEffectBase,
                       public LoggingBase {

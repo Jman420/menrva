@@ -20,8 +20,8 @@
 #define MENRVA_MODULE_INTERFACE_H
 
 #include "AndroidStructures.h"
-#include "../../tools/ServiceLocator.h"
-#include "../../tools/LoggerBase.h"
+#include "../ServiceLocator.h"
+#include "../../log/LoggerBase.h"
 
 class AndroidInterface {
 public:

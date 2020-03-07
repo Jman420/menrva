@@ -19,7 +19,7 @@
 #ifndef MENRVA_COMMAND_HANDLER_BASE_H
 #define MENRVA_COMMAND_HANDLER_BASE_H
 
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 #include "../commands/CommandBase.h"
 #include "../hosts/ModuleStructures.h"
 

@@ -16,34 +16,26 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../BuildConfig.h"
-#include "ServiceLocator.h"
-#include "AndroidLogger.h"
-#include "../fft/KfrInterface.h"
-#include "../convolver/ConvolutionOperations.h"
+#ifndef MENRVA_ANDROID_LOGGER_H
+#define MENRVA_ANDROID_LOGGER_H
 
-LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
+#include <map>
+#include "../../HostLogger.h"
 
-ServiceLocator::ServiceLocator() {
-    _FftEngineType = FftEngineType::KFR;
-}
+class AndroidLogger
+        : public HostLogger {
+public:
+    AndroidLogger();
 
-LoggerBase* ServiceLocator::GetLogger() {
-    return _Logger;
-}
+protected:
+    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
 
-FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    return new KfrInterface(GetLogger());
-}
+private:
+    static const std::string LOG_ELEMENT_DELIMITER,
+                             FUNCTION_SUFFIX;
+    static bool _Initialized;
 
-FirGenerator* ServiceLocator::GetFirGenerator() {
-    return new FirGenerator(GetLogger(), GetFftEngine());
-}
+    void Initialize();
+};
 
-ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {
-    return new ConvolutionOperations(GetLogger());
-}
-
-Convolver* ServiceLocator::GetConvolver() {
-    return new Convolver(GetLogger(), GetFftEngine(), GetConvolutionOperations());
-}
+#endif //MENRVA_ANDROID_LOGGER_H

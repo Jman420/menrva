@@ -22,7 +22,7 @@
 #include <map>
 #include "FftwFunctions.h"
 #include "FftInterfaceBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 
 typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 

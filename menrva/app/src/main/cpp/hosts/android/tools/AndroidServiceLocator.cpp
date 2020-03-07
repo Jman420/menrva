@@ -16,30 +16,33 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_BASS_BOOST_H
-#define MENRVA_BASS_BOOST_H
+#include "../../ServiceLocator.h"
+#include "../log/AndroidLogger.h"
+#include "../../../fft/KfrInterface.h"
+#include "../../../convolver/ConvolutionOperations.h"
 
-#include "SingleChannelEffectBase.h"
-#include "../log/LoggingBase.h"
-#include "../ir/FirGenerator.h"
-#include "../convolver/Convolver.h"
+LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
-class BassBoost
-        : public SingleChannelEffectBase,
-          public LoggingBase {
-public:
-    BassBoost(LoggerBase* logger, FirGenerator* firGenerator, Convolver* convolver);
-    ~BassBoost() override;
+ServiceLocator::ServiceLocator() {
+    _FftEngineType = FftEngineType::KFR;
+}
 
-    void Process(AudioBuffer& input, AudioBuffer& output) override;
-    void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;
-    void ConfigureSetting(char* settingName, void* value) override;
+LoggerBase* ServiceLocator::GetLogger() {
+    return _Logger;
+}
 
-private:
-    static const std::string EFFECT_NAME;
+FftInterfaceBase* ServiceLocator::GetFftEngine() {
+    return new KfrInterface(GetLogger());
+}
 
-    FirGenerator* _FirGenerator;
-    Convolver* _Convolver;
-};
+FirGenerator* ServiceLocator::GetFirGenerator() {
+    return new FirGenerator(GetLogger(), GetFftEngine());
+}
 
-#endif //MENRVA_BASS_BOOST_H
+ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {
+    return new ConvolutionOperations(GetLogger());
+}
+
+Convolver* ServiceLocator::GetConvolver() {
+    return new Convolver(GetLogger(), GetFftEngine(), GetConvolutionOperations());
+}

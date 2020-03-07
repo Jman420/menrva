@@ -19,8 +19,8 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-#include "../tools/LoggingBase.h"
-#include "../tools/ServiceLocator.h"
+#include "../log/LoggingBase.h"
+#include "../hosts/ServiceLocator.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
 #include "../effects/SingleChannelEffectsBundle.h"

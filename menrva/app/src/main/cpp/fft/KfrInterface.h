@@ -21,7 +21,7 @@
 
 #include <kfr/dft.hpp>
 #include "FftInterfaceBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 #include "../audio/AudioBuffer.h"
 #include "../audio/AudioComponentsBuffer.h"
 

@@ -20,7 +20,7 @@
 #define MENRVA_EQUALIZER_H
 
 #include "SingleChannelEffectBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 
 class Equalizer : public SingleChannelEffectBase,
                   public LoggingBase {

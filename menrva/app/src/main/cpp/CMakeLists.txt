@@ -56,15 +56,13 @@ add_library(
         MenrvaEngine
         SHARED
 
-        tools/LoggerBase.cpp
-        tools/LoggingBase.cpp
-        tools/AndroidLogger.cpp
-        tools/ServiceLocator.cpp
+        log/LoggerBase.cpp
+        log/LoggingBase.cpp
+
+        tools/StringOperations.cpp
         tools/MathOperations.cpp
         tools/Buffer.cpp
         tools/ConversionBuffer.cpp
-        tools/CommandIds.cpp
-        tools/StringOperations.cpp
 
         audio/AudioBuffer.cpp
         audio/AudioIOBufferBase.cpp
@@ -99,6 +97,11 @@ add_library(
         engine/EffectsEngine.cpp
         engine/CommandHandlerMap.cpp
         engine/CommandProcessor.cpp
+
+        #----------- Android Host Specific Implementations -----------
+        hosts/android/log/AndroidLogger.cpp
+        hosts/android/tools/AndroidCommandIdCalculator.cpp
+        hosts/android/tools/AndroidServiceLocator.cpp
 
         hosts/android/commands/AndroidHost_Generic_Command.cpp
 

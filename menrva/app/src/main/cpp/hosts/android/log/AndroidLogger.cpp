@@ -24,7 +24,8 @@ const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
 
 bool AndroidLogger::_Initialized = false;
 
-AndroidLogger::AndroidLogger() : LoggerBase() {
+AndroidLogger::AndroidLogger()
+        : HostLogger() {
     Initialize();
 }
 

@@ -24,7 +24,7 @@
 #include "AudioFormat.h"
 #include "AudioIOBufferBase.h"
 #include "../tools/ConversionBuffer.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 
 union audio_input_buffer_u {
     ConversionBuffer<int16_t, sample>* PCM_16;

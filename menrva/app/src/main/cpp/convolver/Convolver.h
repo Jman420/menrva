@@ -20,7 +20,7 @@
 #define MENRVA_CONVOLVER_H
 
 #include <cstddef>
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 #include "../fft/FftInterfaceBase.h"
 #include "../audio/AudioBuffer.h"
 #include "ConvolutionOperationsBase.h"

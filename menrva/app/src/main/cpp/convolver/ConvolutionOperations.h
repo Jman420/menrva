@@ -20,7 +20,7 @@
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
 #include "ConvolutionOperationsBase.h"
-#include "../tools/LoggingBase.h"
+#include "../log/LoggingBase.h"
 
 class ConvolutionOperations : public ConvolutionOperationsBase,
                               public LoggingBase {

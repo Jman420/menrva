@@ -18,7 +18,7 @@
 
 #include <cerrno>
 #include "AndroidInterface.h"
-#include "../../tools/ServiceLocator.h"
+#include "../ServiceLocator.h"
 #include "../../tools/StringOperations.h"
 #include "../../engine/CommandProcessor.h"
 #include "command_handlers/Android_InitEngine_Handler.h"

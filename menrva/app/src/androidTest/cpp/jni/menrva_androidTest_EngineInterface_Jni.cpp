@@ -18,7 +18,7 @@
 
 #include <jni.h>
 #include "../../../main/cpp/BuildConfig.h"
-#include "../../../main/cpp/tools/ServiceLocator.h"
+#include "../../../main/cpp/hosts/ServiceLocator.h"
 
 extern "C"
 JNIEXPORT jint JNICALL

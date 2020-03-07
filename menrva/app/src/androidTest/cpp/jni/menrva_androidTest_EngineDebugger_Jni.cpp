@@ -20,7 +20,7 @@
 #include "../tools/test_helper.h"
 #include "../tools/engine_debugging.h"
 #include "../../../main/cpp/audio/Sample.h"
-#include "../../../main/cpp/tools/ServiceLocator.h"
+#include "../../../main/cpp/hosts/ServiceLocator.h"
 #include "../../../main/cpp/ir/FirGenerator.h"
 #include "../../../main/cpp/effects/BassBoost.h"
 #include "../../../main/cpp/ir/WaveGenerator.h"
