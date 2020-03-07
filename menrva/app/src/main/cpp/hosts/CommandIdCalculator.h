@@ -16,10 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_COMMAND_IDS_H
-#define MENRVA_COMMAND_IDS_H
+#ifndef MENRVA_COMMAND_ID_CALCULATOR_H
+#define MENRVA_COMMAND_ID_CALCULATOR_H
 
-#include "../../../../../../../../../../../Users/jgiannone/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/cstdint"
+#include <cstdint>
 #include "../commands/MenrvaCommands.h"
 
 class CommandIdCalculator {
@@ -27,4 +27,4 @@ public:
     static uint32_t Calculate(MenrvaCommands command);
 };
 
-#endif //MENRVA_COMMAND_IDS_H
+#endif //MENRVA_COMMAND_ID_CALCULATOR_H

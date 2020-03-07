@@ -22,8 +22,9 @@
 #include "SingleChannelEffectBase.h"
 #include "../log/LoggingBase.h"
 
-class Equalizer : public SingleChannelEffectBase,
-                  public LoggingBase {
+class Equalizer
+        : public SingleChannelEffectBase,
+          public LoggingBase {
 public:
     explicit Equalizer(LoggerBase* logger);
 

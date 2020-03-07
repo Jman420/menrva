@@ -22,8 +22,9 @@
 #include "MultiChannelEffectBase.h"
 #include "../log/LoggingBase.h"
 
-class StereoWidener : public MultiChannelEffectBase,
-                      public LoggingBase {
+class StereoWidener
+        : public MultiChannelEffectBase,
+          public LoggingBase {
 public:
     explicit StereoWidener(LoggerBase* logger);
 

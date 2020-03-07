@@ -22,7 +22,8 @@
 #include "BassBoost.h"
 #include "Equalizer.h"
 
-enum class SingleChannelEffectIndexes : uint8_t {
+enum class SingleChannelEffectIndexes
+        : uint8_t {
     BASS_BOOST = 0,
     EQUALIZER,
 

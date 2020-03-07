@@ -22,8 +22,9 @@
 #include "ConvolutionOperationsBase.h"
 #include "../log/LoggingBase.h"
 
-class ConvolutionOperations : public ConvolutionOperationsBase,
-                              public LoggingBase {
+class ConvolutionOperations
+        : public ConvolutionOperationsBase,
+          public LoggingBase {
 public:
     explicit ConvolutionOperations(LoggerBase* logger);
 

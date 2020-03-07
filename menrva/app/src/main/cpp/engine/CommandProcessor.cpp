@@ -64,6 +64,6 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
     return returnValue;
 }
 
-CommandHandlerMap *CommandProcessor::GetCommandHandlerMap() {
+CommandHandlerMap* CommandProcessor::GetCommandHandlerMap() {
     return _CommandHandlerMap;
 }

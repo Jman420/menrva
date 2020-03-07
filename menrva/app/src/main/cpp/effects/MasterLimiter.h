@@ -22,8 +22,9 @@
 #include "MultiChannelEffectBase.h"
 #include "../log/LoggingBase.h"
 
-class MasterLimiter : public MultiChannelEffectBase,
-                      public LoggingBase {
+class MasterLimiter
+        : public MultiChannelEffectBase,
+          public LoggingBase {
 public:
     explicit MasterLimiter(LoggerBase* logger);
 

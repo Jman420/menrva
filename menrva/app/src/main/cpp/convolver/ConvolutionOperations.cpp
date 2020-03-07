@@ -73,9 +73,7 @@ void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& buffe
     _Logger->WriteLog(StringOperations::FormatString("Successfully Summed and Scaled AudioBuffers by (%f)!", scalar), LOG_SENDER, __func__);
 }
 
-void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA,
-                                                      AudioComponentsBuffer& bufferB,
-                                                      AudioComponentsBuffer& output) {
+void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& bufferA, AudioComponentsBuffer& bufferB, AudioComponentsBuffer& output) {
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
     if (output.GetLength() > bufferA.GetLength()) {
         std::string msg = StringOperations::FormatString("Unable to Multiply and Accumulate Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", output.GetLength(), bufferA.GetLength());

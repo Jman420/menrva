@@ -24,18 +24,8 @@
 #include "../ir/FirGenerator.h"
 #include "../convolver/Convolver.h"
 
-enum FftEngineType {
-    KFR,
-    FFTW,
-    KISS_FFT,
-};
-
 class ServiceLocator {
 public:
-    FftEngineType _FftEngineType;
-
-    ServiceLocator();
-
     LoggerBase* GetLogger();
     FftInterfaceBase* GetFftEngine();
     FirGenerator* GetFirGenerator();

@@ -20,7 +20,7 @@
 #include "EffectBase.h"
 
 EffectBase::EffectBase(std::string name)
-    : NAME(std::move(name)) {
+        : NAME(std::move(name)) {
     Enabled = false;
 }
 

@@ -23,10 +23,6 @@
 
 LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
 
-ServiceLocator::ServiceLocator() {
-    _FftEngineType = FftEngineType::KFR;
-}
-
 LoggerBase* ServiceLocator::GetLogger() {
     return _Logger;
 }

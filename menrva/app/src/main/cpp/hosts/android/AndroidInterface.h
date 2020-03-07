@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_MODULE_INTERFACE_H
-#define MENRVA_MODULE_INTERFACE_H
+#ifndef MENRVA_ANDROID_INTERFACE_H
+#define MENRVA_ANDROID_INTERFACE_H
 
 #include "AndroidStructures.h"
 #include "../ServiceLocator.h"
@@ -48,4 +48,4 @@ private:
     AndroidInterface() = default;
 };
 
-#endif //MENRVA_MODULE_INTERFACE_H
+#endif //MENRVA_ANDROID_INTERFACE_H

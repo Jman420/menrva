@@ -22,7 +22,7 @@
 using namespace kfr;
 
 KfrInterface::KfrInterface(LoggerBase* logger)
-    : LoggingBase(logger, __PRETTY_FUNCTION__) {
+        : LoggingBase(logger, __PRETTY_FUNCTION__) {
     _Initialized = false;
 }
 
