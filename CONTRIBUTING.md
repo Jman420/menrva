@@ -44,8 +44,7 @@ See [Calculation Precision](README.md#calculation-precision) for details about C
   - Execute [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
 
 ## Generating Magisk Module Zip
-  - Download latest MMT-Ex (Magisk Module Template Extended) from [https://github.com/Zackptg5/MMT-Extended](https://github.com/Zackptg5/MMT-Extended) (downloading the entire repository as a Zip File will suffice)
-  - Extract the contents of the folder in the Zip File (something like 'MMT-Extended-master') to /MMT-Ex/
+  - Execute the [scripts/prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) script to download and extract the MMT-EX Template
   - Execute the [scripts/generate_magisk_module.ps1](scripts/generate_magisk_module.ps1) script to generate the Magisk Module Zip
   - Magisk Module Zip will be in /artifacts/ directory
 
