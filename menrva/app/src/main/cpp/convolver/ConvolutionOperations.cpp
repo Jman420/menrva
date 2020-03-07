@@ -89,11 +89,11 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
     }
 
     sample* bufferAReal = bufferA.GetRealBuffer()->GetData();
-    sample* bufferAImag = bufferA.GetImagBuffer()->GetData();
+    sample* bufferAImag = bufferA.GetImaginaryBuffer()->GetData();
     sample* bufferBReal = bufferB.GetRealBuffer()->GetData();
-    sample* bufferBImag = bufferB.GetImagBuffer()->GetData();
+    sample* bufferBImag = bufferB.GetImaginaryBuffer()->GetData();
     sample* outputReal = output.GetRealBuffer()->GetData();
-    sample* outputImag = output.GetImagBuffer()->GetData();
+    sample* outputImag = output.GetImaginaryBuffer()->GetData();
 
     for (int sampleCounter = 0; sampleCounter < output.GetLength(); sampleCounter++) {
         sample valueAReal = bufferAReal[sampleCounter];

@@ -103,11 +103,11 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
                               LOG_SENDER, __func__, LogLevel::VERBOSE);
 
             fftFrequencies.SetRealValue(elementCounter, realFreqData);
-            fftFrequencies.SetImagValue(elementCounter, imaginaryFreqData * -WaveGeneratorConstants::ONE);
+            fftFrequencies.SetImaginaryValue(elementCounter, imaginaryFreqData * -WaveGeneratorConstants::ONE);
 
             size_t reverseElementCounter = fftFrequencyLength - elementCounter - 1;
             fftFrequencies.SetRealValue(reverseElementCounter, realFreqData);
-            fftFrequencies.SetImagValue(reverseElementCounter, imaginaryFreqData);
+            fftFrequencies.SetImaginaryValue(reverseElementCounter, imaginaryFreqData);
             _Logger->WriteLog(StringOperations::FormatString("Successfully set Real & Imaginary Values for Element Indexes (%d) and (%d)!", elementIndex, reverseElementCounter),
                               LOG_SENDER, __func__, LogLevel::VERBOSE);
         }

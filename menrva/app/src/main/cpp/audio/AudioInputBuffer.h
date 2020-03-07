@@ -32,8 +32,9 @@ union audio_input_buffer_u {
     ConversionBuffer<float, sample>* PCM_Float;
 };
 
-class AudioInputBuffer : public LoggingBase,
-                         public AudioIOBufferBase {
+class AudioInputBuffer
+        : public LoggingBase,
+          public AudioIOBufferBase {
 public:
     explicit AudioInputBuffer(LoggerBase* logger);
     AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);

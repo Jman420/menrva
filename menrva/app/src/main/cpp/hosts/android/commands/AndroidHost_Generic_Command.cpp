@@ -20,4 +20,4 @@
 #include "../../../commands/MenrvaCommands.h"
 
 AndroidHost_Generic_Command::AndroidHost_Generic_Command()
-        : CommandBase(MenrvaCommands::Android_SystemCommand, nullptr, nullptr) {}
+        : CommandBase(MenrvaCommands::Host_Generic_Command, nullptr, nullptr) {}

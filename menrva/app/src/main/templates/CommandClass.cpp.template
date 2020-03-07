@@ -27,4 +27,4 @@
 #include "<CommandEnumFile>.h"
 
 <CommandName>_Command::<CommandName>_Command()
-        : TypedCommandBase(<CommandEnumFile>::<CommandName>, new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) { }
+        : TypedCommandBase(<CommandEnumFile>::<CommandName>, new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) {}

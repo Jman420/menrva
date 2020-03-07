@@ -27,6 +27,7 @@
 #define MENRVA_MENRVA_COMMANDS_ENUM_H
 
 enum MenrvaCommands {
+    Host_Generic_Command = 0,
 <EnumEntry>
 };
 

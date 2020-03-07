@@ -33,8 +33,9 @@ union audio_output_buffer_u {
     Buffer<float>* PCM_Float;
 };
 
-class AudioOutputBuffer : public LoggingBase,
-                          public AudioIOBufferBase {
+class AudioOutputBuffer
+        : public LoggingBase,
+          public AudioIOBufferBase {
 public:
     explicit AudioOutputBuffer(LoggerBase* logger);
     AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);

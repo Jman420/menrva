@@ -32,7 +32,7 @@ public:
     CommandBase* GetCommand();
     int32_t GetReturnValue();
 
-    virtual bool DeserializeRequest(void *data, int length);
+    virtual bool DeserializeRequest(void* data, int length);
     virtual uint32_t SerializeResponse(void* responseBuffer);
 
     virtual void Execute(ModuleContext& context) = 0;
