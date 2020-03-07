@@ -109,8 +109,8 @@ add_library(
 
         hosts/android/AndroidInterface.cpp
 
-        jni/menrva_activities_JniInterface.cpp
-        jni/menrva_service_JniInterface.cpp
+        hosts/android/jni/menrva_activities_JniInterface.cpp
+        hosts/android/jni/menrva_service_JniInterface.cpp
 )
 target_include_directories(
         MenrvaEngine

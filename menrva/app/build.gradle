@@ -31,7 +31,7 @@ android {
     }
     sourceSets {
         main {
-            jni.srcDirs = ['src/main/cpp/jni/', 'src/androidTest/cpp/jni/']
+            jni.srcDirs = ['src/main/cpp/hosts/android/jni', 'src/androidTest/cpp/jni/']
         }
     }
     compileOptions {
