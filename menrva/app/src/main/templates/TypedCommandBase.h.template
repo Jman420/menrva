@@ -34,7 +34,8 @@ using google::protobuf::MessageLite;
 typedef char byte;
 
 template <class TRequest, class TResponse>
-class TypedCommandBase : public CommandBase {
+class TypedCommandBase
+        : public CommandBase {
 public:
     TypedCommandBase(int commandId, TRequest* request, TResponse* response);
 

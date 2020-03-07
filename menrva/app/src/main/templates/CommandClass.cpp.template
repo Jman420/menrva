@@ -25,6 +25,8 @@
 
 #include "<CommandName>_Command.h"
 #include "<CommandEnumFile>.h"
+#include "../hosts/CommandIdCalculator.h"
 
 <CommandName>_Command::<CommandName>_Command()
-        : TypedCommandBase(<CommandEnumFile>::<CommandName>, new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) {}
+        : TypedCommandBase(CommandIdCalculator::Calculate(<CommandEnumFile>::<CommandName>),
+                           new messages::<CommandName>_Request(), new messages::<CommandName>_Response()) {}

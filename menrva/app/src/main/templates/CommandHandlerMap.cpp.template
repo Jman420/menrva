@@ -46,10 +46,10 @@ CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
     return cmdFunction->second;
 }
 
-#include "../tools/CommandIds.h"
 <HandlerMapIncludes>
 
 void CommandHandlerMap::Initialize(LoggerBase* logger) {
     handler_map& handlerMap = *_HandlerMap;
+    CommandHandlerBase* commandHandler = nullptr;
 <HandlerMapEntries>
 }

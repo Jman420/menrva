@@ -1,1 +1,1 @@
-    handlerMap.insert(handler_map::value_type(CommandIds::Calculate(MenrvaCommands::<CommandName>), new <CommandName>_Handler(logger)));
+    commandHandler = new <CommandName>_Handler(logger); handlerMap.insert(handler_map::value_type(commandHandler->GetCommand()->GetCommandId(), commandHandler));
