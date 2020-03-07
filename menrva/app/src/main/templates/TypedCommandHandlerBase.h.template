@@ -32,7 +32,7 @@ template <class TCommand>
 class TypedCommandHandlerBase
         : public CommandHandlerBase {
 public:
-    TypedCommandHandlerBase(TCommand* command, LoggerBase* logger, std::string prettyFunction);
+    TypedCommandHandlerBase(TCommand* command, LogWriterBase* logger, std::string prettyFunction);
 
     TCommand* GetTypedCommand();
 

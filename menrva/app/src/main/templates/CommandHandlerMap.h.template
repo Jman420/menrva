@@ -33,7 +33,7 @@ typedef std::map<uint32_t, CommandHandlerBase*> handler_map;
 
 class CommandHandlerMap {
 public:
-    CommandHandlerMap(LoggerBase* logger);
+    CommandHandlerMap(LogWriterBase* logger);
 
     handler_map* GetMap();
     CommandHandlerBase* GetCommandHandler(uint32_t commandId);
@@ -41,7 +41,7 @@ public:
 private:
     handler_map* _HandlerMap;
 
-    void Initialize(LoggerBase* logger);
+    void Initialize(LogWriterBase* logger);
 };
 
 #endif //MENRVA_COMMAND_HANDLER_MAP_H

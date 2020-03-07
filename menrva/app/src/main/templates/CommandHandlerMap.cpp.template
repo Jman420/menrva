@@ -26,7 +26,7 @@
 #include "CommandHandlerMap.h"
 #include "../commands/MenrvaCommands.h"
 
-CommandHandlerMap::CommandHandlerMap(LoggerBase* logger) {
+CommandHandlerMap::CommandHandlerMap(LogWriterBase* logger) {
     _HandlerMap = new handler_map();
     Initialize(logger);
 }
@@ -48,7 +48,7 @@ CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
 
 <HandlerMapIncludes>
 
-void CommandHandlerMap::Initialize(LoggerBase* logger) {
+void CommandHandlerMap::Initialize(LogWriterBase* logger) {
     handler_map& handlerMap = *_HandlerMap;
     CommandHandlerBase* commandHandler = nullptr;
 <HandlerMapEntries>
