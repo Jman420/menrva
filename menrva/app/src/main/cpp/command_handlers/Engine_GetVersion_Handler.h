@@ -25,9 +25,9 @@
 class Engine_GetVersion_Handler
         : public TypedCommandHandlerBase<Engine_GetVersion_Command> {
 public:
-    Engine_GetVersion_Handler(LoggerBase* logger);
+    Engine_GetVersion_Handler(LogWriterBase* logger);
 
-    virtual void Execute(MenrvaModuleContext& context) override;
+    virtual void Execute(ModuleContext& context) override;
 };
 
 #endif //MENRVA_Engine_GetVersion_HANDLER_H

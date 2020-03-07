@@ -19,15 +19,14 @@
 #ifndef MENRVA_CONVOLUTION_OPERATIONS_H
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
-#include "../abstracts/ConvolutionOperationsBase.h"
-#include "../abstracts/LoggingBase.h"
-#include "../audio/AudioBuffer.h"
-#include "../audio/AudioComponentsBuffer.h"
+#include "ConvolutionOperationsBase.h"
+#include "../log/LogProducer.h"
 
-class ConvolutionOperations : public ConvolutionOperationsBase,
-                              public LoggingBase {
+class ConvolutionOperations
+        : public ConvolutionOperationsBase,
+          public LogProducer {
 public:
-    explicit ConvolutionOperations(LoggerBase* logger);
+    explicit ConvolutionOperations(LogWriterBase* logger);
 
     void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) override;
     void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) override;

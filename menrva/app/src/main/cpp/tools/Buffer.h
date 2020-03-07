@@ -44,9 +44,7 @@ protected:
            _MemorySize;
     TInputType* _Data;
 
-    size_t CalculateMemorySize(size_t length) {
-        return sizeof(TInputType) * length;
-    }
+    size_t CalculateMemorySize(size_t length);
 };
 
 #endif //MENRVA_BUFFER_H

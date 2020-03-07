@@ -22,9 +22,10 @@
 #include <cstdint>
 #include "StereoWidener.h"
 #include "MasterLimiter.h"
-#include "../tools/ServiceLocator.h"
+#include "../hosts/ServiceLocator.h"
 
-enum class MultiChannelEffectIndexes : uint8_t {
+enum class MultiChannelEffectIndexes
+        : uint8_t {
     STEREO_WIDENER = 0,
     MASTER_LIMITER,  // Must be the last Effect Entry
 

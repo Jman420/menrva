@@ -17,12 +17,12 @@
  */
 
 #include "FftwInterface.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "FftInterfaceBase.h"
 
 FftwPlanCache* FftwInterface::_PlansCache = new FftwPlanCache();
 
-FftwInterface::FftwInterface(LoggerBase* logger) :
-        LoggingBase(logger, __PRETTY_FUNCTION__) {}
+FftwInterface::FftwInterface(LogWriterBase* logger) :
+        LogProducer(logger, __PRETTY_FUNCTION__) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {
     _Logger->WriteLog("Initializing FFTW Interface...", LOG_SENDER, __func__);

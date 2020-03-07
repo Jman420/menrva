@@ -20,15 +20,18 @@
 #define MENRVA_KFR_INTERFACE_H
 
 #include <kfr/dft.hpp>
-#include "../abstracts/FftInterfaceBase.h"
-#include "../abstracts/LoggingBase.h"
+#include "FftInterfaceBase.h"
+#include "../log/LogProducer.h"
+#include "../audio/AudioBuffer.h"
+#include "../audio/AudioComponentsBuffer.h"
 
 using namespace kfr;
 
-class KfrInterface : public FftInterfaceBase,
-                     public LoggingBase {
+class KfrInterface
+        : public FftInterfaceBase,
+          public LogProducer {
 public:
-    explicit KfrInterface(LoggerBase* logger);
+    explicit KfrInterface(LogWriterBase* logger);
     ~KfrInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;

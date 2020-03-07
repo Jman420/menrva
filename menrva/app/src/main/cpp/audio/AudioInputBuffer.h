@@ -20,11 +20,11 @@
 #define MENRVA_AUDIO_INPUT_BUFFER_H
 
 #include <cstdint>
-#include "AudioFormat.h"
 #include "Sample.h"
+#include "AudioFormat.h"
+#include "AudioIOBufferBase.h"
 #include "../tools/ConversionBuffer.h"
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/AudioIOBufferBase.h"
+#include "../log/LogProducer.h"
 
 union audio_input_buffer_u {
     ConversionBuffer<int16_t, sample>* PCM_16;
@@ -32,11 +32,12 @@ union audio_input_buffer_u {
     ConversionBuffer<float, sample>* PCM_Float;
 };
 
-class AudioInputBuffer : public LoggingBase,
-                         public AudioIOBufferBase {
+class AudioInputBuffer
+        : public LogProducer,
+          public AudioIOBufferBase {
 public:
-    explicit AudioInputBuffer(LoggerBase* logger);
-    AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);
+    explicit AudioInputBuffer(LogWriterBase* logger);
+    AudioInputBuffer(LogWriterBase* logger, AudioFormat audioFormat);
     ~AudioInputBuffer();
 
     void ResetData();

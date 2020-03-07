@@ -38,7 +38,6 @@ menrva/.idea/workspace.xml
 menrva/.idea/tasks.xml
 menrva/.idea/gradle.xml
 menrva/.idea/assetWizardSettings.xml
-menrva/.idea/dictionaries
 menrva/.idea/libraries
 menrva/.idea/caches
 
@@ -70,9 +69,12 @@ artifacts/*
 *.mp3
 
 # Ignore Protobuf Generated Source Files
-menrva/app/src/main/cpp/commands/
+menrva/app/src/main/cpp/commands/**/*
+!menrva/app/src/main/cpp/commands/CommandBase.*
+
 menrva/app/src/main/cpp/command_handlers/TypedCommandHandlerBase.*
 menrva/app/src/main/cpp/engine/CommandHandlerMap.*
+
 menrva/app/src/main/java/com/monkeystable/menrva/commands/
 
 # Ignore Libs Dependencies

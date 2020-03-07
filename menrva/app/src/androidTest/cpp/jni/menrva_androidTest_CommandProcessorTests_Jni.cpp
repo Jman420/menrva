@@ -17,25 +17,26 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/hosts/android/AndroidInterface.h"
 #include "../../../main/cpp/engine/CommandProcessor.h"
 #include "../../../main/cpp/commands/MenrvaCommands.h"
-#include "../../../main/cpp/tools/CommandIds.h"
+#include "../../../main/cpp/hosts/CommandIdCalculator.h"
 #include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
-    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    AndroidModuleInterface menrvaModuleInterface = *(AndroidModuleInterface*)menrvaEffectHandle;
+    AndroidModuleContext menrvaEngineContext = *menrvaModuleInterface.AndroidContext;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
     uint32_t responseLength = 0;
-    CommandProcessor::Process(menrvaEngineContext, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
@@ -47,15 +48,15 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEnv *env, jobject instance, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
-    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
     uint32_t responseLength = 0;
-    uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
-    CommandProcessor::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    uint32_t commandId = CommandIdCalculator::Calculate(MenrvaCommands::Engine_GetVersion);
+    menrvaEngineContext.CommandProcessor->Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);

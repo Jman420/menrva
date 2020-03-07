@@ -18,10 +18,10 @@
 
 #include "engine_debugging.h"
 #include "test_helper.h"
-#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/tools/ServiceLocator.h"
-#include "../../../main/cpp/tools/WaveGenerator.h"
-#include "../../../main/cpp/ModuleInterface.h"
+#include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/hosts/ServiceLocator.h"
+#include "../../../main/cpp/ir/WaveGenerator.h"
+#include "../../../main/cpp/hosts/android/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;
@@ -56,16 +56,16 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     }
 
     effect_handle_t menrvaEffectHandle = nullptr;
-    MenrvaModuleInterface::CreateModule(&MenrvaModuleInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    MenrvaModuleContext menrvaEngineContext = *(MenrvaModuleContext*)menrvaEffectHandle;
+    AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
+    AndroidModuleInterface menrvaModuleInterface = *(AndroidModuleInterface*)menrvaEffectHandle;
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();
-    menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
-    menrvaEngineContext.itfe->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
 
     audio_buffer_t outputBuffer;
     outputBuffer.frameCount = params.AndroidAudioFrameLength;
     outputBuffer.s16 = new int16_t[params.AndroidAudioFrameLength];
-    menrvaEngineContext.itfe->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
+    menrvaModuleInterface.effectInterface->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
 }

@@ -48,41 +48,41 @@ aux_source_directory(
         command_handlers
         COMMAND_HANDLER_SOURCES
 )
+aux_source_directory(
+        hosts/android/command_handlers
+        HOST_COMMAND_HANDLER_SOURCES
+)
 add_library(
         MenrvaEngine
         SHARED
 
-        abstracts/LoggerBase.cpp
-        abstracts/LoggingBase.cpp
-        abstracts/CommandHandlerBase.cpp
-        abstracts/FftInterfaceBase.cpp
-        abstracts/EffectBase.cpp
-        abstracts/ConvolutionOperationsBase.cpp
-        abstracts/AudioIOBufferBase.cpp
-        abstracts/SingleChannelEffectBase.cpp
-        abstracts/MultiChannelEffectBase.cpp
-        abstracts/CommandBase.cpp
+        log/LogWriterBase.cpp
+        log/LogProducer.cpp
 
-        tools/AndroidLogger.cpp
-        tools/ServiceLocator.cpp
+        tools/StringOperations.cpp
         tools/MathOperations.cpp
         tools/Buffer.cpp
         tools/ConversionBuffer.cpp
-        tools/WaveGenerator.cpp
-        tools/CommandIds.cpp
 
         audio/AudioBuffer.cpp
+        audio/AudioIOBufferBase.cpp
         audio/AudioInputBuffer.cpp
         audio/AudioOutputBuffer.cpp
         audio/AudioComponentsBuffer.cpp
 
+        ir/WaveGenerator.cpp
         ir/FirGenerator.cpp
 
+        fft/FftInterfaceBase.cpp
         fft/KfrInterface.cpp
 
+        convolver/ConvolutionOperationsBase.cpp
         convolver/ConvolutionOperations.cpp
         convolver/Convolver.cpp
 
+        effects/EffectBase.cpp
+        effects/SingleChannelEffectBase.cpp
+        effects/MultiChannelEffectBase.cpp
         effects/MasterLimiter.cpp
         effects/BassBoost.cpp
         effects/Equalizer.cpp
@@ -90,19 +90,27 @@ add_library(
         effects/SingleChannelEffectsBundle.cpp
         effects/MultiChannelEffectsBundle.cpp
 
-        ModuleInterface.cpp
-
         ${MESSAGES_SOURCES}
         ${COMMANDS_SOURCES}
         ${COMMAND_HANDLER_SOURCES}
 
-        engine/EngineInterface.cpp
         engine/EffectsEngine.cpp
         engine/CommandHandlerMap.cpp
         engine/CommandProcessor.cpp
 
-        jni/menrva_activities_JniInterface.cpp
-        jni/menrva_service_JniInterface.cpp
+        #----------- Android Host Specific Implementations -----------
+        hosts/android/log/AndroidLogger.cpp
+        hosts/android/tools/AndroidCommandIdCalculator.cpp
+        hosts/android/tools/AndroidServiceLocator.cpp
+
+        hosts/android/commands/AndroidHost_Generic_Command.cpp
+
+        ${HOST_COMMAND_HANDLER_SOURCES}
+
+        hosts/android/AndroidInterface.cpp
+
+        hosts/android/jni/menrva_activities_JniInterface.cpp
+        hosts/android/jni/menrva_service_JniInterface.cpp
 )
 target_include_directories(
         MenrvaEngine

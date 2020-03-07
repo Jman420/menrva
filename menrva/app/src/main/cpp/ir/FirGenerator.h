@@ -21,14 +21,15 @@
 
 #include <string>
 #include <cmath>
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/FftInterfaceBase.h"
+#include "../log/LogProducer.h"
+#include "../fft/FftInterfaceBase.h"
 #include "../audio/Sample.h"
 #include "../audio/AudioBuffer.h"
 
-class FirGenerator : public LoggingBase {
+class FirGenerator
+        : public LogProducer {
 public:
-    FirGenerator(LoggerBase* logger, FftInterfaceBase* fftEngine);
+    FirGenerator(LogWriterBase* logger, FftInterfaceBase* fftEngine);
     ~FirGenerator();
 
     /* Calculate() - Returns a Finite Impulse Response of size 'filterLength' based on the provided Frequency Samples & Amplitudes.

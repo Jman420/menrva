@@ -17,7 +17,6 @@
  */
 
 #include <cstring>
-#include <cassert>
 #include <stdexcept>
 #include "Buffer.h"
 #include "../audio/Sample.h"
@@ -94,6 +93,11 @@ void Buffer<TInputType>::Swap(Buffer* itemA, Buffer* itemB) {
     Buffer* temp = itemA;
     itemA = itemB;
     itemB = temp;
+}
+
+template<class TInputType>
+size_t Buffer<TInputType>::CalculateMemorySize(size_t length) {
+    return sizeof(TInputType) * length;
 }
 
 template class Buffer<int16_t>;

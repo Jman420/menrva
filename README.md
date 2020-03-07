@@ -1,6 +1,7 @@
-# menrva
-Android Audio Effect Engine supporting Plug'n'Play style DSP Effects
 [Home](https://github.com/Jman420/menrva)
+
+# Menrva
+Android Audio Effect Engine supporting Plug'n'Play style DSP Effects
 
 ## Description
 This project is an Android Audio Effect Module which contains various tunable audio effects.  The goal of this project is to allow end users to easily tune the audio produced by their Android Device using powerful Digital Signal Processing algorithms.  This project is in the same realm as Viper4Android and JamesDSP.

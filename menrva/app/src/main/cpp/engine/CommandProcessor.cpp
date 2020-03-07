@@ -18,42 +18,52 @@
 
 #include <cerrno>
 #include "CommandProcessor.h"
-#include "../tools/CommandIds.h"
-#include "../commands/MenrvaCommands.h"
-#include "../commands/messages/Engine_GetVersion.pb.h"
-#include "../commands/Engine_GetVersion_Command.h"
-#include "../command_handlers/Engine_GetVersion_Handler.h"
+#include "../tools/StringOperations.h"
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
-ServiceLocator* CommandProcessor::_ServiceLocator = new ServiceLocator();
-LoggerBase* CommandProcessor::_Logger = _ServiceLocator->GetLogger();
-CommandHandlerMap* CommandProcessor::_HandlerMap = new CommandHandlerMap(_Logger);
 
-int CommandProcessor::Process(MenrvaModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
-    _Logger->WriteLog("Processing Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
-    if (context.ModuleStatus != MenrvaModuleStatus::MENRVA_MODULE_READY){
-        _Logger->WriteLog("Skipping Processing Command Id (%u).  Module Status is invalid.", LOG_SENDER, __func__, LogLevel::ERROR, cmdCode);
+CommandProcessor::CommandProcessor(LogWriterBase *logger) {
+    _Logger = logger;
+    _CommandHandlerMap = new CommandHandlerMap(_Logger);
+}
+
+int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
+    _Logger->WriteLog(StringOperations::FormatString("Processing Command Id (%u)...", cmdCode),
+                      LOG_SENDER, __func__);
+    if (context.ModuleStatus == ModuleStatus::RELEASING || context.ModuleStatus == ModuleStatus::INITIALIZING) {
+        _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Command Id (%u).  Module Status is invalid.", cmdCode),
+                          LOG_SENDER, __func__, LogLevel::ERROR);
         return -EINVAL;
     }
 
-    _Logger->WriteLog("Looking up Handler for Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
-    CommandHandlerBase* handlerPtr = CommandProcessor::_HandlerMap->GetCommandHandler(cmdCode);
+    _Logger->WriteLog(StringOperations::FormatString("Looking up Handler for Command Id (%u)...", cmdCode),
+                      LOG_SENDER, __func__);
+    CommandHandlerBase* handlerPtr = _CommandHandlerMap->GetCommandHandler(cmdCode);
     if (handlerPtr == nullptr) {
-        _Logger->WriteLog("Unable to find Handler for Command Id (%u).  Skipping processing command.", LOG_SENDER, __func__, LogLevel::WARN, cmdCode);
+        _Logger->WriteLog(StringOperations::FormatString("Unable to find Handler for Command Id (%u).  Skipping processing command.", cmdCode),
+                          LOG_SENDER, __func__, LogLevel::WARN);
         return 0;
     }
 
-    _Logger->WriteLog("Function found for Command Id (%u).  Initializing Handler...", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog(StringOperations::FormatString("Function found for Command Id (%u).  Initializing Handler...", cmdCode),
+                      LOG_SENDER, __func__);
     CommandHandlerBase& handler = *handlerPtr;
     handler.DeserializeRequest(pCmdData, cmdSize);
 
-    _Logger->WriteLog("Executing Command Handler for Command Id (%u)...", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog(StringOperations::FormatString("Executing Command Handler for Command Id (%u)...", cmdCode),
+                      LOG_SENDER, __func__);
     handler.Execute(context);
     int32_t returnValue = handler.GetReturnValue();
 
-    _Logger->WriteLog("Successfully Processed Command Id (%u) with result (%u).  Serializing Response...", LOG_SENDER, __func__, cmdCode, returnValue);
+    _Logger->WriteLog(StringOperations::FormatString("Successfully Processed Command Id (%u) with result (%u).  Serializing Response...", cmdCode, returnValue),
+                      LOG_SENDER, __func__);
     *replySize = handler.SerializeResponse(pReplyData);
 
-    _Logger->WriteLog("Successfully Serialized Response for Command Id (%u).", LOG_SENDER, __func__, cmdCode);
+    _Logger->WriteLog(StringOperations::FormatString("Successfully Serialized Response for Command Id (%u).", cmdCode),
+                      LOG_SENDER, __func__);
     return returnValue;
+}
+
+CommandHandlerMap* CommandProcessor::GetCommandHandlerMap() {
+    return _CommandHandlerMap;
 }

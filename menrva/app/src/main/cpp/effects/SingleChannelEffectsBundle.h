@@ -19,11 +19,11 @@
 #ifndef MENRVA_EFFECTS_BUNDLE_H
 #define MENRVA_EFFECTS_BUNDLE_H
 
-#include "../tools/ServiceLocator.h"
 #include "BassBoost.h"
 #include "Equalizer.h"
 
-enum class SingleChannelEffectIndexes : uint8_t {
+enum class SingleChannelEffectIndexes
+        : uint8_t {
     BASS_BOOST = 0,
     EQUALIZER,
 

@@ -23,9 +23,9 @@
 #include <cstdint>
 #include "Sample.h"
 #include "AudioFormat.h"
-#include "../tools/ConversionBuffer.h"
-#include "../abstracts/LoggingBase.h"
-#include "../abstracts/AudioIOBufferBase.h"
+#include "AudioIOBufferBase.h"
+#include "../tools/Buffer.h"
+#include "../log/LogProducer.h"
 
 union audio_output_buffer_u {
     Buffer<int16_t>* PCM_16;
@@ -33,11 +33,12 @@ union audio_output_buffer_u {
     Buffer<float>* PCM_Float;
 };
 
-class AudioOutputBuffer : public LoggingBase,
-                          public AudioIOBufferBase {
+class AudioOutputBuffer
+        : public LogProducer,
+          public AudioIOBufferBase {
 public:
-    explicit AudioOutputBuffer(LoggerBase* logger);
-    AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat);
+    explicit AudioOutputBuffer(LogWriterBase* logger);
+    AudioOutputBuffer(LogWriterBase* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
     void ResetData();
