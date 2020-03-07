@@ -18,7 +18,7 @@
 
 #include "Engine_GetVersion_Handler.h"
 
-Engine_GetVersion_Handler::Engine_GetVersion_Handler(LoggerBase* logger)
+Engine_GetVersion_Handler::Engine_GetVersion_Handler(LogWriterBase* logger)
         : TypedCommandHandlerBase(new Engine_GetVersion_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Engine_GetVersion_Handler::Execute(ModuleContext& context) {

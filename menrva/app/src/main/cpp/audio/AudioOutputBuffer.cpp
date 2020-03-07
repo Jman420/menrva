@@ -20,15 +20,15 @@
 #include "../tools/Buffer.cpp"
 #include "../tools/StringOperations.h"
 
-AudioOutputBuffer::AudioOutputBuffer(LoggerBase* logger)
-        : LoggingBase(logger, __PRETTY_FUNCTION__),
+AudioOutputBuffer::AudioOutputBuffer(LogWriterBase* logger)
+        : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_output_buffer_u();
     _OutputAudioFormat = AudioFormat::Sample;
 }
 
-AudioOutputBuffer::AudioOutputBuffer(LoggerBase* logger, AudioFormat audioFormat)
-        : LoggingBase(logger, __PRETTY_FUNCTION__),
+AudioOutputBuffer::AudioOutputBuffer(LogWriterBase* logger, AudioFormat audioFormat)
+        : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_output_buffer_u();
     _OutputAudioFormat = AudioFormat::Sample;

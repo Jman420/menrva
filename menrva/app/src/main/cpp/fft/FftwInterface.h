@@ -22,14 +22,14 @@
 #include <map>
 #include "FftwFunctions.h"
 #include "FftInterfaceBase.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 
 typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
 class FftwInterface : public FftInterfaceBase,
-                      public LoggingBase {
+                      public LogProducer {
 public:
-    explicit FftwInterface(LoggerBase* logger);
+    explicit FftwInterface(LogWriterBase* logger);
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;

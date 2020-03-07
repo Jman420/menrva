@@ -24,7 +24,7 @@
 class Android_EnableEngine_Handler
         : public CommandHandlerBase {
 public:
-    Android_EnableEngine_Handler(LoggerBase *logger);
+    Android_EnableEngine_Handler(LogWriterBase *logger);
 
     virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;

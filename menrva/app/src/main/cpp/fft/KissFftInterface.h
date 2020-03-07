@@ -21,15 +21,15 @@
 
 #include <map>
 #include "FftInterfaceBase.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 #include "KissFftFunctions.h"
 
 typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
 
 class KissFftInterface : public FftInterfaceBase,
-                         public LoggingBase {
+                         public LogProducer {
 public:
-    explicit KissFftInterface(LoggerBase* logger);
+    explicit KissFftInterface(LogWriterBase* logger);
     ~KissFftInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;

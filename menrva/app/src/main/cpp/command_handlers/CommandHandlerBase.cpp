@@ -20,8 +20,8 @@
 
 using google::protobuf::MessageLite;
 
-CommandHandlerBase::CommandHandlerBase(CommandBase* command, LoggerBase* logger, std::string prettyFunction)
-        : LoggingBase(logger, prettyFunction) {
+CommandHandlerBase::CommandHandlerBase(CommandBase* command, LogWriterBase* logger, std::string prettyFunction)
+        : LogProducer(logger, prettyFunction) {
     _Command = command;
     _ReturnValue = 0;
 }

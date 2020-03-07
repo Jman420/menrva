@@ -25,7 +25,7 @@
 class Engine_GetVersion_Handler
         : public TypedCommandHandlerBase<Engine_GetVersion_Command> {
 public:
-    Engine_GetVersion_Handler(LoggerBase* logger);
+    Engine_GetVersion_Handler(LogWriterBase* logger);
 
     virtual void Execute(ModuleContext& context) override;
 };

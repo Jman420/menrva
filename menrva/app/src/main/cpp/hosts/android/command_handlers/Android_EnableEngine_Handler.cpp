@@ -19,7 +19,7 @@
 #include "Android_EnableEngine_Handler.h"
 #include "../commands/AndroidHost_Generic_Command.h"
 
-Android_EnableEngine_Handler::Android_EnableEngine_Handler(LoggerBase* logger)
+Android_EnableEngine_Handler::Android_EnableEngine_Handler(LogWriterBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Android_EnableEngine_Handler::Execute(ModuleContext& context) {

@@ -21,9 +21,9 @@
 #include "../../../fft/KfrInterface.h"
 #include "../../../convolver/ConvolutionOperations.h"
 
-LoggerBase* ServiceLocator::_Logger = new AndroidLogger();
+LogWriterBase* ServiceLocator::_Logger = new AndroidLogger();
 
-LoggerBase* ServiceLocator::GetLogger() {
+LogWriterBase* ServiceLocator::GetLogger() {
     return _Logger;
 }
 

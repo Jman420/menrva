@@ -18,12 +18,12 @@
 
 #include "FirGenerator.h"
 #include "WaveGeneratorConstants.h"
-#include "../tools/MathOperations.h"
 #include "../audio/AudioComponentsBuffer.h"
+#include "../tools/MathOperations.h"
 #include "../tools/StringOperations.h"
 
-FirGenerator::FirGenerator(LoggerBase* logger, FftInterfaceBase *fftEngine)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+FirGenerator::FirGenerator(LogWriterBase* logger, FftInterfaceBase *fftEngine)
+        : LogProducer(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
 }
 

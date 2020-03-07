@@ -22,8 +22,8 @@
 #include "../BuildConfig.h"
 #include "../tools/StringOperations.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {
+MenrvaEffectsEngine::MenrvaEffectsEngine(LogWriterBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
+        : LogProducer(logger, __PRETTY_FUNCTION__) {
     _ServiceLocator = serviceLocator;
     _FftEngine = fftEngine;
     _EngineStatus = MenrvaEngineStatus::UNCONFIGURED;

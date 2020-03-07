@@ -20,13 +20,13 @@
 #define MENRVA_STEREO_WIDENER_H
 
 #include "MultiChannelEffectBase.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 
 class StereoWidener
         : public MultiChannelEffectBase,
-          public LoggingBase {
+          public LogProducer {
 public:
-    explicit StereoWidener(LoggerBase* logger);
+    explicit StereoWidener(LogWriterBase* logger);
 
     void Process(AudioBuffer* input, AudioBuffer* output, uint32_t channelLength) override;
     void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;

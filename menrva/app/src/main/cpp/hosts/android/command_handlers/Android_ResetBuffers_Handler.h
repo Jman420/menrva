@@ -24,7 +24,7 @@
 class Android_ResetBuffers_Handler
         : public CommandHandlerBase {
 public:
-    Android_ResetBuffers_Handler(LoggerBase *logger);
+    Android_ResetBuffers_Handler(LogWriterBase *logger);
 
     virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;

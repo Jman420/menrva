@@ -19,7 +19,7 @@
 #include "Engine_SetLogLevel_Handler.h"
 #include "../tools/StringOperations.h"
 
-Engine_SetLogLevel_Handler::Engine_SetLogLevel_Handler(LoggerBase* logger)
+Engine_SetLogLevel_Handler::Engine_SetLogLevel_Handler(LogWriterBase* logger)
         : TypedCommandHandlerBase(new Engine_SetLogLevel_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Engine_SetLogLevel_Handler::Execute(ModuleContext& context) {
@@ -29,7 +29,7 @@ void Engine_SetLogLevel_Handler::Execute(ModuleContext& context) {
 
     _Logger->WriteLog("Validating SetLogLevel Request...", LOG_SENDER, __func__);
     int requestLogLevel = request.loglevel();
-    if (requestLogLevel > LoggerBase::MAX_LOG_LEVEL_VALUE || requestLogLevel < LoggerBase::MIN_LOG_LEVEL_VALUE) {
+    if (requestLogLevel > LogWriterBase::MAX_LOG_LEVEL_VALUE || requestLogLevel < LogWriterBase::MIN_LOG_LEVEL_VALUE) {
         _Logger->WriteLog(StringOperations::FormatString("SetLogLevel Request Validation Failed : Invalid Log Level Provided (%u)!", requestLogLevel),
                           LOG_SENDER, __func__, LogLevel::ERROR);
         response.set_loglevel(_Logger->GetLogLevel());

@@ -20,13 +20,13 @@
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
 #include "ConvolutionOperationsBase.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 
 class ConvolutionOperations
         : public ConvolutionOperationsBase,
-          public LoggingBase {
+          public LogProducer {
 public:
-    explicit ConvolutionOperations(LoggerBase* logger);
+    explicit ConvolutionOperations(LogWriterBase* logger);
 
     void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) override;
     void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) override;

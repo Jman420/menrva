@@ -21,7 +21,7 @@
 #include "../../../tools/StringOperations.h"
 #include "../AndroidStructures.h"
 
-Android_SetConfig_Handler::Android_SetConfig_Handler(LoggerBase* logger)
+Android_SetConfig_Handler::Android_SetConfig_Handler(LogWriterBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {
     _Config = nullptr;
 }

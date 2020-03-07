@@ -20,13 +20,13 @@
 #define MENRVA_EQUALIZER_H
 
 #include "SingleChannelEffectBase.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 
 class Equalizer
         : public SingleChannelEffectBase,
-          public LoggingBase {
+          public LogProducer {
 public:
-    explicit Equalizer(LoggerBase* logger);
+    explicit Equalizer(LogWriterBase* logger);
 
     void Process(AudioBuffer& input, AudioBuffer& output) override;
     void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;

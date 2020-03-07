@@ -19,7 +19,7 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 #include "../hosts/ServiceLocator.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
@@ -33,11 +33,11 @@ enum MenrvaEngineStatus {
 };
 
 class MenrvaEffectsEngine
-        : public LoggingBase {
+        : public LogProducer {
 public:
     MenrvaEngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LoggerBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
+    MenrvaEffectsEngine(LogWriterBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
     void SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength);

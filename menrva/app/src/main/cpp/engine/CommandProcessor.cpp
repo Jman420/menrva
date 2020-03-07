@@ -22,7 +22,7 @@
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
 
-CommandProcessor::CommandProcessor(LoggerBase *logger) {
+CommandProcessor::CommandProcessor(LogWriterBase *logger) {
     _Logger = logger;
     _CommandHandlerMap = new CommandHandlerMap(_Logger);
 }

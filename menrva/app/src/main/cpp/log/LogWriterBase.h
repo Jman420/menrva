@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOGGER_BASE_H
-#define MENRVA_LOGGER_BASE_H
+#ifndef MENRVA_LOG_WRITER_BASE_H
+#define MENRVA_LOG_WRITER_BASE_H
 
 #include <string>
 #include <map>
@@ -43,7 +43,7 @@ typedef std::pair<std::string, logger_override_entry*> logger_override_list_elem
 typedef std::map<std::string, LogLevel> log_level_map;
 typedef std::pair<std::string, LogLevel> log_level_map_element;
 
-class LoggerBase {
+class LogWriterBase {
 public:
     static const log_level_map LOG_LEVEL_MAP;
     static const uint8_t MIN_LOG_LEVEL_VALUE;
@@ -95,4 +95,4 @@ private:
     const static LogLevel START_UP_LOG_LEVEL;
 };
 
-#endif //MENRVA_LOGGER_BASE_H
+#endif //MENRVA_LOG_WRITER_BASE_H

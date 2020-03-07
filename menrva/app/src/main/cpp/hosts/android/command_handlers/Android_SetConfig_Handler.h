@@ -25,7 +25,7 @@
 class Android_SetConfig_Handler
         : public CommandHandlerBase {
 public:
-    Android_SetConfig_Handler(LoggerBase* logger);
+    Android_SetConfig_Handler(LogWriterBase* logger);
 
     virtual bool DeserializeRequest(void *data, int length) override;
     virtual void Execute(ModuleContext& context) override;

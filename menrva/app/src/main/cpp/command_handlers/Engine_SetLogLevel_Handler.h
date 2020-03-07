@@ -25,7 +25,7 @@
 class Engine_SetLogLevel_Handler
         : public TypedCommandHandlerBase<Engine_SetLogLevel_Command> {
 public:
-    Engine_SetLogLevel_Handler(LoggerBase* logger);
+    Engine_SetLogLevel_Handler(LogWriterBase* logger);
 
     virtual void Execute(ModuleContext& context) override;
 };

@@ -21,7 +21,7 @@
 
 #include "AndroidStructures.h"
 #include "../ServiceLocator.h"
-#include "../../log/LoggerBase.h"
+#include "../../log/LogWriterBase.h"
 
 class AndroidInterface {
 public:
@@ -42,7 +42,7 @@ private:
     static const std::string LOG_SENDER;
 
     static ServiceLocator* _ServiceLocator;
-    static LoggerBase* _Logger;
+    static LogWriterBase* _Logger;
 
     // Private Constructor to prevent instantiation of Static Class
     AndroidInterface() = default;

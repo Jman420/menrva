@@ -20,7 +20,7 @@
 #include "../commands/AndroidHost_Generic_Command.h"
 #include "../AndroidStructures.h"
 
-Android_ResetBuffers_Handler::Android_ResetBuffers_Handler(LoggerBase* logger)
+Android_ResetBuffers_Handler::Android_ResetBuffers_Handler(LogWriterBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Android_ResetBuffers_Handler::Execute(ModuleContext& context) {

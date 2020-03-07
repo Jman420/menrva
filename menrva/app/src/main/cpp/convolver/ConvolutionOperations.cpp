@@ -20,8 +20,8 @@
 #include "ConvolutionOperations.h"
 #include "../tools/StringOperations.h"
 
-ConvolutionOperations::ConvolutionOperations(LoggerBase* logger)
-        : LoggingBase(logger, __PRETTY_FUNCTION__) {}
+ConvolutionOperations::ConvolutionOperations(LogWriterBase* logger)
+        : LogProducer(logger, __PRETTY_FUNCTION__) {}
 
 void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);

@@ -24,7 +24,7 @@
 #include "AudioFormat.h"
 #include "AudioIOBufferBase.h"
 #include "../tools/ConversionBuffer.h"
-#include "../log/LoggingBase.h"
+#include "../log/LogProducer.h"
 
 union audio_input_buffer_u {
     ConversionBuffer<int16_t, sample>* PCM_16;
@@ -33,11 +33,11 @@ union audio_input_buffer_u {
 };
 
 class AudioInputBuffer
-        : public LoggingBase,
+        : public LogProducer,
           public AudioIOBufferBase {
 public:
-    explicit AudioInputBuffer(LoggerBase* logger);
-    AudioInputBuffer(LoggerBase* logger, AudioFormat audioFormat);
+    explicit AudioInputBuffer(LogWriterBase* logger);
+    AudioInputBuffer(LogWriterBase* logger, AudioFormat audioFormat);
     ~AudioInputBuffer();
 
     void ResetData();

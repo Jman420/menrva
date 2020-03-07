@@ -30,7 +30,7 @@
 
 const std::string AndroidInterface::LOG_SENDER = "AndroidInterface";
 ServiceLocator* AndroidInterface::_ServiceLocator = new ServiceLocator();
-LoggerBase* AndroidInterface::_Logger = _ServiceLocator->GetLogger();
+LogWriterBase* AndroidInterface::_Logger = _ServiceLocator->GetLogger();
 
 const effect_descriptor_t AndroidInterface::EffectDescriptor = {
         // UUID of to the OpenSL ES interface implemented by this effect (EFFECT_TYPE_nullptr)

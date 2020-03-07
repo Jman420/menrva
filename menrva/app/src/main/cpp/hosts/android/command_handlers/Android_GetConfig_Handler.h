@@ -25,7 +25,7 @@
 class Android_GetConfig_Handler
         : public CommandHandlerBase {
 public:
-    Android_GetConfig_Handler(LoggerBase *logger);
+    Android_GetConfig_Handler(LogWriterBase *logger);
 
     virtual void Execute(ModuleContext& context) override;
     virtual uint32_t SerializeResponse(void* responseBuffer) override;

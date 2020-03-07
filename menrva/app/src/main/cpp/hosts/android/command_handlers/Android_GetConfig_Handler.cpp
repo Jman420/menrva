@@ -20,7 +20,7 @@
 #include "../commands/AndroidHost_Generic_Command.h"
 #include "../AndroidStructures.h"
 
-Android_GetConfig_Handler::Android_GetConfig_Handler(LoggerBase* logger)
+Android_GetConfig_Handler::Android_GetConfig_Handler(LogWriterBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {
     _Config = nullptr;
 }

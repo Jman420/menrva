@@ -56,8 +56,8 @@ add_library(
         MenrvaEngine
         SHARED
 
-        log/LoggerBase.cpp
-        log/LoggingBase.cpp
+        log/LogWriterBase.cpp
+        log/LogProducer.cpp
 
         tools/StringOperations.cpp
         tools/MathOperations.cpp

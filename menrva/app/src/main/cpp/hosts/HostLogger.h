@@ -19,10 +19,10 @@
 #ifndef MENRVA_HOST_LOGGER_H
 #define MENRVA_HOST_LOGGER_H
 
-#include "../log/LoggerBase.h"
+#include "../log/LogWriterBase.h"
 
 class HostLogger
-        : public LoggerBase {
+        : public LogWriterBase {
 protected:
     virtual void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) = 0;
 };

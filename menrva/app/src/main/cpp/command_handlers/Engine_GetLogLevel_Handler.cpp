@@ -18,7 +18,7 @@
 
 #include "Engine_GetLogLevel_Handler.h"
 
-Engine_GetLogLevel_Handler::Engine_GetLogLevel_Handler(LoggerBase* logger)
+Engine_GetLogLevel_Handler::Engine_GetLogLevel_Handler(LogWriterBase* logger)
         : TypedCommandHandlerBase(new Engine_GetLogLevel_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Engine_GetLogLevel_Handler::Execute(ModuleContext& context) {

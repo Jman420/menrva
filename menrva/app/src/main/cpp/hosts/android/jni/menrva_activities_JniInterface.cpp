@@ -40,12 +40,12 @@ JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngi
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_activities_JniInterface_getLogLevelsLength(JNIEnv *env, jclass type) {
-    auto result = LoggerBase::LOG_LEVEL_MAP.size();
+    auto result = LogWriterBase::LOG_LEVEL_MAP.size();
     return static_cast<jint>(result);
 }
 
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_activities_JniInterface_getMaxLogLevel(JNIEnv* env, jclass type) {
-    return LoggerBase::MAX_LOG_LEVEL_VALUE;
+    return LogWriterBase::MAX_LOG_LEVEL_VALUE;
 }

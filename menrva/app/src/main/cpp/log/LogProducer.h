@@ -16,19 +16,19 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOGGING_BASE_H
-#define MENRVA_LOGGING_BASE_H
+#ifndef MENRVA_LOG_PRODUCER_H
+#define MENRVA_LOG_PRODUCER_H
 
 #include <string>
-#include "LoggerBase.h"
+#include "LogWriterBase.h"
 
-class LoggingBase {
+class LogProducer {
 public:
-    LoggingBase(LoggerBase* logger, std::string prettyFunction);
+    LogProducer(LogWriterBase* logger, std::string prettyFunction);
 
 protected:
     std::string LOG_SENDER;
-    LoggerBase* _Logger;
+    LogWriterBase* _Logger;
 
     /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
      *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();
@@ -41,4 +41,4 @@ private:
     static const std::string COLONS;
 };
 
-#endif //MENRVA_LOGGING_BASE_H
+#endif //MENRVA_LOG_PRODUCER_H

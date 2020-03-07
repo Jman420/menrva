@@ -17,16 +17,16 @@
  */
 
 #include <utility>
-#include "LoggingBase.h"
+#include "LogProducer.h"
 
-const std::string LoggingBase::COLONS = "::";
+const std::string LogProducer::COLONS = "::";
 
-LoggingBase::LoggingBase(LoggerBase* logger, std::string prettyFunction) {
+LogProducer::LogProducer(LogWriterBase* logger, std::string prettyFunction) {
     InitializeLogSender(std::move(prettyFunction));
     _Logger = logger;
 }
 
-void LoggingBase::InitializeLogSender(std::string prettyFunction) {
+void LogProducer::InitializeLogSender(std::string prettyFunction) {
     std::string className;
     size_t colons = prettyFunction.find(COLONS);
     if (colons == std::string::npos) {

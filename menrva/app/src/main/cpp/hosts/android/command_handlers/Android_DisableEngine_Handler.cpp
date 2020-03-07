@@ -19,7 +19,7 @@
 #include "Android_DisableEngine_Handler.h"
 #include "../commands/AndroidHost_Generic_Command.h"
 
-Android_DisableEngine_Handler::Android_DisableEngine_Handler(LoggerBase* logger)
+Android_DisableEngine_Handler::Android_DisableEngine_Handler(LogWriterBase* logger)
         : CommandHandlerBase(new AndroidHost_Generic_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Android_DisableEngine_Handler::Execute(ModuleContext& context) {

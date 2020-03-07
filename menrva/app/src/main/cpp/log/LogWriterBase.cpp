@@ -17,9 +17,9 @@
  */
 
 #include <utility>
-#include "LoggerBase.h"
+#include "LogWriterBase.h"
 
-const log_level_map LoggerBase::LOG_LEVEL_MAP = {
+const log_level_map LogWriterBase::LOG_LEVEL_MAP = {
         { "Fatal", LogLevel::FATAL },
         { "Error", LogLevel::ERROR },
         { "Warn", LogLevel::WARN },
@@ -28,101 +28,101 @@ const log_level_map LoggerBase::LOG_LEVEL_MAP = {
         { "Verbose", LogLevel::VERBOSE },
 };
 
-const std::string LoggerBase::APP_NAME = "Menrva";
-const std::string LoggerBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
-const LogLevel LoggerBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
-const LogLevel LoggerBase::START_UP_LOG_LEVEL = LogLevel::ERROR;
-const uint8_t LoggerBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
-const uint8_t LoggerBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
+const std::string LogWriterBase::APP_NAME = "Menrva";
+const std::string LogWriterBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
+const LogLevel LogWriterBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
+const LogLevel LogWriterBase::START_UP_LOG_LEVEL = LogLevel::ERROR;
+const uint8_t LogWriterBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
+const uint8_t LogWriterBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
-LogLevel LoggerBase::_LogLevel = START_UP_LOG_LEVEL;
+LogLevel LogWriterBase::_LogLevel = START_UP_LOG_LEVEL;
 
-bool LoggerBase::_OverrideListEnabled = false;
-logger_override_list LoggerBase::_OverrideList = *new logger_override_list();
+bool LogWriterBase::_OverrideListEnabled = false;
+logger_override_list LogWriterBase::_OverrideList = *new logger_override_list();
 
-void LoggerBase::SetLogLevel(LogLevel logLevel) {
+void LogWriterBase::SetLogLevel(LogLevel logLevel) {
     _LogLevel = logLevel;
 }
 
-LogLevel LoggerBase::GetLogLevel() {
+LogLevel LogWriterBase::GetLogLevel() {
     return _LogLevel;
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
+void LogWriterBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
     if ((GetOverrideListEnabled() && CheckOverrideList(senderClass, senderFunction, logLevel)) || logLevel >= GetLogLevel()) {
         WriteLogLine(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel);
     }
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel) {
+void LogWriterBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel) {
     WriteLog(std::move(message), std::move(senderClass), "", logLevel);
 }
 
-void LoggerBase::WriteLog(std::string message, LogLevel logLevel) {
+void LogWriterBase::WriteLog(std::string message, LogLevel logLevel) {
     WriteLog(std::move(message), "", "", logLevel);
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction) {
+void LogWriterBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction) {
     WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), DEFAULT_LOG_LEVEL);
 }
 
-void LoggerBase::WriteLog(std::string message, std::string senderClass) {
+void LogWriterBase::WriteLog(std::string message, std::string senderClass) {
     WriteLog(std::move(message), std::move(senderClass), "", DEFAULT_LOG_LEVEL);
 }
 
-void LoggerBase::WriteLog(std::string message) {
+void LogWriterBase::WriteLog(std::string message) {
     WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL);
 }
 
-void LoggerBase::SetOverrideListEnabled(bool enabled) {
+void LogWriterBase::SetOverrideListEnabled(bool enabled) {
     _OverrideListEnabled = enabled;
 }
 
-bool LoggerBase::GetOverrideListEnabled() {
+bool LogWriterBase::GetOverrideListEnabled() {
     return _OverrideListEnabled;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, bool enabled) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.ComponentLogLevel = logLevel;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.ComponentLogLevel = logLevel;
 }
 
-void LoggerBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
+void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
-void LoggerBase::RemoveOverrideListEntry(std::string className) {
+void LogWriterBase::RemoveOverrideListEntry(std::string className) {
     _OverrideList.erase(className);
 }
 
-void LoggerBase::RemoveOverrideListEntry(std::string className, std::string functionName) {
+void LogWriterBase::RemoveOverrideListEntry(std::string className, std::string functionName) {
     _OverrideList.erase(GetOverrideListKey(std::move(className), std::move(functionName)));
 }
 
-bool LoggerBase::CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel) {
+bool LogWriterBase::CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel) {
     // Check for Function Override Entry
     auto element = _OverrideList.find(GetOverrideListKey(className, functionName));
     if (element == _OverrideList.end()) {
@@ -138,7 +138,7 @@ bool LoggerBase::CheckOverrideList(std::string className, std::string functionNa
     return entry.Enabled && logLevel >= entry.ComponentLogLevel;
 }
 
-logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string className) {
+logger_override_entry* LogWriterBase::GetAddOverrideListElement(std::string className) {
     const std::string &key = className;
     auto element = _OverrideList.find(key);
     if (element == _OverrideList.end()) {
@@ -150,7 +150,7 @@ logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string classNa
     return element->second;
 }
 
-logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string className, std::string functionName) {
+logger_override_entry* LogWriterBase::GetAddOverrideListElement(std::string className, std::string functionName) {
     std::string key = GetOverrideListKey(className, functionName);
     auto element = _OverrideList.find(key);
     if (element == _OverrideList.end()) {
@@ -163,6 +163,6 @@ logger_override_entry* LoggerBase::GetAddOverrideListElement(std::string classNa
     return element->second;
 }
 
-std::string LoggerBase::GetOverrideListKey(std::string className, std::string functionName) {
+std::string LogWriterBase::GetOverrideListKey(std::string className, std::string functionName) {
     return className + OVERRIDE_LIST_KEY_DELIMITER + functionName;
 }
