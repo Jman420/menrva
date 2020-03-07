@@ -21,6 +21,12 @@
 #include "../../tools/ServiceLocator.h"
 #include "../../tools/StringOperations.h"
 #include "../../engine/CommandProcessor.h"
+#include "command_handlers/Android_InitEngine_Handler.h"
+#include "command_handlers/Android_GetConfig_Handler.h"
+#include "command_handlers/Android_SetConfig_Handler.h"
+#include "command_handlers/Android_ResetBuffers_Handler.h"
+#include "command_handlers/Android_EnableEngine_Handler.h"
+#include "command_handlers/Android_DisableEngine_Handler.h"
 
 const std::string AndroidInterface::LOG_SENDER = "AndroidInterface";
 ServiceLocator* AndroidInterface::_ServiceLocator = new ServiceLocator();
@@ -87,16 +93,25 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
         return -EINVAL;
     }
 
-    // TODO : Instantiate Command Processor & Inject Android Host Command Handlers
+    _Logger->WriteLog("Creating Command Processor and Adding Android Host Specific Command Handlers...", LOG_SENDER, __func__);
+    CommandProcessor* commandProcessor = new CommandProcessor(_Logger);
+    handler_map& handlerMap = *commandProcessor->GetCommandHandlerMap()->GetMap();
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_INIT, new Android_InitEngine_Handler(_Logger)));
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_GET_CONFIG, new Android_GetConfig_Handler(_Logger)));
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_SET_CONFIG, new Android_SetConfig_Handler(_Logger)));
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_RESET, new Android_ResetBuffers_Handler(_Logger)));
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_ENABLE, new Android_EnableEngine_Handler(_Logger)));
+    handlerMap.insert(handler_map::value_type(EFFECT_CMD_DISABLE, new Android_DisableEngine_Handler(_Logger)));
 
     _Logger->WriteLog("Creating Android Module Context...", LOG_SENDER, __func__);
-    auto androidContext = new AndroidModuleContext();
-    androidContext->ModuleStatus = ModuleStatus::UNINITIALIZED;
-    androidContext->EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
+    AndroidModuleContext& androidContext = *new AndroidModuleContext();
+    androidContext.ModuleStatus = ModuleStatus::UNINITIALIZED;
+    androidContext.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
+    androidContext.CommandProcessor = commandProcessor;  // IDE thinks these types are incompatible, but compiler & runtime execute successfully
 
     _Logger->WriteLog("Creating Android Module Interface...", LOG_SENDER, __func__);
-    auto moduleInterface = new AndroidModuleInterface();
-    moduleInterface->AndroidContext = androidContext;
+    AndroidModuleInterface* moduleInterface = new AndroidModuleInterface();
+    moduleInterface->AndroidContext = &androidContext;
     moduleInterface->itfe = &EngineInterface;
 
     *pHandle = (effect_handle_t)moduleInterface;
@@ -221,7 +236,7 @@ int AndroidInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t c
     AndroidModuleContext& androidContext = *contextPtr->AndroidContext;
 
     _Logger->WriteLog("Passing Command Data to CommandProcessor for Processing...", LOG_SENDER, __func__);
-    int result = CommandProcessor::Process(androidContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
+    int result = androidContext.CommandProcessor->Process(androidContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
     _Logger->WriteLog(StringOperations::FormatString("Finished Processing Command with Result (%d).", result),
                       LOG_SENDER, __func__, LogLevel::VERBOSE);

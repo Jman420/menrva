@@ -26,21 +26,17 @@
 #include "CommandHandlerMap.h"
 #include "../commands/MenrvaCommands.h"
 
-bool CommandHandlerMap::_Initialized = false;
-handler_map* CommandHandlerMap::_HandlerMap = new handler_map();
-
 CommandHandlerMap::CommandHandlerMap(LoggerBase* logger) {
-    if (!CommandHandlerMap::_Initialized) {
-        CommandHandlerMap::Initialize(logger);
-    }
+    _HandlerMap = new handler_map();
+    Initialize(logger);
 }
 
-handler_map* CommandHandlerMap::GetHandlerMap() {
-    return CommandHandlerMap::_HandlerMap;
+handler_map* CommandHandlerMap::GetMap() {
+    return _HandlerMap;
 }
 
 CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
-    handler_map& handlerMap = *CommandHandlerMap::_HandlerMap;
+    handler_map& handlerMap = *_HandlerMap;
 
     auto cmdFunction = handlerMap.find(commandId);
     if (cmdFunction == handlerMap.end()) {
@@ -51,24 +47,9 @@ CommandHandlerBase* CommandHandlerMap::GetCommandHandler(uint32_t commandId) {
 }
 
 #include "../tools/CommandIds.h"
-#include "../command_handlers/Module_Init_Handler.h"
-#include "../command_handlers/Module_GetConfig_Handler.h"
-#include "../command_handlers/Module_SetConfig_Handler.h"
-#include "../command_handlers/Module_ResetBuffers_Handler.h"
-#include "../command_handlers/Module_EnableEngine_Handler.h"
-#include "../command_handlers/Module_DisableEngine_Handler.h"
 <HandlerMapIncludes>
 
 void CommandHandlerMap::Initialize(LoggerBase* logger) {
-    handler_map& handlerMap = *CommandHandlerMap::_HandlerMap;
-
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_INIT, new Module_Init_Handler(logger)));
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_GET_CONFIG, new Module_GetConfig_Handler(logger)));
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_SET_CONFIG, new Module_SetConfig_Handler(logger)));
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_RESET, new Module_ResetBuffers_Handler(logger)));
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_ENABLE, new Module_EnableEngine_Handler(logger)));
-    handlerMap.insert(handler_map::value_type(EFFECT_CMD_DISABLE, new Module_DisableEngine_Handler(logger)));
+    handler_map& handlerMap = *_HandlerMap;
 <HandlerMapEntries>
-
-    CommandHandlerMap::_Initialized = true;
 }

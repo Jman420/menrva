@@ -35,14 +35,13 @@ class CommandHandlerMap {
 public:
     CommandHandlerMap(LoggerBase* logger);
 
-    handler_map* GetHandlerMap();
+    handler_map* GetMap();
     CommandHandlerBase* GetCommandHandler(uint32_t commandId);
 
 private:
-    static bool _Initialized;
-    static handler_map* _HandlerMap;
+    handler_map* _HandlerMap;
 
-    static void Initialize(LoggerBase* logger);
+    void Initialize(LoggerBase* logger);
 };
 
 #endif //MENRVA_COMMAND_HANDLER_MAP_H

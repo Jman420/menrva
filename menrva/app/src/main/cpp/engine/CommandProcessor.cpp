@@ -21,9 +21,11 @@
 #include "../tools/StringOperations.h"
 
 const std::string CommandProcessor::LOG_SENDER = "CommandProcessor";
-ServiceLocator* CommandProcessor::_ServiceLocator = new ServiceLocator();
-LoggerBase* CommandProcessor::_Logger = _ServiceLocator->GetLogger();
-CommandHandlerMap* CommandProcessor::_HandlerMap = new CommandHandlerMap(_Logger);
+
+CommandProcessor::CommandProcessor(LoggerBase *logger) {
+    _Logger = logger;
+    _CommandHandlerMap = new CommandHandlerMap(_Logger);
+}
 
 int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData) {
     _Logger->WriteLog(StringOperations::FormatString("Processing Command Id (%u)...", cmdCode),
@@ -36,7 +38,7 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
 
     _Logger->WriteLog(StringOperations::FormatString("Looking up Handler for Command Id (%u)...", cmdCode),
                       LOG_SENDER, __func__);
-    CommandHandlerBase* handlerPtr = CommandProcessor::_HandlerMap->GetCommandHandler(cmdCode);
+    CommandHandlerBase* handlerPtr = _CommandHandlerMap->GetCommandHandler(cmdCode);
     if (handlerPtr == nullptr) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to find Handler for Command Id (%u).  Skipping processing command.", cmdCode),
                           LOG_SENDER, __func__, LogLevel::WARN);
@@ -60,4 +62,8 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
     _Logger->WriteLog(StringOperations::FormatString("Successfully Serialized Response for Command Id (%u).", cmdCode),
                       LOG_SENDER, __func__);
     return returnValue;
+}
+
+CommandHandlerMap *CommandProcessor::GetCommandHandlerMap() {
+    return _CommandHandlerMap;
 }

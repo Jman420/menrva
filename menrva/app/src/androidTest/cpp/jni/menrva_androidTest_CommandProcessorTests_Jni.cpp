@@ -29,13 +29,14 @@ JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jobject instance, jint commandId, jbyteArray requestBytes_, jint requestLength, jbyteArray responseBuffer_) {
     effect_handle_t menrvaEffectHandle = nullptr;
     AndroidInterface::CreateModule(&AndroidInterface::EffectDescriptor.uuid, 0, 0, &menrvaEffectHandle);
-    ModuleContext menrvaEngineContext = *(ModuleContext*)menrvaEffectHandle;
+    AndroidModuleInterface menrvaModuleInterface = *(AndroidModuleInterface*)menrvaEffectHandle;
+    AndroidModuleContext menrvaEngineContext = *menrvaModuleInterface.AndroidContext;
 
     jbyte* requestBytes = env->GetByteArrayElements(requestBytes_, nullptr);
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
     uint32_t responseLength = 0;
-    CommandProcessor::Process(menrvaEngineContext, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    menrvaModuleInterface.itfe->command(menrvaEffectHandle, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
@@ -55,7 +56,7 @@ Java_com_monkeystable_menrva_CommandMapDebugger_submit_1Engine_1GetVersion(JNIEn
 
     uint32_t responseLength = 0;
     uint32_t commandId = CommandIds::Calculate(MenrvaCommands::Engine_GetVersion);
-    CommandProcessor::Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    menrvaEngineContext.CommandProcessor->Process(menrvaEngineContext, commandId, static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);
