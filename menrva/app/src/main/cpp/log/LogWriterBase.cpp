@@ -82,33 +82,33 @@ bool LogWriterBase::GetOverrideListEnabled() {
     return _OverrideListEnabled;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, bool enabled) {
+void LogWriterBase::SetOverrideListEntry(std::string className, bool enabled) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, LogLevel logLevel) {
+void LogWriterBase::SetOverrideListEntry(std::string className, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.ComponentLogLevel = logLevel;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
+void LogWriterBase::SetOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled) {
+void LogWriterBase::SetOverrideListEntry(std::string className, std::string functionName, bool enabled) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
+void LogWriterBase::SetOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.ComponentLogLevel = logLevel;
 }
 
-void LogWriterBase::UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
+void LogWriterBase::SetOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
     logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;

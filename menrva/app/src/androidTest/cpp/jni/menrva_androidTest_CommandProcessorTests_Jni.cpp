@@ -36,7 +36,7 @@ Java_com_monkeystable_menrva_CommandProcessorTests_submitCommand(JNIEnv* env, jo
     jbyte* responseBuffer = env->GetByteArrayElements(responseBuffer_, nullptr);
 
     uint32_t responseLength = 0;
-    menrvaModuleInterface.itfe->command(menrvaEffectHandle, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, static_cast<uint32_t>(commandId), static_cast<uint32_t>(requestLength), requestBytes, &responseLength, responseBuffer);
 
     env->ReleaseByteArrayElements(requestBytes_, requestBytes, 0);
     env->ReleaseByteArrayElements(responseBuffer_, responseBuffer, 0);

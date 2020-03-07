@@ -28,7 +28,8 @@ struct AndroidModuleContext
 };
 
 struct AndroidModuleInterface {
-    __unused const effect_interface_s* itfe;
+    // The first member of this structure must be the effect_interface_s pointer in order to conform with the effect_handle_t structure from aosp/aosp_audio_effect_defs.h
+    __unused const effect_interface_s* effectInterface;
 
     AndroidModuleContext* AndroidContext;
 };

@@ -107,12 +107,12 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
     AndroidModuleContext& androidContext = *new AndroidModuleContext();
     androidContext.ModuleStatus = ModuleStatus::UNINITIALIZED;
     androidContext.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
-    androidContext.CommandProcessor = commandProcessor;  // IDE thinks these types are incompatible, but compiler & runtime execute successfully
+    androidContext.CommandProcessor = commandProcessor;  // IDE thinks these types are incompatible, but compiler & runtime execute successfully  ¯\_(ツ)_/¯
 
     _Logger->WriteLog("Creating Android Module Interface...", LOG_SENDER, __func__);
     AndroidModuleInterface* moduleInterface = new AndroidModuleInterface();
     moduleInterface->AndroidContext = &androidContext;
-    moduleInterface->itfe = &EngineInterface;
+    moduleInterface->effectInterface = &EngineInterface;
 
     *pHandle = (effect_handle_t)moduleInterface;
     _Logger->WriteLog("Successfully Created Menrva Module!", LOG_SENDER, __func__);

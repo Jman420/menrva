@@ -61,11 +61,11 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     uint32_t intSize = sizeof(int);
     int setConfigCmdReply = *new int();
     int enableCmdReply = *new int();
-    menrvaModuleInterface.itfe->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
-    menrvaModuleInterface.itfe->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, EFFECT_CMD_SET_CONFIG, sizeof(effect_config_t), &menrvaEffectConfig, &intSize, &setConfigCmdReply);
+    menrvaModuleInterface.effectInterface->command(menrvaEffectHandle, EFFECT_CMD_ENABLE, 0, nullptr, &intSize, &enableCmdReply);
 
     audio_buffer_t outputBuffer;
     outputBuffer.frameCount = params.AndroidAudioFrameLength;
     outputBuffer.s16 = new int16_t[params.AndroidAudioFrameLength];
-    menrvaModuleInterface.itfe->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
+    menrvaModuleInterface.effectInterface->process(menrvaEffectHandle, &inputBuffer, &outputBuffer);
 }

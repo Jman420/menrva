@@ -18,7 +18,7 @@
 
 #include "CommandBase.h"
 
-CommandBase::CommandBase(int commandId, MessageLite *request, MessageLite *response) {
+CommandBase::CommandBase(int commandId, MessageLite* request, MessageLite* response) {
     _CommandId = commandId;
     _Request = request;
     _Response = response;

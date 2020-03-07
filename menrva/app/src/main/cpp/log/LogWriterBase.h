@@ -63,12 +63,12 @@ public:
     void SetOverrideListEnabled(bool enabled);
     bool GetOverrideListEnabled();
 
-    void UpsertOverrideListEntry(std::string className, bool enabled);
-    void UpsertOverrideListEntry(std::string className, LogLevel logLevel);
-    void UpsertOverrideListEntry(std::string className, bool enabled, LogLevel logLevel);
-    void UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled);
-    void UpsertOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel);
-    void UpsertOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel);
+    void SetOverrideListEntry(std::string className, bool enabled);
+    void SetOverrideListEntry(std::string className, LogLevel logLevel);
+    void SetOverrideListEntry(std::string className, bool enabled, LogLevel logLevel);
+    void SetOverrideListEntry(std::string className, std::string functionName, bool enabled);
+    void SetOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel);
+    void SetOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel);
 
     void RemoveOverrideListEntry(std::string className);
     void RemoveOverrideListEntry(std::string className, std::string functionName);
