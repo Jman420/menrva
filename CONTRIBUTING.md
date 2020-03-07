@@ -60,6 +60,8 @@ Most issues with AudioFlinger based Audio Mods will occur during device startup 
   - Open Console on Target Computer
   - Execute :
     * Powershell : ./adb.exe -d logcat | Tee-Object -File logcat_dump.txt
+  - Boot the Android Device
+  - Use Ctrl+C or Close the Powershell Window to stop capturing Logcat
 
 ### Android Emulator with Writable System
 Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.
