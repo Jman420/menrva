@@ -33,7 +33,7 @@ add_library(
 set_target_properties(
         libprotobuf-lite
         PROPERTIES IMPORTED_LOCATION
-        ${PROTOBUF_OUTPUT_DIR}/${ANDROID_ABI}/libprotobuf-lite.a
+        ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI}/libprotobuf-lite.a
 )
 
 aux_source_directory(
