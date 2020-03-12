@@ -49,7 +49,7 @@ add_library(
 set_target_properties(
     libprotobuf-lite
     PROPERTIES IMPORTED_LOCATION
-    ${PROTOBUF_LIB_DIR}/libprotobuf-lited.${LIBRARY_EXT}
+    ${PROTOBUF_LIB_DIR}/libprotobuf-lite.${LIBRARY_EXT}
 )
 
 # Define Source Directories
