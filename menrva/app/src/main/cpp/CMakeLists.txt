@@ -10,17 +10,28 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
+set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../..)
+set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
 set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
+
 set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
+set(MENRVA_ENGINE_SRC_DIR ${REPO_ROOT_DIR}/engine_src)
+set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_SRC_DIR}/out)
+
 set(LIBRARY_EXT a)
 
 find_library(
         log-lib
         log
+)
+
+# Add Menrva Engine Dependency
+add_subdirectory(
+        ${MENRVA_ENGINE_SRC_DIR}
+        ${MENRVA_ENGINE_OUTPUT_DIR}
 )
 
 # Add KFR Dependency
@@ -62,7 +73,7 @@ aux_source_directory(
         HOST_COMMAND_HANDLER_SOURCES
 )
 add_library(
-        MenrvaEngine
+        MenrvaAndroidInterface
         SHARED
 
         log/LogWriterBase.cpp
@@ -122,13 +133,13 @@ add_library(
         hosts/android/jni/menrva_service_JniInterface.cpp
 )
 target_include_directories(
-        MenrvaEngine
+        MenrvaAndroidInterface
         PRIVATE
         ${PROTOBUF_OUTPUT_DIR}/include
         ${KFR_OUTPUT_DIR}/include
 )
 target_link_libraries(
-        MenrvaEngine
+        MenrvaAndroidInterface
 
         ${log-lib}
         libkfr-dft
@@ -153,6 +164,6 @@ target_include_directories(
 target_link_libraries(
         MenrvaEngineTest
 
-        MenrvaEngine
+        MenrvaAndroidInterface
         libprotobuf-lite
 )
