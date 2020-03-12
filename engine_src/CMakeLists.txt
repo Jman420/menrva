@@ -12,10 +12,14 @@ set(CMAKE_CXX_EXTENSIONS ON)
 
 # External Folder Locations
 set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../libs)
-set(KFR_SOURCE_DIR ${LIBS_ROOT_DIR}/kfr)
-set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
-set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 
+set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
+set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host)
+if (ANDROID)
+    set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
+endif()
+
+set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/host)
 if (ANDROID)
     set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
@@ -34,7 +38,7 @@ add_library(
 set_target_properties(
     libkfr-dft
     PROPERTIES IMPORTED_LOCATION
-    ${KFR_BINARY_DIR}/kfr_dft.${LIBRARY_EXT}
+    ${KFR_LIB_DIR}/kfr_dft.${LIBRARY_EXT}
 )
 
 # Add Protobuf Depenency
@@ -113,7 +117,7 @@ target_include_directories(
     MenrvaEngine
     PRIVATE
     ${PROTOBUF_OUTPUT_DIR}/include
-    ${KFR_SOURCE_DIR}/include
+    ${KFR_OUTPUT_DIR}/include
 )
 target_link_libraries(
     MenrvaEngine
