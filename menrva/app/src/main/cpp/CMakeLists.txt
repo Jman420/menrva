@@ -5,27 +5,41 @@
 
 cmake_minimum_required(VERSION 3.8)
 
+# Set Compiler Settings
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS ON)
+
 set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../libs)
-set(KFR_SOURCE_DIR ${LIBS_ROOT_DIR}/kfr)
-set(KFR_BINARY_DIR ${KFR_SOURCE_DIR}/out)
+set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
+set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
+set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
 set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
+set(LIBRARY_EXT a)
 
 find_library(
         log-lib
         log
 )
 
+# Add KFR Dependency
 set(KFR_ARCH_armeabi-v7a neon)
 set(KFR_ARCH_arm64-v8a neon64)
 set(KFR_ARCH_x86 avx1)
 set(KFR_ARCH_x86_64 avx1)
 set(CPU_ARCH ${KFR_ARCH_${ANDROID_ABI}})
-add_subdirectory(
-        ${KFR_SOURCE_DIR}
-        ${KFR_BINARY_DIR}
+add_library(
+        libkfr-dft
+        STATIC IMPORTED
+)
+set_target_properties(
+        libkfr-dft
+        PROPERTIES IMPORTED_LOCATION
+        ${KFR_LIB_DIR}/libkfr_dft.${LIBRARY_EXT}
 )
 
+# Add Protobuf Depenency
 add_library(
         libprotobuf-lite
         STATIC IMPORTED
@@ -33,7 +47,7 @@ add_library(
 set_target_properties(
         libprotobuf-lite
         PROPERTIES IMPORTED_LOCATION
-        ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI}/libprotobuf-lite.a
+        ${PROTOBUF_LIB_DIR}/libprotobuf-lite.${LIBRARY_EXT}
 )
 
 aux_source_directory(
@@ -116,13 +130,13 @@ target_include_directories(
         MenrvaEngine
         PRIVATE
         ${PROTOBUF_OUTPUT_DIR}/include
+        ${KFR_OUTPUT_DIR}/include
 )
 target_link_libraries(
         MenrvaEngine
 
         ${log-lib}
-        kfr
-        kfr_dft
+        libkfr-dft
         libprotobuf-lite
 )
 
@@ -139,6 +153,7 @@ target_include_directories(
         MenrvaEngineTest
         PRIVATE
         ${PROTOBUF_OUTPUT_DIR}/include
+        ${KFR_OUTPUT_DIR}/include
 )
 target_link_libraries(
         MenrvaEngineTest
