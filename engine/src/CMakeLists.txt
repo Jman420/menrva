@@ -10,8 +10,19 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS ON)
 
-# External Folder Locations
-set(LIBS_ROOT_DIR ${CMAKE_SOURCE_DIR}/../libs)
+# Android Hacks
+set(KFR_LIB_PREFIX)
+if (ANDROID)
+    set(KFR_LIB_PREFIX lib)
+endif()
+
+# Folder Locations
+SET(ENGINE_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/../out)
+if (NOT DEFINED REPO_ROOT_DIR)
+    set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
+endif()
+
+set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 
 set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
 set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host)
@@ -38,7 +49,8 @@ add_library(
 set_target_properties(
     libkfr-dft
     PROPERTIES IMPORTED_LOCATION
-    ${KFR_LIB_DIR}/kfr_dft.${LIBRARY_EXT}
+    
+    ${KFR_LIB_DIR}/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
 )
 
 # Add Protobuf Depenency
@@ -49,6 +61,7 @@ add_library(
 set_target_properties(
     libprotobuf-lite
     PROPERTIES IMPORTED_LOCATION
+
     ${PROTOBUF_LIB_DIR}/libprotobuf-lite.${LIBRARY_EXT}
 )
 
@@ -70,6 +83,8 @@ aux_source_directory(
 add_library(
     MenrvaEngine
     STATIC
+
+    hosts/ServiceLocator.h
 
     log/LogWriterBase.cpp
     log/LogProducer.cpp
@@ -115,7 +130,8 @@ add_library(
 )
 target_include_directories(
     MenrvaEngine
-    PRIVATE
+    PUBLIC
+
     ${PROTOBUF_OUTPUT_DIR}/include
     ${KFR_OUTPUT_DIR}/include
 )
@@ -124,4 +140,12 @@ target_link_libraries(
 
     libkfr-dft
     libprotobuf-lite
+)
+set_target_properties(
+    MenrvaEngine
+    PROPERTIES
+
+    ARCHIVE_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
+    LIBRARY_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
+    RUNTIME_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
 )

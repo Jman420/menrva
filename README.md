@@ -47,7 +47,12 @@ To ease both development and deployment of Menrva to target devices I have provi
 I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
 
 To build a version of Menrva which uses C++ double type for double precision calculations see the [Configuring Calculation Precision](CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](CONTRIBUTING.md) document.
-  
+
+## 64Bit Libraries
+64Bit Backend Libraries are not supported for Android for two reason.  First, AudioFlinger seems to be built in 32Bit for most devices and will not load 64Bit Audio Effect Libraries.  Second, x86_64 has build issues with KFR Lib when building for Android.
+
+The above being said, 64Bit Libraries should be fully functional if successful builds can be accomplished.
+
 ## Contributing
 See [CONTRIBUTING](CONTRIBUTING.md) document
 

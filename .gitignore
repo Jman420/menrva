@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+build/
 
 # Gradle files
 menrva/.gradle/
