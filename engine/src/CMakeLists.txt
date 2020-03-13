@@ -137,6 +137,7 @@ target_include_directories(
 )
 target_link_libraries(
     MenrvaEngine
+    PUBLIC
 
     libkfr-dft
     libprotobuf-lite
