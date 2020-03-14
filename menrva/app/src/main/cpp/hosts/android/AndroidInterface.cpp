@@ -17,10 +17,10 @@
  */
 
 #include <cerrno>
+#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/tools/StringOperations.h>
+#include <menrvaEngine/engine/CommandProcessor.h>
 #include "AndroidInterface.h"
-#include "../ServiceLocator.h"
-#include "../../tools/StringOperations.h"
-#include "../../engine/CommandProcessor.h"
 #include "command_handlers/Android_InitEngine_Handler.h"
 #include "command_handlers/Android_GetConfig_Handler.h"
 #include "command_handlers/Android_SetConfig_Handler.h"

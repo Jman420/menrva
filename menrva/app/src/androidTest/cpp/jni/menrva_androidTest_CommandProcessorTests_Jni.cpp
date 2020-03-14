@@ -17,12 +17,12 @@
  */
 
 #include <jni.h>
+#include <menrvaEngine/engine/CommandProcessor.h>
+#include <menrvaEngine/commands/MenrvaCommands.h>
+#include <menrvaEngine/host/CommandIdCalculator.h>
+#include <menrvaEngine/commands/messages/Engine_GetVersion.pb.h>
 #include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
 #include "../../../main/cpp/hosts/android/AndroidInterface.h"
-#include "../../../main/cpp/engine/CommandProcessor.h"
-#include "../../../main/cpp/commands/MenrvaCommands.h"
-#include "../../../main/cpp/hosts/CommandIdCalculator.h"
-#include "../../../main/cpp/commands/messages/Engine_GetVersion.pb.h"
 
 extern "C"
 JNIEXPORT jint JNICALL

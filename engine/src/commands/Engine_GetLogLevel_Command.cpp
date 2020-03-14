@@ -25,7 +25,7 @@
 
 #include "Engine_GetLogLevel_Command.h"
 #include "MenrvaCommands.h"
-#include "../hosts/CommandIdCalculator.h"
+#include "../host/CommandIdCalculator.h"
 
 Engine_GetLogLevel_Command::Engine_GetLogLevel_Command()
         : TypedCommandBase(CommandIdCalculator::Calculate(MenrvaCommands::Engine_GetLogLevel),

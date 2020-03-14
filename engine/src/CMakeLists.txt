@@ -3,7 +3,7 @@
 #
 cmake_minimum_required(VERSION 3.8)
 
-project("MenrvaEngine")
+project(MenrvaEngine)
 
 # Set Compiler Settings
 set(CMAKE_CXX_STANDARD 17)
@@ -17,10 +17,12 @@ if (ANDROID)
 endif()
 
 # Folder Locations
-SET(ENGINE_OUTPUT_DIR ${CMAKE_SOURCE_DIR}/../out)
 if (NOT DEFINED REPO_ROOT_DIR)
     set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
 endif()
+
+set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host)
+set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../include)
 
 set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 
@@ -81,10 +83,8 @@ aux_source_directory(
 
 # Define Library Source Files
 add_library(
-    MenrvaEngine
+    ${PROJECT_NAME}
     STATIC
-
-    hosts/ServiceLocator.h
 
     log/LogWriterBase.cpp
     log/LogProducer.cpp
@@ -129,24 +129,25 @@ add_library(
     engine/CommandProcessor.cpp
 )
 target_include_directories(
-    MenrvaEngine
+    ${PROJECT_NAME}
     PUBLIC
 
     ${PROTOBUF_OUTPUT_DIR}/include
     ${KFR_OUTPUT_DIR}/include
+    ${ENGINE_INCLUDE_DIR}
 )
 target_link_libraries(
-    MenrvaEngine
+    ${PROJECT_NAME}
     PUBLIC
 
     libkfr-dft
     libprotobuf-lite
 )
 set_target_properties(
-    MenrvaEngine
+    ${PROJECT_NAME}
     PROPERTIES
 
-    ARCHIVE_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
-    LIBRARY_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
-    RUNTIME_OUTPUT_DIRECTORY "${ENGINE_OUTPUT_DIR}"
+    ARCHIVE_OUTPUT_DIRECTORY ${ENGINE_OUTPUT_DIR}
+    LIBRARY_OUTPUT_DIRECTORY ${ENGINE_OUTPUT_DIR}
+    RUNTIME_OUTPUT_DIRECTORY ${ENGINE_OUTPUT_DIR}
 )

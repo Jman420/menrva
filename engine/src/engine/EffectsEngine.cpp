@@ -19,7 +19,7 @@
 #include <cerrno>
 #include <algorithm>
 #include "EffectsEngine.h"
-#include "../BuildConfig.h"
+#include "../EngineConfig.h"
 #include "../tools/StringOperations.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine(LogWriterBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)

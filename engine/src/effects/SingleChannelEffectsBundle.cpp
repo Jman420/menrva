@@ -18,7 +18,7 @@
 
 #include <stdexcept>
 #include "SingleChannelEffectsBundle.h"
-#include "../hosts/ServiceLocator.h"
+#include "../host/ServiceLocator.h"
 
 SingleChannelEffectsBundle::SingleChannelEffectsBundle() {
     ServiceLocator serviceLocator = *new ServiceLocator();

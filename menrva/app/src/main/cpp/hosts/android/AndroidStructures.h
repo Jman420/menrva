@@ -19,8 +19,8 @@
 #ifndef MENRVA_ANDROID_STRUCTURES_H
 #define MENRVA_ANDROID_STRUCTURES_H
 
+#include <menrvaEngine/host/ModuleStructures.h>
 #include "aosp/aosp_audio_effect_defs.h"
-#include "../ModuleStructures.h"
 
 struct AndroidModuleContext
         : public ModuleContext {

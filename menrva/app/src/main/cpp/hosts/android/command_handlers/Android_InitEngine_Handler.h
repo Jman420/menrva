@@ -19,7 +19,7 @@
 #ifndef MENRVA_ANDROID_INIT_ENGINE_HANDLER_H
 #define MENRVA_ANDROID_INIT_ENGINE_HANDLER_H
 
-#include "../../../command_handlers/CommandHandlerBase.h"
+#include <menrvaEngine/command_handlers/CommandHandlerBase.h>
 
 class Android_InitEngine_Handler
         : public CommandHandlerBase {

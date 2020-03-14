@@ -19,8 +19,9 @@
 #ifndef MENRVA_ANDROID_LOGGER_H
 #define MENRVA_ANDROID_LOGGER_H
 
+#include <string>
 #include <map>
-#include "../../HostLogger.h"
+#include <menrvaEngine/host/HostLogger.h>
 
 class AndroidLogger
         : public HostLogger {

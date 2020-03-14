@@ -19,7 +19,7 @@
 #ifndef MENRVA_ANDROID_GET_CONFIG_HANDLER_H
 #define MENRVA_ANDROID_GET_CONFIG_HANDLER_H
 
-#include "../../../command_handlers/CommandHandlerBase.h"
+#include <menrvaEngine/command_handlers/CommandHandlerBase.h>
 #include "../aosp/aosp_audio_effect_defs.h"
 
 class Android_GetConfig_Handler

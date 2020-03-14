@@ -19,7 +19,7 @@
 #ifndef MENRVA_ANDROID_HOST_GENERIC_COMMAND_H
 #define MENRVA_ANDROID_HOST_GENERIC_COMMAND_H
 
-#include "../../../commands/CommandBase.h"
+#include <menrvaEngine/commands/CommandBase.h>
 
 class AndroidHost_Generic_Command
         : public CommandBase {

@@ -16,6 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <cmath>
 #include "WaveGenerator.h"
 #include "WaveGeneratorConstants.h"
 
@@ -30,7 +31,7 @@ WaveGenerator::~WaveGenerator() {
 AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
     AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
     for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
-        sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((M_PI * 2.0 / length) * frequency * sampleCounter + offset));
+        sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((WaveGeneratorConstants::PI * 2.0 / length) * frequency * sampleCounter + offset));
     }
 
     return &sineWaveBuffer;

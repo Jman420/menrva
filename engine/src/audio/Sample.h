@@ -19,7 +19,7 @@
 #ifndef MENRVA_SAMPLE_H
 #define MENRVA_SAMPLE_H
 
-#include "../BuildConfig.h"
+#include "../EngineConfig.h"
 
 #ifdef MENRVA_DOUBLE_PRECISION
 typedef double sample;

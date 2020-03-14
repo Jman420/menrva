@@ -16,9 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <menrvaEngine/tools/StringOperations.h>
 #include "Android_SetConfig_Handler.h"
 #include "../commands/AndroidHost_Generic_Command.h"
-#include "../../../tools/StringOperations.h"
 #include "../AndroidStructures.h"
 
 Android_SetConfig_Handler::Android_SetConfig_Handler(LogWriterBase* logger)

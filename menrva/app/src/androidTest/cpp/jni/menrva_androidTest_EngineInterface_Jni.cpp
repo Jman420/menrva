@@ -17,8 +17,8 @@
  */
 
 #include <jni.h>
-#include "../../../main/cpp/BuildConfig.h"
-#include "../../../main/cpp/hosts/ServiceLocator.h"
+#include <menrvaEngine/EngineConfig.h>
+#include <menrvaEngine/host/ServiceLocator.h>
 
 extern "C"
 JNIEXPORT jint JNICALL

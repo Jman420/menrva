@@ -19,14 +19,12 @@
 #ifndef MENRVA_WAVE_GENERATOR_CONSTANTS_H
 #define MENRVA_WAVE_GENERATOR_CONSTANTS_H
 
-#include <cmath>
-#include <corecrt_math_defines.h>
 #include "../audio/Sample.h"
 
 class WaveGeneratorConstants {
 public:
-    static constexpr sample PI = (sample)M_PI,
-                            PI2 = (sample)(M_PI * 2.0),
+    static constexpr sample PI = (sample)3.14159265358979323846,
+                            PI2 = (sample)(PI * 2.0),
                             ONE = (sample)1.0,
                             ONE_HALF = (sample)0.5,
                             HAMMING_054 = (sample)0.54,

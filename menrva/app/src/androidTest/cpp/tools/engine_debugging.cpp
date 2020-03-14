@@ -16,11 +16,11 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/ir/WaveGenerator.h>
 #include "engine_debugging.h"
 #include "test_helper.h"
 #include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/hosts/ServiceLocator.h"
-#include "../../../main/cpp/ir/WaveGenerator.h"
 #include "../../../main/cpp/hosts/android/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {

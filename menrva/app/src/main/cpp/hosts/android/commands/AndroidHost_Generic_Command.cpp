@@ -16,8 +16,8 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <menrvaEngine/commands/MenrvaCommands.h>
 #include "AndroidHost_Generic_Command.h"
-#include "../../../commands/MenrvaCommands.h"
 
 AndroidHost_Generic_Command::AndroidHost_Generic_Command()
         : CommandBase(MenrvaCommands::Host_Generic_Command, nullptr, nullptr) {}

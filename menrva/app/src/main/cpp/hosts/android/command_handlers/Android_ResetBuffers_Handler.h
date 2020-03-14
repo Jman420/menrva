@@ -19,7 +19,7 @@
 #ifndef MENRVA_ANDROID_RESET_BUFFERS_HANDLER_H
 #define MENRVA_ANDROID_RESET_BUFFERS_HANDLER_H
 
-#include "../../../command_handlers/CommandHandlerBase.h"
+#include <menrvaEngine/command_handlers/CommandHandlerBase.h>
 
 class Android_ResetBuffers_Handler
         : public CommandHandlerBase {

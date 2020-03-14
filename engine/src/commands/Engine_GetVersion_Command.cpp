@@ -25,7 +25,7 @@
 
 #include "Engine_GetVersion_Command.h"
 #include "MenrvaCommands.h"
-#include "../hosts/CommandIdCalculator.h"
+#include "../host/CommandIdCalculator.h"
 
 Engine_GetVersion_Command::Engine_GetVersion_Command()
         : TypedCommandBase(CommandIdCalculator::Calculate(MenrvaCommands::Engine_GetVersion),

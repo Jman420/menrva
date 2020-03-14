@@ -19,9 +19,9 @@
 #ifndef MENRVA_ANDROID_INTERFACE_H
 #define MENRVA_ANDROID_INTERFACE_H
 
+#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/log/LogWriterBase.h>
 #include "AndroidStructures.h"
-#include "../ServiceLocator.h"
-#include "../../log/LogWriterBase.h"
 
 class AndroidInterface {
 public:

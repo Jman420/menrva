@@ -2,9 +2,11 @@ $CppSourcePath = "../src"
 $OutputDir = "../out"
 
 $IncludeFilePattern = @("*.h", "*.inc")
-$IncludeDir = "./$OutputDir/include"
+$IncludeDir = "./$OutputDir/include/menrvaEngine"
 $ExcludedFolders = "test"
 $ExcludedFiles = "*test*"
+
+$EngineConfigFileName = "EngineConfig.h"
 
 # Find Source Directories
 Write-Output "Finding Source Directories to copy Include Files..."
@@ -44,4 +46,10 @@ foreach ($sourceDir in $sourceDirectories) {
     }
     Pop-Location
 }
-Write-Output "Successfully copied Protobuf Include Files to $includeFileDest !"
+
+# Copy Engine Config
+Write-Output "Copying Engine Config Header to Include Directory..."
+New-Item -Force $includeFileDest/$EngineConfigFileName
+Copy -Force $CppSourcePath/$EngineConfigFileName -Destination $includeFileDest/$EngineConfigFileName
+
+Write-Output "Successfully copied Menrva Engine Include Files to $includeFileDest !"

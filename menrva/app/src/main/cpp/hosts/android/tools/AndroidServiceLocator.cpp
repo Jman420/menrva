@@ -16,10 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include "../../ServiceLocator.h"
+#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/fft/KfrInterface.h>
+#include <menrvaEngine/convolver/ConvolutionOperations.h>
 #include "../log/AndroidLogger.h"
-#include "../../../fft/KfrInterface.h"
-#include "../../../convolver/ConvolutionOperations.h"
 
 LogWriterBase* ServiceLocator::_Logger = new AndroidLogger();
 

@@ -17,13 +17,13 @@
  */
 
 #include <jni.h>
+#include <menrvaEngine/audio/Sample.h>
+#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/ir/FirGenerator.h>
+#include <menrvaEngine/effects/BassBoost.h>
+#include <menrvaEngine/ir/WaveGenerator.h>
 #include "../tools/test_helper.h"
 #include "../tools/engine_debugging.h"
-#include "../../../main/cpp/audio/Sample.h"
-#include "../../../main/cpp/hosts/ServiceLocator.h"
-#include "../../../main/cpp/ir/FirGenerator.h"
-#include "../../../main/cpp/effects/BassBoost.h"
-#include "../../../main/cpp/ir/WaveGenerator.h"
 #include "../../../main/cpp/hosts/android/AndroidInterface.h"
 
 extern "C"

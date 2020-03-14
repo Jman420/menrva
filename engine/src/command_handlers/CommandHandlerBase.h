@@ -21,7 +21,7 @@
 
 #include "../log/LogProducer.h"
 #include "../commands/CommandBase.h"
-#include "../hosts/ModuleStructures.h"
+#include "../host/ModuleStructures.h"
 
 class CommandHandlerBase
         : public LogProducer {
