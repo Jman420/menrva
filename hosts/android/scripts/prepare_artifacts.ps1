@@ -1,7 +1,7 @@
 param([string]$BuildType = "debug")
 
 . ./variables.ps1
-$MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
+$MenrvaBuildApk = "$AndroidAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
 $AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 
 if (!(Test-Path $MenrvaBuildApk)) {

@@ -3,7 +3,7 @@ param([string]$Architecture = "x86",
       [string]$EffectsConfigFile = "/vendor/etc/audio_effects.xml")
 
 . ./variables.ps1
-$MenrvaBuildApk = "$RootAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
+$MenrvaBuildApk = "$AndroidAppDir/build/outputs/apk/$BuildType/app-$BuildType.apk"
 $AppArtifact = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
 $MenrvaLibPath = "$BackendArtifactDir/$Architecture/$MenrvaLibFileName"
 $SharedCppLibPath = "$BackendArtifactDir/$Architecture/$SharedCppLibFileName"

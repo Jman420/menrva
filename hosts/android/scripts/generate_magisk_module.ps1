@@ -1,8 +1,9 @@
 param([string]$BuildType = "debug")
 
 . ./variables.ps1
+
 $ApkFile = "$ArtifactsRootDir/MenrvaApp-$BuildType.apk"
-$ModuleAddonDir = "$ModuleCommonDir/addon"
+$ModuleAddonDir = "$MagiskModuleCommonDir/addon"
 $ModuleRootDummyFile = "$MagiskModuleDir/dummy.txt"
 $ModuleSystemDir = "$MagiskModuleDir/system"
 
@@ -16,11 +17,11 @@ if (!(Test-Path $ApkFile)) {
 }
 
 Write-Output "Copying Menrva APK to MMT directory..."
-Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$ModuleApkFileName" -Force
+Copy-Item -Path "$ApkFile" -Destination "$MagiskModuleDir/$MagiskModuleApkFileName" -Force
 
 Write-Output "Copying Menrva Magisk Module Files into MMT directory..."
-Copy-Item -Path "$ModuleFilesDir/*" -Destination "$MagiskModuleDir" -Recurse -Force
-Copy-Item -Path "$ModuleReadmeFile" -Destination "$MagiskModuleDir" -Force
+Copy-Item -Path "$MagiskModuleFilesDir/*" -Destination "$MagiskModuleDir" -Recurse -Force
+Copy-Item -Path "$ReadmeFile" -Destination "$MagiskModuleDir" -Force
 
 Write-Output "Removing unused files from MMT directory..."
 if (Test-Path $ModuleAddonDir) {

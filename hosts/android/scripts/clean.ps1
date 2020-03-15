@@ -1,7 +1,7 @@
 . ./variables.ps1
 
-$AppCxxPath = "$RootAppDir/.cxx"
-$AppBuildPath = "$RootAppDir/build"
+$AppCxxPath = "$AndroidAppDir/.cxx"
+$AppBuildPath = "$AndroidAppDir/build"
 
 function Remove-Dir {
     param( [string]$targetDir )

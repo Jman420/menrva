@@ -1,7 +1,7 @@
 . ./variables.ps1
 
 $RepoUrl = "https://github.com/Zackptg5/MMT-Extended/archive/master.zip"
-$RepoZipFile = "$RepoLibsDir/MMT-Extended-master.zip"
+$RepoZipFile = "$AndroidLibsDir/MMT-Extended-master.zip"
 $RootZipFolder = "MMT-Extended-master"
 
 Write-Output "Preparing Magisk Module Template Directory..."
@@ -17,6 +17,6 @@ if (Test-Path $MagiskModuleDir) {
     Remove-Item $MagiskModuleDir -Recurse -Force
 }
 Write-Output "Unzipping MMT-Extended to Magisk Module Template Directory..."
-7z x "$RepoZipFile" -o"$RepoLibsDir" -r
-mv $RepoLibsDir/$RootZipFolder $MagiskModuleDir
+7z x "$RepoZipFile" -o"$AndroidLibsDir" -r
+mv $AndroidLibsDir/$RootZipFolder $MagiskModuleDir
 Write-Output "Successfully prepared Magisk Module Template!"

@@ -7,7 +7,7 @@ if ($IsDebugBuild) {
     $command = "assembleDebug"
 }
 
-Push-Location $RepoProjectDir
+Push-Location $AndroidProjectDir
 ./gradlew.bat ":app:$command"
 
 Pop-Location
