@@ -2,10 +2,9 @@
 # documentation: https://d.android.com/studio/projects/add-native-code.html
 
 # Sets the minimum version of CMake required to build the native library.
-
 cmake_minimum_required(VERSION 3.8)
 
-project(MenrvaAndroidInterface)
+project(MenrvaEngine-Android)
 
 # Set Compiler Settings
 set(CMAKE_CXX_STANDARD 17)
@@ -69,5 +68,5 @@ add_library(
 target_link_libraries(
         MenrvaEngineTest
 
-        MenrvaAndroidInterface
+        ${PROJECT_NAME}
 )

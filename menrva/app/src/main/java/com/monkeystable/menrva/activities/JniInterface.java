@@ -22,7 +22,7 @@ package com.monkeystable.menrva.activities;
 
 public class JniInterface {
     static {
-        System.loadLibrary("MenrvaEngine");
+        System.loadLibrary("MenrvaEngine-Android");
     }
 
     public static native String getMenrvaEffectName();

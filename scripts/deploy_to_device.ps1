@@ -9,7 +9,6 @@ $MenrvaLibPath = "$BackendArtifactDir/$Architecture/$MenrvaLibFileName"
 $SharedCppLibPath = "$BackendArtifactDir/$Architecture/$SharedCppLibFileName"
 $EffectsConfigFileName = Split-Path -Leaf $EffectsConfigFile
 
-$LibraryFileName = "libMenrvaEngine.so"
 $EffectLibraryName = "menrvaModule"
 $EffectEngineName = "menrvaEngine"
 $EffectUUID = "a91fdfe4-d09e-11e8-a8d5-f2801f1b9fd1"
@@ -44,7 +43,7 @@ Write-Output "Patching Effects Config File on PC : ./$EffectsConfigFileName"
 switch -Wildcard ($EffectsConfigFile) {
   "*.xml" {
     $configContents = $configContents -NotMatch "menrva"
-    $configContents = $configContents -Replace "<libraries>", "$&`n        <library name=`"$EffectLibraryName`" path=`"$LibraryFileName`"/>"
+    $configContents = $configContents -Replace "<libraries>", "$&`n        <library name=`"$EffectLibraryName`" path=`"$MenrvaLibFileName`"/>"
     $configContents = $configContents -Replace "<effects>", "$&`n        <effect name=`"$EffectEngineName`" library=`"$EffectLibraryName`" uuid=`"$EffectUUID`"/>"
     break
   }
@@ -57,7 +56,7 @@ switch -Wildcard ($EffectsConfigFile) {
     if ($engineLineIndex -gt 0) {
       $configContents.RemoveRange($engineLineIndex, 4)
     }
-    $configContents = $configContents -Replace "libraries {", "$&`n  $EffectLibraryName {\n    path /vendor/lib/soundfx/$LibraryFileName\n  }"
+    $configContents = $configContents -Replace "libraries {", "$&`n  $EffectLibraryName {\n    path /vendor/lib/soundfx/$MenrvaLibFileName\n  }"
     $configContents = $configContents -Replace "effects {", "$&`n  $EffectEngineName {\n    library $EffectLibraryName\n    uuid $EffectUUID\n  }"
     break
   }

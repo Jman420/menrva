@@ -36,7 +36,6 @@ const uint8_t LogWriterBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
 const uint8_t LogWriterBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
 
 LogLevel LogWriterBase::_LogLevel = START_UP_LOG_LEVEL;
-
 bool LogWriterBase::_OverrideListEnabled = false;
 logger_override_list LogWriterBase::_OverrideList = *new logger_override_list();
 

@@ -1,6 +1,6 @@
 # File Names
 $ModuleApkFileName = "MenrvaApp.apk"
-$MenrvaLibFileName = "libMenrvaEngine.so"
+$MenrvaLibFileName = "libMenrvaEngine-Android.so"
 $Fftw3LibFileName = "libfftw3.so"
 $KissFftLibFileName = "libkissfft.so"
 $SharedCppLibFileName = "libc++_shared.so"
