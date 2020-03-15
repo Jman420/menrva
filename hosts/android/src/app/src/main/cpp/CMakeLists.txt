@@ -15,7 +15,7 @@ set(TEST_SRC_DIR ${CMAKE_SOURCE_DIR}/../../androidTest/cpp)
 set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../../../../../../..)
 set(MENRVA_ENGINE_ROOT_DIR ${REPO_ROOT_DIR}/engine)
 set(MENRVA_ENGINE_SRC_DIR ${MENRVA_ENGINE_ROOT_DIR}/src)
-set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_SRC_DIR}/out/android)
+set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_ROOT_DIR}/out/android)
 
 find_library(
         log-lib
