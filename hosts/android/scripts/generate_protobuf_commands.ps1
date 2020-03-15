@@ -29,7 +29,7 @@ foreach ($protoFile in $protobufFiles) {
   Write-Output "Compiling Protobuf File : $protoFile"
   . $ProtocExe `
     --proto_path="$protoPath" `
-    --java_out="lite:$JavaSourceRootDir" `
+    --java_out="lite:$JavaSourceDir" `
     "$protoFile"
   
   Write-Output "Generating Java Command File : $JavaCommandOutputDir/$javaCommandFileName"
