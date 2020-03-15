@@ -14,7 +14,7 @@ $cppCommandHandlerClassTemplate = Get-Content -Path $CppCommandHandlerClassTempl
 Write-Output "Creating New Command Handler : $CommandName"
 $cppOutputCommandHandlerHeaderFile = "$CppCommandHandlersSourceDir/$CommandName$CommandHandlerFileSuffix$CppHeaderFileExtension"
 $cppOutputCommandHandlerClassFile = "$CppCommandHandlersSourceDir/$CommandName$CommandHandlerFileSuffix$CppClassFileExtension"
-if (Test-Path $cppOutputCommandHandlerHeaderFile -Or Test-Path $cppOutputCommandHandlerClassFile) {
+if ((Test-Path $cppOutputCommandHandlerHeaderFile) -Or (Test-Path $cppOutputCommandHandlerClassFile)) {
     Write-Output "Command Handler already exists.  Delete the following files to regenerate them :"
     Write-Output "    - $cppOutputCommandHandlerHeaderFile"
     Write-Output "    - $cppOutputCommandHandlerClassFile"

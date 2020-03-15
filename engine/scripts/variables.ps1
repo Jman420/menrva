@@ -1,7 +1,11 @@
 . ../../scripts/globalVariables.ps1
 
+# Misc
+$CurrentYear = Get-Date -Format "yyyy"
+
 # File Names
 $CommandHandlerFileSuffix = "_Handler"
+$CommandEnumFileName = "MenrvaCommands"
 
 # File Extensions
 $ProtobufFileExtension = ".proto"
@@ -17,6 +21,7 @@ $SourceTemplatesDir = "$EngineRootDir/templates"
 $CppCommandSourceDir = "$RootSourceDir/commands"
 $CppMessageSourceDir = "$CppCommandSourceDir/messages"
 $CppCommandHandlersSourceDir = "$RootSourceDir/command_handlers"
+$CppCommandHandlerMapSourceDir = "$RootSourceDir/engine"
 
 # Executable Paths
 $ProtocExe = "$RepoRootDir/libs/protobuf/out/compiler/protoc.exe"
@@ -33,19 +38,21 @@ $CppCommandBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandBaseTypes.
 $CppTypedCommandHandlerBaseHeaderTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.h.template"
 $CppTypedCommandHandlerBaseClassTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBase.cpp.template"
 $CppTypedCommandHandlerBaseTypeDefTemplateFile = "$SourceTemplatesDir/TypedCommandHandlerBaseTypes.template"
+$CppCommandHandlerHeaderTemplateFile = "$SourceTemplatesDir/CommandHandler.h.template"
+$CppCommandHandlerClassTemplateFile = "$SourceTemplatesDir/CommandHandler.cpp.template"
 $CppCommandHandlerMapHeaderTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.h.template"
 $CppCommandHandlerMapClassTemplateFile = "$SourceTemplatesDir/CommandHandlerMap.cpp.template"
 $CppCommandHandlerMapIncludeTemplateFile = "$SourceTemplatesDir/CommandHandlerMapInclude.template"
 $CppCommandHandlerMapEntryTemplateFile = "$SourceTemplatesDir/CommandHandlerMapEntry.template"
 
 # Source Code File Paths
-$CppCommandEnumFile = "$CppOutputCommandDir/$CommandEnumFileName$CppHeaderFileExtension"
-$CppCommandBaseHeaderFile = "$CppOutputCommandDir/TypedCommandBase$CppHeaderFileExtension"
-$CppCommandBaseClassFile = "$CppOutputCommandDir/TypedCommandBase$CppClassFileExtension"
-$CppTypedCommandHandlerBaseHeaderFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase$CppHeaderFileExtension"
-$CppTypedCommandHandlerBaseClassFile = "$CppOutputCommandHandlersDir/TypedCommandHandlerBase$CppClassFileExtension"
-$CppCommandHandlerMapHeaderFile = "$CppCommandHandlerMapDir/CommandHandlerMap$CppHeaderFileExtension"
-$CppCommandHandlerMapClassFile = "$CppCommandHandlerMapDir/CommandHandlerMap$CppClassFileExtension"
+$CppCommandEnumFile = "$CppCommandSourceDir/$CommandEnumFileName$CppHeaderFileExtension"
+$CppCommandBaseHeaderFile = "$CppCommandSourceDir/TypedCommandBase$CppHeaderFileExtension"
+$CppCommandBaseClassFile = "$CppCommandSourceDir/TypedCommandBase$CppClassFileExtension"
+$CppTypedCommandHandlerBaseHeaderFile = "$CppCommandHandlersSourceDir/TypedCommandHandlerBase$CppHeaderFileExtension"
+$CppTypedCommandHandlerBaseClassFile = "$CppCommandHandlersSourceDir/TypedCommandHandlerBase$CppClassFileExtension"
+$CppCommandHandlerMapHeaderFile = "$CppCommandHandlerMapSourceDir/CommandHandlerMap$CppHeaderFileExtension"
+$CppCommandHandlerMapClassFile = "$CppCommandHandlerMapSourceDir/CommandHandlerMap$CppClassFileExtension"
 
 # Template Fields
 $TemplateYearField = "<Year>"

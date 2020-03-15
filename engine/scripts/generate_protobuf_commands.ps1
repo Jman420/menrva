@@ -18,6 +18,7 @@ $cppCommandBaseHeaderTemplate = Get-Content -Path $CppCommandBaseHeaderTemplateF
 $cppCommandBaseClassTemplate = Get-Content -Path $CppCommandBaseClassTemplateFile
 
 Write-Output "Generating C++ Protobuf Message & Command Files..."
+$protoPath = Resolve-Path -Path $ProtobufSourceDir -Relative
 $protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern").FullName | Resolve-Path -Relative
 foreach ($protoFile in $protobufFiles) {
   Write-Output "Initializing for Protobuf File : $protoFile"
@@ -30,7 +31,7 @@ foreach ($protoFile in $protobufFiles) {
 
   Write-Output "Compiling Protobuf File : $protoFile"
   . $ProtocExe `
-    --proto_path="$ProtobufSourceDir" `
+    --proto_path="$protoPath" `
     --cpp_out="lite:$CppMessageSourceDir" `
     "$protoFile"
   

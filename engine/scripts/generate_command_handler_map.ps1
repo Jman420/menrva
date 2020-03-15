@@ -1,6 +1,6 @@
 . ./variables.ps1
 
-Write-Output "Loading Java & C++ Template Files..."
+Write-Output "Loading C++ Template Files..."
 $cppHandlerMapHeaderTemplate = Get-Content -Path $CppCommandHandlerMapHeaderTemplateFile
 $cppHandlerMapClassTemplate = Get-Content -Path $CppCommandHandlerMapClassTemplateFile
 $cppHandlerMapIncludeTemplate = Get-Content -Path $CppCommandHandlerMapIncludeTemplateFile
