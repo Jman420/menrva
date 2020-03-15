@@ -1,6 +1,6 @@
 . ./variables.ps1
 
-Write-Output "Loading Java & C++ Template Files..."
+Write-Output "Loading C++ Template Files..."
 $cppTypedCommandHandlerBaseHeaderTemplate = Get-Content -Path $CppTypedCommandHandlerBaseHeaderTemplateFile
 $cppTypedCommandHandlerBaseClassTemplate = Get-Content -Path $CppTypedCommandHandlerBaseClassTemplateFile
 $cppTypedCommandHandlerBaseTypeDefTemplate = (Get-Content -Path $CppTypedCommandHandlerBaseTypeDefTemplateFile) -Join "`n"
@@ -16,7 +16,7 @@ if (Test-Path $CppTypedCommandHandlerBaseClassFile) {
 }
 
 Write-Output "Generating TypedCommandHandlerBase Files..."
-$handlerFiles = (Get-ChildItem -Path "$CppOutputCommandHandlersDir/$CommandHandlerFilePattern" -Exclude $CommandHandlerExcludePattern).Name
+$handlerFiles = (Get-ChildItem -Path "$CppCommandHandlersSourceDir/$CommandHandlerFilePattern").Name
 foreach ($handlerFile in $handlerFiles) {
     Write-Output "Initializing for Handler File : $handlerFile"
     $handlerCommandName = $handlerFile.Replace("$CommandHandlerFileSuffix$CppClassFileExtension", "")
@@ -28,13 +28,13 @@ foreach ($handlerFile in $handlerFiles) {
 }
 
 Write-Output "Generating TypedCommandHandlerBase Header File..."
-$cppTypedCommandHandlerBaseHeader = $CppTypedCommandHandlerBaseHeaderTemplate
+$cppTypedCommandHandlerBaseHeader = $cppTypedCommandHandlerBaseHeaderTemplate
 $cppTypedCommandHandlerBaseHeader = $cppTypedCommandHandlerBaseHeader.Replace($TemplateCommandNameField, $commandName)
 $cppTypedCommandHandlerBaseHeader = $cppTypedCommandHandlerBaseHeader.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppTypedCommandHandlerBaseHeaderFile" -InputObject $cppTypedCommandHandlerBaseHeader -Encoding ASCII
 
 Write-Output "Generating TypedCommandHandlerBase Class File..."
-$cppTypedCommandHandlerBaseClass = $CppTypedCommandHandlerBaseClassTemplate
+$cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClassTemplate
 $cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateCommandNameField, $commandName)
 $cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateCommandHandlerBaseTypeDef, $cppTypedCommandHandlerBaseTypeDefReplacement)
 $cppTypedCommandHandlerBaseClass = $cppTypedCommandHandlerBaseClass.Replace($TemplateYearField, $CurrentYear)

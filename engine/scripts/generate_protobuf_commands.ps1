@@ -1,26 +1,14 @@
 . ./variables.ps1
 
 Write-Output "Removing Output Directories..."
-Write-Output "Removing C++ Output Directory : $CppOutputCommandDir ..."
-Remove-Item $CppOutputCommandDir\* -Force -Recurse -Exclude "CommandBase*"
-
-if (Test-Path $JavaOutputCommandDir) {
-    Write-Output "Removing Java Output Directory : $JavaOutputCommandDir ..."
-    Remove-Item $JavaOutputCommandDir -Force -Recurse
-}
+Write-Output "Removing C++ Output Directory contents from : $CppCommandSourceDir ..."
+Remove-Item $CppCommandSourceDir\* -Force -Recurse -Exclude "CommandBase*"
 
 Write-Output "Creating C++ Output Directories..."
-New-Item -ItemType directory -Force -Path $CppOutputCommandDir
-New-Item -ItemType directory -Force -Path $CppOutputMessageDir
-Write-Output "Creating Java Output Directories..."
-New-Item -ItemType directory -Force -Path $JavaOutputCommandDir
-New-Item -ItemType directory -Force -Path $JavaOutputMessageDir
+New-Item -ItemType directory -Force -Path $CppCommandSourceDir
+New-Item -ItemType directory -Force -Path $CppMessageSourceDir
 
-Write-Output "Loading Java & C++ Template Files..."
-$javaCommandClassTemplate = Get-Content -Path $JavaCommandClassTemplateFile
-$javaCommandEnumTemplate = Get-Content -Path $JavaCommandEnumTemplateFile
-$javaCommandEnumEntryTemplate = Get-Content -Path $JavaCommandEnumEntryTemplateFile
-
+Write-Output "Loading C++ Template Files..."
 $cppCommandHeaderTemplate = Get-Content -Path $CppCommandHeaderTemplateFile
 $cppCommandClassTemplate = Get-Content -Path $CppCommandClassTemplateFile
 $cppCommandEnumTemplate = Get-Content -Path $CppCommandEnumTemplateFile
@@ -29,7 +17,7 @@ $cppCommandBaseTypeDefTemplate = (Get-Content -Path $CppCommandBaseTypeDefTempla
 $cppCommandBaseHeaderTemplate = Get-Content -Path $CppCommandBaseHeaderTemplateFile
 $cppCommandBaseClassTemplate = Get-Content -Path $CppCommandBaseClassTemplateFile
 
-Write-Output "Compiling Protobuf Message & Command Files..."
+Write-Output "Generating C++ Protobuf Message & Command Files..."
 $protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern").FullName | Resolve-Path -Relative
 foreach ($protoFile in $protobufFiles) {
   Write-Output "Initializing for Protobuf File : $protoFile"
@@ -37,42 +25,27 @@ foreach ($protoFile in $protobufFiles) {
   $commandIdLine = (Select-String -Path $protoFile -Pattern "CommandId=").Line
   $commandIdDelimiterIndex = $commandIdLine.IndexOf("=")
   $commandId = $commandIdLine.Substring($commandIdDelimiterIndex + 1)
-  $javaCommandFileName = $commandName + $CommandClassFileSuffix + $JavaFileExtension
   $cppCommandHeaderFileName = $commandName + $CommandClassFileSuffix + $CppHeaderFileExtension
   $cppCommandClassFileName = $commandName + $CommandClassFileSuffix + $CppClassFileExtension
 
   Write-Output "Compiling Protobuf File : $protoFile"
   . $ProtocExe `
     --proto_path="$ProtobufSourceDir" `
-    --cpp_out="lite:$CppOutputMessageDir" `
-    --java_out="lite:$JavaRootDir" `
+    --cpp_out="lite:$CppMessageSourceDir" `
     "$protoFile"
   
-  Write-Output "Generating Java Command File : $JavaOutputCommandDir/$javaCommandFileName"
-  $javaCommandFile = $javaCommandClassTemplate
-  $javaCommandFile = $javaCommandFile.Replace($TemplateCommandNameField, $commandName)
-  $javaCommandFile = $javaCommandFile.Replace($TemplateYearField, $CurrentYear)
-  Out-File -Force -FilePath "$JavaOutputCommandDir/$javaCommandFileName" -InputObject $javaCommandFile -Encoding ASCII
-  
-  Write-Output "Adding Entry to Java Command Enum for : $commandName"
-  $javaEnumCommandEntry = $javaCommandEnumEntryTemplate
-  $javaEnumCommandEntry = $javaEnumCommandEntry.Replace($TemplateCommandNameField, $commandName)
-  $javaEnumCommandEntry = $javaEnumCommandEntry.Replace($TemplateCommandIdField, $commandId)
-  $javaEnumEntryReplacement = "$javaEnumEntryReplacement`n" + `
-                              "$javaEnumCommandEntry"
-  
-  Write-Output "Generating C++ Command Header File : $CppOutputCommandDir/$cppCommandHeaderFileName"
+  Write-Output "Generating C++ Command Header File : $CppCommandSourceDir/$cppCommandHeaderFileName"
   $cppCommandHeaderFile = $cppCommandHeaderTemplate
   $cppCommandHeaderFile = $cppCommandHeaderFile.Replace($TemplateCommandNameField, $commandName)
   $cppCommandHeaderFile = $cppCommandHeaderFile.Replace($TemplateYearField, $CurrentYear)
-  Out-File -Force -FilePath "$CppOutputCommandDir/$cppCommandHeaderFileName" -InputObject $cppCommandHeaderFile -Encoding ASCII
+  Out-File -Force -FilePath "$CppCommandSourceDir/$cppCommandHeaderFileName" -InputObject $cppCommandHeaderFile -Encoding ASCII
   
-  Write-Output "Generating C++ Command Class File : $CppOutputCommandDir/$cppCommandClassFileName"
+  Write-Output "Generating C++ Command Class File : $CppCommandSourceDir/$cppCommandClassFileName"
   $cppCommandClassFile = $cppCommandClassTemplate
   $cppCommandClassFile = $cppCommandClassFile.Replace($TemplateCommandNameField, $commandName)
   $cppCommandClassFile = $cppCommandClassFile.Replace($TemplateCommandEnumFileField, $CommandEnumFileName)
   $cppCommandClassFile = $cppCommandClassFile.Replace($TemplateYearField, $CurrentYear)
-  Out-File -Force -FilePath "$CppOutputCommandDir/$cppCommandClassFileName" -InputObject $cppCommandClassFile -Encoding ASCII
+  Out-File -Force -FilePath "$CppCommandSourceDir/$cppCommandClassFileName" -InputObject $cppCommandClassFile -Encoding ASCII
   
   Write-Output "Adding Entry to C++ Command Enum for : $commandName"
   $cppEnumCommandEntry = $cppCommandEnumEntryTemplate
@@ -87,13 +60,6 @@ foreach ($protoFile in $protobufFiles) {
                                       "`n" + `
                                       "$typeDefEntry"
 }
-
-Write-Output "Generating Java Command Enum File : $JavaCommandEnumFile"
-$javaEnumEntryReplacement = $javaEnumEntryReplacement.Replace("`n$TemplateCommandEnumEntryField", "")
-$javaCommandEnum = $javaCommandEnumTemplate
-$javaCommandEnum = $javaCommandEnum.Replace($TemplateCommandEnumEntryField, $javaEnumEntryReplacement)
-$javaCommandEnum = $javaCommandEnum.Replace($TemplateYearField, $CurrentYear)
-Out-File -Force -FilePath "$JavaCommandEnumFile" -InputObject $javaCommandEnum -Encoding ASCII
 
 Write-Output "Generating C++ Command Enum File : $CppCommandEnumFile"
 $cppEnumEntryReplacement = $cppEnumEntryReplacement.Replace("`n$TemplateCommandEnumEntryField", "")
@@ -115,4 +81,4 @@ $cppCommandBaseClass = $cppCommandBaseClass.Replace($TemplateCommandBaseTypeDefF
 $cppCommandBaseClass = $cppCommandBaseClass.Replace($TemplateYearField, $CurrentYear)
 Out-File -Force -FilePath "$CppCommandBaseClassFile" -InputObject $cppCommandBaseClass -Encoding ASCII
 
-Write-Output "Successfully Generated Protobuf Message & Command Files!"
+Write-Output "Successfully Generated C++ Protobuf Message & Command Files!"

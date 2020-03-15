@@ -1,0 +1,2 @@
+# File Extensions
+$ProtobufFileExtension = ".proto"
