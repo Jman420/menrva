@@ -21,8 +21,8 @@
 #include <menrvaEngine/commands/MenrvaCommands.h>
 #include <menrvaEngine/host/CommandIdCalculator.h>
 #include <menrvaEngine/commands/messages/Engine_GetVersion.pb.h>
-#include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/hosts/android/AndroidInterface.h"
+#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/AndroidInterface.h"
 
 extern "C"
 JNIEXPORT jint JNICALL

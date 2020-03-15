@@ -20,8 +20,8 @@
 #include <menrvaEngine/ir/WaveGenerator.h>
 #include "engine_debugging.h"
 #include "test_helper.h"
-#include "../../../main/cpp/hosts/android/aosp/aosp_audio_effect_defs.h"
-#include "../../../main/cpp/hosts/android/AndroidInterface.h"
+#include "../../../main/cpp/aosp/aosp_audio_effect_defs.h"
+#include "../../../main/cpp/AndroidInterface.h"
 
 void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;

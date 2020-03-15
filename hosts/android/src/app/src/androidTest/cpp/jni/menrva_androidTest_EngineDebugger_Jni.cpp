@@ -24,7 +24,7 @@
 #include <menrvaEngine/ir/WaveGenerator.h>
 #include "../tools/test_helper.h"
 #include "../tools/engine_debugging.h"
-#include "../../../main/cpp/hosts/android/AndroidInterface.h"
+#include "../../../main/cpp/AndroidInterface.h"
 
 extern "C"
 JNIEXPORT void JNICALL

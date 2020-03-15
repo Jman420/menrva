@@ -59,7 +59,7 @@ dependencies {
     implementation 'com.google.dagger:dagger-android-support:2.26'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.26'
 
-    implementation fileTree(dir: '../../libs/protobuf/out/java', include: ['*.jar'])
+    implementation fileTree(dir: '../../../../libs/protobuf/out/java', include: ['*.jar'])
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 }

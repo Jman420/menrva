@@ -3,8 +3,6 @@
 #ifndef MENRVA_AOSP_AUDIO_EFFECT_DEFS_H
 #define MENRVA_AOSP_AUDIO_EFFECT_DEFS_H
 
-#include "../../../../../../../../../../../../../Users/jgiannone/AppData/Local/Android/Sdk/ndk/21.0.6113669/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/include/c++/v1/cstdint"
-
 /*
  * ------------------- DEFINITIONS FROM cutils/bitops.h -------------------
  */
