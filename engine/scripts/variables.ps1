@@ -4,6 +4,7 @@
 $CurrentYear = Get-Date -Format "yyyy"
 
 # File Names
+$CommandClassFileSuffix = "_Command"
 $CommandHandlerFileSuffix = "_Handler"
 $CommandEnumFileName = "MenrvaCommands"
 
