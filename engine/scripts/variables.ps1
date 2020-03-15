@@ -68,4 +68,6 @@ $TemplateHandlerMapEntriesField = "<HandlerMapEntries>"
 
 # Patterns
 $ProtobufFilePattern = "*$ProtobufFileExtension"
+$CommandIdDelimiter = "="
+$CommandIdPrefixPattern = "CommandId$CommandIdDelimiter"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"

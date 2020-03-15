@@ -23,8 +23,8 @@ $protobufFiles = (Get-ChildItem -Path "$ProtobufSourceDir/$ProtobufFilePattern")
 foreach ($protoFile in $protobufFiles) {
   Write-Output "Initializing for Protobuf File : $protoFile"
   $commandName = (Split-Path $protoFile -Leaf).Replace($ProtobufFileExtension, "")
-  $commandIdLine = (Select-String -Path $protoFile -Pattern "CommandId=").Line
-  $commandIdDelimiterIndex = $commandIdLine.IndexOf("=")
+  $commandIdLine = (Select-String -Path $protoFile -Pattern $CommandIdPrefixPattern).Line
+  $commandIdDelimiterIndex = $commandIdLine.IndexOf($CommandIdDelimiter)
   $commandId = $commandIdLine.Substring($commandIdDelimiterIndex + 1)
   $cppCommandHeaderFileName = $commandName + $CommandClassFileSuffix + $CppHeaderFileExtension
   $cppCommandClassFileName = $commandName + $CommandClassFileSuffix + $CppClassFileExtension
