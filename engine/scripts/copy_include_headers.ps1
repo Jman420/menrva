@@ -1,9 +1,7 @@
 . ./variables.ps1
 
-$OutputDir = "../out"
-
-$IncludeFilePattern = @($CppHeaderFileExtension)
-$IncludeOutputDir = "./$OutputDir/include/menrvaEngine"
+$IncludeFilePattern = "*$CppHeaderFileExtension"
+$IncludeOutputDir = "$EngineRootDir/out/include/menrvaEngine"
 $ExcludedFolders = "test"
 $ExcludedFiles = "*test*"
 

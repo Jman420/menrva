@@ -1,20 +1,15 @@
+$RepoRootDir = "../.."
+
 . ../../scripts/globalVariables.ps1
 
-# Misc
-$CurrentYear = Get-Date -Format "yyyy"
-
-# File Names
-$CommandClassFileSuffix = "_Command"
-$CommandHandlerFileSuffix = "_Handler"
-$CommandEnumFileName = "MenrvaCommands"
-
 # File Extensions
-$ProtobufFileExtension = ".proto"
 $CppHeaderFileExtension = ".h"
 $CppClassFileExtension = ".cpp"
 
+# File Names
+$CommandHandlerFileSuffix = "_Handler"
+
 # Directories
-$RepoRootDir = "../.."
 $EngineRootDir = "$RepoRootDir/engine"
 $RootSourceDir = "$EngineRootDir/src"
 $ProtobufSourceDir = "$EngineRootDir/protobuf"
@@ -23,9 +18,6 @@ $CppCommandSourceDir = "$RootSourceDir/commands"
 $CppMessageSourceDir = "$CppCommandSourceDir/messages"
 $CppCommandHandlersSourceDir = "$RootSourceDir/command_handlers"
 $CppCommandHandlerMapSourceDir = "$RootSourceDir/engine"
-
-# Executable Paths
-$ProtocExe = "$RepoRootDir/libs/protobuf/out/compiler/protoc.exe"
 
 # Template File Paths
 $CommandTemplateFile = "$SourceTemplatesDir/ProtobufCommand.proto.template"
@@ -56,18 +48,11 @@ $CppCommandHandlerMapHeaderFile = "$CppCommandHandlerMapSourceDir/CommandHandler
 $CppCommandHandlerMapClassFile = "$CppCommandHandlerMapSourceDir/CommandHandlerMap$CppClassFileExtension"
 
 # Template Fields
-$TemplateYearField = "<Year>"
-$TemplateCommandIdField = "<CommandId>"
-$TemplateCommandNameField = "<CommandName>"
 $TemplateCommandEnumFileField = "<CommandEnumFile>"
-$TemplateCommandEnumEntryField = "<EnumEntry>"
 $TemplateCommandBaseTypeDefField = "<CommandBaseTypeDef>"
 $TemplateCommandHandlerBaseTypeDef = "<CommandHandlerBaseTypeDef>"
 $TemplateHandlerMapIncludesField = "<HandlerMapIncludes>"
 $TemplateHandlerMapEntriesField = "<HandlerMapEntries>"
 
 # Patterns
-$ProtobufFilePattern = "*$ProtobufFileExtension"
-$CommandIdDelimiter = "="
-$CommandIdPrefixPattern = "CommandId$CommandIdDelimiter"
 $CommandHandlerFilePattern = "*$CommandHandlerFileSuffix$CppClassFileExtension"
