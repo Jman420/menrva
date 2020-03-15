@@ -4,6 +4,11 @@ $RepoUrl = "https://github.com/Zackptg5/MMT-Extended/archive/master.zip"
 $RepoZipFile = "$AndroidLibsDir/MMT-Extended-master.zip"
 $RootZipFolder = "MMT-Extended-master"
 
+if (!(Test-Path $AndroidLibsDir)) {
+    Write-Output "Creating Android Libs Directory..."
+    New-Item -ItemType directory -Path $AndroidLibsDir
+}
+
 Write-Output "Preparing Magisk Module Template Directory..."
 if (Test-Path $RepoZipFile) {
     Write-Output "Removing existing MMT-Extended Repo Zip File..."

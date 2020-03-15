@@ -92,7 +92,7 @@ artifacts/*
 *.mp3
 
 # Ignore Libs Dependencies
-libs/MMT-Extended*
+hosts/android/libs/MMT-Extended*
 
 # Ignore Protobuf Generated Source Files
 engine/src/commands/**/*
