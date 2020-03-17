@@ -1,107 +1,97 @@
 # Contributing to Menrva
 
-## Development Requirements
+## Project Architecture
+The Menrva Project consists of various subprojects used to encapsulate portions of the Project by functionality.  At the core of the Project is the MenrvaEngine which is implemented as a C++ CMake Project for inclusion as a CMake Subproject in Host Implementations.  Each Host Implementation contains the neccessary logic to integrate MenrvaEngine into a Host Environment such as Windows, Linux, MacOS, Android, iOS, etc.
+
+## Versioning
+Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the Android App versioning.  Each subproject in the Menrva Project can have its own version for clarity and bug fixing.
+
+## Engine Development
+The MenrvaEngine represents the heart of the Menrva Project.  The Engine handles all of the audio processing functionality and is designed to be shared across platforms.  This subproject is modified when adding new audio effects, DSP algorithms or engine commands.  Detailed Engine Architecture can be found [here](EngineArchitecture.md).
+
+### Development Requirements
+  - C++ IDE with CMake Support (recommendation : Visual Studio)
+  - Powershell
+
+### Dependencies
+  - [KFRLib](https://www.kfrlib.com/)
+  - [Protobuf](https://developers.google.com/protocol-buffers)
+  
+### Building Dependencies
+MenrvaEngine dependencies are included as submodules containing build scripts for the dependency.  To decrease build times these dependencies are precompiled rather than including them as part of the Menrva Engine build process.  Specific build instructions for each dependency can be found in the dependency's submodule.  All Project Dependencies are stored in the [/libs]](../libs) folder.
+
+### Generating Templated Engine Source Code
+MenrvaEngine uses Templated Source Code for some portions of it's codebase for portability and simplifying certain development processes.  Scripts have also been provided to automate using and populating the Template Source Code files when necessary.  Source Code Files which are generated from Templates will carry a header comment identifying it as generated source code and provide the path to the Source Code Template file.  These files are not tracked by source control and are explicitly ignored in the root gitignore.
+
+#### Steps
+  - Use [/engine/scripts/generate_protobuf_commands.ps1](../engine/scripts/generate_protobuf_commands.ps1) to generate the necessary C++ Source Code from the Protobuf Command Files
+  - Use [/engine/scripts/generate_command_handler_base.ps1](../engine/scripts/generate_command_handler_base.ps1) to generate the TypedCommandHandlerBase Class Source Files
+  - Use [/engine/scripts/generate_command_handler_map.ps1](../engine/scripts/generate_command_handler_map.ps1) to generate the CommandHandlerMap Class Source Files
+
+### Building the Engine
+Once the above steps in [Generating Templated Engine Source Code](#generating-templated-engine-source-code) have been completed the MenrvaEngine Project is ready to be built.  There are many ways that the CMake Project can be compiled and won't be covered here.  Visual Studio is recommended using the CMake Project support; when using Visual Studio the Project can be built as any other Visual Studio Project.
+
+### Adding New Engine Commands
+MenrvaEngine uses a Command-based API powered by [Protobuf](https://developers.google.com/protocol-buffers).  This allows for easily adding new features and functionality to the Engine with a decoupled mechanism for inter-process communications.  Scripts and templates are provided to simplify the processes of creating new Protobuf Command Files,  generating source code files from Protobuf Command Files and generating new command handler source code.
+
+#### Steps
+  - Use [/engine/scripts/create_new_protobuf_command.ps1](../engine/scripts/create_new_protobuf_command.ps1) to create a new Protobuf Command File
+  - Edit the newly created Protobuf Command File's Request & Response structures with any necessary data points
+  - Use [/engine/scripts/generate_protobuf_commands.ps1](../engine/scripts/generate_protobuf_commands.ps1) to generate the necessary C++ Source Code from the Protobuf Command Files
+  - Use [/engine/scripts/create_new_command_handler.ps1](../engine/scripts/create_new_command_handler.ps1) to generate a new Command Handler for the newly created Command
+  - Add logic to the newly created Command Handler's Source Code File in [/engine/src/command_handlers](../engine/src/command_handlers)
+
+### Configuring Calculation Precision
+See [Calculation Precision](../README.md#calculation-precision) for details about Calculation Precision.
+
+#### Enabling Double Precision
+  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
+
+## Host Development
+On it's own the MenrvaEngine is fairly useless; although it contains powerful algorithms and effects, it still needs to be provided input for processing.  Menrva Host Implementations encapsulate any data structures and logic required to integrate MenrvaEngine into a Host Environment to provide the inputs that the MenrvaEngine needs for processing.  A Host Environment can be any application or library which includes the MenrvaEngine Static Library.  Menrva Host Implementations have two options for interacting with it's MenrvaEngine : 
+  - Protobuf-based Command API : recommended for inter-process and inter-language support
+  - MenrvaEngine's Public API : recommended for when embedded in application
+
+*NOTE:* Host Implementations are expected to define implementations for the headers contained in [/engine/src/host](../engine/src/host).
+
+### Test Harness
+***Under Construction***
+
+### Android
+Provides support for integrating MenrvaEngine into Android's AudioFlinger and an App for interacting with the Engine.
+
+#### Development Requirements
   - Android Studio
   - Android SDK
   - Android NDK
-  - KFR Lib
-  - Protobuf
-  
-## Versioning
-Menrva uses [Semantic Versioning](https://semver.org/) for easy consumption in other projects if needed.  Please adhere to this versioning pattern when making contributions.  See AOSP's [Version your app](https://developer.android.com/studio/publish/versioning) guide for details on updating the app versioning.
+  - Powershell
 
-## Compiling Protobuf for Android
-  - See instruction in [Protobuf Build Readme](https://github.com/Jman420/protobuf_for_android/blob/develop/README.md)
-  
-## Generating Protobuf Message, Command & Handler Source Files
-  - Follow above instructions for Compiling Protobuf for Android
-  - Execute the [scripts/generate_protobuf_commands.ps1](scripts/generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
-  **Note:** These files are not included under source control because the generated source code versions on both sides (Java App and C++ Engine) must be the same.
-  - Execute the [scripts/generate_command_handler_base.ps1](scripts/generate_command_handler_base.ps1) script to generate the TypedCommandHandlerBase Class
-  **Note:** These files are not included under source control because they need to incorporate all Command Handlers that have been defined.
+#### Generating Templated Android Source Code
+To support MenvaEngine's Protobuf Command API the Android Implementation uses Templated Source Code to ensure compatible command structures.  Scripts have also been provided to automate using and populating the Template Source Code files when necessary.  Source Code Files which are generated from Templates will carry a header comment identifying it as generated source code and provide the path to the Source Code Template file.  These files are not tracked by source control and are explicitly ignored in the root gitignore.
 
-## Creating New App to Engine Command
-  - Follow above instructions for Compiling Protobuf for Android
-  - Execute the [scripts/create_new_protobuf_command.ps1](scripts/create_new_protobuf_command.ps1) script with the Command Name as an argument to generate the Protobuf Command File
-  - Add necessary data points to the Request and Response Messages in the Resulting File in the [menrva/app/src/main/protobuf](menrva/app/src/main/protobuf) directory
-  - Execute the [scripts/generate_protobuf_commands.ps1](scripts/generate_protobuf_commands.ps1) script to generate the Protobuf Message Source Files
-  - Execute the [scripts/create_new_command_handler.ps1](scripts/create_new_command_handler.ps1) script with the Command Name as an argument to generate the C++ Command Handler
-  - Add necessary logic to the Command Handler in the Resulting File in the [menrva/app/src/main/cpp/command_handlers](menrva/app/src/main/cpp/command_handlers) directory
+##### Steps
+  - Use [/hosts/android/scripts/generate_protobuf_commands.ps1](/hosts/android/scripts/generate_protobuf_commands.ps1) to generate the necessary Java Source Code from the Protobuf Command Files
 
-## Configuring Calculation Precision
-See [Calculation Precision](README.md#calculation-precision) for details about Calculation Precision.
+#### Building the Android Implementation
+Once the above steps in [Generating Templated Android Source Code](#generating-templated-android-source-code) have been completed the Android Implementation is ready to be built.  The Android Implementation provides an AndroidStudio Project for IDE supported builds as well as a Powershell script for automated builds.  Only the Powershell automated build will be covered here.
 
-### Enabling Double Precision
-  - Compile FFTW with Double Precision (see [FFTW Precision](https://github.com/Jman420/fftw_for_android/blob/master/README.md#fftw-precision) for details)
-  - Compile KissFFT with Double Precision (see [KissFFT Precision](https://github.com/Jman420/kissfft_for_android/blob/master/README.md#kissfft-precision) for details)
-  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [config.h](menrva/app/src/main/cpp/config.h)
-  - Recompile Menrva
-  - Follow the Installation Instructions of your choice
-  
-## Automated ADB Installation
-  - Complete a Successful Build
+*NOTE:* The Android Implementation does not require MenrvaEngine to be pre-compiled.  Only its Generated Source Code must be provided.
+
+##### Steps
+  - Generate MenrvaEngine Templated Source Code as described in [Generating Templated Engine Source Code](#generating-templated-engine-source-code)
+  - Use [/engine/scripts/copy_include_headers.ps1](/engine/scripts/copy_include_headers.ps1) to gopy the MenrvaEngine Include Headers to its Output Directory
+  - Generate Android Templated Source Code as described in [Generating Templated Android Source Code](#generating-templated-android-source-code)
+  - Use [/hosts/android/scripts/build.ps1](/hosts/android/scripts/build.ps1) to execute a Gradle build
+
+#### Generating Magisk Module
+  - Perform a successful build as described in [Building the Android Implementation](#building-the-android-implementation)
+  - Use [/hosts/android/scripts/prepare_artifacts.ps1](/hosts/android/scripts/prepare_artifacts.ps1) to prepare the build artifacts
+  - Use [/hosts/android/scripts/prepare_magisk_module_template.ps1](/hosts/android/scripts/prepare_magisk_module_template.ps1) to download and extract the MMT-EX Template
+  - Use [/hosts/android/scripts/generate_magisk_module.ps1](/hosts/android/scripts/generate_magisk_module.ps1) to generate the Magisk Module Zip
+  - Magisk Module Zip will be in /hosts/android/artifacts/ directory
+
+#### Scripted Installation
+  - Perform a successful build as described in [Building the Android Implementation](#building-the-android-implementation)
+  - Use [/hosts/android/scripts/prepare_artifacts.ps1](/hosts/android/scripts/prepare_artifacts.ps1) to prepare the build artifacts
   - Run an Android Emulated Device via AVD -OR- Attach an Android Device via USB with ADB Debugging Enabled
-  - Execute [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)
-
-## Generating Magisk Module Zip
-  - Execute the [scripts/prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) script to download and extract the MMT-EX Template
-  - Execute the [scripts/generate_magisk_module.ps1](scripts/generate_magisk_module.ps1) script to generate the Magisk Module Zip
-  - Magisk Module Zip will be in /artifacts/ directory
-
-## AVD Tips & Tricks
-
-### Capture Logcat from Boot
-Most issues with AudioFlinger based Audio Mods will occur during device startup (between boot and the initial display of the lock screen).  The most reliable way to do this is to capture the Logcat using ADB.
-
-  - Unlock Developer Mode on Android Device
-  - Enable USB Debugging on Android Device
-  - Configure Android Device to always allow USB Debugging from Target Computer
-  - Shutdown Android Device
-  - Open Console on Target Computer
-  - Execute :
-    * Powershell : ./adb.exe -d logcat | Tee-Object -File logcat_dump.txt
-  - Boot the Android Device
-  - Use Ctrl+C or Close the Powershell Window to stop capturing Logcat
-
-### Android Emulator with Writable System
-Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.
-
-#### Add Android Emulator as External Tool
-  - Open File -> Settings -> Tools -> External Tools
-  - Add a new External Tools
-  - Use the following settings to configure the External Tool Parameters
-    * Name : Run Project Emulator
-    * Program : $ModuleSdkPath$\emulator\emulator.exe
-    * Parameters : -avd $ProjectName$ -writable-system
-
-#### Add AVD for Project
-  - Open Tools -> AVD Manager
-  - Create a New Virtual Device
-  - Select a Profile which does NOT support Google Play Store
-  - Name AVD exactly the same as your Project's Name
-  - Finish creating the AVD
-
-#### Running the Project Emulator
-  - Open Tools -> External Tools -> Run Project Emulator
-  OR
-  - Right Click -> External Tools -> Run Project Emulator
-
-#### Running a Project on the Project Emulator
-  - Run the Project Emulator (see [Running the Project Emulator](#running-the-project-emulator) above)
-  - Run the Project via Android Studio
-  - Select the Android Device under 'Connected Devices' named after your Project when prompted for a Deployment Target
-
-#### Making changes to the Project Emulator System Folder
-  - Run the Project Emulator (see [Running the Project Emulator](#running-the-project-emulator) above)
-  - Open a command line to your Android Platform Tools
-  - Execute the following commands :  
-    ```
-    ./adb.exe root
-    ./adb.exe remount
-    ./adb.exe shell chmod 777 /system
-    ./adb.exe shell chmod 777 /system/*
-    ./adb.exe shell chmod 777 /vendor
-    ./adb.exe shell chmod 777 /vendor/*
-    ```
-  - You can now push files to the system & vendor folders and subfolders, as well as modify any files in the those folders, such as :  
-  ```./adb.exe push %MenrvaProjectDir%/menrva/app/build/intermediates/cmake/debug/obj/x86/libMenrvaEngine.so /vendor/lib/soundfx/```
+  - Use [/hosts/android/scripts/deploy_to_device.ps1](/hosts/android/scripts/deploy_to_device.ps1) to install the build via ADB (multiple executions may be necessary for ADB to initialize)

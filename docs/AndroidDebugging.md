@@ -1,3 +1,61 @@
+# Android Debugging Tips & Tricks
+
+## Capture Logcat from Boot
+Most issues with AudioFlinger based Audio Mods will occur during device startup (between boot and the initial display of the lock screen).  The most reliable way to do this is to capture the Logcat using ADB.
+
+  - Unlock Developer Mode on Android Device
+  - Enable USB Debugging on Android Device
+  - Configure Android Device to always allow USB Debugging from Target Computer
+  - Shutdown Android Device
+  - Open Console on Target Computer
+  - Execute :
+    * Powershell : ./adb.exe -d logcat | Tee-Object -File logcat_dump.txt
+  - Boot the Android Device
+  - Use Ctrl+C or Close the Powershell Window to stop capturing Logcat
+
+## Android Emulator with Writable System
+Android Emulator is already deeply integrated into Android Studio through the AVD Manager and the App Launcher/Debugger.  But those integrations do not provide the ability to configure the command line parameters passed to the Emulator when it is run.  In order to make the system & vendor folders writable and persist changes between reboots we need to add the '-writable-system' command line argument.
+
+### Add Android Emulator as External Tool
+  - Open File -> Settings -> Tools -> External Tools
+  - Add a new External Tools
+  - Use the following settings to configure the External Tool Parameters
+    * Name : Run Project Emulator
+    * Program : $ModuleSdkPath$\emulator\emulator.exe
+    * Parameters : -avd $ProjectName$ -writable-system
+
+### Add AVD for Project
+  - Open Tools -> AVD Manager
+  - Create a New Virtual Device
+  - Select a Profile which does NOT support Google Play Store
+  - Name AVD exactly the same as your Project's Name
+  - Finish creating the AVD
+
+### Running the Project Emulator
+  - Open Tools -> External Tools -> Run Project Emulator
+  OR
+  - Right Click -> External Tools -> Run Project Emulator
+
+### Running a Project on the Project Emulator
+  - Run the Project Emulator (see [Running the Project Emulator](#running-the-project-emulator) above)
+  - Run the Project via Android Studio
+  - Select the Android Device under 'Connected Devices' named after your Project when prompted for a Deployment Target
+
+### Making changes to the Project Emulator System Folder
+  - Run the Project Emulator (see [Running the Project Emulator](#running-the-project-emulator) above)
+  - Open a command line to your Android Platform Tools
+  - Execute the following commands :  
+    ```
+    ./adb.exe root
+    ./adb.exe remount
+    ./adb.exe shell chmod 777 /system
+    ./adb.exe shell chmod 777 /system/*
+    ./adb.exe shell chmod 777 /vendor
+    ./adb.exe shell chmod 777 /vendor/*
+    ```
+  - You can now push files to the system & vendor folders and subfolders, as well as modify any files in the those folders, such as :  
+  ```./adb.exe push %MenrvaProjectDir%/menrva/app/build/intermediates/cmake/debug/obj/x86/libMenrvaEngine.so /vendor/lib/soundfx/```
+
 # Debugging AOSP System Native Code
 
 ## Debugging Requirements
@@ -85,3 +143,4 @@
   | Threads.cpp                   | /frameworks/av/services/audioflinger/Threads.cpp                     | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Threads.cpp                     |
   | Threads.h                     | /frameworks/av/services/audioflinger/Threads.h                       | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Threads.h                       |
   | Effects.cpp                   | /frameworks/av/services/audioflinger/Effects.cpp                     | https://android.googlesource.com/platform/frameworks/av/+/master/services/audioflinger/Effects.cpp                     |
+
