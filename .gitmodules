@@ -1,6 +1,6 @@
 [submodule "libs/kfr"]
 	path = libs/kfr
-url=https://github.com/kfrlib/kfr.git
+url=https://github.com/Jman420/kfr_for_android.git
 	branch = master
 [submodule "libs/protobuf"]
 	path = libs/protobuf
