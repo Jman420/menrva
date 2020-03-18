@@ -31,6 +31,8 @@ MenrvaEngine uses Templated Source Code for some portions of it's codebase for p
 ### Building the Engine
 Once the above steps in [Generating Templated Engine Source Code](#generating-templated-engine-source-code) have been completed the MenrvaEngine Project is ready to be built.  There are many ways that the CMake Project can be compiled and won't be covered here.  Visual Studio is recommended using the CMake Project support; when using Visual Studio the Project can be built as any other Visual Studio Project.
 
+After any successful Engine Build the [copy_include_headers.ps1](../engine/scripts/copy_include_headers.ps1) script should be executed to ensure that the Include Headers are kept up to date with the Binaries.  This is required for integrating MenrvaEngine into any other Projects including Host Implementations.
+
 ### Adding New Engine Commands
 MenrvaEngine uses a Command-based API powered by [Protobuf](https://developers.google.com/protocol-buffers).  This allows for easily adding new features and functionality to the Engine with a decoupled mechanism for inter-process communications.  Scripts and templates are provided to simplify the processes of creating new Protobuf Command Files,  generating source code files from Protobuf Command Files and generating new command handler source code.
 
