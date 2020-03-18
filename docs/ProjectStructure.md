@@ -1,2 +1,0 @@
-# Menrva Project Structure
-

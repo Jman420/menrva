@@ -25,31 +25,36 @@ To request an effect open a GitHub Issue describing the effect which you would l
 ## Installation Methods
 
 ### Scripted Installation
-To ease both development and deployment of Menrva to target devices I have provided the [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) script which will attempt to use ADB to install Menrva onto a target device.  The script will installl both the Engine Backend and UI Frontend to the device.  The script requires a successful build of Menrva and the target device must provide root access to ADB via the 'adb root' command.  This method can also be used to deploy Menrva to an emulated device.
+To ease both development and deployment of Menrva to target devices I have provided the [hosts/android/scripts/deploy_to_device.ps1](hosts/android/scripts/deploy_to_device.ps1) script which will attempt to use ADB to install Menrva onto a target device.  The script will installl both the Engine Backend and UI Frontend to the device.  The script requires a successful build of Menrva and the target device must provide root access to ADB via the 'adb root' command.  This method can also be used to deploy Menrva to an emulated device.
 
 #### Scripted Installation Steps
-  - Successfully build Menrva (see [CONTRIBUTING](CONTRIBUTING.md))
-  - Execute [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) script
-  - Execute the [scripts/deploy_to_device.ps1](scripts/deploy_to_device.ps1) script
+  - Successfully build Menrva (see [CONTRIBUTING](docs/CONTRIBUTING.md))
+  - Execute [prepare_artifacts.ps1](hosts/android/scripts/prepare_artifacts.ps1) script
+  - Execute the [deploy_to_device.ps1](hosts/android/scripts/deploy_to_device.ps1) script
   - Wait for the device to restart
 
 ### In-App Installation
 **Coming Soon**
 
 ### Magisk Installation
-  - Successfully build Menrva (see [CONTRIBUTING](CONTRIBUTING.md))
-  - Execute [prepare_artifacts.ps1](scripts/prepare_artifacts.ps1) script
-  - Execute the [prepare_magisk_module_template.ps1](scripts/prepare_magisk_module_template.ps1) script
-  - Execute the [generate_magisk_module.ps1](scripts/generate_magisk_module.ps1) script
-  - Magisk Module Zip will be at /artifacts/Menrva-MagiskModule.zip
+  - Successfully build Menrva (see [CONTRIBUTING](docs/CONTRIBUTING.md))
+  - Execute [prepare_artifacts.ps1](hosts/android/scripts/prepare_artifacts.ps1) script
+  - Execute the [prepare_magisk_module_template.ps1](hosts/android/scripts/prepare_magisk_module_template.ps1) script
+  - Execute the [generate_magisk_module.ps1](hosts/android/scripts/generate_magisk_module.ps1) script
+  - Magisk Module Zip will be at hosts/android/artifacts/Menrva-MagiskModule.zip
 
 ## Calculation Precision
 I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
 
-To build a version of Menrva which uses C++ double type for double precision calculations see the [Configuring Calculation Precision](CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](CONTRIBUTING.md) document.
-  
+To build a version of Menrva which uses C++ double type for double precision calculations see the [Configuring Calculation Precision](docs/CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](docs/CONTRIBUTING.md) document.
+
+## 64Bit Libraries
+64Bit Backend Libraries are not supported for Android for two reason.  First, AudioFlinger seems to be built in 32Bit for most devices and will not load 64Bit Audio Effect Libraries.  Second, x86_64 has build issues with KFR Lib when building for Android.
+
+The above being said, 64Bit Libraries should be fully functional if successful builds can be accomplished.
+
 ## Contributing
-See [CONTRIBUTING](CONTRIBUTING.md) document
+See [CONTRIBUTING](docs/CONTRIBUTING.md) document
 
 ## Special Thanks
 Huge thanks goes out to all of the XDA Audio Mod developers out there and their projects for inspiring me to start my own.  An even bigger thanks goes out to those developers that Open Source their DSP algorithms so the rest of us can use them.  Hopefully this is a complete list, if not please contact me : 
