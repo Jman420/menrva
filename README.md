@@ -1,10 +1,10 @@
-[Home](https://github.com/Jman420/menrva)
+[Home](https://github.com/Jman420/menrva) | [Core Engine](engine) | [Android](hosts/android) | [Documentation](docs)
 
 # Menrva
-Android Audio Effect Engine supporting Plug'n'Play style DSP Effects
+Audio Effect Engine supporting Plug'n'Play style DSP Effects
 
 ## Description
-This project is an Android Audio Effect Module which contains various tunable audio effects.  The goal of this project is to allow end users to easily tune the audio produced by their Android Device using powerful Digital Signal Processing algorithms.  This project is in the same realm as Viper4Android and JamesDSP.
+The goal of this project is to allow end users to easily tune the audio produced by their Device using powerful Digital Signal Processing algorithms.  The Core Engine is designed for cross-platform compilation to support a wide-range of devices and environments.
 
 ## Effect Lists
 
@@ -22,39 +22,8 @@ This project is an Android Audio Effect Module which contains various tunable au
 ## Requesting an Effect
 To request an effect open a GitHub Issue describing the effect which you would like.  Providing an open source implementation, algorithm, formula and/or any other documentation which may help in creating the effect is greatly appreciated.  Please note that I am not a mathmatician or electrical engineer and my background is mainly software engineering and development, so providing explanations or documentation which a computer scientist or engineer can understand will help speed up the process.
 
-## Installation Methods
-
-### Scripted Installation
-To ease both development and deployment of Menrva to target devices I have provided the [hosts/android/scripts/deploy_to_device.ps1](hosts/android/scripts/deploy_to_device.ps1) script which will attempt to use ADB to install Menrva onto a target device.  The script will installl both the Engine Backend and UI Frontend to the device.  The script requires a successful build of Menrva and the target device must provide root access to ADB via the 'adb root' command.  This method can also be used to deploy Menrva to an emulated device.
-
-#### Scripted Installation Steps
-  - Successfully build Menrva (see [CONTRIBUTING](docs/CONTRIBUTING.md))
-  - Execute [prepare_artifacts.ps1](hosts/android/scripts/prepare_artifacts.ps1) script
-  - Execute the [deploy_to_device.ps1](hosts/android/scripts/deploy_to_device.ps1) script
-  - Wait for the device to restart
-
-### In-App Installation
-**Coming Soon**
-
-### Magisk Installation
-  - Successfully build Menrva (see [CONTRIBUTING](docs/CONTRIBUTING.md))
-  - Execute [prepare_artifacts.ps1](hosts/android/scripts/prepare_artifacts.ps1) script
-  - Execute the [prepare_magisk_module_template.ps1](hosts/android/scripts/prepare_magisk_module_template.ps1) script
-  - Execute the [generate_magisk_module.ps1](hosts/android/scripts/generate_magisk_module.ps1) script
-  - Magisk Module Zip will be at hosts/android/artifacts/Menrva-MagiskModule.zip
-
-## Calculation Precision
-I've chosen to default Menrva to single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
-
-To build a version of Menrva which uses C++ double type for double precision calculations see the [Configuring Calculation Precision](docs/CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](docs/CONTRIBUTING.md) document.
-
-## 64Bit Libraries
-64Bit Backend Libraries are not supported for Android for two reason.  First, AudioFlinger seems to be built in 32Bit for most devices and will not load 64Bit Audio Effect Libraries.  Second, x86_64 has build issues with KFR Lib when building for Android.
-
-The above being said, 64Bit Libraries should be fully functional if successful builds can be accomplished.
-
 ## Contributing
-See [CONTRIBUTING](docs/CONTRIBUTING.md) document
+See [CONTRIBUTING](docs/CONTRIBUTING.md) document for details on building and contributing to the Menrva Projects.
 
 ## Special Thanks
 Huge thanks goes out to all of the XDA Audio Mod developers out there and their projects for inspiring me to start my own.  An even bigger thanks goes out to those developers that Open Source their DSP algorithms so the rest of us can use them.  Hopefully this is a complete list, if not please contact me : 
