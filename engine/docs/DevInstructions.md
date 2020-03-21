@@ -1,4 +1,4 @@
-# Menrva Engine Build Instructions
+# Menrva Engine Development Instructions
 
 ## Development Requirements
   - C++ IDE with CMake Support (recommendation : Visual Studio w/ Clang Support)
@@ -9,7 +9,7 @@
   - [Protobuf](https://developers.google.com/protocol-buffers)
 
 ## Build Dependencies
-See [CONTRIBUTING](../../../docs/CONTRIBUTING.md#building-dependencies) for details on building Project Dependencies.
+See [CONTRIBUTING](../../docs/CONTRIBUTING.md#building-dependencies) for details on building Project Dependencies.
 
 ## Generating Templated Engine Source Code
 MenrvaEngine uses Templated Source Code for some portions of it's codebase for portability and simplifying certain development processes.  Scripts have also been provided to automate using and populating the Template Source Code files when necessary.  Source Code Files which are generated from Templates will carry a header comment identifying it as generated source code and provide the path to the Source Code Template file.  These files are not tracked by source control and are explicitly ignored in the root gitignore.
@@ -38,4 +38,4 @@ MenrvaEngine uses a Command-based API powered by [Protobuf](https://developers.g
 See [Calculation Precision](../README.md#calculation-precision) for details about Calculation Precision.
 
 ### Enabling Double Precision
-  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [/engine/src/BuildConfig.h](../src/BuildConfig.h)
+  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [/engine/src/EngineConfig.h](../src/EngineConfig.h)

@@ -4,7 +4,9 @@ The MenrvaEngine is the core of the Menrva Project.  It provides all of the audi
 ## Contributing
 See [CONTRIBUTING](../docs/CONTRIBUTING.md) document for details on building and contributing to the Menrva Projects.
 
-See [EngineArchitecture](docs/EngineArchitecture.md) document for details on the Engine Project Architecture.
+See [DevInstructions](docs/DevInstructions.md) document for details on preparing builds and developing the MenrvaEngine Project.
+
+See [EngineArchitecture](docs/EngineArchitecture.md) document for details on the MenrvaEngine Project Architecture.
 
 ## Adding Menrva Engine to Projects
 The MenrvaEngine will often need to be extended to support the environment which is hosting it.  This can be accomplished by adding the MenrvaEngine to another Project and providing any missing structures and/or functions.
@@ -57,5 +59,5 @@ The most common use of the Direct API will be instantiating any necessary Menrva
 By default MenrvaEngine performs single precision calculations using the C++ float_32 type.  This minimizes the memory & cpu footprint for the Engine, but it can also support double precision calculations if desired.  Enabling double precision will cause MenrvaEngine to use the C++ double type to perform all calculations.  This can result in less distortion in the resulting audio, but is usually impreceptible to most listeners.
 
 #### Enabling Double Precision
-  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [BuildConfig.h](src/BuildConfig.h)
+  - Uncomment the ```//#define MENRVA_DOUBLE_PRECISION``` line in [EngineConfig.h](src/EngineConfig.h)
   - Rebuild MenrvaEngine

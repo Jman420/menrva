@@ -1,4 +1,4 @@
-[Home](https://github.com/Jman420/menrva) | [Core Engine](engine) | [Android](host/android) | [Documentation](docs)
+[Home](https://github.com/Jman420/menrva) | [Core Engine](engine) | [Android](hosts/android) | [Documentation](docs)
 
 # Menrva
 Audio Effect Engine supporting Plug'n'Play style DSP Effects
