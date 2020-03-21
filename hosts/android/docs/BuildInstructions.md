@@ -21,7 +21,7 @@ Once the above steps in [Generating Templated Android Source Code](#generating-t
 *NOTE:* The Android Implementation does not require MenrvaEngine to be pre-compiled.  Only its Generated Source Code must be provided.
 
 ### Steps
-  - Generate MenrvaEngine Templated Source Code as described in [Generating Templated Engine Source Code](#generating-templated-engine-source-code)
+  - Generate MenrvaEngine Templated Source Code as described in [Generating Templated Engine Source Code](../../../engine/docs/DevInstructions.md#generating-templated-engine-source-code)
   - Use [/engine/scripts/copy_include_headers.ps1](/engine/scripts/copy_include_headers.ps1) to gopy the MenrvaEngine Include Headers to its Output Directory
   - Generate Android Templated Source Code as described in [Generating Templated Android Source Code](#generating-templated-android-source-code)
   - Use [/hosts/android/scripts/build.ps1](../scripts/build.ps1) to execute a Gradle build

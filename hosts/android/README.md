@@ -4,6 +4,10 @@ The Menrva Android Implementation consists of a few components.  The Android Int
 ## Contributing
 See [CONTRIBUTING](../../docs/CONTRIBUTING.md) document for details on building and contributing to the Menrva Projects.
 
+See [BuildInstructions](docs/BuildInstructions.md) document for details on building the Android Host Implementation Project.
+
+See [AndroidDebugging](docs/AndroidDebugging.md) document for details on debugging the Android Host Implementation Builds.
+
 ## Installation Methods
 
 ### Scripted Installation
@@ -31,4 +35,4 @@ The above being said, 64Bit Libraries should be fully functional if successful b
 ## Calculation Precision
 The Menrva Android Implementation uses single precision calculations meaning that all inputs and outputs are in C++ float32 type.  This decision was made mainly because Android's AudioFlinger Service expects float32 as the largest data type that it will handle.  The relevant structure in the AOSP Source Code is 'audio_buffer_t' which usually lives in the 'system/audio_effect.h' file.
 
-See the [Configuring Calculation Precision](../../docs/CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](docs/CONTRIBUTING.md) document for details on modifying the calculation precision.
+See the [Configuring Calculation Precision](../../docs/CONTRIBUTING.md#configuring-calculation-precision) section of the [CONTRIBUTING](../../docs/CONTRIBUTING.md) document for details on modifying the calculation precision.
