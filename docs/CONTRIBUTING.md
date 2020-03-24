@@ -21,7 +21,7 @@ On it's own the MenrvaEngine is fairly useless; although it contains powerful al
 
 **NOTE:**
   - Host Implementations are expected to define implementations for the headers contained in [/engine/src/host](../engine/src/host).
-  - Host Implementations can be found in [/hosts](/hosts).
+  - Host Implementations can be found in [/hosts](/hosts) ; see [RepoStructure](RepoStructure.md) for detailed repository structure.
 
 ### Test Harness
 ***Under Construction***

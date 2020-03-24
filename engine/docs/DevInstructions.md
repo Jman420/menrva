@@ -1,12 +1,15 @@
 # Menrva Engine Development Instructions
 
 ## Development Requirements
-  - C++ IDE with CMake Support (recommendation : Visual Studio w/ Clang Support)
+  - Visual Studio w/ Clang Support (https://visualstudio.microsoft.com/)
   - Powershell
 
 ## Dependencies
   - [KFRLib](https://www.kfrlib.com/)
   - [Protobuf](https://developers.google.com/protocol-buffers)
+
+## Configure Visual Studio
+See [VisualStudioConfig](../../docs/VisualStudioConfig.md) for details on configuring Visual Studio.
 
 ## Build Dependencies
 See [CONTRIBUTING](../../docs/CONTRIBUTING.md#building-dependencies) for details on building Project Dependencies.

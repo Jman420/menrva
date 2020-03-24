@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CodeSnippets xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+  <CodeSnippet Format="1.0.0">
+    <Header>
+      <Title>C++ Include Guard</Title>
+      <Description>C++ Include Guard</Description>
+      <Shortcut>#incguard</Shortcut>
+      <SnippetTypes>
+        <SnippetType>Expansion</SnippetType>
+      </SnippetTypes>      
+    </Header>
+    <Snippet>
+      <Declarations>
+        <Literal>
+          <ID>classname</ID>
+          <ToolTip>Name of the class in the Include Guard (ALL CAPS)</ToolTip>
+          <Default>ClassNamePlaceholder</Default>
+        </Literal>
+      </Declarations>
+      <Code Language="CPP">
+        <![CDATA[#ifndef MENRVA_$classname$_H
+#define MENRVA_$classname$_H
+
+$end$
+
+#endif //MENRVA_$classname$_H
+]]>
+      </Code>
+    </Snippet>
+  </CodeSnippet>
+</CodeSnippets>
