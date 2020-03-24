@@ -17,15 +17,14 @@ set(MENRVA_ENGINE_ROOT_DIR ${REPO_ROOT_DIR}/engine)
 set(MENRVA_ENGINE_SRC_DIR ${MENRVA_ENGINE_ROOT_DIR}/src)
 set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_ROOT_DIR}/out/android)
 
-find_library(
-        log-lib
-        log
-)
-
-# Add Menrva Engine Dependency
 add_subdirectory(
         ${MENRVA_ENGINE_SRC_DIR}
         ${MENRVA_ENGINE_OUTPUT_DIR}
+)
+
+find_library(
+        log-lib
+        log
 )
 
 aux_source_directory(
