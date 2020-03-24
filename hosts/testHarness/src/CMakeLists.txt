@@ -11,12 +11,19 @@ set(MENRVA_ENGINE_SRC_DIR ${MENRVA_ENGINE_ROOT_DIR}/src)
 set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_ROOT_DIR}/out/host)
 
 add_subdirectory(
-        ${MENRVA_ENGINE_SRC_DIR}
-        ${MENRVA_ENGINE_OUTPUT_DIR}
+    ${MENRVA_ENGINE_SRC_DIR}
+    ${MENRVA_ENGINE_OUTPUT_DIR}
 )
 
-#find_package(wxWidgets REQUIRED COMPONENTS net core base)
-#include(${wxWidgets_USE_FILE})
+find_package(
+    wxWidgets
+    REQUIRED COMPONENTS
+    
+    net
+    core
+    base
+)
+include(${wxWidgets_USE_FILE})
 
 add_executable(
     ${PROJECT_NAME}
@@ -25,8 +32,8 @@ add_executable(
 )
 
 target_link_libraries(
-        ${PROJECT_NAME}
+    ${PROJECT_NAME}
         
-        MenrvaEngine
-        #${wxWidgets_LIBRARIES}
+    MenrvaEngine
+    ${wxWidgets_LIBRARIES}
 )

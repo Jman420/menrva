@@ -86,6 +86,7 @@ lint/tmp/
 
 # Visual Studio Folders
 .vs
+CmakeSettings.json
 
 # Ignore Deploy Artifacts
 artifacts/
