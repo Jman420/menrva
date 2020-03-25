@@ -81,6 +81,18 @@ aux_source_directory(
     COMMAND_HANDLER_SOURCES
 )
 
+# Define Header Files
+file(
+    GLOB_RECURSE
+    HEADER_FILES
+    *.h
+)
+set_source_files_properties(
+    ${HEADER_FILES}
+    PROPERTIES
+    IS_HEADER_ONLY ON
+)
+
 # Define Library Source Files
 add_library(
     ${PROJECT_NAME}
@@ -127,6 +139,8 @@ add_library(
     engine/EffectsEngine.cpp
     engine/CommandHandlerMap.cpp
     engine/CommandProcessor.cpp
+
+    ${HEADER_FILES}
 )
 target_include_directories(
     ${PROJECT_NAME}
