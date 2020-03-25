@@ -94,6 +94,7 @@ artifacts/
 
 # Ignore Libs Dependencies
 hosts/android/libs/MMT-Extended*
+libs/wxwidgets/src
 
 # Ignore Protobuf Generated Source Files
 engine/src/commands/**/*
