@@ -8,6 +8,7 @@ SET HostBuildDir=%BuildDir%\host
 SET HostOutputDir=%OutputDir%\host
 
 SET BuildLibPath=%HostBuildDir%\lib
+SET IncludesPath=%RootSourcePath%\include
 
 ECHO Removing Existing Build ^& Output Directories...
 IF EXIST "%HostBuildDir%" (
@@ -28,13 +29,10 @@ PUSHD %HostBuildDir%
 cmake ^
     -DwxBUILD_SHARED=OFF ^
     -DCMAKE_BUILD_TYPE=Release ^
+    -DCMAKE_INSTALL_PREFIX=..\..\%HostOutputDir% ^
     -G "Ninja" ^
     ..\..\src\
 
-ninja
+cmake --build . --target install
 POPD
 ECHO Successfully built Protobuf for Host Architecture!
-
-ECHO Copying Host Libraries to Output Directories...
-xcopy /I /E "%BuildLibPath%" "%HostOutputDir%"
-ECHO Succesfully Copied Host Libraries to Output Directories!
