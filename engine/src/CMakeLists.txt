@@ -28,12 +28,15 @@ if (NOT DEFINED REPO_ROOT_DIR)
 endif()
 
 set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host/${CMAKE_BUILD_TYPE})
+if (ANDROID)
+    set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/android)
+endif()
 set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../../include)
 
 set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 
 set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
-set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host)
+set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
