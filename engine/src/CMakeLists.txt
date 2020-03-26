@@ -18,7 +18,7 @@ endif()
 
 # Debug Hacks
 set(PROTOBUF_LIB_SUFFIX)
-if (CMAKE_BUILD_TYPE STREQUAL Debug)
+if (CMAKE_BUILD_TYPE STREQUAL Debug AND NOT ANDROID)
     set(PROTOBUF_LIB_SUFFIX d)
 endif()
 
@@ -29,7 +29,7 @@ endif()
 
 set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
-    set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/android)
+    set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/android/${ANDROID_ABI})
 endif()
 set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../../include)
 
