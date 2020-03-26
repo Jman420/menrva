@@ -24,11 +24,23 @@
 #include "wx/wx.h"
 #endif
 
+enum TestHarnessWindowControls {
+    BUTTON_Quit = wxID_HIGHEST + 1,
+    TEXT_Console,
+};
+
 class TestHarnessWindow
         : public wxFrame
 {
 public:
     TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size);
+    void OnQuit(wxCommandEvent& event);
+
+private:
+    wxButton* _QuitButton;
+    wxTextCtrl* _Console;
+
+    DECLARE_EVENT_TABLE();
 };
 
 #endif //MENRVA_TEST_HARNESS_WINDOW_H

@@ -51,15 +51,3 @@ target_link_libraries(
     MenrvaEngine
     ${wxWidgets_LIBRARIES}
 )
-
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
-set(CMAKE_INSTALL_DEBUG_LIBRARIES TRUE)
-include(InstallRequiredSystemLibraries)
-SET(APP ${${PROJECT_NAME}_BINARY_DIR}/${PROJECT_NAME}${CMAKE_EXECUTABLE_SUFFIX})
-SET(LIB_DIRS "${wxWidgets_LIB_DIR};${CMAKE_BINARY_DIR}/bin")
-install(
-    CODE "
-    include(BundleUtilities)
-    fixup_bundle(\"${APP}\" \"\" \"${LIB_DIRS}\")
-    "
-)

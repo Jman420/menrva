@@ -16,13 +16,19 @@ if (ANDROID)
     set(KFR_LIB_PREFIX lib)
 endif()
 
+# Debug Hacks
+set(PROTOBUF_LIB_SUFFIX)
+if (CMAKE_BUILD_TYPE STREQUAL Debug)
+    set(PROTOBUF_LIB_SUFFIX d)
+endif()
+
 # Folder Locations
 if (NOT DEFINED REPO_ROOT_DIR)
     set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
 endif()
 
-set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host)
-set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../include)
+set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host/${CMAKE_BUILD_TYPE})
+set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../../include)
 
 set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 
@@ -33,7 +39,7 @@ if (ANDROID)
 endif()
 
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
-set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/host)
+set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
@@ -64,7 +70,7 @@ set_target_properties(
     libprotobuf-lite
     PROPERTIES IMPORTED_LOCATION
 
-    ${PROTOBUF_LIB_DIR}/libprotobuf-lite.${LIBRARY_EXT}
+    ${PROTOBUF_LIB_DIR}/libprotobuf-lite${PROTOBUF_LIB_SUFFIX}.${LIBRARY_EXT}
 )
 
 # Define Source Directories

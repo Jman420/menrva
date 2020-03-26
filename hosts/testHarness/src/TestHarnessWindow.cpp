@@ -18,5 +18,17 @@
 
 #include "TestHarnessWindow.h"
 
+BEGIN_EVENT_TABLE(TestHarnessWindow, wxFrame)
+    EVT_BUTTON(TestHarnessWindowControls::BUTTON_Quit, TestHarnessWindow::OnQuit)
+END_EVENT_TABLE()
+
 TestHarnessWindow::TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size)
-    : wxFrame(nullptr, -1, title, pos, size) {}
+        : wxFrame(nullptr, -1, title, pos, size) {
+    _QuitButton = new wxButton(this, TestHarnessWindowControls::BUTTON_Quit, wxT("Quit"), wxDefaultPosition, wxDefaultSize, 0);
+    _Console = new wxTextCtrl(this, TestHarnessWindowControls::TEXT_Console, wxT("-----Debug Console-----"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_RICH | wxTE_READONLY);
+}
+
+void TestHarnessWindow::OnQuit(wxCommandEvent& event)
+{
+    Close(true);
+}
