@@ -64,8 +64,6 @@ public:
     bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel);
 
 protected:
-    const static std::string APP_NAME;
-
     static LogLevel _LogLevel;
     static bool _OverrideListEnabled;
     static logger_override_list _OverrideList;
