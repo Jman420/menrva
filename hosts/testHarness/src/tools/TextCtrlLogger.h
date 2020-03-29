@@ -16,31 +16,37 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_TEST_HARNESS_WINDOW_H
-#define MENRVA_TEST_HARNESS_WINDOW_H
+#ifndef MENRVA_ConsoleLogger_H
+#define MENRVA_ConsoleLogger_H
 
 #include "wx/wxprec.h"
 #ifndef WX_PRECOMP
 #include "wx/wx.h"
 #endif
 
-enum TestHarnessWindowControls {
-    BUTTON_Quit = wxID_HIGHEST + 1,
-    TEXT_Console,
-};
+#include <menrvaEngine/host/HostLogger.h>
 
-class TestHarnessWindow
-        : public wxFrame
-{
+class TextCtrlLogger 
+        : public HostLogger {
 public:
-    TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size);
-    void Quit(wxCommandEvent& event);
+    TextCtrlLogger();
+
+    wxTextCtrl* GetTextCtrl();
+
+protected:
+    virtual void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
 
 private:
-    wxButton* _QuitButton;
-    wxTextCtrl* _Console;
+    const static std::string TIMESTAMP_FORMAT;
+    const static std::string PREFIX_FORMAT;
+    const static std::string SENDER_FUNC_FORMAT;
+    const static std::string NEW_LINE;
 
-    DECLARE_EVENT_TABLE();
+    static wxTextCtrl* _Console;
+    static bool _Initialized;
+
+    static std::string GetTimestamp();
+    static void Initialize();
 };
 
-#endif //MENRVA_TEST_HARNESS_WINDOW_H
+#endif //MENRVA_ConsoleLogger_H

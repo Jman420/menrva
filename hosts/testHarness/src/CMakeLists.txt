@@ -39,6 +39,8 @@ add_executable(
     ${PROJECT_NAME}
     WIN32
 
+    "tools/TextCtrlLogger.cpp"
+
     "TestHarnessApp.cpp"
     "TestHarnessWindow.cpp"
 
