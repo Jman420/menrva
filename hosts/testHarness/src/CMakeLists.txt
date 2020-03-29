@@ -40,6 +40,7 @@ add_executable(
     WIN32
 
     "tools/TextCtrlLogger.cpp"
+    "tools/TestServiceLocator.cpp"
 
     "TestHarnessApp.cpp"
     "TestHarnessWindow.cpp"
