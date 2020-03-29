@@ -17,7 +17,7 @@
  */
 
 #include <cerrno>
-#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/host/HostServiceLocator.h>
 #include <menrvaEngine/tools/StringOperations.h>
 #include <menrvaEngine/engine/CommandProcessor.h>
 #include "AndroidInterface.h"
@@ -29,7 +29,7 @@
 #include "command_handlers/Android_DisableEngine_Handler.h"
 
 const std::string AndroidInterface::LOG_SENDER = "AndroidInterface";
-ServiceLocator* AndroidInterface::_ServiceLocator = new ServiceLocator();
+ServiceLocator* AndroidInterface::_ServiceLocator = new HostServiceLocator();
 LogWriterBase* AndroidInterface::_Logger = _ServiceLocator->GetLogger();
 
 const effect_descriptor_t AndroidInterface::EffectDescriptor = {

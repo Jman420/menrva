@@ -16,29 +16,22 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#ifndef MENRVA_SERVICE_LOCATOR_H
+#define MENRVA_SERVICE_LOCATOR_H
 
-#include <string>
-#include <map>
-#include <menrvaEngine/host/HostLogger.h>
+#include "../log/LogWriterBase.h"
+#include "../fft/FftInterfaceBase.h"
+#include "../ir/FirGenerator.h"
+#include "../convolver/ConvolutionOperationsBase.h"
+#include "../convolver/Convolver.h"
 
-class AndroidLogger
-        : public HostLogger {
+class ServiceLocator {
 public:
-    AndroidLogger();
-
-protected:
-    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
-
-private:
-    const static std::string APP_NAME;
-
-    static const std::string LOG_ELEMENT_DELIMITER,
-                             FUNCTION_SUFFIX;
-    static bool _Initialized;
-
-    void Initialize();
+    virtual LogWriterBase* GetLogger() = 0;
+    virtual FftInterfaceBase* GetFftEngine();
+    virtual FirGenerator* GetFirGenerator();
+    virtual ConvolutionOperationsBase* GetConvolutionOperations();
+    virtual Convolver* GetConvolver();
 };
 
-#endif //MENRVA_ANDROID_LOGGER_H
+#endif //MENRVA_SERVICE_LOCATOR_H

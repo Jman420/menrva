@@ -1,5 +1,5 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/* Menrva - Audio Effect Engine supporting Plug'n'Play style DSP Effects
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,24 +16,28 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_SERVICE_LOCATOR_H
-#define MENRVA_SERVICE_LOCATOR_H
+#include "LogLevels.h"
 
-#include "../log/LogWriterBase.h"
-#include "../fft/FftInterfaceBase.h"
-#include "../ir/FirGenerator.h"
-#include "../convolver/Convolver.h"
-
-class ServiceLocator {
-public:
-    LogWriterBase* GetLogger();
-    FftInterfaceBase* GetFftEngine();
-    FirGenerator* GetFirGenerator();
-    ConvolutionOperationsBase* GetConvolutionOperations();
-    Convolver* GetConvolver();
-
-private:
-    static LogWriterBase* _Logger;
+ const to_string_map LogLevels::LOG_LEVEL_MAP = {
+    { LogLevel::FATAL, "Fatal" },
+    { LogLevel::ERROR, "Error" },
+    { LogLevel::WARN, "Warn" },
+    { LogLevel::INFO, "Info" },
+    { LogLevel::DEBUG, "Debug" },
+    { LogLevel::VERBOSE, "Verbose" },
 };
 
-#endif //MENRVA_SERVICE_LOCATOR_H
+std::string LogLevels::ConvertToString(LogLevel logLevel)
+{
+    auto element = LOG_LEVEL_MAP.find(logLevel);
+    if (element == LOG_LEVEL_MAP.end()) {
+        return std::string();
+    }
+
+    return element->second;
+}
+
+int LogLevels::GetLength()
+{
+    return LOG_LEVEL_MAP.size();
+}

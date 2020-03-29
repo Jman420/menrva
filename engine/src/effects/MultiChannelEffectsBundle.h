@@ -22,7 +22,7 @@
 #include <cstdint>
 #include "StereoWidener.h"
 #include "MasterLimiter.h"
-#include "../host/ServiceLocator.h"
+#include "../tools/ServiceLocator.h"
 
 enum class MultiChannelEffectIndexes
         : uint8_t {

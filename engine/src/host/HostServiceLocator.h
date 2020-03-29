@@ -1,5 +1,5 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/* Menrva - Audio Effect Engine supporting Plug'n'Play style DSP Effects
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,29 +16,16 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#ifndef MENRVA_HOST_SERVICE_LOCATOR_H
+#define MENRVA_HOST_SERVICE_LOCATOR_H
 
-#include <string>
-#include <map>
-#include <menrvaEngine/host/HostLogger.h>
+#include "../tools/ServiceLocator.h"
 
-class AndroidLogger
-        : public HostLogger {
+class HostServiceLocator 
+        : public ServiceLocator {
 public:
-    AndroidLogger();
-
-protected:
-    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
-
-private:
-    const static std::string APP_NAME;
-
-    static const std::string LOG_ELEMENT_DELIMITER,
-                             FUNCTION_SUFFIX;
-    static bool _Initialized;
-
-    void Initialize();
+    virtual LogWriterBase* GetLogger() override;
 };
 
-#endif //MENRVA_ANDROID_LOGGER_H
+#endif //MENRVA_HOST_SERVICE_LOCATOR_H
+

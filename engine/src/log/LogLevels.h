@@ -1,5 +1,5 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/* Menrva - Audio Effect Engine supporting Plug'n'Play style DSP Effects
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,29 +16,31 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_ANDROID_LOGGER_H
-#define MENRVA_ANDROID_LOGGER_H
+#ifndef MENRVA_LOG_LEVELS_H
+#define MENRVA_LOG_LEVELS_H
 
-#include <string>
 #include <map>
-#include <menrvaEngine/host/HostLogger.h>
+#include <string>
 
-class AndroidLogger
-        : public HostLogger {
-public:
-    AndroidLogger();
-
-protected:
-    void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) override;
-
-private:
-    const static std::string APP_NAME;
-
-    static const std::string LOG_ELEMENT_DELIMITER,
-                             FUNCTION_SUFFIX;
-    static bool _Initialized;
-
-    void Initialize();
+enum LogLevel {
+    VERBOSE = 2,
+    DEBUG = 3,
+    INFO = 4,
+    WARN = 5,
+    ERROR = 6,
+    FATAL = 7,
 };
 
-#endif //MENRVA_ANDROID_LOGGER_H
+typedef std::map<LogLevel, std::string> to_string_map;
+typedef std::pair<LogLevel, std::string> to_string_element;
+
+class LogLevels {
+public:
+    static std::string ConvertToString(LogLevel logLevel);
+    static int GetLength();
+
+private:
+    static const to_string_map LOG_LEVEL_MAP;
+};
+
+#endif //MENRVA_LOG_LEVELS_H

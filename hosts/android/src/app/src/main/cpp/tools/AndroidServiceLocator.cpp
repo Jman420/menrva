@@ -16,29 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <menrvaEngine/host/ServiceLocator.h>
-#include <menrvaEngine/fft/KfrInterface.h>
-#include <menrvaEngine/convolver/ConvolutionOperations.h>
+#include <menrvaEngine/host/HostServiceLocator.h>
 #include "../log/AndroidLogger.h"
 
-LogWriterBase* ServiceLocator::_Logger = new AndroidLogger();
-
-LogWriterBase* ServiceLocator::GetLogger() {
-    return _Logger;
-}
-
-FftInterfaceBase* ServiceLocator::GetFftEngine() {
-    return new KfrInterface(GetLogger());
-}
-
-FirGenerator* ServiceLocator::GetFirGenerator() {
-    return new FirGenerator(GetLogger(), GetFftEngine());
-}
-
-ConvolutionOperationsBase* ServiceLocator::GetConvolutionOperations() {
-    return new ConvolutionOperations(GetLogger());
-}
-
-Convolver* ServiceLocator::GetConvolver() {
-    return new Convolver(GetLogger(), GetFftEngine(), GetConvolutionOperations());
+LogWriterBase* HostServiceLocator::GetLogger() {
+    return new AndroidLogger();
 }

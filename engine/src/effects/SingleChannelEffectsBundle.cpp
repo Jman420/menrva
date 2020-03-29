@@ -18,10 +18,10 @@
 
 #include <stdexcept>
 #include "SingleChannelEffectsBundle.h"
-#include "../host/ServiceLocator.h"
+#include "../host/HostServiceLocator.h"
 
 SingleChannelEffectsBundle::SingleChannelEffectsBundle() {
-    ServiceLocator serviceLocator = *new ServiceLocator();
+    HostServiceLocator serviceLocator = *new HostServiceLocator();
     _BassBoost = new BassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
     _Equalizer = new Equalizer(serviceLocator.GetLogger());
 

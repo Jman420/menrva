@@ -19,6 +19,7 @@
 #include <android/log.h>
 #include "AndroidLogger.h"
 
+const std::string AndroidLogger::APP_NAME = "Menrva";
 const std::string AndroidLogger::LOG_ELEMENT_DELIMITER = ".";
 const std::string AndroidLogger::FUNCTION_SUFFIX = "()";
 

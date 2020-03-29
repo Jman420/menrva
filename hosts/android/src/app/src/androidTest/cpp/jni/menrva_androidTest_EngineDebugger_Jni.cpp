@@ -18,7 +18,7 @@
 
 #include <jni.h>
 #include <menrvaEngine/audio/Sample.h>
-#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/host/HostServiceLocator.h>
 #include <menrvaEngine/ir/FirGenerator.h>
 #include <menrvaEngine/effects/BassBoost.h>
 #include <menrvaEngine/ir/WaveGenerator.h>
@@ -31,7 +31,7 @@ JNIEXPORT void JNICALL
 Java_com_monkeystable_menrva_EngineDebugger_debug1FirGenerator(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
-    ServiceLocator serviceLocator;
+    HostServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
 }
@@ -41,7 +41,7 @@ JNIEXPORT void JNICALL
 Java_com_monkeystable_menrva_EngineDebugger_debug2ConvolverOneFrame(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
-    ServiceLocator serviceLocator;
+    HostServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
@@ -62,7 +62,7 @@ JNIEXPORT void JNICALL
 Java_com_monkeystable_menrva_EngineDebugger_debug3ConvolverFullFilter(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
-    ServiceLocator serviceLocator;
+    HostServiceLocator serviceLocator;
     FirGenerator firGenerator(serviceLocator.GetLogger(), serviceLocator.GetFftEngine());
     AudioBuffer firFilter = *firGenerator.Calculate(params.FirInterpolationLength, params.FirFrequencySamples, params.FirAmplitudeSamples, params.FirSamplesLength);
     Convolver convolver(serviceLocator.GetLogger(), serviceLocator.GetFftEngine(), serviceLocator.GetConvolutionOperations());
@@ -88,7 +88,7 @@ JNIEXPORT void JNICALL
 Java_com_monkeystable_menrva_EngineDebugger_debug4BassBoost(JNIEnv* __unused env, jobject __unused instance) {
     test_params params;
 
-    ServiceLocator serviceLocator;
+    HostServiceLocator serviceLocator;
     BassBoost jmanBassBoost(serviceLocator.GetLogger(), serviceLocator.GetFirGenerator(), serviceLocator.GetConvolver());
     jmanBassBoost.ResetBuffers(params.SampleRate, params.MenrvaAudioFrameLength);
 

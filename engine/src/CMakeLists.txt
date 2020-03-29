@@ -107,9 +107,11 @@ add_library(
     ${PROJECT_NAME}
     STATIC
 
+    log/LogLevels.cpp
     log/LogWriterBase.cpp
     log/LogProducer.cpp
 
+    tools/ServiceLocator.cpp
     tools/StringOperations.cpp
     tools/MathOperations.cpp
     tools/Buffer.cpp

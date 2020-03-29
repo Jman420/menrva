@@ -21,15 +21,7 @@
 
 #include <string>
 #include <map>
-
-enum LogLevel {
-    VERBOSE = 2,
-    DEBUG = 3,
-    INFO = 4,
-    WARN = 5,
-    ERROR = 6,
-    FATAL = 7,
-};
+#include "LogLevels.h"
 
 struct logger_override_entry {
     std::string ClassName,
@@ -40,12 +32,8 @@ struct logger_override_entry {
 typedef std::map<std::string, logger_override_entry*> logger_override_list;
 typedef std::pair<std::string, logger_override_entry*> logger_override_list_element;
 
-typedef std::map<std::string, LogLevel> log_level_map;
-typedef std::pair<std::string, LogLevel> log_level_map_element;
-
 class LogWriterBase {
 public:
-    static const log_level_map LOG_LEVEL_MAP;
     static const uint8_t MIN_LOG_LEVEL_VALUE;
     static const uint8_t MAX_LOG_LEVEL_VALUE;
 

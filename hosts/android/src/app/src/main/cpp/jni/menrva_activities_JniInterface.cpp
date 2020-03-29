@@ -17,6 +17,7 @@
  */
 
 #include <jni.h>
+#include <menrvaEngine/log/LogLevels.h>
 #include "../AndroidInterface.h"
 
 extern "C"
@@ -40,7 +41,7 @@ JNICALL Java_com_monkeystable_menrva_activities_JniInterface_getMenrvaEffectEngi
 extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_activities_JniInterface_getLogLevelsLength(JNIEnv *env, jclass type) {
-    auto result = LogWriterBase::LOG_LEVEL_MAP.size();
+    auto result = LogLevels::GetLength();
     return static_cast<jint>(result);
 }
 

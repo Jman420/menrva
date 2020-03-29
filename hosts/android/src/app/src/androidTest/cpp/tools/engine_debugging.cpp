@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <menrvaEngine/host/ServiceLocator.h>
+#include <menrvaEngine/host/HostServiceLocator.h>
 #include <menrvaEngine/ir/WaveGenerator.h>
 #include "engine_debugging.h"
 #include "test_helper.h"
@@ -37,7 +37,7 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
 
     uint32_t channelLength = audio_channel_count_from_out_mask(menrvaEffectConfig.inputCfg.channels);
 
-    ServiceLocator serviceLocator;
+    HostServiceLocator serviceLocator;
     WaveGenerator waveGenerator(serviceLocator.GetFftEngine());
     sample amplitude = 1.0;
     sample frequency = 1.0;
