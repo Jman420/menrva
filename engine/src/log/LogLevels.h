@@ -22,6 +22,11 @@
 #include <map>
 #include <string>
 
+#ifdef ERROR
+#define OLD_ERROR ERROR
+#undef ERROR
+#endif
+
 enum LogLevel {
     VERBOSE = 2,
     DEBUG = 3,
@@ -30,6 +35,11 @@ enum LogLevel {
     ERROR = 6,
     FATAL = 7,
 };
+
+#ifdef OLD_ERROR
+#define ERROR OLD_ERROR
+#undef OLD_ERROR
+#endif
 
 typedef std::map<LogLevel, std::string> to_string_map;
 typedef std::pair<LogLevel, std::string> to_string_element;
