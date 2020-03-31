@@ -35,7 +35,8 @@ set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../../include)
 
 set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
 
-set(KFR_OUTPUT_DIR ${LIBS_ROOT_DIR}/kfr/out)
+set(KFR_ROOT_DIR ${LIBS_ROOT_DIR}/kfr)
+set(KFR_OUTPUT_DIR ${KFR_ROOT_DIR}/out)
 set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
@@ -61,7 +62,7 @@ set_target_properties(
     libkfr-dft
     PROPERTIES IMPORTED_LOCATION
     
-    ${KFR_LIB_DIR}/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
+    ${KFR_LIB_DIR}/lib/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
 )
 
 # Add Protobuf Depenency
@@ -73,7 +74,7 @@ set_target_properties(
     libprotobuf-lite
     PROPERTIES IMPORTED_LOCATION
 
-    ${PROTOBUF_LIB_DIR}/libprotobuf-lite${PROTOBUF_LIB_SUFFIX}.${LIBRARY_EXT}
+    ${PROTOBUF_LIB_DIR}/lib/libprotobuf-lite${PROTOBUF_LIB_SUFFIX}.${LIBRARY_EXT}
 )
 
 # Define Source Directories
@@ -157,8 +158,8 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
 
-    ${PROTOBUF_OUTPUT_DIR}/include
-    ${KFR_OUTPUT_DIR}/include
+    ${KFR_LIB_DIR}/include
+    ${PROTOBUF_LIB_DIR}/include
     ${ENGINE_INCLUDE_DIR}
 )
 target_link_libraries(

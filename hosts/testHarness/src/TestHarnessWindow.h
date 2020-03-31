@@ -24,9 +24,15 @@
 #include "wx/wx.h"
 #endif
 
+#include <menrvaEngine/host/HostServiceLocator.h>
+#include <menrvaEngine/engine/EffectsEngine.h>
+#include "tools/TextCtrlLogger.h"
+
 enum TestHarnessWindowControls {
-    BUTTON_Quit = wxID_HIGHEST + 1,
-    TEXT_Console,
+    TEXT_Console = wxID_HIGHEST + 1,
+    MENU_Quit,
+    MENU_LoadAudioFile,
+    MENU_DumpConsole,
 };
 
 class TestHarnessWindow
@@ -34,11 +40,16 @@ class TestHarnessWindow
 {
 public:
     TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size);
+
     void Quit(wxCommandEvent& event);
 
 private:
-    wxButton* _QuitButton;
+    wxMenuBar* _MenuBar;
     wxTextCtrl* _Console;
+
+    HostServiceLocator* _ServiceLocator;
+    TextCtrlLogger* _Logger;
+    MenrvaEffectsEngine* _EffectsEngine;
 
     DECLARE_EVENT_TABLE();
 };

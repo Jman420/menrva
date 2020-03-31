@@ -40,11 +40,13 @@ wxTextCtrl* TextCtrlLogger::GetTextCtrl()
 
 void TextCtrlLogger::WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel)
 {
-    std::string prefix = StringOperations::FormatString(PREFIX_FORMAT, GetTimestamp(), LogLevels::ConvertToString(logLevel));
+    std::string timestamp = GetTimestamp();
+    std::string logLevelStr = LogLevels::ConvertToString(logLevel);
+    std::string prefix = StringOperations::FormatString(PREFIX_FORMAT, timestamp.c_str(), logLevelStr.c_str());
 
     std::string sender = senderClass;
     if (!senderFunction.empty()) {
-        sender += StringOperations::FormatString(SENDER_FUNC_FORMAT, senderFunction);
+        sender += StringOperations::FormatString(SENDER_FUNC_FORMAT, senderFunction.c_str());
     }
     if (!sender.empty()) {
         sender += " - ";

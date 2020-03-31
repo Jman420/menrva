@@ -19,13 +19,28 @@
 #include "TestHarnessWindow.h"
 
 BEGIN_EVENT_TABLE(TestHarnessWindow, wxFrame)
-    EVT_BUTTON(TestHarnessWindowControls::BUTTON_Quit, TestHarnessWindow::Quit)
+    EVT_MENU(TestHarnessWindowControls::MENU_Quit, TestHarnessWindow::Quit)
 END_EVENT_TABLE()
 
 TestHarnessWindow::TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(nullptr, -1, title, pos, size) {
-    _QuitButton = new wxButton(this, TestHarnessWindowControls::BUTTON_Quit, wxT("Quit"), wxDefaultPosition, wxDefaultSize, 0);
-    _Console = new wxTextCtrl(this, TestHarnessWindowControls::TEXT_Console, wxT("-----Debug Console-----"), wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_RICH | wxTE_READONLY);
+    _MenuBar = new wxMenuBar();
+
+
+    _ServiceLocator = new HostServiceLocator();
+    HostServiceLocator& serviceLocator = *_ServiceLocator;
+    _Logger = static_cast<TextCtrlLogger*>(serviceLocator.GetLogger());
+
+    _Console = _Logger->GetTextCtrl();
+    wxTextCtrl& console = *_Console;
+    console.SetParent(this);
+    console.SetId(TestHarnessWindowControls::TEXT_Console);
+    console.SetPosition(wxDefaultPosition);
+    console.SetSize(wxDefaultSize);
+    console.SetWindowStyle(wxTE_MULTILINE | wxTE_RICH | wxTE_READONLY);
+    _Logger->WriteLog("-----Menrva TestHarness Console-----");
+
+    _EffectsEngine = new MenrvaEffectsEngine(_Logger, serviceLocator.GetFftEngine(), _ServiceLocator);
 }
 
 void TestHarnessWindow::Quit(wxCommandEvent& event)
