@@ -15,25 +15,36 @@ set(KFR_LIB_PREFIX)
 if (ANDROID)
     set(KFR_LIB_PREFIX lib)
 endif()
+message(STATUS "KFR_LIB_PREFIX : ${KFR_LIB_PREFIX}")
+set(LIBRARY_EXT lib)
+if (ANDROID)
+    set(LIBRARY_EXT a)
+endif()
+message(STATUS "LIBRARY_EXT : ${LIBRARY_EXT}")
 
 # Debug Hacks
 set(PROTOBUF_LIB_SUFFIX)
 if (CMAKE_BUILD_TYPE STREQUAL Debug AND NOT ANDROID)
     set(PROTOBUF_LIB_SUFFIX d)
 endif()
+message(STATUS "PROTOBUF_LIB_SUFFIX : ${PROTOBUF_LIB_SUFFIX}")
 
 # Folder Locations
 if (NOT DEFINED REPO_ROOT_DIR)
     set(REPO_ROOT_DIR ${CMAKE_SOURCE_DIR}/../..)
 endif()
+message(STATUS "REPO_ROOT_DIR : ${REPO_ROOT_DIR}")
 
 set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(ENGINE_OUTPUT_DIR ${REPO_ROOT_DIR}/engine/out/android/${ANDROID_ABI})
 endif()
 set(ENGINE_INCLUDE_DIR ${ENGINE_OUTPUT_DIR}/../../include)
+message(STATUS "ENGINE_OUTPUT_DIR : ${ENGINE_OUTPUT_DIR}")
+message(STATUS "ENGINE_OUTPUT_DIR : ${ENGINE_INCLUDE_DIR}")
 
 set(LIBS_ROOT_DIR ${REPO_ROOT_DIR}/libs)
+message(STATUS "LIBS_ROOT_DIR : ${LIBS_ROOT_DIR}")
 
 set(KFR_ROOT_DIR ${LIBS_ROOT_DIR}/kfr)
 set(KFR_OUTPUT_DIR ${KFR_ROOT_DIR}/out)
@@ -41,17 +52,21 @@ set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
+set(KFR_INCLUDE_DIR ${KFR_LIB_DIR}/include)
+set(KFR_CMAKE_DIR ${KFR_INCLUDE_DIR}/kfr/cmake)
+message(STATUS "KFR_ROOT_DIR : ${KFR_ROOT_DIR}")
+message(STATUS "KFR_OUTPUT_DIR : ${KFR_OUTPUT_DIR}")
+message(STATUS "KFR_LIB_DIR : ${KFR_LIB_DIR}")
+message(STATUS "KFR_INCLUDE_DIR : ${KFR_INCLUDE_DIR}")
+message(STATUS "KFR_CMAKE_DIR : ${KFR_CMAKE_DIR}")
 
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
 set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
     set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
-
-set(LIBRARY_EXT lib)
-if (ANDROID)
-    set(LIBRARY_EXT a)
-endif()
+message(STATUS "PROTOBUF_OUTPUT_DIR : ${PROTOBUF_OUTPUT_DIR}")
+message(STATUS "PROTOBUF_LIB_DIR : ${PROTOBUF_LIB_DIR}")
 
 # Add KFR Dependency
 add_library(
@@ -64,6 +79,14 @@ set_target_properties(
     
     ${KFR_LIB_DIR}/lib/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
 )
+
+include(${KFR_CMAKE_DIR}/detect_cpu.cmake)
+detect_cpu(${KFR_INCLUDE_DIR} ${KFR_CMAKE_DIR})
+message(STATUS "CPU_ARCH : ${CPU_ARCH}")
+
+include(${KFR_CMAKE_DIR}/target_set_arch.cmake)
+add_library(kfr_arch_flags INTERFACE)
+target_set_arch(kfr_arch_flags INTERFACE ${CPU_ARCH})
 
 # Add Protobuf Depenency
 add_library(
@@ -166,6 +189,7 @@ target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC
 
+    kfr_arch_flags
     libkfr-dft
     libprotobuf-lite
 )

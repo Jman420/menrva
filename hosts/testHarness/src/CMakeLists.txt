@@ -10,7 +10,6 @@ set(MENRVA_ENGINE_ROOT_DIR ${REPO_ROOT_DIR}/engine)
 set(MENRVA_ENGINE_SRC_DIR ${MENRVA_ENGINE_ROOT_DIR}/src)
 set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_ROOT_DIR}/out/host/${CMAKE_BUILD_TYPE})
 
-add_compile_definitions(__AVX2__)  # TODO : A temporary hack; this needs to be replaced with KFR's CMake CPU Detection logic
 add_subdirectory(
     ${MENRVA_ENGINE_SRC_DIR}
     ${MENRVA_ENGINE_OUTPUT_DIR}
