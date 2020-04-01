@@ -48,25 +48,25 @@ message(STATUS "LIBS_ROOT_DIR : ${LIBS_ROOT_DIR}")
 
 set(KFR_ROOT_DIR ${LIBS_ROOT_DIR}/kfr)
 set(KFR_OUTPUT_DIR ${KFR_ROOT_DIR}/out)
-set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
+set(KFR_INSTALL_DIR ${KFR_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
-    set(KFR_LIB_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
+    set(KFR_INSTALL_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
-set(KFR_INCLUDE_DIR ${KFR_LIB_DIR}/include)
+set(KFR_INCLUDE_DIR ${KFR_INSTALL_DIR}/include)
 set(KFR_CMAKE_DIR ${KFR_INCLUDE_DIR}/kfr/cmake)
 message(STATUS "KFR_ROOT_DIR : ${KFR_ROOT_DIR}")
 message(STATUS "KFR_OUTPUT_DIR : ${KFR_OUTPUT_DIR}")
-message(STATUS "KFR_LIB_DIR : ${KFR_LIB_DIR}")
+message(STATUS "KFR_INSTALL_DIR : ${KFR_INSTALL_DIR}")
 message(STATUS "KFR_INCLUDE_DIR : ${KFR_INCLUDE_DIR}")
 message(STATUS "KFR_CMAKE_DIR : ${KFR_CMAKE_DIR}")
 
 set(PROTOBUF_OUTPUT_DIR ${LIBS_ROOT_DIR}/protobuf/out)
-set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
+set(PROTOBUF_INSTALL_DIR ${PROTOBUF_OUTPUT_DIR}/host/${CMAKE_BUILD_TYPE})
 if (ANDROID)
-    set(PROTOBUF_LIB_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
+    set(PROTOBUF_INSTALL_DIR ${PROTOBUF_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
 message(STATUS "PROTOBUF_OUTPUT_DIR : ${PROTOBUF_OUTPUT_DIR}")
-message(STATUS "PROTOBUF_LIB_DIR : ${PROTOBUF_LIB_DIR}")
+message(STATUS "PROTOBUF_INSTALL_DIR : ${PROTOBUF_INSTALL_DIR}")
 
 # Add KFR Dependency
 add_library(
@@ -77,7 +77,7 @@ set_target_properties(
     libkfr-dft
     PROPERTIES IMPORTED_LOCATION
     
-    ${KFR_LIB_DIR}/lib/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
+    ${KFR_INSTALL_DIR}/lib/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
 )
 
 include(${KFR_CMAKE_DIR}/detect_cpu.cmake)
@@ -97,7 +97,7 @@ set_target_properties(
     libprotobuf-lite
     PROPERTIES IMPORTED_LOCATION
 
-    ${PROTOBUF_LIB_DIR}/lib/libprotobuf-lite${PROTOBUF_LIB_SUFFIX}.${LIBRARY_EXT}
+    ${PROTOBUF_INSTALL_DIR}/lib/libprotobuf-lite${PROTOBUF_LIB_SUFFIX}.${LIBRARY_EXT}
 )
 
 # Define Source Directories
@@ -181,8 +181,8 @@ target_include_directories(
     ${PROJECT_NAME}
     PUBLIC
 
-    ${KFR_LIB_DIR}/include
-    ${PROTOBUF_LIB_DIR}/include
+    ${KFR_INSTALL_DIR}/include
+    ${PROTOBUF_INSTALL_DIR}/include
     ${ENGINE_INCLUDE_DIR}
 )
 target_link_libraries(
