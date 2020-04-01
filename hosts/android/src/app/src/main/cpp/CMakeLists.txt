@@ -17,13 +17,6 @@ set(MENRVA_ENGINE_ROOT_DIR ${REPO_ROOT_DIR}/engine)
 set(MENRVA_ENGINE_SRC_DIR ${MENRVA_ENGINE_ROOT_DIR}/src)
 set(MENRVA_ENGINE_OUTPUT_DIR ${MENRVA_ENGINE_ROOT_DIR}/out/android/${ANDROID_ABI})
 
-# Configure KFR CPU Architecture since CPU Detection can't work for Cross Compilation
-# These values must match the corresponding values from the KFR Android Build Script
-set(KFR_ARCH_armeabi-v7a neon)
-set(KFR_ARCH_arm64-v8a neon64)
-set(KFR_ARCH_x86 ssse3)
-set(KFR_ARCH_x86_64 sse42)
-set(CPU_ARCH ${KFR_ARCH_${ANDROID_ABI}})
 add_subdirectory(
         ${MENRVA_ENGINE_SRC_DIR}
         ${MENRVA_ENGINE_OUTPUT_DIR}

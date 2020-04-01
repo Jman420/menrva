@@ -53,7 +53,7 @@ if (ANDROID)
     set(KFR_INSTALL_DIR ${KFR_OUTPUT_DIR}/android/${ANDROID_ABI})
 endif()
 set(KFR_INCLUDE_DIR ${KFR_INSTALL_DIR}/include)
-set(KFR_CMAKE_DIR ${KFR_INCLUDE_DIR}/kfr/cmake)
+set(KFR_CMAKE_DIR ${KFR_INSTALL_DIR}/cmake)
 message(STATUS "KFR_ROOT_DIR : ${KFR_ROOT_DIR}")
 message(STATUS "KFR_OUTPUT_DIR : ${KFR_OUTPUT_DIR}")
 message(STATUS "KFR_INSTALL_DIR : ${KFR_INSTALL_DIR}")
@@ -80,13 +80,10 @@ set_target_properties(
     ${KFR_INSTALL_DIR}/lib/${KFR_LIB_PREFIX}kfr_dft.${LIBRARY_EXT}
 )
 
-include(${KFR_CMAKE_DIR}/detect_cpu.cmake)
-detect_cpu(${KFR_INCLUDE_DIR} ${KFR_CMAKE_DIR})
-message(STATUS "CPU_ARCH : ${CPU_ARCH}")
-
-include(${KFR_CMAKE_DIR}/target_set_arch.cmake)
+include(${KFR_CMAKE_DIR}/kfr_include.cmake)
 add_library(kfr_arch_flags INTERFACE)
 target_set_arch(kfr_arch_flags INTERFACE ${CPU_ARCH})
+message(STATUS "CPU_ARCH : ${CPU_ARCH}")
 
 # Add Protobuf Depenency
 add_library(
