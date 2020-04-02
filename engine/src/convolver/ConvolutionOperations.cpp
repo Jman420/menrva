@@ -28,7 +28,7 @@ void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& dest
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);
     if (destination.GetLength() < source.GetLength()) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to ResetConfig and Clone Audio Buffers.  Destination Buffer (%d) smaller than Source Buffer (%d).", destination.GetLength(), source.GetLength()),
-                          LOG_SENDER, __func__, LogLevel::FATAL);
+                          LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error("Unable to ResetConfig and Clone Audio Buffers.  Destination Buffer smaller than Source Buffer.");
     }
 
@@ -51,12 +51,12 @@ void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& buffe
                       LOG_SENDER, __func__);
     if (output.GetLength() > bufferA.GetLength()) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to Sum and Scale Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", output.GetLength(), bufferA.GetLength()),
-                          LOG_SENDER, __func__, LogLevel::FATAL);
+                          LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Output Buffer larger than Source Buffer A.");
     }
     if (bufferA.GetLength() > bufferB.GetLength()) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to Sum and Scale Audio Buffers.  Source Buffer A (%d) larger than Source Buffer B (%d).", bufferA.GetLength(), bufferB.GetLength()),
-                          LOG_SENDER, __func__, LogLevel::FATAL);
+                          LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error("Unable to Sum and Scale Audio Buffers.  Source Buffer A larger than Source Buffer B.");
     }
 
@@ -65,11 +65,11 @@ void ConvolutionOperations::SumAndScale(AudioBuffer& bufferA, AudioBuffer& buffe
         sample valueB = bufferB[sampleCounter];
 
         _Logger->WriteLog(StringOperations::FormatString("Summing and Scaling values (%f) and (%f)...", valueA, valueB),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
         sample result = (valueA + valueB) * scalar;
         output[sampleCounter] = result;
         _Logger->WriteLog(StringOperations::FormatString("Successfully Summed and Scaled values into Result (%f).", result),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
     }
     _Logger->WriteLog(StringOperations::FormatString("Successfully Summed and Scaled AudioBuffers by (%f)!", scalar), LOG_SENDER, __func__);
 }
@@ -78,12 +78,12 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
     _Logger->WriteLog("Multiplying and Accumulating Audio Component Buffers...", LOG_SENDER, __func__);
     if (output.GetLength() > bufferA.GetLength()) {
         std::string msg = StringOperations::FormatString("Unable to Multiply and Accumulate Audio Buffers.  Output Buffer (%d) larger than Source Buffer A (%d).", output.GetLength(), bufferA.GetLength());
-        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error(msg);
     }
     if (bufferA.GetLength() > bufferB.GetLength()) {
         std::string msg = StringOperations::FormatString("Unable to Multiply and Accumulate Audio Buffers.  Source Buffer A (%d) larger than Source Buffer B (%d).", bufferA.GetLength(), bufferB.GetLength());
-        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error(msg);
     }
 
@@ -101,18 +101,18 @@ void ConvolutionOperations::ComplexMultiplyAccumulate(AudioComponentsBuffer& buf
         sample valueBImaginary = bufferBImaginary[sampleCounter];
 
         _Logger->WriteLog(StringOperations::FormatString("Multiplying Value A (real %f, imaginary %f) and Value B (real %f, imaginary %f)...", valueAReal, valueAImaginary, valueBReal, valueBImaginary),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
         sample realResult = bufferAReal[sampleCounter] * bufferBReal[sampleCounter] - bufferAImaginary[sampleCounter] * bufferBImaginary[sampleCounter];
         sample imaginaryResult = bufferAReal[sampleCounter] * bufferBImaginary[sampleCounter] + bufferAImaginary[sampleCounter] * bufferBReal[sampleCounter];
         _Logger->WriteLog(StringOperations::FormatString("Successfully Multiplied Values into (real %f, imaginary %f).", realResult, imaginaryResult),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
 
         _Logger->WriteLog(StringOperations::FormatString("Accumulating Values with Output Values (real %f, imaginary %f)...", outputReal[sampleCounter], outputImaginary[sampleCounter]),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
         outputReal[sampleCounter] += realResult;
         outputImaginary[sampleCounter] += imaginaryResult;
         _Logger->WriteLog(StringOperations::FormatString("Successfully Accumulated Values into (real %f, imaginary %f)...", outputReal[sampleCounter], outputImaginary[sampleCounter]),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
     }
     _Logger->WriteLog("Successfully Multiplied and Accumulated Audio Component Buffers!", LOG_SENDER, __func__);
 }

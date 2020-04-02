@@ -64,10 +64,6 @@ public:
     bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel);
 
 protected:
-    static LogLevel _LogLevel;
-    static bool _OverrideListEnabled;
-    static logger_override_list _OverrideList;
-
     virtual void WriteLogLine(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) = 0;
 
     logger_override_entry* GetAddOverrideListElement(std::string className);
@@ -79,6 +75,10 @@ private:
     const static std::string OVERRIDE_LIST_KEY_DELIMITER;
     const static LogLevel DEFAULT_LOG_LEVEL;
     const static LogLevel START_UP_LOG_LEVEL;
+
+    static LogLevel _LogLevel;
+    static bool _OverrideListEnabled;
+    static logger_override_list _OverrideList;
 };
 
 #endif //MENRVA_LOG_WRITER_BASE_H

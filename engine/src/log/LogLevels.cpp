@@ -19,12 +19,12 @@
 #include "LogLevels.h"
 
  const to_string_map LogLevels::LOG_LEVEL_MAP = {
-    { LogLevel::FATAL, "Fatal" },
-    { LogLevel::ERROR, "Error" },
-    { LogLevel::WARN, "Warn" },
-    { LogLevel::INFO, "Info" },
-    { LogLevel::DEBUG, "Debug" },
-    { LogLevel::VERBOSE, "Verbose" },
+    { LogLevel::Fatal, "Fatal" },
+    { LogLevel::Error, "Error" },
+    { LogLevel::Warn, "Warn" },
+    { LogLevel::Info, "Info" },
+    { LogLevel::Debug, "Debug" },
+    { LogLevel::Verbose, "Verbose" },
 };
 
 std::string LogLevels::ConvertToString(LogLevel logLevel)

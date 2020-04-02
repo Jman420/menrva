@@ -103,13 +103,13 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _Logger->WriteLog("Validating Audio Frame Length and Impulse Response...", LOG_SENDER, __func__);
     if (audioFrameLength < 1) {
         std::string msg = "Invalid Audio Frame Length provided.  Audio Frame Length must be greater than 0.";
-        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error(msg);
     }
 
     size_t validFilterLength = FindImpulseResponseLength(filterImpulseResponse);
     if (validFilterLength < 1) {
-        _Logger->WriteLog("Invalid Impulse Response provided.  Length of non-zero Impulse Response Signal Values must be greater than 0.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Invalid Impulse Response provided.  Length of non-zero Impulse Response Signal Values must be greater than 0.", LOG_SENDER, __func__, LogLevel::Warn);
         return;
     }
 
@@ -127,7 +127,7 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _Logger->WriteLog("Validating AutoConvolve Frames Length...", LOG_SENDER, __func__);
     if (_FilterSegmentsLength < autoConvolveFrames) {
         std::string msg = "Invalid AutoConvolve Frames Length provided.  AutoConvolve Frames must be less than or equal to the Filter Segments Length.";
-        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+        _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
         throw std::runtime_error(msg);
     }
 
@@ -190,7 +190,7 @@ void Convolver::Process(AudioBuffer& input, AudioBuffer& output) {
     _Logger->WriteLog(StringOperations::FormatString("Processing Audio Frame of length (%d)...", input.GetLength()),
                       LOG_SENDER, __func__);
     if (!_Initialized) {
-        _Logger->WriteLog("Convolver not Initialized!  Skipping Processing Audio Frame.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Convolver not Initialized!  Skipping Processing Audio Frame.", LOG_SENDER, __func__, LogLevel::Error);
         return;
     }
 
@@ -224,8 +224,8 @@ size_t Convolver::GetFilterSegmentsLength() {
 }
 
 void Convolver::LogSegmentConfig() {
-    _Logger->WriteLog(StringOperations::FormatString("Frame Length (%d)", _FrameLength), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Frame Size (%d)", _FrameSize), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Filter Segments Length (%d)", _FilterSegmentsLength), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Signal Scalar (%f)", _SignalScalar), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Frame Length (%d)", _FrameLength), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Frame Size (%d)", _FrameSize), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Filter Segments Length (%d)", _FilterSegmentsLength), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Signal Scalar (%f)", _SignalScalar), LOG_SENDER, __func__, LogLevel::Verbose);
 }

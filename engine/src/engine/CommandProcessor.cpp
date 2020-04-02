@@ -32,7 +32,7 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
                       LOG_SENDER, __func__);
     if (context.ModuleStatus == ModuleStatus::RELEASING || context.ModuleStatus == ModuleStatus::INITIALIZING) {
         _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Command Id (%u).  Module Status is invalid.", cmdCode),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
 
@@ -41,7 +41,7 @@ int CommandProcessor::Process(ModuleContext& context, uint32_t cmdCode, uint32_t
     CommandHandlerBase* handlerPtr = _CommandHandlerMap->GetCommandHandler(cmdCode);
     if (handlerPtr == nullptr) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to find Handler for Command Id (%u).  Skipping processing command.", cmdCode),
-                          LOG_SENDER, __func__, LogLevel::WARN);
+                          LOG_SENDER, __func__, LogLevel::Warn);
         return 0;
     }
 

@@ -77,7 +77,7 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
                       LOG_SENDER, __func__);
     if (_EngineStatus == MenrvaEngineStatus::UNCONFIGURED) {
         _Logger->WriteLog(StringOperations::FormatString("Unable to process Input Audio Buffer of length (%d) and channels (%d).  Engine not configured!", inputBuffer.GetSampleLength(), _ChannelLength),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
     if (_EngineStatus == MenrvaEngineStatus::DISABLED) {
@@ -96,13 +96,13 @@ int MenrvaEffectsEngine::Process(AudioInputBuffer& inputBuffer, AudioOutputBuffe
     for (size_t sampleCounter = 0; sampleCounter < inputBufferLength; sampleCounter++) {
         inputFrameIndex = sampleCounter % inputFrameLength;
         _Logger->WriteLog(StringOperations::FormatString("Loading Input Buffer Index (%d) into Audio Frame Index (%d)...", sampleCounter, inputFrameIndex),
-                          LOG_SENDER, __func__, LogLevel::VERBOSE);
+                          LOG_SENDER, __func__, LogLevel::Verbose);
 
         for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
             sample value = inputBuffer(channelCounter, sampleCounter);
             _InputAudioFrame[channelCounter][inputFrameIndex] = value;
             _Logger->WriteLog(StringOperations::FormatString("Successfully loaded Input Sample Value (%f) from Input Buffer Index (%d) into Audio Frame Index (%d).", value, sampleCounter, inputFrameIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
         }
 
         if (inputFrameIndex == lastFrameIndex) {
@@ -154,7 +154,7 @@ void MenrvaEffectsEngine::SetEffectEnabled(uint8_t effectIndex, bool enabled) {
                       LOG_SENDER, __func__);
     if (effectIndex >= SingleChannelEffectsBundle::LENGTH) {
         _Logger->WriteLog(StringOperations::FormatString("Skipping Setting Enabled Flag on Effect Index (%d).  Index out of bounds.", effectIndex),
-                          LOG_SENDER, __func__, LogLevel::WARN);
+                          LOG_SENDER, __func__, LogLevel::Warn);
         return;
     }
 
@@ -173,7 +173,7 @@ void MenrvaEffectsEngine::ConfigureEffectSetting(uint8_t effectIndex, char* sett
                       LOG_SENDER, __func__);
     if (effectIndex >= SingleChannelEffectsBundle::LENGTH) {
         _Logger->WriteLog(StringOperations::FormatString("Skipping Setting Effect Configuration (%s) on Effect Index (%d).  Index out of bounds.", settingName, effectIndex),
-                          LOG_SENDER, __func__, LogLevel::WARN);
+                          LOG_SENDER, __func__, LogLevel::Warn);
         return;
     }
 
@@ -251,9 +251,9 @@ size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, Aud
                                         outputBuffer.GetSampleLength() - startOutputIndex);
 
     _Logger->WriteLog(StringOperations::FormatString("Output Frame Length : %u", outputFrameLength),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     _Logger->WriteLog(StringOperations::FormatString("Start Output Index : %u", startOutputIndex),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
 
     for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
         _Logger->WriteLog(StringOperations::FormatString("Processing Output Audio Frame of length (%u) for Channel (%u)...", outputFrameLength, channelCounter),
@@ -264,10 +264,10 @@ size_t MenrvaEffectsEngine::ProcessOutputAudioFrame(size_t startOutputIndex, Aud
             sample value = outputFrame[outputCounter];
             size_t outputBufferIndex = outputCounter + startOutputIndex;
             _Logger->WriteLog(StringOperations::FormatString("Processing Output Audio Frame Index (%d) with Value (%f) into Output Buffer Index (%d)...", outputCounter, value, outputBufferIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             outputBuffer.SetValue(channelCounter, outputBufferIndex, value);
             _Logger->WriteLog(StringOperations::FormatString("Successfully processed Output Audio Frame Index (%d) into Output Buffer Index (%d)!", outputCounter, outputBufferIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
         }
     }
 

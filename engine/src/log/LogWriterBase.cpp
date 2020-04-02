@@ -20,10 +20,10 @@
 #include "LogWriterBase.h"
 
 const std::string LogWriterBase::OVERRIDE_LIST_KEY_DELIMITER = ".";
-const LogLevel LogWriterBase::DEFAULT_LOG_LEVEL = LogLevel::DEBUG;
-const LogLevel LogWriterBase::START_UP_LOG_LEVEL = LogLevel::ERROR;
-const uint8_t LogWriterBase::MIN_LOG_LEVEL_VALUE = LogLevel::VERBOSE;
-const uint8_t LogWriterBase::MAX_LOG_LEVEL_VALUE = LogLevel::FATAL;
+const LogLevel LogWriterBase::DEFAULT_LOG_LEVEL = LogLevel::Debug;
+const LogLevel LogWriterBase::START_UP_LOG_LEVEL = LogLevel::Error;
+const uint8_t LogWriterBase::MIN_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Verbose);
+const uint8_t LogWriterBase::MAX_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Fatal);
 
 LogLevel LogWriterBase::_LogLevel = START_UP_LOG_LEVEL;
 bool LogWriterBase::_OverrideListEnabled = false;

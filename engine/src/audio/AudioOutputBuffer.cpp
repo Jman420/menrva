@@ -74,7 +74,7 @@ void AudioOutputBuffer::ResetData() {
 
         default:
             std::string msg = "Unable to reset data.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 
@@ -97,7 +97,7 @@ void AudioOutputBuffer::Free() {
 
         default:
             std::string msg = "Unable to free buffer.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 }
@@ -131,7 +131,7 @@ void AudioOutputBuffer::SetFormat(AudioFormat outputAudioFormat) {
 
         default:
             std::string msg = "Unable to instantiate Conversion Buffer.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 }
@@ -154,7 +154,7 @@ void AudioOutputBuffer::SetData(void* data, uint32_t channelLength, size_t sampl
 
         default:
             std::string msg = "Unable to set Data.  Invalid Audio Format Provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 
@@ -167,7 +167,7 @@ void AudioOutputBuffer::SetData(AudioFormat outputAudioFormat, void* data, uint3
 }
 
 void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, sample value) {
-    _Logger->WriteLog("Validating Parameters...", LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog("Validating Parameters...", LOG_SENDER, __func__, LogLevel::Verbose);
     if (channelIndex > _ChannelLength) {
         throw std::runtime_error("Invalid Channel Index Provided.");
     }
@@ -176,17 +176,17 @@ void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, samp
     }
 
     _Logger->WriteLog(StringOperations::FormatString("Calculating Buffer Index for Sample Index (%d) for Channel (%d)...", sampleIndex, channelIndex),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     size_t bufferIndex = AudioIOBufferBase::CalculateBufferIndex(_ChannelLength, channelIndex, sampleIndex);
 
     _Logger->WriteLog(StringOperations::FormatString("Setting Normalized Value to Index (%d) from Original Value (%f)...", bufferIndex, value),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16: {
             auto normalizedValue = Normalize<int16_t>(value);
             (*_BufferWrapper->PCM_16)[bufferIndex] = normalizedValue;
             _Logger->WriteLog(StringOperations::FormatString("Successfully set Normalized Value (%d) to Index (%d)!", normalizedValue, sampleIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             break;
         }
 
@@ -194,7 +194,7 @@ void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, samp
             auto normalizedValue = Normalize<int32_t>(value);
             (*_BufferWrapper->PCM_32)[bufferIndex] = normalizedValue;
             _Logger->WriteLog(StringOperations::FormatString("Successfully set Normalized Value (%d) to Index (%d)!", normalizedValue, sampleIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             break;
         }
 
@@ -204,7 +204,7 @@ void AudioOutputBuffer::SetValue(uint32_t channelIndex, size_t sampleIndex, samp
 
         default:
             std::string msg = "Unable to set Value.  Invalid Audio Format Provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::ERROR);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Error);
             throw std::runtime_error(msg);
     }
 }
@@ -222,13 +222,13 @@ void* AudioOutputBuffer::GetData() {
 
         default:
             std::string msg = "Unable to return data.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 }
 
 void* AudioOutputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) const {
-    _Logger->WriteLog("Validating Parameters...", LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog("Validating Parameters...", LOG_SENDER, __func__, LogLevel::Verbose);
     if (channelIndex > _ChannelLength) {
         throw std::runtime_error("Invalid Channel Index Provided.");
     }
@@ -237,36 +237,36 @@ void* AudioOutputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
     }
 
     _Logger->WriteLog(StringOperations::FormatString("Calculating Buffer Index for Sample Index (%d) for Channel (%d)...", sampleIndex, channelIndex),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     size_t bufferIndex = sampleIndex + channelIndex;
 
     _Logger->WriteLog(StringOperations::FormatString("Retrieving Value of Index (%d)...", bufferIndex),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16: {
             int16_t* value = &(*_BufferWrapper->PCM_16)[bufferIndex];
             _Logger->WriteLog(StringOperations::FormatString("Successfully retrieved Value (%d) for Index (%d)!", *value, bufferIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             return value;
         }
 
         case AudioFormat::PCM_32: {
             int32_t* value = &(*_BufferWrapper->PCM_32)[bufferIndex];
             _Logger->WriteLog(StringOperations::FormatString("Successfully retrieved Value (%d) for Index (%d)!", *value, bufferIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             return value;
         }
 
         case AudioFormat::PCM_Float: {
             float* value = &(*_BufferWrapper->PCM_Float)[bufferIndex];
             _Logger->WriteLog(StringOperations::FormatString("Successfully retrieved Value (%f) for Index (%d)!", *value, bufferIndex),
-                              LOG_SENDER, __func__, LogLevel::VERBOSE);
+                              LOG_SENDER, __func__, LogLevel::Verbose);
             return value;
         }
 
         default:
             std::string msg = "Unable to retrieve Normalized Value.  Invalid Audio Format Provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 }
@@ -274,7 +274,7 @@ void* AudioOutputBuffer::operator()(uint32_t channelIndex, size_t sampleIndex) c
 template<class TOutputType>
 TOutputType AudioOutputBuffer::Normalize(sample data) {
     _Logger->WriteLog(StringOperations::FormatString("Normalizing value for AudioFormat (%d)...", _OutputAudioFormat),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     sample conversionScalar = 0;
 
     switch (_OutputAudioFormat) {
@@ -287,12 +287,12 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
             break;
 
         case AudioFormat::PCM_Float:
-            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__, LogLevel::VERBOSE);
+            _Logger->WriteLog("Normalization not necessary for PCM Float Audio Format.", LOG_SENDER, __func__, LogLevel::Verbose);
             return (TOutputType)data;
 
         default:
             std::string msg = "Unable to Normalize Value.  Invalid Audio Format Provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::FATAL);
+            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
 
@@ -306,7 +306,7 @@ TOutputType AudioOutputBuffer::Normalize(sample data) {
     }
 
     _Logger->WriteLog(StringOperations::FormatString("Successfully normalized value to (%d).", normalizedValue),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     return normalizedValue;
 }
 
