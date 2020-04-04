@@ -16,7 +16,7 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <time.h>
+#include <ctime>
 #include <menrvaEngine/tools/StringOperations.h>
 #include "TextCtrlLogger.h"
 
@@ -57,18 +57,19 @@ void TextCtrlLogger::WriteLogLine(std::string message, std::string senderClass, 
     logLine += message;
     logLine += NEW_LINE;
 
-    _Console->AppendText(logLine);
+    _Console->WriteText(logLine);
+    _Console->Update();
 }
 
 std::string TextCtrlLogger::GetTimestamp()
 {
-    const size_t TIMESTAMP_BUFFER_SIZE = 19;
+    const size_t TIMESTAMP_BUFFER_SIZE = 20;
     
-    const time_t timer = time(NULL);
-    tm* timeInfo = localtime(&timer);
+    time_t current_time = time(NULL);
+    tm* timeInfo = localtime(&current_time);
 
     char timestamp[TIMESTAMP_BUFFER_SIZE];
-    strftime(timestamp, TIMESTAMP_BUFFER_SIZE, TIMESTAMP_FORMAT.c_str(), timeInfo);
+    int temp = strftime(timestamp, TIMESTAMP_BUFFER_SIZE, "%m/%d/%Y %T", timeInfo);
 
     return timestamp;
 }
@@ -80,4 +81,5 @@ void TextCtrlLogger::Initialize()
     }
 
     _Console = new wxTextCtrl();
+    _Initialized = true;
 }

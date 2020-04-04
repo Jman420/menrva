@@ -23,6 +23,10 @@ IMPLEMENT_APP(TestHarnessApp)
 
 bool TestHarnessApp::OnInit()
 {
+    HostServiceLocator serviceLocator;
+    TextCtrlLogger& logger = *static_cast<TextCtrlLogger*>(serviceLocator.GetLogger());
+    logger.SetLogLevel(LogLevel::Verbose);
+
     TestHarnessWindow* window = new TestHarnessWindow("Menrva Test Harness", wxDefaultPosition, wxSize(800, 600));
     window->Show();
     SetTopWindow(window);

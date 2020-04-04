@@ -30,9 +30,31 @@
 
 enum TestHarnessWindowControls {
     TEXT_Console = wxID_HIGHEST + 1,
+    
+    // File Menu
     MENU_Quit,
-    MENU_LoadAudioFile,
+
+    // Console Menu
     MENU_DumpConsole,
+    MENU_ClearConsole,
+    
+    // Logging Menu
+    MENU_SetLogLevel_Fatal,
+    MENU_SetLogLevel_Error,
+    MENU_SetLogLevel_Warn,
+    MENU_SetLogLevel_Info,
+    MENU_SetLogLevel_Debug,
+    MENU_SetLogLevel_Verbose,
+    MENU_ToggleLoggingOverrides,
+    MENU_ManageLoggingOverrides,
+
+    // Playback Menu
+    MENU_LoadAudioFile,
+    MENU_PlayAudioFile,
+    MENU_StopAudioFile,
+
+    // Engine Menu
+    MENU_ToggleEngine,
 };
 
 class TestHarnessWindow
@@ -42,8 +64,12 @@ public:
     TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size);
 
     void Quit(wxCommandEvent& event);
+    void DumpConsole(wxCommandEvent& event);
+    void ClearConsole(wxCommandEvent& event);
 
 private:
+    static const std::string CONSOLE_HEADER;
+
     wxMenuBar* _MenuBar;
     wxTextCtrl* _Console;
 
