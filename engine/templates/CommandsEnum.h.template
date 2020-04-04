@@ -26,7 +26,9 @@
 #ifndef MENRVA_MENRVA_COMMANDS_ENUM_H
 #define MENRVA_MENRVA_COMMANDS_ENUM_H
 
-enum MenrvaCommands {
+#include <cstdint>
+
+enum class MenrvaCommands : uint8_t {
     Host_Generic_Command = 0,
 <EnumEntry>
 };

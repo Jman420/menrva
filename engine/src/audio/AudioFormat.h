@@ -21,7 +21,7 @@
 
 #include "Sample.h"
 
-enum AudioFormat {
+enum class AudioFormat : uint16_t {
     PCM_16 = 0x1u,
     PCM_32 = 0x3u,
     PCM_Float = 0x5u,
