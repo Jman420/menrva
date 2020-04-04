@@ -20,4 +20,4 @@
 #include "AndroidHost_Generic_Command.h"
 
 AndroidHost_Generic_Command::AndroidHost_Generic_Command()
-        : CommandBase(MenrvaCommands::Host_Generic_Command, nullptr, nullptr) {}
+        : CommandBase(static_cast<uint8_t>(MenrvaCommands::Host_Generic_Command), nullptr, nullptr) {}

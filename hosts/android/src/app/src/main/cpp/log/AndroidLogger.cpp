@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    SetLogLevel(LogLevel::DEBUG);
+    SetLogLevel(LogLevel::Debug);
     // END DEBUG
 
     // TODO : Get LogLevel & Whitelist Settings from Persisted Settings
@@ -55,5 +55,5 @@ void AndroidLogger::WriteLogLine(std::string message, std::string senderClass, s
     }
 
     // Write Message
-    __android_log_write(logLevel, prefix.c_str(), message.c_str());
+    __android_log_write(static_cast<uint8_t>(logLevel), prefix.c_str(), message.c_str());
 }

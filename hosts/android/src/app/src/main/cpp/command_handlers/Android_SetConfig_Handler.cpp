@@ -35,19 +35,19 @@ void Android_SetConfig_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog("Received SetConfig Command...", LOG_SENDER, __func__);
     effect_config_t& config = *_Config;
 
-    _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog("Input Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::Verbose);
     LogBufferConfig(config.inputCfg);
-    _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog("Output Buffer Configuration Details", LOG_SENDER, __func__, LogLevel::Verbose);
     LogBufferConfig(config.outputCfg);
 
     _Logger->WriteLog("Validating Effect Config Parameters...", LOG_SENDER, __func__);
     if (config.inputCfg.samplingRate != config.outputCfg.samplingRate) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Sample Rate does not match Output Sample Rate.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Sample Rate does not match Output Sample Rate.", LOG_SENDER, __func__, LogLevel::Error);
         _ReturnValue = -EINVAL;
         return;
     }
     if (config.inputCfg.channels != config.outputCfg.channels && audio_channel_mask_in_to_out(config.inputCfg.channels) != config.outputCfg.channels) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Channels do not match Output Channels.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Input Channels do not match Output Channels.", LOG_SENDER, __func__, LogLevel::Error);
         _ReturnValue = -EINVAL;
         return;
     }
@@ -55,7 +55,7 @@ void Android_SetConfig_Handler::Execute(ModuleContext& context) {
         config.inputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.inputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
         _Logger->WriteLog(StringOperations::FormatString("Invalid Effect Config Parameters.  Input Format not supported (%u).", config.inputCfg.format),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         _ReturnValue = -EINVAL;
         return;
     }
@@ -63,13 +63,13 @@ void Android_SetConfig_Handler::Execute(ModuleContext& context) {
         config.outputCfg.format != AUDIO_FORMAT_PCM_32_BIT &&
         config.outputCfg.format != AUDIO_FORMAT_PCM_FLOAT) {
         _Logger->WriteLog(StringOperations::FormatString("Invalid Effect Config Parameters.  Output Format not supported (%u).", config.inputCfg.format),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         _ReturnValue = -EINVAL;
         return;
     }
     if (config.outputCfg.accessMode != EFFECT_BUFFER_ACCESS_WRITE &&
         config.outputCfg.accessMode != EFFECT_BUFFER_ACCESS_ACCUMULATE) {
-        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect Config Parameters.  Output Buffer Access Mode is not Write or Accumulate.", LOG_SENDER, __func__, LogLevel::Error);
         _ReturnValue = -EINVAL;
         return;
     }
@@ -78,7 +78,7 @@ void Android_SetConfig_Handler::Execute(ModuleContext& context) {
     context.ChannelLength = audio_channel_count_from_out_mask(config.outputCfg.channels);
     if (context.ChannelLength < 1) {
         _Logger->WriteLog(StringOperations::FormatString("Invalid Channels Length (%d).  Channel Mask must contain at least 1 channel.", context.ChannelLength),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
     }
 
     if (!context.InputBuffer) {
@@ -101,11 +101,11 @@ void Android_SetConfig_Handler::Execute(ModuleContext& context) {
 }
 
 void Android_SetConfig_Handler::LogBufferConfig(buffer_config_t& bufferConfig) {
-    _Logger->WriteLog(StringOperations::FormatString("Buffer Format (0x%07x)", bufferConfig.format), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Buffer Sample Rate (%u)", bufferConfig.samplingRate), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Mask (0x%07x)", bufferConfig.channels), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Count (%u)", audio_channel_count_from_out_mask(bufferConfig.channels)), LOG_SENDER, __func__, LogLevel::VERBOSE);
-    _Logger->WriteLog(StringOperations::FormatString("Buffer Access Mode (%u)", bufferConfig.accessMode), LOG_SENDER, __func__, LogLevel::VERBOSE);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Format (0x%07x)", bufferConfig.format), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Sample Rate (%u)", bufferConfig.samplingRate), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Mask (0x%07x)", bufferConfig.channels), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Channel Count (%u)", audio_channel_count_from_out_mask(bufferConfig.channels)), LOG_SENDER, __func__, LogLevel::Verbose);
+    _Logger->WriteLog(StringOperations::FormatString("Buffer Access Mode (%u)", bufferConfig.accessMode), LOG_SENDER, __func__, LogLevel::Verbose);
 }
 
 uint32_t Android_SetConfig_Handler::SerializeResponse(void* responseBuffer) {

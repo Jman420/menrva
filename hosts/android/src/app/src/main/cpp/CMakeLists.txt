@@ -36,6 +36,7 @@ add_library(
         SHARED
 
         log/AndroidLogger.cpp
+
         tools/AndroidCommandIdCalculator.cpp
         tools/AndroidServiceLocator.cpp
 

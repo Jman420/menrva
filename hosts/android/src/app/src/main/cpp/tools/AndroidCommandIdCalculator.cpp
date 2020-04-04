@@ -20,5 +20,5 @@
 #include "../aosp/aosp_audio_effect_defs.h"
 
 uint32_t CommandIdCalculator::Calculate(MenrvaCommands command) {
-    return EFFECT_CMD_FIRST_PROPRIETARY + command;
+    return EFFECT_CMD_FIRST_PROPRIETARY + static_cast<uint8_t>(command);
 }

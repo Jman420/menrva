@@ -27,7 +27,7 @@ void EngineDebugging::ProcessPipeline(uint32_t channelMask) {
     test_params params;
     effect_config_t menrvaEffectConfig;
     menrvaEffectConfig.inputCfg.samplingRate = static_cast<uint32_t>(params.SampleRate);
-    menrvaEffectConfig.inputCfg.format = AudioFormat::PCM_16;
+    menrvaEffectConfig.inputCfg.format = static_cast<uint8_t>(AudioFormat::PCM_16);
     menrvaEffectConfig.inputCfg.channels = channelMask;
 
     menrvaEffectConfig.outputCfg.samplingRate = menrvaEffectConfig.inputCfg.samplingRate;

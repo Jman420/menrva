@@ -80,16 +80,16 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
     _Logger->WriteLog("Creating Menrva Module...", LOG_SENDER, __func__);
     
     if (pHandle == nullptr) {
-        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect Handle Pointer provided.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
     if (uuid == nullptr) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
     if (memcmp(uuid, &AndroidInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
         _Logger->WriteLog(StringOperations::FormatString("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", AndroidInterface::EngineUUID),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
 
@@ -107,7 +107,7 @@ int AndroidInterface::CreateModule(const effect_uuid_t* uuid, int32_t sessionId 
     AndroidModuleContext& androidContext = *new AndroidModuleContext();
     androidContext.ModuleStatus = ModuleStatus::UNINITIALIZED;
     androidContext.EffectsEngine = new MenrvaEffectsEngine(_Logger, _ServiceLocator->GetFftEngine(), _ServiceLocator);
-    androidContext.CommandProcessor = commandProcessor;  // IDE thinks these types are incompatible, but compiler & runtime execute successfully  ¯\_(ツ)_/¯
+    androidContext.CommandProcessor = commandProcessor;  // AndroidStudio thinks these types are incompatible, but compiler & runtime execute successfully  ¯\_(ツ)_/¯
 
     _Logger->WriteLog("Creating Android Module Interface...", LOG_SENDER, __func__);
     AndroidModuleInterface* moduleInterface = new AndroidModuleInterface();
@@ -124,7 +124,7 @@ int AndroidInterface::ReleaseModule(effect_handle_t moduleHandle) {
     auto module = (AndroidModuleContext*)moduleHandle;
 
     if (module == nullptr) {
-        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Module Provided.  Provided Module is not a Menrva Module.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
 
@@ -142,16 +142,16 @@ int AndroidInterface::ReleaseModule(effect_handle_t moduleHandle) {
 int AndroidInterface::GetDescriptorFromUUID(const effect_uuid_t* uuid, effect_descriptor_t* pDescriptor) {
     _Logger->WriteLog("Getting Descriptor from UUID...", LOG_SENDER, __func__);
     if (pDescriptor == nullptr) {
-        _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Descriptor Pointer provided.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
     if (uuid == nullptr) {
-        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Effect UUID provided.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
     if (memcmp(uuid, &AndroidInterface::EffectDescriptor.uuid, sizeof(*uuid)) != 0) {
         _Logger->WriteLog(StringOperations::FormatString("Incorrect Effect UUID provided. Does not match Menrva UUID (%s).", AndroidInterface::EngineUUID),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         return -ENOENT;
     }
 
@@ -164,7 +164,7 @@ int AndroidInterface::GetDescriptorFromModule(effect_handle_t self, effect_descr
     _Logger->WriteLog("Getting Descriptor from Module Pointer...", LOG_SENDER, __func__);
     auto module = (ModuleContext*)self;
     if (module == nullptr || pDescriptor == nullptr) {
-        _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Invalid Module Pointer provided.", LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
 
@@ -180,16 +180,16 @@ int AndroidInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPt
     audio_buffer_t& outBuffer = *outBufferPtr;
 
     if (context.ModuleStatus == ModuleStatus::RELEASING) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::ERROR);
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is in Releasing Status.", LOG_SENDER, __func__, LogLevel::Error);
         return -ENODATA;
     }
     if (context.ModuleStatus != ModuleStatus::READY) {
-        _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::WARN);
+        _Logger->WriteLog("Skipping Processing Buffer.  Module is not in Ready Status.", LOG_SENDER, __func__, LogLevel::Warn);
         return 0;
     }
     if (inBuffer.frameCount != outBuffer.frameCount) {
         _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Input Frame Count (%u) does not match Output Frame Count (%u).", inBuffer.frameCount, outBuffer.frameCount),
-                          LOG_SENDER, __func__, LogLevel::ERROR);
+                          LOG_SENDER, __func__, LogLevel::Error);
         return -EINVAL;
     }
 
@@ -218,7 +218,7 @@ int AndroidInterface::Process(effect_handle_t handle, audio_buffer_t* inBufferPt
 
         default:
             _Logger->WriteLog(StringOperations::FormatString("Skipping Processing Buffer.  Invalid Audio Format Provided (%d).", androidContext.config.inputCfg.format),
-                              LOG_SENDER, __func__, LogLevel::ERROR);
+                              LOG_SENDER, __func__, LogLevel::Error);
             return -EINVAL;
     }
 
@@ -239,6 +239,6 @@ int AndroidInterface::Command(effect_handle_t self, uint32_t cmdCode, uint32_t c
     int result = androidContext.CommandProcessor->Process(androidContext, cmdCode, cmdSize, pCmdData, replySize, pReplyData);
 
     _Logger->WriteLog(StringOperations::FormatString("Finished Processing Command with Result (%d).", result),
-                      LOG_SENDER, __func__, LogLevel::VERBOSE);
+                      LOG_SENDER, __func__, LogLevel::Verbose);
     return result;
 }
