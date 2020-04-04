@@ -76,8 +76,6 @@ private:
     HostServiceLocator* _ServiceLocator;
     TextCtrlLogger* _Logger;
     MenrvaEffectsEngine* _EffectsEngine;
-
-    DECLARE_EVENT_TABLE();
 };
 
 #endif //MENRVA_TEST_HARNESS_WINDOW_H

@@ -20,21 +20,18 @@
 
 const std::string TestHarnessWindow::CONSOLE_HEADER = "-----Menrva TestHarness Console-----";
 
-BEGIN_EVENT_TABLE(TestHarnessWindow, wxFrame)
-    EVT_MENU(TestHarnessWindowControls::MENU_Quit, TestHarnessWindow::Quit)
-    EVT_MENU(TestHarnessWindowControls::MENU_DumpConsole, TestHarnessWindow::DumpConsole)
-    EVT_MENU(TestHarnessWindowControls::MENU_ClearConsole, TestHarnessWindow::ClearConsole)
-END_EVENT_TABLE()
-
 TestHarnessWindow::TestHarnessWindow(const wxString& title, const wxPoint& pos, const wxSize& size)
         : wxFrame(nullptr, -1, title, pos, size) {
     wxMenu* fileMenu = new wxMenu();
     fileMenu->Append(TestHarnessWindowControls::MENU_Quit, _("&Quit"), _("&Quit Application"));
+    fileMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::Quit, this, TestHarnessWindowControls::MENU_Quit);
 
     wxMenu* consoleMenu = new wxMenu();
     consoleMenu->Append(TestHarnessWindowControls::MENU_DumpConsole, _("&Dump to File"), _("&Dump Console to File"));
+    consoleMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::DumpConsole, this, TestHarnessWindowControls::MENU_DumpConsole);
     consoleMenu->AppendSeparator();
     consoleMenu->Append(TestHarnessWindowControls::MENU_ClearConsole, _("&Clear"), _("&Clear Console"));
+    consoleMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::ClearConsole, this, TestHarnessWindowControls::MENU_ClearConsole);
 
     wxMenu* loggingMenu = new wxMenu();
     loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Fatal, _("&Fatal"), _("Set LogLevel to &Fatal"));
