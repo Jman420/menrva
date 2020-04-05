@@ -66,6 +66,7 @@ public:
     void Quit(wxCommandEvent& event);
     void DumpConsole(wxCommandEvent& event);
     void ClearConsole(wxCommandEvent& event);
+    void SetLogLevel(wxCommandEvent& event);
 
 private:
     static const std::string CONSOLE_HEADER;
@@ -76,6 +77,8 @@ private:
     HostServiceLocator* _ServiceLocator;
     TextCtrlLogger* _Logger;
     MenrvaEffectsEngine* _EffectsEngine;
+
+    void AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel);
 };
 
 #endif //MENRVA_TEST_HARNESS_WINDOW_H

@@ -16,7 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <menrvaEngine/tools/StringOperations.h>
 #include "TestHarnessWindow.h"
+#include "eventData/SetLogLevel_EventData.h"
 
 const std::string TestHarnessWindow::CONSOLE_HEADER = "-----Menrva TestHarness Console-----";
 
@@ -34,12 +36,12 @@ TestHarnessWindow::TestHarnessWindow(const wxString& title, const wxPoint& pos, 
     consoleMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::ClearConsole, this, TestHarnessWindowControls::MENU_ClearConsole);
 
     wxMenu* loggingMenu = new wxMenu();
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Fatal, _("&Fatal"), _("Set LogLevel to &Fatal"));
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Error, _("&Error"), _("Set LogLevel to &Error"));
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Warn, _("&Warn"), _("Set LogLevel to &Warn"));
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Info, _("&Info"), _("Set LogLevel to &Info"));
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Debug, _("&Debug"), _("Set LogLevel to &Debug"));
-    loggingMenu->AppendRadioItem(TestHarnessWindowControls::MENU_SetLogLevel_Verbose, _("&Verbose"), _("Set LogLevel to &Verbose"));
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Fatal, LogLevel::Fatal);
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Error, LogLevel::Error);
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Warn, LogLevel::Warn);
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Info, LogLevel::Info);
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Debug, LogLevel::Debug);
+    AddSetLogLevelMenuItem(loggingMenu, TestHarnessWindowControls::MENU_SetLogLevel_Verbose, LogLevel::Verbose);
     loggingMenu->AppendSeparator();
     loggingMenu->AppendCheckItem(TestHarnessWindowControls::MENU_ToggleLoggingOverrides, _("&Overrides Enabled"), _("Enable/Disable Logging Overrides"));
     loggingMenu->Append(TestHarnessWindowControls::MENU_ManageLoggingOverrides, _("&Manage Overrides"), _("&Manage Log Level Overrides"));
@@ -67,7 +69,6 @@ TestHarnessWindow::TestHarnessWindow(const wxString& title, const wxPoint& pos, 
     _Console = _Logger->GetTextCtrl();
     _Console->Create(this, TestHarnessWindowControls::TEXT_Console, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH);
     _Logger->WriteLog(CONSOLE_HEADER);
-    _Logger->WriteLog("First Test Line!");
         
     _EffectsEngine = new MenrvaEffectsEngine(_Logger, serviceLocator.GetFftEngine(), _ServiceLocator);
 }
@@ -92,4 +93,27 @@ void TestHarnessWindow::ClearConsole(wxCommandEvent& event)
 {
     _Console->Clear();
     _Logger->WriteLog(CONSOLE_HEADER);
+}
+
+void TestHarnessWindow::SetLogLevel(wxCommandEvent& event)
+{
+    SetLogLevel_EventData& eventData = *static_cast<SetLogLevel_EventData*>(event.GetEventUserData());
+    _Logger->SetLogLevel(eventData.GetLogLevel());
+    _Logger->WriteLog(StringOperations::FormatString("Set LogLevel to : %s", LogLevels::ConvertToString(_Logger->GetLogLevel()).c_str()));
+}
+
+void TestHarnessWindow::AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel)
+{
+    std::string logLevelName = LogLevels::ConvertToString(logLevel);
+
+    std::string menuText = "&";
+    menuText += logLevelName;
+
+    std::string helpText = "Set LogLevel to &";
+    helpText += logLevelName;
+
+    wxObject* eventData = new SetLogLevel_EventData(logLevel);
+
+    loggingMenu->AppendRadioItem(controlId, _(logLevelName), _(helpText));
+    loggingMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::SetLogLevel, this, controlId, controlId, eventData);
 }

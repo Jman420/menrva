@@ -42,6 +42,8 @@ add_executable(
     "tools/TextCtrlLogger.cpp"
     "tools/TestServiceLocator.cpp"
 
+    "eventData/SetLogLevel_EventData.cpp"
+
     "TestHarnessApp.cpp"
     "TestHarnessWindow.cpp"
 
