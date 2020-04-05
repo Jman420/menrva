@@ -21,6 +21,10 @@ find_package(
     
     core
     base
+    adv
+    html
+    xml
+    xrc
 )
 include(${wxWidgets_USE_FILE})
 
@@ -43,6 +47,8 @@ add_executable(
     "tools/TestServiceLocator.cpp"
 
     "eventData/SetLogLevel_EventData.cpp"
+
+    "viewModels/ConsoleViewModel.cpp"
 
     "TestHarnessApp.cpp"
     "TestHarnessWindow.cpp"

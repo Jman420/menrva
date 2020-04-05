@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
+	<object class="wxFrame" name="TestHarness">
+		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
+		<size>800,600</size>
+		<title>Menrva TestHarness</title>
+		<centered>1</centered>
+		<aui_managed>0</aui_managed>
+		<object class="wxMenuBar" name="MenuBar">
+			<label>MenuBar</label>
+			<object class="wxMenu" name="FileMenu">
+				<label>_File</label>
+				<object class="wxMenuItem" name="QuitMenuItem">
+					<label>_Quit</label>
+					<help>Quit Application</help>
+				</object>
+			</object>
+			<object class="wxMenu" name="ConsoleMenu">
+				<label>_Console</label>
+				<object class="wxMenuItem" name="DumpConsoleMenuItem">
+					<label>_Dump</label>
+					<help>Dump Console to File</help>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ClearConsoleMenuItem">
+					<label>_Clear</label>
+					<help>Clear Console Contents</help>
+				</object>
+			</object>
+			<object class="wxMenu" name="LoggingMenu">
+				<label>_Logging</label>
+				<object class="wxMenuItem" name="VerboseLoggingMenuItem">
+					<label>_Verbose</label>
+					<help>Set Verbose Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="wxMenuItem" name="DebugLoggingMenuItem">
+					<label>_Debug</label>
+					<help>Set Debug Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="wxMenuItem" name="InfoLoggingMenuItem">
+					<label>_Info</label>
+					<help>Set Info Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="wxMenuItem" name="WarnLoggingMenuItem">
+					<label>_Warn</label>
+					<help>Set Warn Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="wxMenuItem" name="ErrorLoggingMenuItem">
+					<label>_Error</label>
+					<help>Set Error Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="wxMenuItem" name="FatalLoggingMenuItem">
+					<label>_Fatal</label>
+					<help>Set Fatal Logging Level</help>
+					<radio>1</radio>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="ToggleLoggingOverridesMenuItem">
+					<label>Enable _Overrides</label>
+					<help>Enable/Disable Logging Level Overrides</help>
+					<checkable>1</checkable>
+				</object>
+				<object class="wxMenuItem" name="ManageLoggingOverridesMenuItem">
+					<label>_Manage Overrides</label>
+					<help>Manage Logging Overrides</help>
+				</object>
+			</object>
+			<object class="wxMenu" name="PlaybackMenu">
+				<label>_Playback</label>
+				<object class="wxMenuItem" name="LoadAudioFileMenuItem">
+					<label>_Load</label>
+					<help>Load Audio File for Playback</help>
+				</object>
+				<object class="separator" />
+				<object class="wxMenuItem" name="PlayAudioMenuItem">
+					<label>_Play</label>
+					<help>Play Audio File</help>
+					<checkable>1</checkable>
+				</object>
+				<object class="wxMenuItem" name="StopAudioMenuItem">
+					<label>_Stop</label>
+					<help>Stop Audio File</help>
+				</object>
+			</object>
+			<object class="wxMenu" name="EngineMenu">
+				<label>_Engine</label>
+				<object class="wxMenuItem" name="EnableEngineMenuItem">
+					<label>Enable Engine</label>
+					<help>Enable/Disable Menrva Engine</help>
+					<checkable>1</checkable>
+				</object>
+			</object>
+		</object>
+		<object class="wxBoxSizer">
+			<orient>wxVERTICAL</orient>
+		</object>
+	</object>
+</resource>

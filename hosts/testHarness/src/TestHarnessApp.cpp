@@ -16,7 +16,10 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <wx/xrc/xmlres.h>
 #include "TestHarnessApp.h"
+#include "viewModels/ConsoleViewModel.h"
+
 #include "TestHarnessWindow.h"
 
 IMPLEMENT_APP(TestHarnessApp)
@@ -26,6 +29,13 @@ bool TestHarnessApp::OnInit()
     HostServiceLocator serviceLocator;
     TextCtrlLogger& logger = *static_cast<TextCtrlLogger*>(serviceLocator.GetLogger());
     logger.SetLogLevel(LogLevel::Verbose);
+
+    if (!wxXmlResource::Get()->LoadAllFiles("res")) {
+        return false;
+    }
+
+    ConsoleViewModel* consoleViewModel = new ConsoleViewModel();
+
 
     TestHarnessWindow* window = new TestHarnessWindow("Menrva Test Harness", wxDefaultPosition, wxSize(800, 600));
     window->Show();
