@@ -78,7 +78,7 @@ private:
     TextCtrlLogger* _Logger;
     MenrvaEffectsEngine* _EffectsEngine;
 
-    void AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel);
+    wxMenuItem* AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel);
 };
 
 #endif //MENRVA_TEST_HARNESS_WINDOW_H

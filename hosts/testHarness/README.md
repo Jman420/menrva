@@ -4,3 +4,7 @@ The Menrva TestHarness is a cross-platform cmake project which is used to debug 
 ## Installing & Configuring wxWidgets
 The Menrva TestHarness Project expects wxWidgets to be prebuilt and installed on the Host Machine.  The wxWidgets Package is located using the cmake 'find_package()' method.  See [https://www.wxwidgets.org/](https://www.wxwidgets.org/) for obtaining wxWidgets.  See [https://cmake.org/cmake/help/latest/module/FindwxWidgets.html](https://cmake.org/cmake/help/latest/module/FindwxWidgets.html) for details on configuring CMake to find wxWidgets.
 
+# Contributing
+
+## Form Builder
+The GUI in TestHarness is designed using wxFormBuilder (https://github.com/wxFormBuilder/wxFormBuilder); a WYSIWYG GUI Editor for wxWidgets.

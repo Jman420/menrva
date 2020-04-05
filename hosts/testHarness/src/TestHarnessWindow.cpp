@@ -102,7 +102,7 @@ void TestHarnessWindow::SetLogLevel(wxCommandEvent& event)
     _Logger->WriteLog(StringOperations::FormatString("Set LogLevel to : %s", LogLevels::ConvertToString(_Logger->GetLogLevel()).c_str()));
 }
 
-void TestHarnessWindow::AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel)
+wxMenuItem* TestHarnessWindow::AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessWindowControls controlId, LogLevel logLevel)
 {
     std::string logLevelName = LogLevels::ConvertToString(logLevel);
 
@@ -113,7 +113,9 @@ void TestHarnessWindow::AddSetLogLevelMenuItem(wxMenu* loggingMenu, TestHarnessW
     helpText += logLevelName;
 
     wxObject* eventData = new SetLogLevel_EventData(logLevel);
-
-    loggingMenu->AppendRadioItem(controlId, _(logLevelName), _(helpText));
+    
+    wxMenuItem* menuItem = loggingMenu->AppendRadioItem(controlId, _(logLevelName), _(helpText));
     loggingMenu->Bind(wxEVT_COMMAND_MENU_SELECTED, &TestHarnessWindow::SetLogLevel, this, controlId, controlId, eventData);
+
+    return menuItem;
 }
