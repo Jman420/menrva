@@ -16,30 +16,35 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#include <wx/xrc/xmlres.h>
-#include "TestHarnessApp.h"
-#include "viewModels/ConsoleViewModel.h"
+#ifndef MENRVA_CONSOLE_VIEW_H
+#define MENRVA_CONSOLE_VIEW_H
 
-#include "TestHarnessWindow.h"
+#include "wx/wxprec.h"
+#ifndef WX_PRECOMP
+#include "wx/wx.h"
+#endif
 
-IMPLEMENT_APP(TestHarnessApp)
+#include "../viewModels/ConsoleViewModel.h"
 
-bool TestHarnessApp::OnInit()
-{
-    HostServiceLocator serviceLocator;
-    TextCtrlLogger& logger = *static_cast<TextCtrlLogger*>(serviceLocator.GetLogger());
-    logger.SetLogLevel(LogLevel::Verbose);
+class ConsoleView {
+public:
+    explicit ConsoleView(ConsoleViewModel* viewModel);
+    ~ConsoleView();
 
-    if (!wxXmlResource::Get()->LoadAllFiles("res")) {
-        return false;
-    }
+    wxWindow* GetWindow();
 
-    ConsoleViewModel* consoleViewModel = new ConsoleViewModel();
+private:
+    ConsoleViewModel* _ViewModel;
+    wxFrame* _ConsoleFrame;
 
+    void Quit(wxCommandEvent& event);
 
-    TestHarnessWindow* window = new TestHarnessWindow("Menrva Test Harness", wxDefaultPosition, wxSize(800, 600));
-    window->Show();
-    SetTopWindow(window);
+    void DumpConsole(wxCommandEvent& event);
+    void ClearConsole(wxCommandEvent& event);
 
-    return true;
-}
+    void SetLogLevel(wxCommandEvent& event);
+
+    void BindLogLevelMenuItem(LogLevel logLevel);
+};
+
+#endif //MENRVA_CONSOLE_VIEW_H

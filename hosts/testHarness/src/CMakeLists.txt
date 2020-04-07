@@ -50,8 +50,9 @@ add_executable(
 
     "viewModels/ConsoleViewModel.cpp"
 
-    "TestHarnessApp.cpp"
-    "TestHarnessWindow.cpp"
+    "views/ConsoleView.cpp"
+
+    "App.cpp"
 
     ${HEADER_FILES}
 )
@@ -62,3 +63,6 @@ target_link_libraries(
     MenrvaEngine
     ${wxWidgets_LIBRARIES}
 )
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_SOURCE_DIR}/xrc/ ${CMAKE_CURRENT_BINARY_DIR}/xrc)

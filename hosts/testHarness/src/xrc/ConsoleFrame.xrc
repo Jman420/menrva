@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-	<object class="wxFrame" name="TestHarness">
+	<object class="wxFrame" name="ConsoleFrame">
 		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
 		<size>800,600</size>
-		<title>Menrva TestHarness</title>
+		<title>Menrva TestHarness Console</title>
 		<centered>1</centered>
 		<aui_managed>0</aui_managed>
 		<object class="wxMenuBar" name="MenuBar">
@@ -96,8 +96,12 @@
 				</object>
 			</object>
 		</object>
-		<object class="wxBoxSizer">
-			<orient>wxVERTICAL</orient>
+		<object class="wxGridSizer">
+			<minsize>800,600</minsize>
+			<rows>1</rows>
+			<cols>1</cols>
+			<vgap>0</vgap>
+			<hgap>0</hgap>
 		</object>
 	</object>
 </resource>

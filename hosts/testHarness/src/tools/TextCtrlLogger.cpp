@@ -58,7 +58,6 @@ void TextCtrlLogger::WriteLogLine(std::string message, std::string senderClass, 
     logLine += NEW_LINE;
 
     _Console->WriteText(logLine);
-    _Console->Update();
 }
 
 std::string TextCtrlLogger::GetTimestamp()
