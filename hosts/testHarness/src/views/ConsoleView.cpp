@@ -25,12 +25,12 @@ ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
     _ViewModel = viewModel;
 
     wxXmlResource& xmlResource = *wxXmlResource::Get();
-    _ConsoleFrame = xmlResource.LoadFrame(NULL, "ConsoleFrame");
-    wxFrame& consoleFrame = *_ConsoleFrame;
+    _Frame = xmlResource.LoadFrame(NULL, "ConsoleFrame");
+    wxFrame& consoleFrame = *_Frame;
 
-    // Inject Console Text Control into ConsoleFrame
+    // Inject Console Text Control from Logger into ConsoleFrame
     wxTextCtrl* console = viewModel->GetConsoleCtrl();
-    console->Create(_ConsoleFrame, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP | wxTE_MULTILINE | wxTE_READONLY );
+    console->Create(_Frame, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP | wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH | wxTE_RICH2);
     wxSizer* consoleSizer = consoleFrame.GetSizer();
     consoleSizer->Add(console, 0, wxALL | wxEXPAND);
     _ViewModel->ClearConsole();
@@ -52,23 +52,23 @@ ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
 
 ConsoleView::~ConsoleView()
 {
-    delete _ConsoleFrame;
+    delete _Frame;
     delete _ViewModel;
 }
 
 wxWindow* ConsoleView::GetWindow()
 {
-    return _ConsoleFrame;
+    return _Frame;
 }
 
 void ConsoleView::Quit(wxCommandEvent& event)
 {
-    _ConsoleFrame->Close(true);
+    _Frame->Close(true);
 }
 
 void ConsoleView::DumpConsole(wxCommandEvent& event)
 {
-    wxFileDialog saveFileDialog(_ConsoleFrame, _("Save Console to File..."), wxEmptyString, "consoleDump.txt", "Text Files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
+    wxFileDialog saveFileDialog(_Frame, _("Save Console to File..."), wxEmptyString, "consoleDump.txt", "Text Files (*.txt)|*.txt", wxFD_SAVE | wxFD_OVERWRITE_PROMPT);
 
     if (saveFileDialog.ShowModal() == wxID_CANCEL) {
         return;
@@ -100,5 +100,5 @@ void ConsoleView::BindLogLevelMenuItem(LogLevel logLevel)
     int menuItemId = XRCID(menuItemName.c_str());
     SetLogLevel_EventData* eventData = new SetLogLevel_EventData(logLevel);
 
-    _ConsoleFrame->Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::SetLogLevel, this, menuItemId, menuItemId, eventData);
+    _Frame->Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::SetLogLevel, this, menuItemId, menuItemId, eventData);
 }

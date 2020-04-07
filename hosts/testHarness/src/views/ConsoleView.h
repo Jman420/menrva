@@ -35,7 +35,7 @@ public:
 
 private:
     ConsoleViewModel* _ViewModel;
-    wxFrame* _ConsoleFrame;
+    wxFrame* _Frame;
 
     void Quit(wxCommandEvent& event);
 
