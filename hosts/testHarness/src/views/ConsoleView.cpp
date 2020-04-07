@@ -30,7 +30,7 @@ ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
 
     // Inject Console Text Control into ConsoleFrame
     wxTextCtrl* console = viewModel->GetConsoleCtrl();
-    console->Create(_ConsoleFrame, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP | wxTE_MULTILINE | wxTE_READONLY | wxTE_RICH | wxTE_RICH2);
+    console->Create(_ConsoleFrame, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxTE_DONTWRAP | wxTE_MULTILINE | wxTE_READONLY );
     wxSizer* consoleSizer = consoleFrame.GetSizer();
     consoleSizer->Add(console, 0, wxALL | wxEXPAND);
     _ViewModel->ClearConsole();
@@ -46,6 +46,8 @@ ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
     BindLogLevelMenuItem(LogLevel::Warn);
     BindLogLevelMenuItem(LogLevel::Error);
     BindLogLevelMenuItem(LogLevel::Fatal);
+
+    consoleFrame.Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::ToggleLoggingOverrides, this, XRCID("ToggleLoggingOverridesMenuItem"));
 }
 
 ConsoleView::~ConsoleView()
@@ -84,6 +86,11 @@ void ConsoleView::SetLogLevel(wxCommandEvent& event)
 {
     SetLogLevel_EventData& eventData = *static_cast<SetLogLevel_EventData*>(event.GetEventUserData());
     _ViewModel->SetLogLevel(eventData.GetLogLevel());
+}
+
+void ConsoleView::ToggleLoggingOverrides(wxCommandEvent& event)
+{
+    _ViewModel->ToggleLoggingOverrides();
 }
 
 void ConsoleView::BindLogLevelMenuItem(LogLevel logLevel)

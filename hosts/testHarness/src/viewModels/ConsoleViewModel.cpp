@@ -59,3 +59,9 @@ void ConsoleViewModel::SetLogLevel(LogLevel logLevel)
     _Logger->SetLogLevel(logLevel);
     _Logger->WriteLog(StringOperations::FormatString("Set LogLevel to : %s", LogLevels::ConvertToString(_Logger->GetLogLevel()).c_str()));
 }
+
+void ConsoleViewModel::ToggleLoggingOverrides()
+{
+    _Logger->SetOverrideListEnabled(!_Logger->GetOverrideListEnabled());
+    _Logger->WriteLog(StringOperations::FormatString("Logging Overrides Toggled : %s", StringOperations::Convert(_Logger->GetOverrideListEnabled())));
+}

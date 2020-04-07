@@ -24,6 +24,7 @@
 class StringOperations {
 public:
     static std::string FormatString(std::string format, ...);
+    static std::string Convert(bool value);
 
 private:
     // Private Constructor to prevent instantiation of Static Class

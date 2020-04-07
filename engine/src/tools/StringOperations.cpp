@@ -37,3 +37,8 @@ std::string StringOperations::FormatString(std::string format, ...) {
 
     return resultPtr;
 }
+
+std::string StringOperations::Convert(bool value)
+{
+    return value ? "true" : "false";
+}

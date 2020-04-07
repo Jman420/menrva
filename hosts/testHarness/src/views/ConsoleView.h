@@ -43,6 +43,7 @@ private:
     void ClearConsole(wxCommandEvent& event);
 
     void SetLogLevel(wxCommandEvent& event);
+    void ToggleLoggingOverrides(wxCommandEvent& event);
 
     void BindLogLevelMenuItem(LogLevel logLevel);
 };

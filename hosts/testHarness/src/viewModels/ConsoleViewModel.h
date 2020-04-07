@@ -38,6 +38,7 @@ public:
     void ClearConsole();
 
     void SetLogLevel(LogLevel logLevel);
+    void ToggleLoggingOverrides();
 
 private:
     static const std::string CONSOLE_HEADER;
