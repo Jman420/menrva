@@ -32,7 +32,7 @@ void Engine_SetLogLevel_Handler::Execute(ModuleContext& context) {
     if (requestLogLevel > LogWriterBase::MAX_LOG_LEVEL_VALUE || requestLogLevel < LogWriterBase::MIN_LOG_LEVEL_VALUE) {
         _Logger->WriteLog(StringOperations::FormatString("SetLogLevel Request Validation Failed : Invalid Log Level Provided (%u)!", requestLogLevel),
                           LOG_SENDER, __func__, LogLevel::Error);
-        response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevel()));
+        response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevelLimit()));
         response.set_success(false);
         return;
     }
@@ -40,11 +40,11 @@ void Engine_SetLogLevel_Handler::Execute(ModuleContext& context) {
     _Logger->WriteLog(StringOperations::FormatString("Setting New Log Level (%u)...", requestLogLevel),
                       LOG_SENDER, __func__);
     auto newLogLevel = static_cast<LogLevel>(requestLogLevel);
-    _Logger->SetLogLevel(newLogLevel);
+    _Logger->SetLogLevelLimit(newLogLevel);
 
     _Logger->WriteLog(StringOperations::FormatString("Successfully set New Log Level (%u).  Setting Response...", requestLogLevel),
                       LOG_SENDER, __func__);
-    response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevel()));
+    response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevelLimit()));
     response.set_success(true);
     _Logger->WriteLog("Successfully set SetLogLevel Success Response.", LOG_SENDER, __func__);
 }

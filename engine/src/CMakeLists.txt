@@ -129,6 +129,7 @@ add_library(
     STATIC
 
     log/LogLevels.cpp
+    log/LogOverrideManager.cpp
     log/LogWriterBase.cpp
     log/LogProducer.cpp
 

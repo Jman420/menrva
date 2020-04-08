@@ -26,7 +26,7 @@ void Engine_GetLogLevel_Handler::Execute(ModuleContext& context) {
     messages::Engine_GetLogLevel_Response& response = *_TypedCommand->GetTypedResponse();
 
     _Logger->WriteLog("Setting Log Level on Response Object...", LOG_SENDER, __func__);
-    response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevel()));
+    response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevelLimit()));
 
     _Logger->WriteLog("Successfully set Log Level on Response Object.", LOG_SENDER, __func__);
 }
