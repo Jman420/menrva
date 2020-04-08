@@ -16,18 +16,18 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_Engine_SetLogLevel_HANDLER_H
-#define MENRVA_Engine_SetLogLevel_HANDLER_H
+#ifndef MENRVA_Engine_GetLogLevelLimit_HANDLER_H
+#define MENRVA_Engine_GetLogLevelLimit_HANDLER_H
 
 #include "TypedCommandHandlerBase.h"
-#include "../commands/Engine_SetLogLevel_Command.h"
+#include "../commands/Engine_GetLogLevelLimit_Command.h"
 
-class Engine_SetLogLevel_Handler
-        : public TypedCommandHandlerBase<Engine_SetLogLevel_Command> {
+class Engine_GetLogLevelLimit_Handler
+        : public TypedCommandHandlerBase<Engine_GetLogLevelLimit_Command> {
 public:
-    Engine_SetLogLevel_Handler(LogWriterBase* logger);
+    Engine_GetLogLevelLimit_Handler(LogWriterBase* logger);
 
     virtual void Execute(ModuleContext& context) override;
 };
 
-#endif //MENRVA_Engine_SetLogLevel_HANDLER_H
+#endif //MENRVA_Engine_GetLogLevelLimit_HANDLER_H

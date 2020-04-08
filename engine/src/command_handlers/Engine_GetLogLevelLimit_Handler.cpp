@@ -16,20 +16,17 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-// CommandId=3
+#include "Engine_GetLogLevelLimit_Handler.h"
 
-syntax = "proto3";
+Engine_GetLogLevelLimit_Handler::Engine_GetLogLevelLimit_Handler(LogWriterBase* logger)
+        : TypedCommandHandlerBase(new Engine_GetLogLevelLimit_Command(), logger, __PRETTY_FUNCTION__) {}
 
-package messages;
+void Engine_GetLogLevelLimit_Handler::Execute(ModuleContext& context) {
+    _Logger->WriteLog("Received GetLogLevelLimit Command...", LOG_SENDER, __func__);
+    messages::Engine_GetLogLevelLimit_Response& response = *_TypedCommand->GetTypedResponse();
 
-option java_package = "com.monkeystable.menrva.commands.messages";
-option java_outer_classname = "Engine_SetLogLevel";
+    _Logger->WriteLog("Setting Log Level on Response Object...", LOG_SENDER, __func__);
+    response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevelLimit()));
 
-message Engine_SetLogLevel_Request {
-    int32 logLevel = 1;
-}
-
-message Engine_SetLogLevel_Response {
-    bool success = 1;
-    int32 logLevel = 2;
+    _Logger->WriteLog("Successfully set Log Level on Response Object.", LOG_SENDER, __func__);
 }
