@@ -21,7 +21,7 @@
 const std::string LogOverrideManager::OVERRIDE_LIST_KEY_DELIMITER = ".";
 
 bool LogOverrideManager::_OverrideListEnabled = false;
-logger_override_list LogOverrideManager::_OverrideList = *new logger_override_list();
+LogOverrideMap LogOverrideManager::_OverrideList = *new LogOverrideMap();
 
 void LogOverrideManager::SetOverrideListEnabled(bool enabled) {
     _OverrideListEnabled = enabled;
@@ -32,33 +32,33 @@ bool LogOverrideManager::GetOverrideListEnabled() {
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, bool enabled) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, LogLevel logLevel) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className));
     entry.ComponentLogLevel = logLevel;
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, std::string functionName, bool enabled) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.ComponentLogLevel = logLevel;
 }
 
 void LogOverrideManager::SetOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) {
-    logger_override_entry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
+    LogOverrideEntry& entry = *GetAddOverrideListElement(std::move(className), std::move(functionName));
     entry.Enabled = enabled;
     entry.ComponentLogLevel = logLevel;
 }
@@ -87,26 +87,36 @@ bool LogOverrideManager::CheckOverrideList(std::string className, std::string fu
     return entry.Enabled && logLevel >= entry.ComponentLogLevel;
 }
 
-logger_override_entry* LogOverrideManager::GetAddOverrideListElement(std::string className) {
+std::vector<LogOverrideEntry>* LogOverrideManager::GetOverrideList()
+{
+    std::vector<LogOverrideEntry>& overrideList = *new std::vector<LogOverrideEntry>();
+    for (auto element = _OverrideList.begin(); element != _OverrideList.end(); element++) {
+        overrideList.push_back(*element->second);
+    }
+
+    return &overrideList;
+}
+
+LogOverrideEntry* LogOverrideManager::GetAddOverrideListElement(std::string className) {
     const std::string& key = className;
     auto element = _OverrideList.find(key);
     if (element == _OverrideList.end()) {
-        auto newEntry = new logger_override_entry();
+        auto newEntry = new LogOverrideEntry();
         newEntry->ClassName = className;
-        element = _OverrideList.insert(logger_override_list_element(key, newEntry)).first;
+        element = _OverrideList.insert(LogOverrideMapElement(key, newEntry)).first;
     }
 
     return element->second;
 }
 
-logger_override_entry* LogOverrideManager::GetAddOverrideListElement(std::string className, std::string functionName) {
+LogOverrideEntry* LogOverrideManager::GetAddOverrideListElement(std::string className, std::string functionName) {
     std::string key = GetOverrideListKey(className, functionName);
     auto element = _OverrideList.find(key);
     if (element == _OverrideList.end()) {
-        auto newEntry = new logger_override_entry();
+        auto newEntry = new LogOverrideEntry();
         newEntry->ClassName = className;
         newEntry->FunctionName = functionName;
-        element = _OverrideList.insert(logger_override_list_element(key, newEntry)).first;
+        element = _OverrideList.insert(LogOverrideMapElement(key, newEntry)).first;
     }
 
     return element->second;

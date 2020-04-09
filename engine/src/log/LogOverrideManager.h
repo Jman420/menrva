@@ -21,21 +21,20 @@
 
 #include <map>
 #include <string>
+#include <vector>
 #include "LogLevels.h"
 
-struct logger_override_entry {
+struct LogOverrideEntry {
     std::string ClassName,
         FunctionName;
     bool Enabled;
     LogLevel ComponentLogLevel;
 };
-typedef std::map<std::string, logger_override_entry*> logger_override_list;
-typedef std::pair<std::string, logger_override_entry*> logger_override_list_element;
+typedef std::map<std::string, LogOverrideEntry*> LogOverrideMap;
+typedef std::pair<std::string, LogOverrideEntry*> LogOverrideMapElement;
 
 class LogOverrideManager {
 public:
-    LogOverrideManager();
-
     void SetOverrideListEnabled(bool enabled);
     bool GetOverrideListEnabled();
 
@@ -50,10 +49,11 @@ public:
     void RemoveOverrideListEntry(std::string className, std::string functionName);
 
     bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel);
+    std::vector<LogOverrideEntry>* GetOverrideList();
 
 protected:
-    logger_override_entry* GetAddOverrideListElement(std::string className);
-    logger_override_entry* GetAddOverrideListElement(std::string className, std::string functionName);
+    LogOverrideEntry* GetAddOverrideListElement(std::string className);
+    LogOverrideEntry* GetAddOverrideListElement(std::string className, std::string functionName);
 
     std::string GetOverrideListKey(std::string className, std::string functionName);
 
@@ -61,7 +61,7 @@ private:
     const static std::string OVERRIDE_LIST_KEY_DELIMITER;
 
     static bool _OverrideListEnabled;
-    static logger_override_list _OverrideList;
+    static LogOverrideMap _OverrideList;
 };
 
 #endif //MENRVA_LOG_OVERRIDE_MANAGER_H
