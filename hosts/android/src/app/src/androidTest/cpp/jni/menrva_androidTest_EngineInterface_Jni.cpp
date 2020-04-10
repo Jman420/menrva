@@ -42,5 +42,5 @@ extern "C"
 JNIEXPORT jint JNICALL
 Java_com_monkeystable_menrva_EngineInterface_GetLogLevel(JNIEnv* env, jclass type) {
     HostServiceLocator serviceLocator = *new HostServiceLocator();
-    return static_cast<uint8_t>(serviceLocator.GetLogger()->GetLogLevel());
+    return static_cast<uint8_t>(serviceLocator.GetLogger()->GetLogLevelLimit());
 }

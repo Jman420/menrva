@@ -36,7 +36,7 @@ void AndroidLogger::Initialize() {
     }
 
     // BEGIN DEBUG
-    SetLogLevel(LogLevel::Debug);
+    SetLogLevelLimit(LogLevel::Debug);
     // END DEBUG
 
     // TODO : Get LogLevel & Whitelist Settings from Persisted Settings
