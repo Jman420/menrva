@@ -21,6 +21,9 @@
 #include "../convolver/ConvolutionOperations.h"
 #include "../convolver/Convolver.h"
 
+#include <boost/di.hpp>
+namespace di = boost::di;
+
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
     return new KfrInterface(GetLogger());
 }
