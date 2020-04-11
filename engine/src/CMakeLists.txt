@@ -188,7 +188,7 @@ target_include_directories(
 
     ${KFR_INSTALL_DIR}/include
     ${PROTOBUF_INSTALL_DIR}/include
-    ${BOOST_DI_LIB_DIR}/src/include
+    ${BOOST_DI_LIB_DIR}/include
     ${ENGINE_INCLUDE_DIR}
 )
 target_link_libraries(

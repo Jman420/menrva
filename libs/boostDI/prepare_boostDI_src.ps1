@@ -1,21 +1,15 @@
-$RepoUrl = "https://github.com/boost-experimental/di/archive/cpp14.zip"
-$RepoZipFile = "./boostDI-cpp14.zip"
-$RootZipFolder = "di-cpp14"
-$RootSourcePath = "./src"
+$RepoUrl = "https://raw.githubusercontent.com/boost-experimental/di/cpp14/include/boost/di.hpp"
+$IncludeDir = "./include"
+$OutDir = "$IncludeDir/boost"
+$OutFile = "$OutDir/di.hpp"
 
 Write-Output "Preparing Boost.DI Source Code Directory..."
-if (Test-Path $RepoZipFile) {
-    Write-Output "Removing existing Boost.DI Repo Zip File..."
-    Remove-Item $RepoZipFile -Force
+if (Test-Path $IncludeDir) {
+    Write-Output "Removing existing Boost.DI Source Code Directory..."
+    Remove-Item $IncludeDir -Force
 }
-Write-Output "Downloading Boost.DI Repo Zip File..."
-Start-BitsTransfer -Source $RepoUrl -Destination $RepoZipFile
+New-Item -ItemType directory -Force -Path $OutDir
 
-if (Test-Path $RootSourcePath) {
-    Write-Output "Removing Boost.DI Source Code Directory..."
-    Remove-Item $RootSourcePath -Recurse -Force
-}
-Write-Output "Unzipping Boost.DI Repo to Boost.DI Source Code Directory..."
-7z x "$RepoZipFile" -r
-mv ./$RootZipFolder $RootSourcePath
+Write-Output "Downloading Boost.DI Source Code..."
+Start-BitsTransfer -Source $RepoUrl -Destination $OutFile
 Write-Output "Successfully prepared Boost.DI Source Code!"
