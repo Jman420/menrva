@@ -56,12 +56,13 @@ void ConsoleViewModel::ClearConsole()
 
 void ConsoleViewModel::SetLogLevel(LogLevel logLevel)
 {
-    _Logger->SetLogLevel(logLevel);
-    _Logger->WriteLog(StringOperations::FormatString("Set LogLevel to : %s", LogLevels::ConvertToString(_Logger->GetLogLevel()).c_str()));
+    _Logger->SetLogLevelLimit(logLevel);
+    _Logger->WriteLog(StringOperations::FormatString("Set LogLevel to : %s", LogLevels::ConvertToString(_Logger->GetLogLevelLimit()).c_str()));
 }
 
-void ConsoleViewModel::ToggleLoggingOverrides()
+void ConsoleViewModel::ToggleLogOverrides()
 {
-    _Logger->SetOverrideListEnabled(!_Logger->GetOverrideListEnabled());
-    _Logger->WriteLog(StringOperations::FormatString("Logging Overrides Toggled : %s", StringOperations::Convert(_Logger->GetOverrideListEnabled())));
+    LogOverrideManager& logOverrideManager = *_Logger->GetLogOverrideManager();
+    logOverrideManager.SetOverrideListEnabled(!logOverrideManager.GetOverrideListEnabled());
+    _Logger->WriteLog(StringOperations::FormatString("Logging Overrides Toggled : %s", StringOperations::Convert(logOverrideManager.GetOverrideListEnabled())));
 }

@@ -49,8 +49,10 @@ add_executable(
     "eventData/SetLogLevel_EventData.cpp"
 
     "viewModels/ConsoleViewModel.cpp"
+    "viewModels/LogOverrideManagerViewModel.cpp"
 
     "views/ConsoleView.cpp"
+    "views/LogOverrideManagerView.cpp"
 
     "App.cpp"
 

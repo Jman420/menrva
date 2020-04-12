@@ -20,7 +20,7 @@
 #include "ConsoleView.h"
 #include "../eventData/SetLogLevel_EventData.h"
 
-ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
+ConsoleView::ConsoleView(ConsoleViewModel* viewModel, LogOverrideManagerViewModel* logManagerOverrideViewModel)
 {
     _ViewModel = viewModel;
 
@@ -47,7 +47,8 @@ ConsoleView::ConsoleView(ConsoleViewModel* viewModel)
     BindLogLevelMenuItem(LogLevel::Error);
     BindLogLevelMenuItem(LogLevel::Fatal);
 
-    consoleFrame.Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::ToggleLoggingOverrides, this, XRCID("ToggleLoggingOverridesMenuItem"));
+    consoleFrame.Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::ToggleLogOverrides, this, XRCID("ToggleLogOverridesMenuItem"));
+    consoleFrame.Bind(wxEVT_COMMAND_MENU_SELECTED, &ConsoleView::ShowManageLogOverrides, this, XRCID("ManageLogOverridesMenuItem"));
 }
 
 ConsoleView::~ConsoleView()
@@ -88,9 +89,14 @@ void ConsoleView::SetLogLevel(wxCommandEvent& event)
     _ViewModel->SetLogLevel(eventData.GetLogLevel());
 }
 
-void ConsoleView::ToggleLoggingOverrides(wxCommandEvent& event)
+void ConsoleView::ToggleLogOverrides(wxCommandEvent& event)
 {
-    _ViewModel->ToggleLoggingOverrides();
+    _ViewModel->ToggleLogOverrides();
+}
+
+void ConsoleView::ShowManageLogOverrides(wxCommandEvent& event)
+{
+
 }
 
 void ConsoleView::BindLogLevelMenuItem(LogLevel logLevel)

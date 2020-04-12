@@ -16,40 +16,21 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONSOLE_VIEW_H
-#define MENRVA_CONSOLE_VIEW_H
+#ifndef MENRVA_LOG_OVERRIDE_MANAGER_VIEW_MODEL_H
+#define MENRVA_LOG_OVERRIDE_MANAGER_VIEW_MODEL_H
 
-#include "wx/wxprec.h"
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
+#include <menrvaEngine/log/LogOverrideManager.h>
 
-#include "../viewModels/ConsoleViewModel.h"
-#include "LogOverrideManagerView.h"
-
-class ConsoleView {
+class LogOverrideManagerViewModel {
 public:
-    explicit ConsoleView(ConsoleViewModel* viewModel, LogOverrideManagerViewModel* logManagerOverrideViewModel);
-    ~ConsoleView();
+    LogOverrideManagerViewModel(LogOverrideManager* logOverrideManager);
 
-    wxWindow* GetWindow();
+    void GetOverridesList();
+    
+    void RemoveOverride();
 
 private:
-    ConsoleViewModel* _ViewModel;
-    wxFrame* _Frame;
-
-    LogOverrideManagerView* _LogOverrideManagerView;
-
-    void Quit(wxCommandEvent& event);
-
-    void DumpConsole(wxCommandEvent& event);
-    void ClearConsole(wxCommandEvent& event);
-
-    void SetLogLevel(wxCommandEvent& event);
-    void ToggleLogOverrides(wxCommandEvent& event);
-    void ShowManageLogOverrides(wxCommandEvent& event);
-
-    void BindLogLevelMenuItem(LogLevel logLevel);
+    LogOverrideManager* _LogOverrideManager;
 };
 
-#endif //MENRVA_CONSOLE_VIEW_H
+#endif //MENRVA_LOG_OVERRIDE_MANAGER_VIEW_MODEL_H

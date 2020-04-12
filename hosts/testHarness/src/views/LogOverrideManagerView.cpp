@@ -16,40 +16,4 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONSOLE_VIEW_H
-#define MENRVA_CONSOLE_VIEW_H
-
-#include "wx/wxprec.h"
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-#include "../viewModels/ConsoleViewModel.h"
 #include "LogOverrideManagerView.h"
-
-class ConsoleView {
-public:
-    explicit ConsoleView(ConsoleViewModel* viewModel, LogOverrideManagerViewModel* logManagerOverrideViewModel);
-    ~ConsoleView();
-
-    wxWindow* GetWindow();
-
-private:
-    ConsoleViewModel* _ViewModel;
-    wxFrame* _Frame;
-
-    LogOverrideManagerView* _LogOverrideManagerView;
-
-    void Quit(wxCommandEvent& event);
-
-    void DumpConsole(wxCommandEvent& event);
-    void ClearConsole(wxCommandEvent& event);
-
-    void SetLogLevel(wxCommandEvent& event);
-    void ToggleLogOverrides(wxCommandEvent& event);
-    void ShowManageLogOverrides(wxCommandEvent& event);
-
-    void BindLogLevelMenuItem(LogLevel logLevel);
-};
-
-#endif //MENRVA_CONSOLE_VIEW_H

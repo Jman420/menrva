@@ -60,14 +60,14 @@
 					<radio>1</radio>
 				</object>
 				<object class="separator" />
-				<object class="wxMenuItem" name="ToggleLoggingOverridesMenuItem">
+				<object class="wxMenuItem" name="ToggleLogOverridesMenuItem">
 					<label>Enable _Overrides</label>
-					<help>Enable/Disable Logging Level Overrides</help>
+					<help>Enable/Disable Log Level Overrides</help>
 					<checkable>1</checkable>
 				</object>
-				<object class="wxMenuItem" name="ManageLoggingOverridesMenuItem">
+				<object class="wxMenuItem" name="ManageLogOverridesMenuItem">
 					<label>_Manage Overrides</label>
-					<help>Manage Logging Overrides</help>
+					<help>Manage Log Overrides</help>
 				</object>
 			</object>
 			<object class="wxMenu" name="PlaybackMenu">

@@ -16,36 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_CONSOLE_VIEW_MODEL_H
-#define MENRVA_CONSOLE_VIEW_MODEL_H
+#include "LogOverrideManagerViewModel.h"
 
-#include "wx/wxprec.h"
-#ifndef WX_PRECOMP
-#include "wx/wx.h"
-#endif
-
-#include <menrvaEngine/engine/EffectsEngine.h>
-#include <menrvaEngine/log/LogLevels.h>
-#include "../tools/TextCtrlLogger.h"
-
-class ConsoleViewModel {
-public:
-    explicit ConsoleViewModel(TextCtrlLogger* logger, MenrvaEffectsEngine* effectsEngine);
-    ~ConsoleViewModel();
-
-    wxTextCtrl* GetConsoleCtrl();
-    void DumpConsole(std::string filePath);
-    void ClearConsole();
-
-    void SetLogLevel(LogLevel logLevel);
-    void ToggleLogOverrides();
-
-private:
-    static const std::string CONSOLE_HEADER;
-
-    TextCtrlLogger* _Logger;
-    wxTextCtrl* _Console;
-    MenrvaEffectsEngine* _EffectsEngine;
-};
-
-#endif //MENRVA_CONSOLE_VIEW_MODEL_H
+LogOverrideManagerViewModel::LogOverrideManagerViewModel(LogOverrideManager* logOverrideManager)
+{
+    _LogOverrideManager = logOverrideManager;
+}

@@ -129,7 +129,7 @@
                         <property name="unchecked_bitmap"></property>
                     </object>
                 </object>
-                <object class="wxMenu" expanded="0">
+                <object class="wxMenu" expanded="1">
                     <property name="label">&amp;Logging</property>
                     <property name="name">LoggingMenu</property>
                     <property name="permission">protected</property>
@@ -219,11 +219,11 @@
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
-                        <property name="help">Enable/Disable Logging Level Overrides</property>
+                        <property name="help">Enable/Disable Log Level Overrides</property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_CHECK</property>
                         <property name="label">Enable &amp;Overrides</property>
-                        <property name="name">ToggleLoggingOverridesMenuItem</property>
+                        <property name="name">ToggleLogOverridesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>
@@ -232,11 +232,11 @@
                         <property name="bitmap"></property>
                         <property name="checked">0</property>
                         <property name="enabled">1</property>
-                        <property name="help">Manage Logging Overrides</property>
+                        <property name="help">Manage Log Overrides</property>
                         <property name="id">wxID_ANY</property>
                         <property name="kind">wxITEM_NORMAL</property>
                         <property name="label">&amp;Manage Overrides</property>
-                        <property name="name">ManageLoggingOverridesMenuItem</property>
+                        <property name="name">ManageLogOverridesMenuItem</property>
                         <property name="permission">none</property>
                         <property name="shortcut"></property>
                         <property name="unchecked_bitmap"></property>

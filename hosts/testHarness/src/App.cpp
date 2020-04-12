@@ -39,14 +39,14 @@ bool TestHarnessApp::OnInit()
 
     HostServiceLocator& serviceLocator = *new HostServiceLocator();
     TextCtrlLogger* logger = static_cast<TextCtrlLogger*>(serviceLocator.GetLogger());
-    logger->SetLogLevel(LogLevel::Verbose);
+    logger->SetLogLevelLimit(LogLevel::Verbose);
 
     MenrvaEffectsEngine* effectsEngine = new MenrvaEffectsEngine(logger, serviceLocator.GetFftEngine(), &serviceLocator);
 
     ConsoleViewModel* consoleViewModel = new ConsoleViewModel(logger, effectsEngine);
-    ConsoleView* consoleView = new ConsoleView(consoleViewModel);
-    consoleView->GetWindow()->Show();
-    SetTopWindow(consoleView->GetWindow());
+    ConsoleView& consoleView = *new ConsoleView(consoleViewModel);
+    consoleView.GetWindow()->Show();
+    SetTopWindow(consoleView.GetWindow());
     
     return true;
 }

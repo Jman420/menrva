@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <resource xmlns="http://www.wxwindows.org/wxxrc" version="2.3.0.1">
-	<object class="wxFrame" name="ManageLoggingOverridesFrame">
+	<object class="wxFrame" name="ManageLogOverridesFrame">
 		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
 		<size>500,300</size>
-		<title>Menrva Logging Overrides</title>
+		<title>Menrva Log Overrides</title>
 		<centered>1</centered>
 		<aui_managed>0</aui_managed>
 		<object class="wxBoxSizer">
@@ -85,12 +85,11 @@
 			</object>
 		</object>
 	</object>
-	<object class="wxFrame" name="LoggingOverrideDetailsFrame">
-		<style>wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL</style>
-		<size>500,225</size>
-		<title>Logging Override Details</title>
+	<object class="wxDialog" name="LogOverrideDetailsDialog">
+		<style>wxDEFAULT_DIALOG_STYLE</style>
+		<size>500,217</size>
+		<title>Log Override Details</title>
 		<centered>1</centered>
-		<aui_managed>0</aui_managed>
 		<object class="wxBoxSizer">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
