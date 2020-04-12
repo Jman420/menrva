@@ -21,7 +21,7 @@
 
 #include "Sample.h"
 #include "../tools/Buffer.h"
-#include "../fft/FftInterfaceBase.h"
+#include "../fourier_transform/FftInterfaceBase.h"
 
 class AudioBuffer
         : public Buffer<sample> {

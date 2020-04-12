@@ -21,7 +21,7 @@
 
 #include <cstddef>
 #include "../log/LogProducer.h"
-#include "../fft/FftInterfaceBase.h"
+#include "../fourier_transform/FftInterfaceBase.h"
 #include "../audio/AudioBuffer.h"
 #include "ConvolutionOperationsBase.h"
 

@@ -20,8 +20,8 @@
 #define MENRVA_SERVICE_LOCATOR_H
 
 #include "../log/LogWriterBase.h"
-#include "../fft/FftInterfaceBase.h"
-#include "../ir/FirGenerator.h"
+#include "../fourier_transform/FftInterfaceBase.h"
+#include "../impulse_response/FirGenerator.h"
 #include "../convolver/ConvolutionOperationsBase.h"
 #include "../convolver/Convolver.h"
 

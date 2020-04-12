@@ -21,7 +21,7 @@
 
 #include "SingleChannelEffectBase.h"
 #include "../log/LogProducer.h"
-#include "../ir/FirGenerator.h"
+#include "../impulse_response/FirGenerator.h"
 #include "../convolver/Convolver.h"
 
 class BassBoost

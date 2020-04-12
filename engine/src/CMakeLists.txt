@@ -152,11 +152,11 @@ add_library(
     audio/AudioOutputBuffer.cpp
     audio/AudioComponentsBuffer.cpp
 
-    ir/WaveGenerator.cpp
-    ir/FirGenerator.cpp
+    impulse_response/WaveGenerator.cpp
+    impulse_response/FirGenerator.cpp
 
-    fft/FftInterfaceBase.cpp
-    fft/KfrInterface.cpp
+    fourier_transform/FftInterfaceBase.cpp
+    fourier_transform/KfrInterface.cpp
 
     convolver/ConvolutionOperationsBase.cpp
     convolver/ConvolutionOperations.cpp

@@ -17,12 +17,9 @@
  */
 
 #include "../tools/ServiceLocator.h"
-#include "../fft/KfrInterface.h"
+#include "../fourier_transform/KfrInterface.h"
 #include "../convolver/ConvolutionOperations.h"
 #include "../convolver/Convolver.h"
-
-#include <boost/di.hpp>
-namespace di = boost::di;
 
 FftInterfaceBase* ServiceLocator::GetFftEngine() {
     return new KfrInterface(GetLogger());

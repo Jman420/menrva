@@ -22,7 +22,7 @@
 #include <string>
 #include <cmath>
 #include "../log/LogProducer.h"
-#include "../fft/FftInterfaceBase.h"
+#include "../fourier_transform/FftInterfaceBase.h"
 #include "../audio/Sample.h"
 #include "../audio/AudioBuffer.h"
 
