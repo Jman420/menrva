@@ -1,15 +1,27 @@
-$RepoUrl = "https://raw.githubusercontent.com/boost-experimental/di/cpp14/include/boost/di.hpp"
-$IncludeDir = "./include"
-$OutDir = "$IncludeDir/boost"
-$OutFile = "$OutDir/di.hpp"
+$RepoUrl = "https://github.com/boost-experimental/di/archive/cpp14.zip"
+$RepoZipFile = "./boostDI-cpp14.zip"
+$RootZipFolder = "di-cpp14"
+$SourceIncludeFolders = @("include", "extension/include/boost")
+$RootSourcePath = "include"
 
 Write-Output "Preparing Boost.DI Source Code Directory..."
-if (Test-Path $IncludeDir) {
-    Write-Output "Removing existing Boost.DI Source Code Directory..."
-    Remove-Item $IncludeDir -Force
+if (Test-Path $RepoZipFile) {
+    Write-Output "Removing existing Boost.DI Repo Zip File..."
+    Remove-Item $RepoZipFile -Force
 }
-New-Item -ItemType directory -Force -Path $OutDir
+Write-Output "Downloading Boost.DI Repo Zip File..."
+Start-BitsTransfer -Source $RepoUrl -Destination $RepoZipFile
 
-Write-Output "Downloading Boost.DI Source Code..."
-Start-BitsTransfer -Source $RepoUrl -Destination $OutFile
+Write-Output "Unzipping Boost.DI Repo..."
+7z x "$RepoZipFile" -r
+
+if (Test-Path $RootSourcePath) {
+    Write-Output "Removing Boost.DI Source Code Directory..."
+    Remove-Item $RootSourcePath -Recurse -Force
+}
+foreach ($includeFolder in $SourceIncludeFolders) {
+    Write-Output "Moving Source Directory to Include Directory : $includeFolder ..."
+    Copy-Item -Path ./$RootZipFolder/$includeFolder -Destination $RootSourcePath -Force -Recurse
+}
+Remove-Item $RootZipFolder -Recurse -Force
 Write-Output "Successfully prepared Boost.DI Source Code!"

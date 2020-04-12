@@ -96,6 +96,7 @@ artifacts/
 hosts/android/libs/MMT-Extended*
 libs/wxwidgets/src
 libs/boostDI/include
+libs/boostDI/*.zip
 
 # Ignore Protobuf Generated Source Files
 engine/src/commands/**/*
