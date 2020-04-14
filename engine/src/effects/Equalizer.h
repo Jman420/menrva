@@ -26,7 +26,7 @@ class Equalizer
         : public SingleChannelEffectBase,
           public LogProducer {
 public:
-    explicit Equalizer(LogWriterBase* logger);
+    explicit Equalizer(ILogWriter* logger);
 
     void Process(AudioBuffer& input, AudioBuffer& output) override;
     void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;

@@ -37,7 +37,7 @@ class MenrvaEffectsEngine
 public:
     MenrvaEngineStatus _EngineStatus;
 
-    MenrvaEffectsEngine(LogWriterBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
+    MenrvaEffectsEngine(ILogWriter* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator);
     ~MenrvaEffectsEngine();
 
     void SetBufferConfig(uint32_t channelLength, sample sampleRate, size_t frameLength);

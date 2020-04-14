@@ -28,7 +28,7 @@ class BassBoost
         : public SingleChannelEffectBase,
           public LogProducer {
 public:
-    BassBoost(LogWriterBase* logger, FirGenerator* firGenerator, Convolver* convolver);
+    BassBoost(ILogWriter* logger, FirGenerator* firGenerator, Convolver* convolver);
     ~BassBoost() override;
 
     void Process(AudioBuffer& input, AudioBuffer& output) override;

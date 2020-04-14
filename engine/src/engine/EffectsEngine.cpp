@@ -22,7 +22,7 @@
 #include "../EngineConfig.h"
 #include "../tools/StringOperations.h"
 
-MenrvaEffectsEngine::MenrvaEffectsEngine(LogWriterBase* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
+MenrvaEffectsEngine::MenrvaEffectsEngine(ILogWriter* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
         : LogProducer(logger, __PRETTY_FUNCTION__) {
     _ServiceLocator = serviceLocator;
     _FftEngine = fftEngine;

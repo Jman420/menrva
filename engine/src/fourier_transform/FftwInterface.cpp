@@ -21,7 +21,7 @@
 
 FftwPlanCache* FftwInterface::_PlansCache = new FftwPlanCache();
 
-FftwInterface::FftwInterface(LogWriterBase* logger) :
+FftwInterface::FftwInterface(ILogWriter* logger) :
         LogProducer(logger, __PRETTY_FUNCTION__) {}
 
 size_t FftwInterface::Initialize(size_t signalSize, size_t componentSize) {

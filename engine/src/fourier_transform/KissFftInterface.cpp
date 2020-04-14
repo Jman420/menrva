@@ -21,7 +21,7 @@
 
 KissFftPlanCache* KissFftInterface::_PlansCache = new KissFftPlanCache();
 
-KissFftInterface::KissFftInterface(LogWriterBase* logger)
+KissFftInterface::KissFftInterface(ILogWriter* logger)
     : LogProducer(logger, __PRETTY_FUNCTION__) {
     _Initialized = false;
 }

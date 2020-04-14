@@ -16,22 +16,25 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_LOG_WRITER_BASE_H
-#define MENRVA_LOG_WRITER_BASE_H
+#ifndef MENRVA_ILOG_WRITER_H
+#define MENRVA_ILOG_WRITER_H
 
 #include <string>
 #include "LogLevels.h"
-#include "LogOverrideManager.h"
+#include "ILogOverrideManager.h"
 
-class LogWriterBase {
+class ILogWriter {
 public:
     static const uint8_t MIN_LOG_LEVEL_VALUE;
     static const uint8_t MAX_LOG_LEVEL_VALUE;
 
+    explicit ILogWriter(ILogOverrideManager& logOverrideManager);
+    virtual ~ILogWriter() = default;
+
     void SetLogLevelLimit(LogLevel logLevel);
     LogLevel GetLogLevelLimit();
 
-    LogOverrideManager* GetLogOverrideManager();
+    ILogOverrideManager& GetLogOverrideManager();
 
     void WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel);
     void WriteLog(std::string message, std::string senderClass, LogLevel logLevel);
@@ -49,7 +52,7 @@ private:
     const static LogLevel START_UP_LOG_LEVEL;
 
     static LogLevel _LogLevelLimit;
-    static LogOverrideManager* _LogOverrideManager;
+    static ILogOverrideManager& _LogOverrideManager;
 };
 
-#endif //MENRVA_LOG_WRITER_BASE_H
+#endif //MENRVA_ILOG_WRITER_H

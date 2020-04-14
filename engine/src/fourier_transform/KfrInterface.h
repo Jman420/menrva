@@ -31,7 +31,7 @@ class KfrInterface
         : public FftInterfaceBase,
           public LogProducer {
 public:
-    explicit KfrInterface(LogWriterBase* logger);
+    explicit KfrInterface(ILogWriter* logger);
     ~KfrInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;

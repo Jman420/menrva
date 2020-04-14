@@ -21,7 +21,7 @@
 
 const std::string LogProducer::COLONS = "::";
 
-LogProducer::LogProducer(LogWriterBase* logger, std::string prettyFunction) {
+LogProducer::LogProducer(ILogWriter* logger, std::string prettyFunction) {
     InitializeLogSender(std::move(prettyFunction));
     _Logger = logger;
 }

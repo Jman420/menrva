@@ -23,7 +23,7 @@
 
 class CommandProcessor {
 public:
-    CommandProcessor(LogWriterBase* logger);
+    CommandProcessor(ILogWriter* logger);
 
     int Process(ModuleContext& context, uint32_t cmdCode, uint32_t cmdSize, void* pCmdData, uint32_t* replySize, void* pReplyData);
     CommandHandlerMap* GetCommandHandlerMap();
@@ -31,7 +31,7 @@ public:
 private:
     static const std::string LOG_SENDER;
 
-    LogWriterBase* _Logger;
+    ILogWriter* _Logger;
     CommandHandlerMap* _CommandHandlerMap;
 };
 

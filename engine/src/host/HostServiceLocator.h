@@ -24,7 +24,7 @@
 class HostServiceLocator 
         : public ServiceLocator {
 public:
-    virtual LogWriterBase* GetLogger() override;
+    virtual ILogWriter* GetLogger() override;
 };
 
 #endif //MENRVA_HOST_SERVICE_LOCATOR_H

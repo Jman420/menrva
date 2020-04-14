@@ -20,14 +20,14 @@
 #include "../tools/Buffer.cpp"
 #include "../tools/StringOperations.h"
 
-AudioOutputBuffer::AudioOutputBuffer(LogWriterBase* logger)
+AudioOutputBuffer::AudioOutputBuffer(ILogWriter* logger)
         : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_output_buffer_u();
     _OutputAudioFormat = AudioFormat::Sample;
 }
 
-AudioOutputBuffer::AudioOutputBuffer(LogWriterBase* logger, AudioFormat audioFormat)
+AudioOutputBuffer::AudioOutputBuffer(ILogWriter* logger, AudioFormat audioFormat)
         : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_output_buffer_u();

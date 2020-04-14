@@ -26,7 +26,7 @@
 class CommandHandlerBase
         : public LogProducer {
 public:
-    CommandHandlerBase(CommandBase* command, LogWriterBase* logger, std::string prettyFunction);
+    CommandHandlerBase(CommandBase* command, ILogWriter* logger, std::string prettyFunction);
     virtual ~CommandHandlerBase();
 
     CommandBase* GetCommand();

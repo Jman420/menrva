@@ -29,7 +29,7 @@ typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 class FftwInterface : public FftInterfaceBase,
                       public LogProducer {
 public:
-    explicit FftwInterface(LogWriterBase* logger);
+    explicit FftwInterface(ILogWriter* logger);
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;
     void SignalToComponents(AudioBuffer& signal, AudioComponentsBuffer& components) override;

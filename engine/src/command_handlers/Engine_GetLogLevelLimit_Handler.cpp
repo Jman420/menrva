@@ -18,7 +18,7 @@
 
 #include "Engine_GetLogLevelLimit_Handler.h"
 
-Engine_GetLogLevelLimit_Handler::Engine_GetLogLevelLimit_Handler(LogWriterBase* logger)
+Engine_GetLogLevelLimit_Handler::Engine_GetLogLevelLimit_Handler(ILogWriter* logger)
         : TypedCommandHandlerBase(new Engine_GetLogLevelLimit_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Engine_GetLogLevelLimit_Handler::Execute(ModuleContext& context) {

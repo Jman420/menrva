@@ -29,7 +29,7 @@
 class FirGenerator
         : public LogProducer {
 public:
-    FirGenerator(LogWriterBase* logger, FftInterfaceBase* fftEngine);
+    FirGenerator(ILogWriter* logger, FftInterfaceBase* fftEngine);
     ~FirGenerator();
 
     /* Calculate() - Returns a Finite Impulse Response of size 'filterLength' based on the provided Frequency Samples & Amplitudes.

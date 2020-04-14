@@ -26,7 +26,7 @@ class StereoWidener
         : public MultiChannelEffectBase,
           public LogProducer {
 public:
-    explicit StereoWidener(LogWriterBase* logger);
+    explicit StereoWidener(ILogWriter* logger);
 
     void Process(AudioBuffer* input, AudioBuffer* output, uint32_t channelLength) override;
     void ResetBuffers(sample sampleRate, size_t audioFrameLength) override;

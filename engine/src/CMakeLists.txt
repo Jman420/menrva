@@ -135,10 +135,10 @@ add_library(
     ${PROJECT_NAME}
     STATIC
 
-    log/LogLevels.cpp
-    log/LogOverrideManager.cpp
-    log/LogWriterBase.cpp
-    log/LogProducer.cpp
+    "log/LogLevels.cpp"
+    "log/LogOverrideManager.cpp"
+    "log/ILogWriter.cpp"
+    "log/LogProducer.cpp"
 
     tools/ServiceLocator.cpp
     tools/StringOperations.cpp
@@ -179,6 +179,8 @@ add_library(
     engine/EffectsEngine.cpp
     engine/CommandHandlerMap.cpp
     engine/CommandProcessor.cpp
+
+    dependency_injection/ContainerInitializer.cpp
 
     ${HEADER_FILES}
 )

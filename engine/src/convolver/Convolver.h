@@ -28,7 +28,7 @@
 class Convolver
         : public LogProducer {
 public:
-    Convolver(LogWriterBase* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
+    Convolver(ILogWriter* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();
 
     void ResetBuffers();

@@ -23,7 +23,7 @@
 #include "../tools/MathOperations.h"
 #include "../tools/StringOperations.h"
 
-FirGenerator::FirGenerator(LogWriterBase* logger, FftInterfaceBase *fftEngine)
+FirGenerator::FirGenerator(ILogWriter* logger, FftInterfaceBase *fftEngine)
         : LogProducer(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
 }

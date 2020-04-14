@@ -20,7 +20,7 @@
 
 const std::string MasterLimiter::EFFECT_NAME = "MasterLimiter";
 
-MasterLimiter::MasterLimiter(LogWriterBase* logger)
+MasterLimiter::MasterLimiter(ILogWriter* logger)
         : MultiChannelEffectBase(EFFECT_NAME),
           LogProducer(logger, __PRETTY_FUNCTION__) {}
 

@@ -20,36 +20,29 @@
 #define MENRVA_LOG_OVERRIDE_MANAGER_H
 
 #include <map>
-#include <string>
-#include <vector>
-#include "LogLevels.h"
+#include "ILogOverrideManager.h"
 
-struct LogOverrideEntry {
-    std::string ClassName,
-        FunctionName;
-    bool Enabled;
-    LogLevel ComponentLogLevel;
-};
 typedef std::map<std::string, LogOverrideEntry*> LogOverrideMap;
 typedef std::pair<std::string, LogOverrideEntry*> LogOverrideMapElement;
 
-class LogOverrideManager {
+class LogOverrideManager 
+    : public ILogOverrideManager {
 public:
-    void SetOverrideListEnabled(bool enabled);
-    bool GetOverrideListEnabled();
+    virtual void SetOverrideListEnabled(bool enabled) override;
+    virtual bool GetOverrideListEnabled() override;
 
-    void SetOverrideListEntry(std::string className, bool enabled);
-    void SetOverrideListEntry(std::string className, LogLevel logLevel);
-    void SetOverrideListEntry(std::string className, bool enabled, LogLevel logLevel);
-    void SetOverrideListEntry(std::string className, std::string functionName, bool enabled);
-    void SetOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel);
-    void SetOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel);
+    virtual void SetOverrideListEntry(std::string className, bool enabled) override;
+    virtual void SetOverrideListEntry(std::string className, LogLevel logLevel) override;
+    virtual void SetOverrideListEntry(std::string className, bool enabled, LogLevel logLevel) override;
+    virtual void SetOverrideListEntry(std::string className, std::string functionName, bool enabled) override;
+    virtual void SetOverrideListEntry(std::string className, std::string functionName, LogLevel logLevel) override;
+    virtual void SetOverrideListEntry(std::string className, std::string functionName, bool enabled, LogLevel logLevel) override;
 
-    void RemoveOverrideListEntry(std::string className);
-    void RemoveOverrideListEntry(std::string className, std::string functionName);
+    virtual void RemoveOverrideListEntry(std::string className) override;
+    virtual void RemoveOverrideListEntry(std::string className, std::string functionName) override;
 
-    bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel);
-    std::vector<LogOverrideEntry>* GetOverrideList();
+    virtual bool CheckOverrideList(std::string className, std::string functionName, LogLevel logLevel) override;
+    virtual std::vector<LogOverrideEntry>* GetOverrideList() override;
 
 protected:
     LogOverrideEntry* GetAddOverrideListElement(std::string className);

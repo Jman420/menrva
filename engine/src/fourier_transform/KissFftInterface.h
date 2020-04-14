@@ -29,7 +29,7 @@ typedef std::map<std::string, kissfft_plan_pair> KissFftPlanCache;
 class KissFftInterface : public FftInterfaceBase,
                          public LogProducer {
 public:
-    explicit KissFftInterface(LogWriterBase* logger);
+    explicit KissFftInterface(ILogWriter* logger);
     ~KissFftInterface() override;
 
     size_t Initialize(size_t signalSize, size_t componentSize) override;

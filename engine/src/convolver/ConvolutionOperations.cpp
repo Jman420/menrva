@@ -21,7 +21,7 @@
 #include "ConvolutionOperations.h"
 #include "../tools/StringOperations.h"
 
-ConvolutionOperations::ConvolutionOperations(LogWriterBase* logger)
+ConvolutionOperations::ConvolutionOperations(ILogWriter* logger)
         : LogProducer(logger, __PRETTY_FUNCTION__) {}
 
 void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {

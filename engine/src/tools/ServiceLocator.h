@@ -19,7 +19,7 @@
 #ifndef MENRVA_SERVICE_LOCATOR_H
 #define MENRVA_SERVICE_LOCATOR_H
 
-#include "../log/LogWriterBase.h"
+#include "../log/ILogWriter.h"
 #include "../fourier_transform/FftInterfaceBase.h"
 #include "../impulse_response/FirGenerator.h"
 #include "../convolver/ConvolutionOperationsBase.h"
@@ -27,7 +27,7 @@
 
 class ServiceLocator {
 public:
-    virtual LogWriterBase* GetLogger() = 0;
+    virtual ILogWriter* GetLogger() = 0;
     virtual FftInterfaceBase* GetFftEngine();
     virtual FirGenerator* GetFirGenerator();
     virtual ConvolutionOperationsBase* GetConvolutionOperations();

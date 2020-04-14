@@ -19,7 +19,7 @@
 #include "Engine_SetLogLevelLimit_Handler.h"
 #include "../tools/StringOperations.h"
 
-Engine_SetLogLevelLimit_Handler::Engine_SetLogLevelLimit_Handler(LogWriterBase* logger)
+Engine_SetLogLevelLimit_Handler::Engine_SetLogLevelLimit_Handler(ILogWriter* logger)
         : TypedCommandHandlerBase(new Engine_SetLogLevelLimit_Command(), logger, __PRETTY_FUNCTION__) {}
 
 void Engine_SetLogLevelLimit_Handler::Execute(ModuleContext& context) {
@@ -29,7 +29,7 @@ void Engine_SetLogLevelLimit_Handler::Execute(ModuleContext& context) {
 
     _Logger->WriteLog("Validating SetLogLevelLimit Request...", LOG_SENDER, __func__);
     int requestLogLevel = request.loglevel();
-    if (requestLogLevel > LogWriterBase::MAX_LOG_LEVEL_VALUE || requestLogLevel < LogWriterBase::MIN_LOG_LEVEL_VALUE) {
+    if (requestLogLevel > ILogWriter::MAX_LOG_LEVEL_VALUE || requestLogLevel < ILogWriter::MIN_LOG_LEVEL_VALUE) {
         _Logger->WriteLog(StringOperations::FormatString("SetLogLevelLimit Request Validation Failed : Invalid Log Level Provided (%u)!", requestLogLevel),
                           LOG_SENDER, __func__, LogLevel::Error);
         response.set_loglevel(static_cast<uint8_t>(_Logger->GetLogLevelLimit()));

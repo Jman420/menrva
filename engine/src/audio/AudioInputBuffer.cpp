@@ -22,14 +22,14 @@
 #include "../tools/ConversionBuffer.cpp"
 #include "../tools/StringOperations.h"
 
-AudioInputBuffer::AudioInputBuffer(LogWriterBase* logger)
+AudioInputBuffer::AudioInputBuffer(ILogWriter* logger)
         : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_input_buffer_u();
     _InputAudioFormat = AudioFormat::Sample;
 }
 
-AudioInputBuffer::AudioInputBuffer(LogWriterBase* logger, AudioFormat audioFormat)
+AudioInputBuffer::AudioInputBuffer(ILogWriter* logger, AudioFormat audioFormat)
         : LogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_input_buffer_u();

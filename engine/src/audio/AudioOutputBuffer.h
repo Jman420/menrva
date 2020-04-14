@@ -37,8 +37,8 @@ class AudioOutputBuffer
         : public LogProducer,
           public AudioIOBufferBase {
 public:
-    explicit AudioOutputBuffer(LogWriterBase* logger);
-    AudioOutputBuffer(LogWriterBase* logger, AudioFormat audioFormat);
+    explicit AudioOutputBuffer(ILogWriter* logger);
+    AudioOutputBuffer(ILogWriter* logger, AudioFormat audioFormat);
     ~AudioOutputBuffer();
 
     void ResetData();

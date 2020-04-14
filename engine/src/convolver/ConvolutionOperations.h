@@ -26,7 +26,7 @@ class ConvolutionOperations
         : public ConvolutionOperationsBase,
           public LogProducer {
 public:
-    explicit ConvolutionOperations(LogWriterBase* logger);
+    explicit ConvolutionOperations(ILogWriter* logger);
 
     void ResetAndClone(AudioBuffer& source, AudioBuffer& destination) override;
     void SumAndScale(AudioBuffer& bufferA, AudioBuffer& bufferB, AudioBuffer& output, sample scalar) override;

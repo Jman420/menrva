@@ -25,7 +25,7 @@
 class Engine_GetLogLevelLimit_Handler
         : public TypedCommandHandlerBase<Engine_GetLogLevelLimit_Command> {
 public:
-    Engine_GetLogLevelLimit_Handler(LogWriterBase* logger);
+    Engine_GetLogLevelLimit_Handler(ILogWriter* logger);
 
     virtual void Execute(ModuleContext& context) override;
 };

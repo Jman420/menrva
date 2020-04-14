@@ -26,7 +26,7 @@ class MasterLimiter
         : public MultiChannelEffectBase,
           public LogProducer {
 public:
-    explicit MasterLimiter(LogWriterBase* logger);
+    explicit MasterLimiter(ILogWriter* logger);
 
     void Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) override;
     void ConfigureSetting(char* settingName, void* value) override;

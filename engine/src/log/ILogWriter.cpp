@@ -17,51 +17,55 @@
  */
 
 #include <utility>
-#include "LogWriterBase.h"
+#include "ILogWriter.h"
 
-const LogLevel LogWriterBase::DEFAULT_LOG_LEVEL = LogLevel::Debug;
-const LogLevel LogWriterBase::START_UP_LOG_LEVEL = LogLevel::Error;
-const uint8_t LogWriterBase::MIN_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Verbose);
-const uint8_t LogWriterBase::MAX_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Fatal);
+const LogLevel ILogWriter::DEFAULT_LOG_LEVEL = LogLevel::Debug;
+const LogLevel ILogWriter::START_UP_LOG_LEVEL = LogLevel::Error;
+const uint8_t ILogWriter::MIN_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Verbose);
+const uint8_t ILogWriter::MAX_LOG_LEVEL_VALUE = static_cast<uint8_t>(LogLevel::Fatal);
 
-LogLevel LogWriterBase::_LogLevelLimit = START_UP_LOG_LEVEL;
-LogOverrideManager* LogWriterBase::_LogOverrideManager = new LogOverrideManager();
+LogLevel ILogWriter::_LogLevelLimit = START_UP_LOG_LEVEL;
 
-void LogWriterBase::SetLogLevelLimit(LogLevel logLevel) {
+ILogWriter::ILogWriter(ILogOverrideManager& logOverrideManager)
+{
+    _LogOverrideManager = logOverrideManager;
+}
+
+void ILogWriter::SetLogLevelLimit(LogLevel logLevel) {
     _LogLevelLimit = logLevel;
 }
 
-LogLevel LogWriterBase::GetLogLevelLimit() {
+LogLevel ILogWriter::GetLogLevelLimit() {
     return _LogLevelLimit;
 }
 
-LogOverrideManager* LogWriterBase::GetLogOverrideManager()
+ILogOverrideManager& ILogWriter::GetLogOverrideManager()
 {
     return _LogOverrideManager;
 }
 
-void LogWriterBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
-    if ((_LogOverrideManager->GetOverrideListEnabled() && _LogOverrideManager->CheckOverrideList(senderClass, senderFunction, logLevel)) || logLevel >= GetLogLevelLimit()) {
+void ILogWriter::WriteLog(std::string message, std::string senderClass, std::string senderFunction, LogLevel logLevel) {
+    if ((_LogOverrideManager.GetOverrideListEnabled() && _LogOverrideManager.CheckOverrideList(senderClass, senderFunction, logLevel)) || logLevel >= GetLogLevelLimit()) {
         WriteLogLine(std::move(message), std::move(senderClass), std::move(senderFunction), logLevel);
     }
 }
 
-void LogWriterBase::WriteLog(std::string message, std::string senderClass, LogLevel logLevel) {
+void ILogWriter::WriteLog(std::string message, std::string senderClass, LogLevel logLevel) {
     WriteLog(std::move(message), std::move(senderClass), "", logLevel);
 }
 
-void LogWriterBase::WriteLog(std::string message, LogLevel logLevel) {
+void ILogWriter::WriteLog(std::string message, LogLevel logLevel) {
     WriteLog(std::move(message), "", "", logLevel);
 }
 
-void LogWriterBase::WriteLog(std::string message, std::string senderClass, std::string senderFunction) {
+void ILogWriter::WriteLog(std::string message, std::string senderClass, std::string senderFunction) {
     WriteLog(std::move(message), std::move(senderClass), std::move(senderFunction), DEFAULT_LOG_LEVEL);
 }
 
-void LogWriterBase::WriteLog(std::string message, std::string senderClass) {
+void ILogWriter::WriteLog(std::string message, std::string senderClass) {
     WriteLog(std::move(message), std::move(senderClass), "", DEFAULT_LOG_LEVEL);
 }
 
-void LogWriterBase::WriteLog(std::string message) {
+void ILogWriter::WriteLog(std::string message) {
     WriteLog(std::move(message), "", "", DEFAULT_LOG_LEVEL);
 }
