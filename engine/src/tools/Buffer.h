@@ -19,23 +19,22 @@
 #ifndef MENRVA_BUFFER_H
 #define MENRVA_BUFFER_H
 
-#include <cstddef>
+#include "IBuffer.h"
 
 template<class TInputType>
-class Buffer {
+class Buffer 
+        : public IBuffer<TInputType> {
 public:
-    Buffer();
-    Buffer(TInputType* data, size_t length);
     virtual ~Buffer();
 
-    size_t GetLength();
-    void ResetData();
-    void ResetData(size_t startIndex);
-    void Free();
+    virtual size_t GetLength() override;
 
-    virtual void SetData(TInputType* data, size_t length);
-    TInputType* GetData();
-    TInputType& operator[](size_t index);
+    virtual void SetData(TInputType* data, size_t length) override;
+    virtual void ResetData() override;
+    virtual void ResetData(size_t startIndex) override;
+    virtual TInputType* GetData() override;
+
+    virtual TInputType& operator[](size_t index) override;
 
     static void Swap(Buffer* itemA, Buffer* itemB);
 

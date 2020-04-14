@@ -81,27 +81,6 @@ void AudioInputBuffer::ResetData() {
     }
 }
 
-void AudioInputBuffer::Free() {
-    switch (_InputAudioFormat) {
-        case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16->Free();
-            break;
-
-        case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32->Free();
-            break;
-
-        case AudioFormat::PCM_Float:
-            _BufferWrapper->PCM_Float->Free();
-            break;
-
-        default:
-            std::string msg = "Unable to free buffer.  Invalid Audio Format provided.";
-            _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
-            throw std::runtime_error(msg);
-    }
-}
-
 void AudioInputBuffer::SetFormat(AudioFormat inputAudioFormat) {
     _Logger->WriteLog(StringOperations::FormatString("Setting Audio Format to (%d)...", inputAudioFormat),
                       LOG_SENDER, __func__);

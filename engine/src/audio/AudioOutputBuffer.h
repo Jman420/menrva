@@ -42,7 +42,6 @@ public:
     ~AudioOutputBuffer();
 
     void ResetData();
-    void Free();
 
     void SetFormat(AudioFormat outputAudioFormat);
     void SetData(void* data, uint32_t channelLength, size_t sampleLength);

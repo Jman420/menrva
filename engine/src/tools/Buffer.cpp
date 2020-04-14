@@ -22,22 +22,7 @@
 #include "../audio/Sample.h"
 
 template<class TInputType>
-Buffer<TInputType>::Buffer() {
-    Free();
-}
-
-template<class TInputType>
-Buffer<TInputType>::Buffer(TInputType* data, size_t length) {
-    SetData(data, length);
-}
-
-template<class TInputType>
 Buffer<TInputType>::~Buffer() {
-    Free();
-}
-
-template<class TInputType>
-void Buffer<TInputType>::Free() {
     _Length = 0;
     _MemorySize = 0;
     _Data = nullptr;

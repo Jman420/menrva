@@ -39,11 +39,6 @@ void ConversionBuffer<TInputType, TOutputType>::ResetData() {
 }
 
 template<class TInputType, class TOutputType>
-void ConversionBuffer<TInputType, TOutputType>::Free() {
-    _DataBuffer->Free();
-}
-
-template<class TInputType, class TOutputType>
 void ConversionBuffer<TInputType, TOutputType>::SetData(TInputType* data, size_t length) {
     _DataBuffer->SetData(data, length);
 }

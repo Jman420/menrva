@@ -140,11 +140,11 @@ add_library(
     "log/ILogWriter.cpp"
     "log/LogProducer.cpp"
 
-    tools/ServiceLocator.cpp
-    tools/StringOperations.cpp
-    tools/MathOperations.cpp
-    tools/Buffer.cpp
-    tools/ConversionBuffer.cpp
+    "tools/ServiceLocator.cpp"
+    "tools/StringOperations.cpp"
+    "tools/MathOperations.cpp"
+    "tools/Buffer.cpp"
+    "tools/ConversionBuffer.cpp"
 
     audio/AudioBuffer.cpp
     audio/AudioIOBufferBase.cpp

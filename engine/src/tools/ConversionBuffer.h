@@ -20,22 +20,23 @@
 #define MENRVA_CONVERSION_BUFFER_H
 
 #include <cstddef>
+#include "IConversionBuffer.h"
 #include "Buffer.h"
 
 template<class TInputType, class TOutputType>
-class ConversionBuffer {
+class ConversionBuffer
+        : public IConversionBuffer<TInputType, TOutputType> {
 public:
     ConversionBuffer();
-    ~ConversionBuffer();
+    virtual ~ConversionBuffer();
 
-    size_t GetLength();
-    void ResetData();
-    void Free();
+    virtual size_t GetLength() override;
+    virtual void ResetData() override;
 
-    void SetData(TInputType* data, size_t length);
-    TOutputType operator[](size_t index) const;  // Read Operations
-    TInputType& operator[](size_t index);        // Write Operations
-    TInputType* GetData();
+    virtual void SetData(TInputType* data, size_t length) override;
+    virtual TOutputType operator[](size_t index) const override;  // Read Operations
+    virtual TInputType& operator[](size_t index) override;        // Write Operations
+    virtual TInputType* GetData() override;
 
 private:
     Buffer<TInputType>* _DataBuffer;
