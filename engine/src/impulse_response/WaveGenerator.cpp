@@ -19,17 +19,10 @@
 #include <cmath>
 #include "WaveGenerator.h"
 #include "WaveGeneratorConstants.h"
+#include "../audio/AudioBuffer.h"
 
-WaveGenerator::WaveGenerator(FftInterfaceBase* fftEngine) {
-    _FftEngine = fftEngine;
-}
-
-WaveGenerator::~WaveGenerator() {
-    delete _FftEngine;
-}
-
-AudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
-    AudioBuffer& sineWaveBuffer = *new AudioBuffer(_FftEngine, length);
+IAudioBuffer* WaveGenerator::CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length) {
+    IAudioBuffer& sineWaveBuffer = *new AudioBuffer();
     for (int sampleCounter = 0; sampleCounter < length; sampleCounter++) {
         sineWaveBuffer[sampleCounter] = static_cast<sample>(amplitude * sin((WaveGeneratorConstants::PI * 2.0 / length) * frequency * sampleCounter + offset));
     }

@@ -24,7 +24,7 @@
 #include "../tools/StringOperations.h"
 
 FirGenerator::FirGenerator(ILogWriter* logger, FftInterfaceBase *fftEngine)
-        : LogProducer(logger, __PRETTY_FUNCTION__) {
+        : ILogProducer(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
 }
 
@@ -71,7 +71,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     size_t fftFrequencyLength = (size_t)interpolationLength * 2;
 
     AudioComponentsBuffer fftFrequencies(_FftEngine, fftFrequencyLength);
-    AudioBuffer fftOutputSignal(_FftEngine, fftFrequencyLength);
+    AudioBuffer fftOutputSignal;
+    fftOutputSignal.SetData(_FftEngine->Allocate(fftFrequencyLength), fftFrequencyLength);
 
     _Logger->WriteLog("Interpolating Frequencies & Amplitudes for Inverse FFT Processing...", LOG_SENDER, __func__);
     for (size_t sampleCounter = 0; sampleCounter < lastSampleIndex; sampleCounter++) {
@@ -126,7 +127,8 @@ AudioBuffer* FirGenerator::Calculate(size_t filterLength, sample* frequencySampl
     _Logger->WriteLog("Performing Hamming Window Smoothing on FIR Signal...", LOG_SENDER, __func__);
     sample hammingIncrement = (sample) filterLength - WaveGeneratorConstants::ONE;
     sample fftReductionScalar = WaveGeneratorConstants::ONE / fftCalcSize;
-    auto firBufferPtr = new AudioBuffer(_FftEngine, filterLength);
+    auto firBufferPtr = new AudioBuffer();
+    firBufferPtr->SetData(_FftEngine->Allocate(filterLength), filterLength);
     sample* firBuffer = firBufferPtr->GetData();
     for (int elementCounter = 0; elementCounter < filterLength; elementCounter++) {
         sample originalValue = fftOutputSignal[elementCounter];

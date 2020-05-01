@@ -138,7 +138,7 @@ add_library(
     "log/LogLevels.cpp"
     "log/LogOverrideManager.cpp"
     "log/ILogWriter.cpp"
-    "log/LogProducer.cpp"
+    "log/ILogProducer.cpp"
 
     "tools/ServiceLocator.cpp"
     "tools/StringOperations.cpp"
@@ -146,10 +146,9 @@ add_library(
     "tools/Buffer.cpp"
     "tools/ConversionBuffer.cpp"
 
-    audio/AudioBuffer.cpp
-    audio/AudioIOBufferBase.cpp
-    audio/AudioInputBuffer.cpp
-    audio/AudioOutputBuffer.cpp
+    "audio/AudioIOBufferBase.cpp"
+    "audio/AudioInputBuffer.cpp"
+    "audio/AudioOutputBuffer.cpp"
     audio/AudioComponentsBuffer.cpp
 
     impulse_response/WaveGenerator.cpp

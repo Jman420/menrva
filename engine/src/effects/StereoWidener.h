@@ -20,11 +20,11 @@
 #define MENRVA_STEREO_WIDENER_H
 
 #include "MultiChannelEffectBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 
 class StereoWidener
         : public MultiChannelEffectBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     explicit StereoWidener(ILogWriter* logger);
 

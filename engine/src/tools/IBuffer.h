@@ -22,6 +22,8 @@
 template<class TInputType>
 class IBuffer {
 public:
+    virtual ~IBuffer() = default;
+
     virtual size_t GetLength() = 0;
     
     virtual void SetData(TInputType* data, size_t length) = 0;

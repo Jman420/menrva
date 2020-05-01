@@ -20,11 +20,11 @@
 #define MENRVA_MASTER_LIMITER_H
 
 #include "MultiChannelEffectBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 
 class MasterLimiter
         : public MultiChannelEffectBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     explicit MasterLimiter(ILogWriter* logger);
 

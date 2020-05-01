@@ -19,8 +19,9 @@
 #include "ConversionBuffer.h"
 
 template<class TInputType, class TOutputType>
-ConversionBuffer<TInputType, TOutputType>::ConversionBuffer(){
-    _DataBuffer = new Buffer<TInputType>();
+ConversionBuffer<TInputType, TOutputType>::ConversionBuffer(IBuffer<TInputType>* buffer)
+{
+    _DataBuffer = buffer;
 }
 
 template<class TInputType, class TOutputType>

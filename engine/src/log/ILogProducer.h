@@ -26,13 +26,12 @@
 #include <string>
 #include "ILogWriter.h"
 
-class LogProducer {
-public:
-    LogProducer(ILogWriter* logger, std::string prettyFunction);
-
+class ILogProducer {
 protected:
     std::string LOG_SENDER;
     ILogWriter* _Logger;
+
+    explicit ILogProducer(ILogWriter* logger, std::string prettyFunction);
 
     /* InitializeLogSender() - Parses the Class Name from the provided __PRETTY_FUNCTION__ GCC
      *   Compiler Constant and stores it in LOG_SENDER for use in future calls to WriteLog();

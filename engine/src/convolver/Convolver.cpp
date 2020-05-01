@@ -39,7 +39,7 @@ size_t Convolver::CalculateSegmentsCount(size_t segmentLength, size_t filterLeng
 }
 
 Convolver::Convolver(ILogWriter* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations)
-        : LogProducer(logger, __PRETTY_FUNCTION__) {
+        : ILogProducer(logger, __PRETTY_FUNCTION__) {
     _FftEngine = fftEngine;
     _ConvolutionOperations = convolutionOperations;
 
@@ -134,7 +134,8 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
     _Logger->WriteLog("Instantiating and Calculating Filter Segments & Components...", LOG_SENDER, __func__);
     _FilterSegments = new AudioComponentsBuffer[_FilterSegmentsLength];
     size_t lastSegmentIndex = _FilterSegmentsLength - 1;
-    AudioBuffer impulseSignalSegment(_FftEngine, segmentSignalLength);
+    AudioBuffer impulseSignalSegment;
+    impulseSignalSegment.SetData(_FftEngine->Allocate(segmentSignalLength), segmentSignalLength);
     for (int segmentCounter = 0; segmentCounter < _FilterSegmentsLength; segmentCounter++) {
         _Logger->WriteLog(StringOperations::FormatString("Initializing Filter Segment for Segment Index (%d)...", segmentCounter),
                           LOG_SENDER, __func__);
@@ -163,8 +164,10 @@ void Convolver::Initialize(size_t audioFrameLength, AudioBuffer& filterImpulseRe
 
     _Logger->WriteLog("Allocating Convolution Buffers...", LOG_SENDER, __func__);
     _InputComponents = new AudioComponentsBuffer(_FftEngine, segmentComponentsLength);
-    _WorkingSignal = new AudioBuffer(_FftEngine, segmentSignalLength);
-    _OverlapSignal = new AudioBuffer(_FftEngine, _FrameLength);
+    _WorkingSignal = new AudioBuffer();
+    _WorkingSignal->SetData(_FftEngine->Allocate(segmentSignalLength), segmentSignalLength);
+    _OverlapSignal = new AudioBuffer();
+    _OverlapSignal->SetData(_FftEngine->Allocate(_FrameLength), _FrameLength);
     
     _Initialized = true;
     _Logger->WriteLog("Successfully Initialized Convolver Configuration...", LOG_SENDER, __func__);

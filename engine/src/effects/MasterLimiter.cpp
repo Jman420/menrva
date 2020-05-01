@@ -22,7 +22,7 @@ const std::string MasterLimiter::EFFECT_NAME = "MasterLimiter";
 
 MasterLimiter::MasterLimiter(ILogWriter* logger)
         : MultiChannelEffectBase(EFFECT_NAME),
-          LogProducer(logger, __PRETTY_FUNCTION__) {}
+          ILogProducer(logger, __PRETTY_FUNCTION__) {}
 
 void MasterLimiter::Process(AudioBuffer* inputBuffers, AudioBuffer* outputBuffers, uint32_t channelLength) {
     // TODO : Implement Master Limiter (floor & ceiling limiters; pan control; gain control)

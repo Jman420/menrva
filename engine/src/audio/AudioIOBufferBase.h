@@ -24,7 +24,7 @@
 
 class AudioIOBufferBase {
 public:
-    void SetData(uint32_t channelLength, size_t sampleLength);
+    void SetLength(uint32_t channelLength, size_t sampleLength);
 
     uint32_t GetChannelLength();
     size_t GetSampleLength();
@@ -33,6 +33,8 @@ public:
 protected:
     uint32_t _ChannelLength;
     size_t _SampleLength;
+
+    AudioIOBufferBase() = default;
 
     static size_t CalculateBufferIndex(uint32_t channelLength, uint32_t channelIndex, size_t sampleIndex);
 };

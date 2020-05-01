@@ -24,21 +24,20 @@
 #include "Sample.h"
 #include "AudioFormat.h"
 #include "AudioIOBufferBase.h"
-#include "../tools/Buffer.h"
-#include "../log/LogProducer.h"
+#include "../tools/IBuffer.h"
+#include "../log/ILogProducer.h"
 
 union audio_output_buffer_u {
-    Buffer<int16_t>* PCM_16;
-    Buffer<int32_t>* PCM_32;
-    Buffer<float>* PCM_Float;
+    IBuffer<int16_t>* PCM_16;
+    IBuffer<int32_t>* PCM_32;
+    IBuffer<float>* PCM_Float;
 };
 
 class AudioOutputBuffer
-        : public LogProducer,
+        : public ILogProducer,
           public AudioIOBufferBase {
 public:
-    explicit AudioOutputBuffer(ILogWriter* logger);
-    AudioOutputBuffer(ILogWriter* logger, AudioFormat audioFormat);
+    explicit AudioOutputBuffer(ILogWriter* logger, IBuffer<float>* buffer);
     ~AudioOutputBuffer();
 
     void ResetData();

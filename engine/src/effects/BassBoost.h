@@ -20,13 +20,13 @@
 #define MENRVA_BASS_BOOST_H
 
 #include "SingleChannelEffectBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../impulse_response/FirGenerator.h"
 #include "../convolver/Convolver.h"
 
 class BassBoost
         : public SingleChannelEffectBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     BassBoost(ILogWriter* logger, FirGenerator* firGenerator, Convolver* convolver);
     ~BassBoost() override;

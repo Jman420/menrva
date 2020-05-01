@@ -22,7 +22,7 @@
 #include "../tools/StringOperations.h"
 
 ConvolutionOperations::ConvolutionOperations(ILogWriter* logger)
-        : LogProducer(logger, __PRETTY_FUNCTION__) {}
+        : ILogProducer(logger, __PRETTY_FUNCTION__) {}
 
 void ConvolutionOperations::ResetAndClone(AudioBuffer& source, AudioBuffer& destination) {
     _Logger->WriteLog("Resetting and Cloning Destination Audio Buffer...", LOG_SENDER, __func__);

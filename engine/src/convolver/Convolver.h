@@ -20,13 +20,13 @@
 #define MENRVA_CONVOLVER_H
 
 #include <cstddef>
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../fourier_transform/FftInterfaceBase.h"
 #include "../audio/AudioBuffer.h"
 #include "ConvolutionOperationsBase.h"
 
 class Convolver
-        : public LogProducer {
+        : public ILogProducer {
 public:
     Convolver(ILogWriter* logger, FftInterfaceBase* fftEngine, ConvolutionOperationsBase* convolutionOperations);
     ~Convolver();

@@ -19,7 +19,7 @@
 #ifndef MENRVA_EFFECTS_ENGINE_H
 #define MENRVA_EFFECTS_ENGINE_H
 
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../tools/ServiceLocator.h"
 #include "../audio/AudioInputBuffer.h"
 #include "../audio/AudioOutputBuffer.h"
@@ -33,7 +33,7 @@ enum MenrvaEngineStatus {
 };
 
 class MenrvaEffectsEngine
-        : public LogProducer {
+        : public ILogProducer {
 public:
     MenrvaEngineStatus _EngineStatus;
 

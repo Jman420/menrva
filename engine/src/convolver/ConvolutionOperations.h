@@ -20,11 +20,11 @@
 #define MENRVA_CONVOLUTION_OPERATIONS_H
 
 #include "ConvolutionOperationsBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 
 class ConvolutionOperations
         : public ConvolutionOperationsBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     explicit ConvolutionOperations(ILogWriter* logger);
 

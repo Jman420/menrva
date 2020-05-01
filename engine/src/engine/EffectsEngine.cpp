@@ -23,7 +23,7 @@
 #include "../tools/StringOperations.h"
 
 MenrvaEffectsEngine::MenrvaEffectsEngine(ILogWriter* logger, FftInterfaceBase* fftEngine, ServiceLocator* serviceLocator)
-        : LogProducer(logger, __PRETTY_FUNCTION__) {
+        : ILogProducer(logger, __PRETTY_FUNCTION__) {
     _ServiceLocator = serviceLocator;
     _FftEngine = fftEngine;
     _EngineStatus = MenrvaEngineStatus::UNCONFIGURED;
@@ -53,8 +53,8 @@ void MenrvaEffectsEngine::SetBufferConfig(uint32_t channelLength, sample sampleR
     _InputAudioFrame = new AudioBuffer[_ChannelLength];
     _OutputAudioFrame = new AudioBuffer[_ChannelLength];
     for (uint32_t channelCounter = 0; channelCounter < _ChannelLength; channelCounter++) {
-        _InputAudioFrame[channelCounter].CreateData(_FftEngine, frameLength);
-        _OutputAudioFrame[channelCounter].CreateData(_FftEngine, frameLength);
+        _InputAudioFrame[channelCounter].SetData(_FftEngine->Allocate(frameLength), frameLength);
+        _OutputAudioFrame[channelCounter].SetData(_FftEngine->Allocate(frameLength), frameLength);
     }
 
     _Logger->WriteLog(StringOperations::FormatString("Instantiating Single Channel Audio Effects for (%d) Channels...", _ChannelLength),

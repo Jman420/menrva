@@ -19,35 +19,21 @@
 #include <algorithm>
 #include <stdexcept>
 #include "AudioInputBuffer.h"
-#include "../tools/ConversionBuffer.cpp"
 #include "../tools/StringOperations.h"
 
-AudioInputBuffer::AudioInputBuffer(ILogWriter* logger)
-        : LogProducer(logger, __PRETTY_FUNCTION__),
+AudioInputBuffer::AudioInputBuffer(ILogWriter* logger, IConversionBuffer<float, sample>* conversionBuffer)
+        : ILogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_input_buffer_u();
+    _BufferWrapper->PCM_Float = conversionBuffer;
     _InputAudioFormat = AudioFormat::Sample;
-}
-
-AudioInputBuffer::AudioInputBuffer(ILogWriter* logger, AudioFormat audioFormat)
-        : LogProducer(logger, __PRETTY_FUNCTION__),
-          AudioIOBufferBase() {
-    _BufferWrapper = new audio_input_buffer_u();
-    _InputAudioFormat = AudioFormat::Sample;
-    SetFormat(audioFormat);
 }
 
 AudioInputBuffer::~AudioInputBuffer() {
     _Logger->WriteLog("Disposing of Audio Input Buffer...", LOG_SENDER, __func__);
     switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
-            delete _BufferWrapper->PCM_16;
-            break;
-
         case AudioFormat::PCM_32:
-            delete _BufferWrapper->PCM_32;
-            break;
-
         case AudioFormat::PCM_Float:
             delete _BufferWrapper->PCM_Float;
             break;
@@ -63,13 +49,7 @@ AudioInputBuffer::~AudioInputBuffer() {
 void AudioInputBuffer::ResetData() {
     switch (_InputAudioFormat) {
         case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16->ResetData();
-            break;
-
         case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32->ResetData();
-            break;
-
         case AudioFormat::PCM_Float:
             _BufferWrapper->PCM_Float->ResetData();
             break;
@@ -89,22 +69,11 @@ void AudioInputBuffer::SetFormat(AudioFormat inputAudioFormat) {
         return;
     }
 
-    _Logger->WriteLog(StringOperations::FormatString("Instantiating Conversion Buffer for Audio Format (%d)...", inputAudioFormat),
-                      LOG_SENDER, __func__);
     switch (inputAudioFormat) {
         case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16 = new ConversionBuffer<int16_t, sample>();
-            _Logger->WriteLog("Successfully instantiated PCM16 Conversion Buffer!", LOG_SENDER, __func__);
-            break;
-
         case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32 = new ConversionBuffer<int32_t, sample>();
-            _Logger->WriteLog("Successfully instantiated PCM32 Conversion Buffer!", LOG_SENDER, __func__);
-            break;
-
         case AudioFormat::PCM_Float:
-            _BufferWrapper->PCM_Float = new ConversionBuffer<float, sample>();
-            _Logger->WriteLog("Successfully instantiated PCM Float Conversion Buffer!", LOG_SENDER, __func__);
+            _InputAudioFormat = inputAudioFormat;
             break;
 
         default:
@@ -113,7 +82,6 @@ void AudioInputBuffer::SetFormat(AudioFormat inputAudioFormat) {
             throw std::runtime_error(msg);
     }
 
-    _InputAudioFormat = inputAudioFormat;
     _Logger->WriteLog("Successfully set Audio Format!", LOG_SENDER, __func__);
 }
 
@@ -139,7 +107,7 @@ void AudioInputBuffer::SetData(void* data, uint32_t channelLength, size_t sample
             throw std::runtime_error(msg);
     }
 
-    AudioIOBufferBase::SetData(channelLength, sampleLength);
+    AudioIOBufferBase::SetLength(channelLength, sampleLength);
 }
 
 void AudioInputBuffer::SetData(AudioFormat inputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength) {

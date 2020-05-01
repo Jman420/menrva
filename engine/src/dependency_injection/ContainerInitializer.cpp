@@ -1,5 +1,5 @@
-/* Menrva - Over-Engineered Tunable Android Audio Effects
- * Copyright (C) 2018 Justin Giannone (aka Jman420)
+/* Menrva - Audio Effect Engine supporting Plug'n'Play style DSP Effects
+ * Copyright (C) 2020 Justin Giannone (aka Jman420)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -16,15 +16,9 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
-#ifndef MENRVA_WAVE_GENERATOR_H
-#define MENRVA_WAVE_GENERATOR_H
+#include "ContainerInitializer.h"
 
-#include "../audio/Sample.h"
-#include "../audio/IAudioBuffer.h"
-
-class WaveGenerator {
-public:
-    IAudioBuffer* CalculateSineWave(sample amplitude, sample frequency, sample offset, size_t length);
-};
-
-#endif //MENRVA_WAVE_GENERATOR_H
+auto ContainerInitializer::GetDefaultInjector()
+{
+    return di::make_injector();
+}

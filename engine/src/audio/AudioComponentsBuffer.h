@@ -20,12 +20,12 @@
 #define MENRVA_AUDIO_COMPONENTS_BUFFER_H
 
 #include "Sample.h"
-#include "AudioBuffer.h"
+#include "IAudioBuffer.h"
+#include "../fourier_transform/FftInterfaceBase.h"
 
 class AudioComponentsBuffer {
 public:
-    AudioComponentsBuffer();
-    AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length);
+    explicit AudioComponentsBuffer(IAudioBuffer* realBuffer, IAudioBuffer* imaginaryBuffer);
     ~AudioComponentsBuffer();
 
     void CreateData(FftInterfaceBase* fftEngine, size_t length);
@@ -33,8 +33,8 @@ public:
     size_t GetLength();
     sample* GetRealData();
     sample* GetImaginaryData();
-    AudioBuffer* GetRealBuffer();
-    AudioBuffer* GetImaginaryBuffer();
+    IAudioBuffer* GetRealBuffer();
+    IAudioBuffer* GetImaginaryBuffer();
 
     void SetRealValue(size_t index, sample value);
     void SetImaginaryValue(size_t index, sample value);
@@ -43,8 +43,8 @@ public:
 
 private:
     size_t _Length;
-    AudioBuffer* _RealBuffer;
-    AudioBuffer* _ImaginaryBuffer;
+    IAudioBuffer* _RealBuffer;
+    IAudioBuffer* _ImaginaryBuffer;
 };
 
 #endif //MENRVA_AUDIO_COMPONENTS_BUFFER_H

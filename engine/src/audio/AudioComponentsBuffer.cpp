@@ -18,24 +18,16 @@
 
 #include "AudioComponentsBuffer.h"
 
-AudioComponentsBuffer::AudioComponentsBuffer() {
+AudioComponentsBuffer::AudioComponentsBuffer(IAudioBuffer* realBuffer, IAudioBuffer* imaginaryBuffer) {
     _Length = 0;
-    _RealBuffer = new AudioBuffer();
-    _ImaginaryBuffer = new AudioBuffer();
-}
-
-AudioComponentsBuffer::AudioComponentsBuffer(FftInterfaceBase* fftEngine, size_t length) {
-    _Length = length;
-    _RealBuffer = new AudioBuffer();
-    _ImaginaryBuffer = new AudioBuffer();
-
-    if (length > 0) {
-        CreateData(fftEngine, length);
-    }
+    _RealBuffer = realBuffer;
+    _ImaginaryBuffer = imaginaryBuffer;
 }
 
 AudioComponentsBuffer::~AudioComponentsBuffer() {
+    delete[] _RealBuffer->GetData();
     delete _RealBuffer;
+    delete[] _ImaginaryBuffer->GetData();
     delete _ImaginaryBuffer;
 }
 
@@ -45,8 +37,9 @@ void AudioComponentsBuffer::ResetData() {
 }
 
 void AudioComponentsBuffer::CreateData(FftInterfaceBase* fftEngine, size_t length) {
-    _RealBuffer->CreateData(fftEngine, length);
-    _ImaginaryBuffer->CreateData(fftEngine, length);
+    _RealBuffer->SetData(fftEngine->Allocate(length), length);
+    _ImaginaryBuffer->SetData(fftEngine->Allocate(length), length);
+
     _Length = length;
 }
 
@@ -58,7 +51,7 @@ sample* AudioComponentsBuffer::GetRealData() {
     return _RealBuffer->GetData();
 }
 
-AudioBuffer* AudioComponentsBuffer::GetRealBuffer() {
+IAudioBuffer* AudioComponentsBuffer::GetRealBuffer() {
     return _RealBuffer;
 }
 
@@ -66,7 +59,7 @@ sample* AudioComponentsBuffer::GetImaginaryData() {
     return _ImaginaryBuffer->GetData();
 }
 
-AudioBuffer* AudioComponentsBuffer::GetImaginaryBuffer() {
+IAudioBuffer* AudioComponentsBuffer::GetImaginaryBuffer() {
     return _ImaginaryBuffer;
 }
 

@@ -19,7 +19,6 @@
 #include <cstring>
 #include <stdexcept>
 #include "Buffer.h"
-#include "../audio/Sample.h"
 
 template<class TInputType>
 Buffer<TInputType>::~Buffer() {

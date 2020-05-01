@@ -21,13 +21,13 @@
 
 #include <string>
 #include <cmath>
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../fourier_transform/FftInterfaceBase.h"
 #include "../audio/Sample.h"
 #include "../audio/AudioBuffer.h"
 
 class FirGenerator
-        : public LogProducer {
+        : public ILogProducer {
 public:
     FirGenerator(ILogWriter* logger, FftInterfaceBase* fftEngine);
     ~FirGenerator();

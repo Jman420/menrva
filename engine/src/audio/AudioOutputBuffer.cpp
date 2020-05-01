@@ -16,36 +16,23 @@
  * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  */
 
+#include <stdexcept>
 #include "AudioOutputBuffer.h"
-#include "../tools/Buffer.cpp"
 #include "../tools/StringOperations.h"
 
-AudioOutputBuffer::AudioOutputBuffer(ILogWriter* logger)
-        : LogProducer(logger, __PRETTY_FUNCTION__),
+AudioOutputBuffer::AudioOutputBuffer(ILogWriter* logger, IBuffer<float>* buffer)
+        : ILogProducer(logger, __PRETTY_FUNCTION__),
           AudioIOBufferBase() {
     _BufferWrapper = new audio_output_buffer_u();
+    _BufferWrapper->PCM_Float = buffer;
     _OutputAudioFormat = AudioFormat::Sample;
-}
-
-AudioOutputBuffer::AudioOutputBuffer(ILogWriter* logger, AudioFormat audioFormat)
-        : LogProducer(logger, __PRETTY_FUNCTION__),
-          AudioIOBufferBase() {
-    _BufferWrapper = new audio_output_buffer_u();
-    _OutputAudioFormat = AudioFormat::Sample;
-    SetFormat(audioFormat);
 }
 
 AudioOutputBuffer::~AudioOutputBuffer() {
     _Logger->WriteLog("Disposing of Audio Output Buffer...", LOG_SENDER, __func__);
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16:
-            delete _BufferWrapper->PCM_16;
-            break;
-
         case AudioFormat::PCM_32:
-            delete _BufferWrapper->PCM_32;
-            break;
-
         case AudioFormat::PCM_Float:
             delete _BufferWrapper->PCM_Float;
             break;
@@ -61,13 +48,7 @@ AudioOutputBuffer::~AudioOutputBuffer() {
 void AudioOutputBuffer::ResetData() {
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16->ResetData();
-            break;
-
         case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32->ResetData();
-            break;
-
         case AudioFormat::PCM_Float:
             _BufferWrapper->PCM_Float->ResetData();
             break;
@@ -78,7 +59,7 @@ void AudioOutputBuffer::ResetData() {
             throw std::runtime_error(msg);
     }
 
-    AudioIOBufferBase::SetData(0, 0);
+    AudioIOBufferBase::SetLength(0, 0);
 }
 
 void AudioOutputBuffer::SetFormat(AudioFormat outputAudioFormat) {
@@ -88,24 +69,12 @@ void AudioOutputBuffer::SetFormat(AudioFormat outputAudioFormat) {
         _Logger->WriteLog("Audio Format already set.", LOG_SENDER, __func__);
         return;
     }
-    _OutputAudioFormat = outputAudioFormat;
-
-    _Logger->WriteLog(StringOperations::FormatString("Instantiating Buffer for Audio Format (%d)...", _OutputAudioFormat),
-                      LOG_SENDER, __func__);
+    
     switch (_OutputAudioFormat) {
         case AudioFormat::PCM_16:
-            _BufferWrapper->PCM_16 = new Buffer<int16_t>();
-            _Logger->WriteLog("Successfully instantiated PCM16 Buffer!", LOG_SENDER, __func__);
-            break;
-
         case AudioFormat::PCM_32:
-            _BufferWrapper->PCM_32 = new Buffer<int32_t>();
-            _Logger->WriteLog("Successfully instantiated PCM32 Buffer!", LOG_SENDER, __func__);
-            break;
-
         case AudioFormat::PCM_Float:
-            _BufferWrapper->PCM_Float = new Buffer<float>();
-            _Logger->WriteLog("Successfully instantiated PCM Float Buffer!", LOG_SENDER, __func__);
+            _OutputAudioFormat = outputAudioFormat;
             break;
 
         default:
@@ -113,6 +82,8 @@ void AudioOutputBuffer::SetFormat(AudioFormat outputAudioFormat) {
             _Logger->WriteLog(msg, LOG_SENDER, __func__, LogLevel::Fatal);
             throw std::runtime_error(msg);
     }
+
+    _Logger->WriteLog("Successfully set Audio Format!", LOG_SENDER, __func__);
 }
 
 void AudioOutputBuffer::SetData(void* data, uint32_t channelLength, size_t sampleLength) {
@@ -137,7 +108,7 @@ void AudioOutputBuffer::SetData(void* data, uint32_t channelLength, size_t sampl
             throw std::runtime_error(msg);
     }
 
-    AudioIOBufferBase::SetData(channelLength, sampleLength);
+    AudioIOBufferBase::SetLength(channelLength, sampleLength);
 }
 
 void AudioOutputBuffer::SetData(AudioFormat outputAudioFormat, void* data, uint32_t channelLength, size_t sampleLength) {

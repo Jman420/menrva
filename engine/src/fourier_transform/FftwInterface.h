@@ -27,7 +27,7 @@
 typedef std::map<std::string, fftw_plan_pair> FftwPlanCache;
 
 class FftwInterface : public FftInterfaceBase,
-                      public LogProducer {
+                      public ILogProducer {
 public:
     explicit FftwInterface(ILogWriter* logger);
 

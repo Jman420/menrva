@@ -19,12 +19,12 @@
 #ifndef MENRVA_COMMAND_HANDLER_BASE_H
 #define MENRVA_COMMAND_HANDLER_BASE_H
 
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../commands/CommandBase.h"
 #include "../host/ModuleStructures.h"
 
 class CommandHandlerBase
-        : public LogProducer {
+        : public ILogProducer {
 public:
     CommandHandlerBase(CommandBase* command, ILogWriter* logger, std::string prettyFunction);
     virtual ~CommandHandlerBase();

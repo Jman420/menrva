@@ -19,26 +19,10 @@
 #ifndef MENRVA_AUDIO_BUFFER_H
 #define MENRVA_AUDIO_BUFFER_H
 
-#include "Sample.h"
+#include "IAudioBuffer.h"
 #include "../tools/Buffer.h"
-#include "../fourier_transform/FftInterfaceBase.h"
 
 class AudioBuffer
-        : public Buffer<sample> {
-public:
-    AudioBuffer();
-    AudioBuffer(FftInterfaceBase* fftEngine, size_t length);
-    AudioBuffer(sample* data, size_t length);
-    ~AudioBuffer() override;
-
-    void SetData(sample* data, size_t length) override;
-    void CreateData(FftInterfaceBase* fftEngine, size_t length);
-
-private:
-    FftInterfaceBase* _FftEngine;
-    bool _DisposeData;
-
-    void DisposeData();
-};
+        : public Buffer<sample> {};
 
 #endif //MENRVA_AUDIO_BUFFER_H

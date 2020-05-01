@@ -19,9 +19,11 @@
 #ifndef MENRVA_AUDIO_FORMAT_H
 #define MENRVA_AUDIO_FORMAT_H
 
+#include <cstdint>
 #include "Sample.h"
 
-enum class AudioFormat : uint16_t {
+enum class AudioFormat
+        : uint16_t {
     PCM_16 = 0x1u,
     PCM_32 = 0x3u,
     PCM_Float = 0x5u,

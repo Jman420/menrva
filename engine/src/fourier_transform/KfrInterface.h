@@ -21,7 +21,7 @@
 
 #include <kfr/dft.hpp>
 #include "FftInterfaceBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 #include "../audio/AudioBuffer.h"
 #include "../audio/AudioComponentsBuffer.h"
 
@@ -29,7 +29,7 @@ using namespace kfr;
 
 class KfrInterface
         : public FftInterfaceBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     explicit KfrInterface(ILogWriter* logger);
     ~KfrInterface() override;

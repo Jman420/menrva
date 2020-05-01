@@ -22,7 +22,7 @@ const std::string Equalizer::EFFECT_NAME = "Equalizer";
 
 Equalizer::Equalizer(ILogWriter* logger)
         : SingleChannelEffectBase(EFFECT_NAME),
-          LogProducer(logger, __PRETTY_FUNCTION__) {
+          ILogProducer(logger, __PRETTY_FUNCTION__) {
 
 }
 

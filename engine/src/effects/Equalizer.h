@@ -20,11 +20,11 @@
 #define MENRVA_EQUALIZER_H
 
 #include "SingleChannelEffectBase.h"
-#include "../log/LogProducer.h"
+#include "../log/ILogProducer.h"
 
 class Equalizer
         : public SingleChannelEffectBase,
-          public LogProducer {
+          public ILogProducer {
 public:
     explicit Equalizer(ILogWriter* logger);
 

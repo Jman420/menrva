@@ -30,7 +30,7 @@ size_t AudioIOBufferBase::GetBufferLength() {
     return _SampleLength * _ChannelLength;
 }
 
-void AudioIOBufferBase::SetData(uint32_t channelLength, size_t sampleLength) {
+void AudioIOBufferBase::SetLength(uint32_t channelLength, size_t sampleLength) {
     _ChannelLength = channelLength;
     _SampleLength = sampleLength;
 }

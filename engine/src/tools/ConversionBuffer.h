@@ -21,13 +21,13 @@
 
 #include <cstddef>
 #include "IConversionBuffer.h"
-#include "Buffer.h"
+#include "IBuffer.h"
 
 template<class TInputType, class TOutputType>
 class ConversionBuffer
         : public IConversionBuffer<TInputType, TOutputType> {
 public:
-    ConversionBuffer();
+    explicit ConversionBuffer(IBuffer<TInputType>* buffer);
     virtual ~ConversionBuffer();
 
     virtual size_t GetLength() override;
@@ -39,7 +39,7 @@ public:
     virtual TInputType* GetData() override;
 
 private:
-    Buffer<TInputType>* _DataBuffer;
+    IBuffer<TInputType>* _DataBuffer;
 };
 
 #endif //MENRVA_CONVERSION_BUFFER_H

@@ -21,7 +21,7 @@
 using google::protobuf::MessageLite;
 
 CommandHandlerBase::CommandHandlerBase(CommandBase* command, ILogWriter* logger, std::string prettyFunction)
-        : LogProducer(logger, prettyFunction) {
+        : ILogProducer(logger, prettyFunction) {
     _Command = command;
     _ReturnValue = 0;
 }
