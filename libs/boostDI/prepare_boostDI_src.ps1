@@ -10,7 +10,7 @@ if (Test-Path $RepoZipFile) {
     Remove-Item $RepoZipFile -Force
 }
 Write-Output "Downloading Boost.DI Repo Zip File..."
-Start-BitsTransfer -Source $RepoUrl -Destination $RepoZipFile
+Invoke-WebRequest -Uri $RepoUrl -OutFile $RepoZipFile
 
 Write-Output "Unzipping Boost.DI Repo..."
 7z x "$RepoZipFile" -r
